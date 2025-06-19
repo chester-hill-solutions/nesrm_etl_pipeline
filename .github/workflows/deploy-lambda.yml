@@ -60,12 +60,12 @@ jobs:
       run: |
         # Zip the directory again
         cd lambda_env
-        zip -r ../updated_lambda.zip .
+        zip -r ../updated-lambda.zip .
         cd ..
         # Upload the updated zip to S3
-        aws s3 cp updated_lambda.zip s3://$S3_BUCKET/$S3_KEY
+        aws s3 cp updated-lambda.zip s3://$S3_BUCKET/$S3_KEY
         # Update Lambda function code
         aws lambda update-function-code --function-name $LAMBDA_FUNCTION_NAME --s3-bucket $S3_BUCKET --s3-key $S3_KEY
         # Cleanup
         rm -r lambda_env
-        rm existing_lambda.zip updated_lambda.zip
+        rm existing_lambda.zip updated-lambda.zip
