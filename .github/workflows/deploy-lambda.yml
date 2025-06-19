@@ -14,9 +14,9 @@ jobs:
       id-token: write
       contents: read
     env:
-      S3_BUCKET=nesrm-ingest
-      S3_KEY=archive.zip
-      LAMBDA_FUNCTION_NAME=nesrm_ingest
+      S3_BUCKET: nesrm-ingest
+      S3_KEY: archive.zip
+        LAMBDA_FUNCTION_NAME: nesrm_ingest
     steps:
     - name: Checkout Repository
       uses: actions/checkout@v2
