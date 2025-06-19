@@ -60,7 +60,7 @@ jobs:
       run: |
         # Zip the directory again
         cd lambda_env
-        ls lambda_env
+        ls 
         zip -r ../updated-lambda.zip .
         cd ..
         echo "Upload the updated zip to S3"
