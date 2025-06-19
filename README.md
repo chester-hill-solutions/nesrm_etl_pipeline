@@ -10,10 +10,6 @@ NODE_ENV=development
 ## Deploy
 
 
-```bash
-zip -r deploy.js .
-```
-
 Upload from > .zip file > Upload > Navigate to `deploy.zip` > Save
 
 
@@ -22,8 +18,8 @@ Upload from > .zip file > Upload > Navigate to `deploy.zip` > Save
 
 ## Dev Ops
 - [ ] sort local trial flow
-- [ ] configure aws cli
-- [ ] configure lambda build Upload
-- [ ] configure github CD process
+- [x] configure aws cli
+- [x] configure lambda build Upload
+- [x] configure github CD process
 - [ ] develop tests
 - [ ] configure test CI process
