@@ -2,6 +2,7 @@ import { createClient } from "@supabase/supabase-js";
 import 'dotenv/config';
 
 
+
 function validatePayload(payload) {
   const errors = [];
   if (!payload.event){
