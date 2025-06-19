@@ -32,7 +32,6 @@ export const handler = async (event) => {
   //connect to supabase
   const supabase = createClient(process.env.DATABASE_URL, process.env.KEY);
 
-
   //parse event
   let payload = {};
   if (typeof event === "string") {
