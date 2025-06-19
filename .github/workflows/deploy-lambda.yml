@@ -63,6 +63,7 @@ jobs:
         zip -r ../updated-lambda.zip .
         cd ..
         echo "Upload the updated zip to S3"
+        echo $S3_BUCKET
         aws s3 cp updated-lambda.zip s3://$S3_BUCKET/$S3_KEY
         echo "Update Lambda function code"
         aws lambda update-function-code --function-name $LAMBDA_FUNCTION_NAME --s3-bucket $S3_BUCKET --s3-key $S3_KEY
