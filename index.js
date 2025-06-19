@@ -43,6 +43,7 @@ export const handler = async (event) => {
   }
   console.log("Event: ", payload);
 
+
   //validate
   const validationErrors = validatePayload(payload);
   if (validationErrors.length > 0) {

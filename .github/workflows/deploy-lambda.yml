@@ -13,7 +13,10 @@ jobs:
     permissions:
       id-token: write
       contents: read
-
+    env:
+      S3_BUCKET=nesrm-ingest
+      S3_KEY=archive.zip
+      LAMBDA_FUNCTION_NAME=nesrm_ingest
     steps:
     - name: Checkout Repository
       uses: actions/checkout@v2
@@ -32,10 +35,6 @@ jobs:
         echo $(git diff --name-only HEAD^ HEAD)
     - name: Download S3 Files
       run: |
-        # Constants
-        S3_BUCKET=nesrm-ingest
-        S3_KEY=archive.zip
-        LAMBDA_FUNCTION_NAME=nesrm_ingest
         # Download the existing zip from S3
         aws s3 cp s3://$S3_BUCKET/$S3_KEY existing_lambda.zip
     - name: Unzip and iterate
