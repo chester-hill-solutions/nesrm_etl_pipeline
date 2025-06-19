@@ -33,7 +33,7 @@ jobs:
       run: |
         echo "List of changed files:" 
         echo $(git diff --name-only HEAD^ HEAD)
-    - name: Deploy Modified Files
+    - name: Download S3 Files
       run: |
         # Constants
         S3_BUCKET=nesrm-ingest
@@ -41,6 +41,8 @@ jobs:
         LAMBDA_FUNCTION_NAME=nesrm_ingest
         # Download the existing zip from S3
         aws s3 cp s3://$S3_BUCKET/$S3_KEY existing_lambda.zip
+    - name: Unzip and iterate
+      run: |
         # Unzip the existing package
         unzip existing_lambda.zip -d lambda_env
         # Copy only the modified .py files from the commit into the unzipped directory
@@ -57,6 +59,8 @@ jobs:
                 cat lambda_env/$file
             fi
         done
+    - name: Zip
+      run: |
         # Zip the directory again
         cd lambda_env
         zip -r ../updated_lambda.zip .
