@@ -1,5 +1,21 @@
 {
-  "body": {
-    "source_url": "https://www.meetsai.com/?organizer=ishmam"
+  "context": {
+    "source_url": "https://www.meetsai.com/?organizer=AndrewGoodridge"
+  },
+  "event":{
+    "body": {
+      "firstname": "saihaan",
+      "surname": "syed",
+      "phone":"6478657844",
+      "address":"442 Pharmacy Ave",
+      "postcode":"M1L 3G6",
+      "email":"saihaansyedprofiles@gmail.com",
+      "birthyear":"2003",
+      "birthmonth":"08",
+      "birthdate":"29",
+      "comms_consent":true,
+      "2026_olp_signup_consent":true,
+      "organizer":"AndrewGoodridge  "
+    }
   }
 }

@@ -1,7 +1,14 @@
-import { handler } from "./index.mjs";
+import { handler } from "./index.js";
+import { readFile } from 'fs/promises';
 
 const main = async () => {
-  const res = await handler({});
+
+  const payload = JSON.parse(
+    await readFile(
+      new URL('./payload_example.json', import.meta.url)
+    )
+  )
+  const res = await handler(payload);
   console.log(res);
 }
 

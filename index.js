@@ -1,19 +1,22 @@
-
 import { createClient } from "@supabase/supabase-js";
-import 'dotenv/config';
+import shapeData from "./shapeData.js";
+import "dotenv/config";
 
 function validatePayload(payload) {
   const errors = [];
-  if (!payload.event){
-    errors.push("Missing body key")
-    return errors;
-  };
-  if (!payload.event.body){
-    errors.push("Missing body key")
-    return errors;
-  };
-  if (!payload.event.body.source_url) {
-    errors.push("Missing source_url");
+  if (!payload.event) {
+    errors.push("Missing event key");
+  } else {
+    if (!payload.event.body) {
+      errors.push("Missing event.body key");
+    }
+  }
+  if (!payload.context) {
+    errors.push("Missing context key");
+  } else {
+    if (!payload.context.source_url) {
+      errors.push("Missing context.source_url");
+    }
   }
 
   return errors;
@@ -28,9 +31,6 @@ export const handler = async (event) => {
     };
     return response;
   }
-
-  //connect to supabase
-  const supabase = createClient(process.env.DATABASE_URL, process.env.KEY);
 
   //parse event
   let payload = {};
@@ -52,6 +52,10 @@ export const handler = async (event) => {
     };
     return response;
   }
+  console.log("Initial Validation Passed");
+
+  //connect to supabase
+  const supabase = createClient(process.env.DATABASE_URL, process.env.KEY);
 
   //store request in supabase
   const { data, requestStorageError } = await supabase
@@ -63,14 +67,16 @@ export const handler = async (event) => {
       statusCode: 400,
       body: JSON.stringify({ errorType: "supabase", ...requestStorageError }),
     };
+    console.log(data, requestStorageError);
     return response;
   }
+  console.log("Event storage success");
 
-  console.log(data, requestStorageError);
+  //const shapedData = shapeData(payload);
 
   let response = {
     statusCode: 200,
-    body: JSON.stringify("ahfbskbf"),
+    body: JSON.stringify("Data ingested and backed up"),
   };
 
   return response;
