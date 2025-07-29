@@ -6,9 +6,10 @@ export const handler = async (payload) => {
   const supabase = createClient(process.env.DATABASE_URL, process.env.KEY);
 
   //store request in supabase
-  const { data, requestStorageError } = await supabase
-    .from("request")
-    .insert({ payload: payload, source_url: payload.event.body.source_url });
+  const { data, requestStorageError } = await supabase.from("request").insert({
+    payload: payload,
+    source_url: payload.haeder[`access-control-allow-origin`],
+  });
 
   if (requestStorageError) {
     let response = {
