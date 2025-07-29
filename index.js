@@ -24,7 +24,8 @@ export const handler = async (payload) => {
 
   let response = {
     statusCode: 200,
-    body: JSON.stringify("Data ingested and backed up"),
+    body: JSON.stringify("Payload ingested and backed up"),
+    payload: payload,
   };
 
   return response;
