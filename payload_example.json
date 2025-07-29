@@ -1,6 +1,6 @@
 {
   "headers": {
-    "access-control-allow-origin": "https://www.meetsai.ca/?organizer=AndrewGoodridge"
+    "origin": "https://www.meetsai.ca/?organizer=AndrewGoodridge"
   },
   "body": {
     "firstname": "saihaan",

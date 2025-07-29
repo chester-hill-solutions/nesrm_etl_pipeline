@@ -8,7 +8,7 @@ export const handler = async (payload) => {
   //store request in supabase
   const { data, requestStorageError } = await supabase.from("request").insert({
     payload: payload,
-    source_url: payload.header[`origin`],
+    source_url: payload.header["origin"],
   });
 
   if (requestStorageError) {
