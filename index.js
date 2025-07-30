@@ -1,6 +1,7 @@
 import { createClient } from "@supabase/supabase-js";
 import "dotenv/config";
-import AWS from "aws-sdk";
+//import AWS from "aws-sdk";
+import { SFNClient, StartExecutionCommand } from "@aws-sdk/client-sfn";
 
 export const handler = async (event) => {
   const headers = event.headers;
@@ -51,6 +52,7 @@ export const handler = async (event) => {
   }
   console.log("Event storage success");
 
+  /*
   const stepFunctions = new AWS.StepFunctions();
   const result = await stepFunctions
     .startExecution({
@@ -58,7 +60,14 @@ export const handler = async (event) => {
       input: event,
     })
     .promise();
+*/
 
+  const command = new StartExecutionCommand({
+    stateMachineArn: process.env.STATE_MACHINE,
+    input: JSON.stringify(event),
+  });
+
+  const result = await client.send(command);
   let response = {
     statusCode: 200,
     body: JSON.stringify("Event ingested, backed up, and pipeline started"),
