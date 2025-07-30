@@ -33,7 +33,7 @@ export const handler = async (event) => {
     };
   }
 
-  //connect to supabase
+  //connect to supabase client
   const supabase = createClient(process.env.DATABASE_URL, process.env.KEY);
 
   //store request in supabase
