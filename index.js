@@ -62,7 +62,7 @@ export const handler = async (event) => {
     })
     .promise();
 */
-
+  const client = new SFNClient();
   const command = new StartExecutionCommand({
     stateMachineArn: process.env.STATE_MACHINE,
     input: JSON.stringify(event),
