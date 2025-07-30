@@ -1,14 +1,44 @@
 import { createClient } from "@supabase/supabase-js";
 import "dotenv/config";
+import AWS from "aws-sdk";
 
-export const handler = async (payload) => {
+export const handler = async (event) => {
+  const headers = event.headers;
+  if (!headers) {
+    return {
+      statusCode: 400,
+      body: JSON.stringify("Missing any headers"),
+    };
+  }
+  if (!headers["origin"] || !headers["x-forwarded-for"]) {
+    return {
+      statusCode: 400,
+      body: JSON.stringify(
+        `Event missing headers: {${!headers["origin"] ? " origin" : ""} ${
+          !headers["x-forwarded-for"] ? " x-forwarded-for" : ""
+        }}`
+      ),
+    };
+  }
+
+  if (
+    !process.env.ORIGIN_WHITELIST.split(",").some((item) =>
+      item.includes(headers.origin)
+    )
+  ) {
+    return {
+      statusCode: 401,
+    };
+  }
+
   //connect to supabase
   const supabase = createClient(process.env.DATABASE_URL, process.env.KEY);
 
   //store request in supabase
   const { data, requestStorageError } = await supabase.from("request").insert({
-    payload: payload,
-    source_url: payload.headers["origin"],
+    event: event,
+    origin: event.headers["origin"],
+    ip: event.headers["x-forwarded-for"],
   });
 
   if (requestStorageError) {
@@ -21,10 +51,17 @@ export const handler = async (payload) => {
   }
   console.log("Event storage success");
 
+  const stepFunctions = new AWS.StepFunctions();
+  const result = await stepFunctions
+    .startExecution({
+      stateMachineArn: process.env.STATE_MACHINE,
+      input: event,
+    })
+    .promise();
+
   let response = {
     statusCode: 200,
-    body: JSON.stringify("Payload ingested and backed up"),
-    payload: payload,
+    body: JSON.stringify("event ingested and backed up"),
   };
 
   return response;
