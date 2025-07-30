@@ -5,7 +5,7 @@ on:
     branches:
       - main
     paths:
-      - "**.js" # Change to the file extension of the language that you are using.
+      - "**.**" # Change to the file extension of the language that you are using.
 
 jobs:
   deploy:

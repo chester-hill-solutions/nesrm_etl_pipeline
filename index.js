@@ -27,6 +27,8 @@ export const handler = async (event) => {
       headers.origin.includes(item)
     )
   ) {
+    console.log("Header.origin:", headers.origin);
+    console.log("Accepted:", process.env.ORIGIN_WHITELIST.split(","));
     return {
       statusCode: 401,
     };
