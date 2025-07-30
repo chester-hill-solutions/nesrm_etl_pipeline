@@ -2,7 +2,7 @@ import { createClient } from "@supabase/supabase-js";
 import "dotenv/config";
 //import AWS from "aws-sdk";
 import { SFNClient, StartExecutionCommand } from "@aws-sdk/client-sfn";
-import { parse } from tldts
+import { parse } from "tldts";
 
 export const handler = async (event) => {
   const headers = event.headers;
