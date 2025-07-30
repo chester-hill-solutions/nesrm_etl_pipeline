@@ -2,6 +2,7 @@ import { createClient } from "@supabase/supabase-js";
 import "dotenv/config";
 //import AWS from "aws-sdk";
 import { SFNClient, StartExecutionCommand } from "@aws-sdk/client-sfn";
+import { parse } from tldts
 
 export const handler = async (event) => {
   const headers = event.headers;
@@ -17,14 +18,14 @@ export const handler = async (event) => {
       body: JSON.stringify(
         `Event missing headers: {${!headers["origin"] ? " origin" : ""} ${
           !headers["x-forwarded-for"] ? " x-forwarded-for" : ""
-        }}`
+        } }`
       ),
     };
   }
 
   if (
     !process.env.ORIGIN_WHITELIST.split(",").some((item) =>
-      item.includes(headers.origin)
+      item.includes(parse(headers.origin).domainWithoutSuffix)
     )
   ) {
     return {
@@ -70,7 +71,10 @@ export const handler = async (event) => {
   const result = await client.send(command);
   let response = {
     statusCode: 200,
-    body: JSON.stringify("Event ingested, backed up, and pipeline started"),
+    body: JSON.stringify({
+      ingestionStatus: data,
+      pipelineStatus: result,
+    }),
   };
 
   return response;
