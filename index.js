@@ -61,7 +61,7 @@ export const handler = async (event) => {
 
   let response = {
     statusCode: 200,
-    body: JSON.stringify("event ingested and backed up"),
+    body: JSON.stringify("Event ingested, backed up, and pipeline started"),
   };
 
   return response;
