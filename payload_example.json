@@ -1,19 +1,33 @@
 {
-  "headers": {
-    "origin": "https://www.meetsai.ca/?organizer=AndrewGoodridge"
-  },
-  "body": {
-    "firstname": "saihaan",
-    "surname": "syed",
-    "phone": "6478657844",
-    "address": "442 Pharmacy Ave",
-    "postcode": "M1L 3G6",
-    "email": "saihaansyedprofiles@gmail.com",
-    "birthyear": "2003",
-    "birthmonth": "08",
-    "birthdate": "29",
-    "comms_consent": true,
-    "2026_olp_signup_consent": true,
-    "organizer": "AndrewGoodridge  "
+  "response": 200,
+  "payload": {
+    "headers": {
+      "origin": "https://www.meetsai.ca/?organizer=AndrewGoodridge"
+    },
+    "body": {
+      "firstname": "saihaan",
+      "surname": "syed",
+      "email": "saihaansyedprofiles@gmail.com",
+      "phone": "6478657844",
+      "birthyear": "2003",
+      "birthmonth": "08",
+      "birthdate": "29",
+      "street_address": "442 Pharmacy Ave",
+      "municipality": "Toronto",
+      "district": "Ontario",
+      "country": "Canada",
+      "postcode": "M1L 3G6",
+      "federal_electoral_district": "Scarborough Southwest",
+      "district_electoral_district": "Scarborough Southwest",
+      "ballot1": "Justin Trudeau",
+      "ballot2": "Hunter Biden",
+      "ballot3": "Joe Rogan",
+      "comms_consent": true,
+      "signup_consent": true,
+      "signed_up": true,
+      "member": true,
+      "organizer": "AndrewGoodridge",
+      "language": "Bangla"
+    }
   }
 }
