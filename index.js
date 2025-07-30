@@ -21,8 +21,6 @@ export const handler = async (payload) => {
   }
   console.log("Event storage success");
 
-  //const shapedData = shapeData(payload);
-
   let response = {
     statusCode: 200,
     body: JSON.stringify("Payload ingested and backed up"),
