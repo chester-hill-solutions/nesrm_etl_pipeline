@@ -1,82 +1,41 @@
-import { createClient } from "@supabase/supabase-js";
 import "dotenv/config";
 //import AWS from "aws-sdk";
 import { SFNClient, StartExecutionCommand } from "@aws-sdk/client-sfn";
 
+import ingest from "./src/ingest.js";
+import { shape } from "./src/shape.js";
+import { statusCodeMonad as scMonad } from "./scripts/monads/monad.js";
+
 export const handler = async (event) => {
-  const headers = event.headers;
-  if (!headers) {
-    return {
-      statusCode: 400,
-      body: JSON.stringify("Missing any headers"),
-    };
-  }
-  if (!headers["origin"] || !headers["x-forwarded-for"]) {
-    return {
-      statusCode: 400,
-      body: JSON.stringify(
-        `Event missing headers: {${!headers["origin"] ? " origin" : ""} ${
-          !headers["x-forwarded-for"] ? " x-forwarded-for" : ""
-        } }`
-      ),
-    };
-  }
+  console.log("payload", event);
 
-  if (
-    !process.env.ORIGIN_WHITELIST.split(",").some((item) =>
-      headers.origin.includes(item)
-    )
-  ) {
-    console.log("Header.origin:", headers.origin);
-    console.log("Accepted:", process.env.ORIGIN_WHITELIST.split(","));
-    return {
-      statusCode: 401,
-    };
-  }
+  let response = {};
+  let funcOutput;
 
-  //connect to supabase client
-  const supabase = createClient(process.env.DATABASE_URL, process.env.KEY);
-
-  //store request in supabase
-  const { data, requestStorageError } = await supabase.from("request").insert({
-    event: event,
-    origin: event.headers["origin"],
-    ip: event.headers["x-forwarded-for"],
+  //Ingest
+  ({ funcResponse: response, funcOutput } = {
+    ...(await scMonad.bindMonad(response, event.headers, ingest.headerCheck)),
   });
-
-  if (requestStorageError) {
-    let response = {
-      statusCode: 400,
-      body: JSON.stringify({ errorType: "supabase", ...requestStorageError }),
-    };
-    console.log(data, requestStorageError);
+  //console.log(response);
+  if (response.statusCode != 200) {
     return response;
   }
-  console.log("Event storage success");
-
-  /*
-  const stepFunctions = new AWS.StepFunctions();
-  const result = await stepFunctions
-    .startExecution({
-      stateMachineArn: process.env.STATE_MACHINE,
-      input: event,
-    })
-    .promise();
-*/
-  const client = new SFNClient();
-  const command = new StartExecutionCommand({
-    stateMachineArn: process.env.STATE_MACHINE,
-    input: JSON.stringify(event),
+  ({ funcResponse: response, funcOutput } = {
+    ...(await scMonad.bindMonad(response, event, ingest.storeEvent)),
   });
+  if (response.statusCode != 200) {
+    return response;
+  }
 
-  const result = await client.send(command);
-  let response = {
-    statusCode: 200,
-    body: JSON.stringify({
-      ingestionStatus: data,
-      pipelineStatus: result,
-    }),
-  };
+  //Shape
+  let cleaned_data;
+  ({ funcResponse: response, funcOutput: cleaned_data } =
+    await scMonad.bindMonad(response, event, shape));
+  if (response.statusCode != 200) {
+    return response;
+  }
 
+  response = JSON.stringify(response.body);
+  console.log("response", response);
   return response;
 };

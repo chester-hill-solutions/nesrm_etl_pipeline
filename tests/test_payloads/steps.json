@@ -1,0 +1,59 @@
+[
+  {
+    "body": {
+      "step": 1,
+      "email": "saihaansyedprofiles@gmail.com",
+      "isVerified": true,
+      "isSubscribed": true,
+      "comms_consent": true,
+      "action": "subscription_completed"
+    }
+  },
+  {
+    "body": {
+      "step": 2,
+      "email": "saihaansyedprofiles@gmail.com",
+      "firstname": "Saihaan",
+      "surname": "Syed",
+      "dob": "2003-08-29",
+      "isVerified": true,
+      "isSubscribed": true
+    }
+  },
+  {
+    "body": {
+      "step": 3,
+      "email": "saihaansyedprofiles@gmail.com",
+      "address": {
+        "street": "442 Pharmacy Ave",
+        "city": "Scarborough",
+        "state": "Ontario",
+        "postal": "M1L 3G6",
+        "country": "CA"
+      },
+      "firstname": "Saihaan",
+      "surname": "Syed",
+      "dob": "2003-08-29",
+      "isVerified": true,
+      "isSubscribed": true
+    }
+  },
+  {
+    "body": {
+      "step": 2,
+      "email": "saihaansyedprofiles@gmail.com",
+      "address": {
+        "street": "442 Pharmacy Ave",
+        "city": "Scarborough",
+        "state": "Ontario",
+        "postal": "M1L 3G6",
+        "country": "CA"
+      },
+      "firstname": "Saihaan",
+      "surname": "Syed",
+      "dob": "2003-08-29",
+      "isVerified": true,
+      "isSubscribed": true
+    }
+  }
+]
