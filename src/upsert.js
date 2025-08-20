@@ -331,7 +331,7 @@ function consolidateData(profile, shapedData) {
   }
 }
 
-export const handler = async (payload) => {
+export const upsertData = async (payload) => {
   const shapedData = payload.payload;
   const supabase = createClient(process.env.DATABASE_URL, process.env.KEY);
   const profile = findProfile(supabase, shapedData);

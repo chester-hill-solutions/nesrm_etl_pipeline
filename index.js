@@ -3,8 +3,9 @@ import "dotenv/config";
 import { SFNClient, StartExecutionCommand } from "@aws-sdk/client-sfn";
 
 import ingest from "./src/ingest.js";
-import { shape } from "./src/shape.js";
+import { shapeData } from "./src/shape.js";
 import { statusCodeMonad as scMonad } from "./scripts/monads/monad.js";
+import { upsertData } from "./src/upsert.js";
 
 export const handler = async (event) => {
   console.log("payload", event);
@@ -30,7 +31,15 @@ export const handler = async (event) => {
   //Shape
   let cleaned_data;
   ({ funcResponse: response, funcOutput: cleaned_data } =
-    await scMonad.bindMonad(response, event, shape));
+    await scMonad.bindMonad(response, event, shapeData));
+  if (response.statusCode != 200) {
+    return response;
+  }
+
+  //Upsert Data
+  let updated_data;
+  ({ funcResponse: response, funcOutput: updated_data } =
+    await scMonad.bindMonad(response, cleaned_data, upsertData));
   if (response.statusCode != 200) {
     return response;
   }

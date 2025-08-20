@@ -20,7 +20,7 @@ const getValue = (payload, key) => {
   return undefined;
 };
 
-export const shape = async (event) => {
+export const shapeData = async (event) => {
   let response = { body: { trace: [{ step: "shape", task: "shape" }] } };
   if (!event.body) {
     return {
