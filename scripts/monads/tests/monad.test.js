@@ -42,3 +42,7 @@ describe("new unit tests", () => {
     assert.deepEqual(actual, expected);
   });
 });
+
+//bind tests
+// test if it appends properly
+// check what happens if you pass an empty array

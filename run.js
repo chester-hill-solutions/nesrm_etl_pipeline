@@ -6,7 +6,7 @@ const main = async () => {
     await readFile(new URL("./payload_example.json", import.meta.url))
   );
   const res = await handler(payload);
-  console.log(res);
+  console.log("run.js result", res);
 };
 
 main();

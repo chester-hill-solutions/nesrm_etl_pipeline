@@ -1,5 +1,9 @@
+import path from "path";
+
 const cleanString = (str) => {
+  //If string is empty return undefined
   if (str === null || str === undefined) return undefined;
+  //trim either side of string
   const cleaned = String(str).trim();
   return cleaned === "" ? undefined : cleaned;
 };
@@ -20,13 +24,10 @@ const getValue = (payload, key) => {
   return undefined;
 };
 
-export const shapeData = async (event) => {
-  let response = { body: { trace: [{ step: "shape", task: "shape" }] } };
+const shapeData = async (event) => {
+  let response = { body: { trace: [{ step: "shape", task: "shapeData" }] } };
   if (!event.body) {
-    return {
-      statusCode: 422,
-      body: { error: "Missing body", ...response.body },
-    };
+    throw new Error("Missing body", { statusCode: 422 });
   }
   const body = event.body;
   try {
@@ -65,18 +66,54 @@ export const shapeData = async (event) => {
         return birthData;
       })(),
 
-      street_address: cleanString(getValue(body, "street_address")),
-      municipality: cleanString(getValue(body, "municipality")),
-      district: cleanString(getValue(body, "district")),
-      region: cleanString(getValue(body, "region")),
-      county: cleanString(getValue(body, "county")),
-      country: cleanString(getValue(body, "country")),
-      postcode: cleanString(getValue(body, "postcode")),
+      ...() => {
+        let addressData = {};
+        let addressCat = getValue(body, "address");
+        if (addressCat) {
+          let addressSource = addressCat;
+          addressData.street_address = cleanString(
+            getValue(addressSource, "street_address")
+          );
+          addressData.municipality = cleanString(
+            getValue(addressSource, "municipality")
+          );
+          addressData.district = cleanString(
+            getValue(addressSource, "district")
+          );
+          addressData.region = cleanString(getValue(addressSource, "region"));
+          addressData.county = cleanString(getValue(addressSource, "county"));
+          addressData.country = cleanString(getValue(addressSource, "country"));
+          addressData.postcode = cleanString(
+            getValue(addressSource, "postcode")
+          );
+        } else {
+          let addressSource = addressCat;
+          addressData.street_address = cleanString(
+            getValue(addressSource, "street_address")
+          );
+          addressData.municipality = cleanString(
+            getValue(addressSource, "municipality")
+          );
+          addressData.district = cleanString(
+            getValue(addressSource, "district")
+          );
+          addressData.region = cleanString(getValue(addressSource, "region"));
+          addressData.county = cleanString(getValue(addressSource, "county"));
+          addressData.country = cleanString(getValue(addressSource, "country"));
+          addressData.postcode = cleanString(
+            getValue(addressSource, "postcode")
+          );
+        }
+        return addressData;
+      },
       federal_electoral_district: cleanString(
         getValue(body, "federal_electoral_district")
       ),
       division_electoral_district: cleanString(
         getValue(body, "division_electoral_district")
+      ),
+      municipal_electoral_district: cleanString(
+        getValue(body, "municipal_electoral_district")
       ),
 
       ballot1: cleanString(getValue(body, "ballot1")),
@@ -136,22 +173,18 @@ export const shapeData = async (event) => {
         getValue(body, "olp23_membership_status")
       ),
     };
-
+    //console.log(shaped_data);
     const cleaned_data = Object.fromEntries(
       Object.entries(shaped_data).filter(([_, value]) => value !== undefined)
     );
-
-    return {
-      response: {
-        statusCode: 200,
-        body: response.body,
-      },
-      ouptut: cleaned_data,
-    };
+    //console.log("cleaned_data", cleaned_data);
+    response.statusCode = 200;
+    let output = { headers: event.headers, body: cleaned_data };
+    //console.log("shapeData response", JSON.stringify(response));
+    return output;
   } catch (error) {
-    return {
-      statusCode: 422,
-      body: { error: error, ...response.body },
-    };
+    throw new Error("", { statusCode: 422, cause: error });
   }
 };
+shapeData.__module = path.basename(import.meta.url);
+export { shapeData };

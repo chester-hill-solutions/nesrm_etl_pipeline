@@ -1,5 +1,6 @@
 import "dotenv/config";
 import { createClient } from "@supabase/supabase-js";
+import path from "path";
 
 const provinces = {
   AB: "Alberta",
@@ -19,23 +20,24 @@ const provinces = {
 
 // Normalize phone numbers
 const normalizePhone = (phone) => phone?.replace(/\D/g, "").slice(-10);
-const shapedDataPhone = normalizePhone(update.phone);
 
 // Normalize postal codes
 const normalizePostal = (postal) => postal?.replace(/\W/g, "").toUpperCase();
-const shapedDataPostal = normalizePostal(update.postcode);
 
 // Normalize names
 const normalizeName = (name) => name?.toLowerCase().trim();
 
 async function findProfile(supabaseClient, shapedData) {
-  if (!supabaseClient || !shapedData) throw new Error("Invalid parameters");
+  if (!supabaseClient || !shapedData)
+    throw new Error("Invalid parameters", { statusCode: 500 });
 
   try {
     const shapedDataFirstName = normalizeName(shapedData.firstname);
     const shapedDataLastName = normalizeName(shapedData.surname);
     const shapedDataAddress = normalizeName(shapedData.address);
-    const shapedDataEmail = normalizeName(shapedData.address).split("@")[0];
+    const shapedDataEmail = normalizeName(shapedData.email).split("@")[0];
+    const shapedDataPostal = normalizePostal(shapedData.postcode);
+    const shapedDataPhone = normalizePhone(shapedData.phone);
     const shapedDataRiding = normalizeName(
       shapedData.division_electoral_district
     );
@@ -87,7 +89,7 @@ async function findProfile(supabaseClient, shapedData) {
               .ilike("surname", `%${shapedDataLastName}%`)
               .ilike("street_address", `%${shapedDataLastName}%`),
         },
-      // Same name + riding
+      // Same name + provincial riding
       shapedDataFirstName &&
         shapedDataLastName &&
         shapedDataRiding && {
@@ -95,7 +97,7 @@ async function findProfile(supabaseClient, shapedData) {
             q
               .ilike("firstname", `%${shapedDataFirstName}%`)
               .ilike("surname", `%${shapedDataLastName}%`)
-              .ilike("division_electoral_district", `%${shapedDataRidings}%`),
+              .ilike("division_electoral_district", `%${shapedDataRiding}%`),
         },
       // Same name and nothing else
       shapedDataFirstName &&
@@ -118,7 +120,11 @@ async function findProfile(supabaseClient, shapedData) {
       condition.query(query);
 
       const { data, error } = await query;
-      if (error) throw error;
+      if (error)
+        throw new Error("Find Profile Condition Check Failed", {
+          statusCode: 500,
+          cause: error,
+        });
 
       if (data?.length > 0) {
         // If multiple matches, use most recently updated record
@@ -134,7 +140,7 @@ async function findProfile(supabaseClient, shapedData) {
     return null;
   } catch (error) {
     console.error("Profile lookup error:", error);
-    throw error;
+    throw new Error("Profile lookup error", { statusCode: 500, cause: error });
   }
 }
 
@@ -158,7 +164,10 @@ const opennorth_postcode = async (postcode, sets) => {
 
     return await response.json();
   } catch (error) {
-    throw error;
+    throw new Error("Opennorth lookup error", {
+      statusCode: 500,
+      cause: error,
+    });
   }
 };
 const get_fed = async (postcode) => {
@@ -169,7 +178,10 @@ const get_fed = async (postcode) => {
     );
     return data?.boundaries_centroid?.[0]?.name || null;
   } catch (error) {
-    throw error;
+    throw new Error("federal electoral district lookup error", {
+      statusCode: 500,
+      cause: error,
+    });
   }
 };
 const get_ded = async (postcode) => {
@@ -180,7 +192,10 @@ const get_ded = async (postcode) => {
     );
     return data?.boundaries_centroid?.[0]?.name || null;
   } catch (error) {
-    throw error;
+    throw new Error("upsert.js/district electoral district lookup error", {
+      statusCode: 500,
+      cause: error,
+    });
   }
 };
 const get_geo = async (postcode) => {
@@ -199,7 +214,10 @@ const getRidings = async (postcode) => {
     return { fed, ded };
   } catch (error) {
     console.log("riding search error:", error);
-    throw error;
+    throw new Error("upsert.js/getRidings() error", {
+      statusCode: 500,
+      cause: error,
+    });
   }
 };
 function commaSeperate(profileValue, shapedDataValue) {
@@ -214,13 +232,14 @@ function commaSeperate(profileValue, shapedDataValue) {
 }
 function commaSeperateUpdateLogic(updateData, profile, shapedData, key) {
   if (shapedData[key] && profile[key]) {
+    updateData[key] = commaSeperate(profile[key], shapedData[key]); /*
     if (profile[key].split(",").includes(shapedData[key])) {
       updateData[key] = profile[key];
     } else {
       updateData[key] = profile[key] + "," + shapedData[key];
     }
   } else if (shapedData[key]) {
-    updateData[key] = shapedData[key];
+    updateData[key] = shapedData[key];*/
   }
   return updateData;
 }
@@ -229,7 +248,6 @@ function consolidateData(profile, shapedData) {
   if (!profile) {
     return shapedData;
   }
-  updateData.id = profile.id;
 
   for (const key in shapedData) {
     if (key.includes("olp23")) {
@@ -253,86 +271,63 @@ function consolidateData(profile, shapedData) {
     } else {
       updateData[key] = shapedData[key];
     }
+  }
 
-    if (updateData.postcode || shapedData.postcode) {
-      const postcode = updateData.postcode
-        ? updateData.postcode
-        : shapedData.postcode;
-      const ridings = getRidings(postcode);
-      updateData.federal_electoral_district = ridings.fed;
-      updateData.division_electoral_district = ridings.ded;
-      const geo = get_geo(postcode);
-      updateData.division = provinces[geo.division.toUpperCase()];
-      updateData.municipality = geo.municipality;
+  if (updateData.postcode || shapedData.postcode) {
+    const postcode = updateData.postcode
+      ? updateData.postcode
+      : shapedData.postcode;
+    const ridings = getRidings(postcode);
+    updateData.federal_electoral_district = ridings.fed;
+    updateData.division_electoral_district = ridings.ded;
+    const geo = get_geo(postcode);
+    updateData.division = provinces[geo.division.toUpperCase()];
+    updateData.municipality = geo.municipality;
+  }
+
+  if (shapedData.ballot1 && profile.ballot1) {
+    if (
+      //if ballot 1 is the candidate, accept the new data
+      shapedData.ballot1 == process.env.CANDIDATE
+    ) {
+      updateData.ballot1 = shapedData.ballot1;
+    } else if (shapedData.ballot1 == process.env.NOT_CANDIDATE) {
+      //if ballot1 is Not Candidate, accept the new data
+      updateData.ballot1 = process.env.NOT_CANDIDATE;
+    } else if (
+      process.env.CANDIDATES.split(",").includes(shapedData.ballot1) &&
+      shapedData.ballot1 != process.env.CANDIDATE &&
+      profile.ballot1 == process.env.CANDIDATE
+    ) {
+      //if ballot1 is another candidate but old data is our candidate, turn old data as possibly our canddate
+      updateData.ballot1 = process.env.POSSIBLE_CANDIDATE;
+    } else if (profile.ballot1 == process.env.CANDIDATE) {
+      //if ballot1 is not another candiddate and not explicitly not our candidate, but we already have the profile stored as our candidate, don't accept new data
+      updateData.ballot1 = profile.ballot1;
+    } else {
+      updateData.ballot1 = shapedData.ballot1;
     }
+  }
 
-    if (shapedData.ballot1 && profile.ballot1) {
-      if (
-        //if ballot 1 is the candidate, accept the new data
-        shapedData.ballot1 == process.env.CANDIDATE
-      ) {
-        updateData.ballot1 = shapedData.ballot1;
-      } else if (shapedData.ballot1 == process.env.NOT_CANDIDATE) {
-        //if ballot1 is Not Candidate, accept the new data
-        updateData.ballot1 = process.env.NOT_CANDIDATE;
-      } else if (
-        process.env.CANDIDATES.split(",").includes(shapedData.ballot1) &&
-        shapedData.ballot1 != process.env.CANDIDATE &&
-        profile.ballot1 == process.env.CANDIDATE
-      ) {
-        //if ballot1 is another candidate but old data is our candidate, turn old data as possibly our canddate
-        updateData.ballot1 = process.env.POSSIBLE_CANDIDATE;
-      } else if (profile.ballot1 == process.env.CANDIDATE) {
-        //if ballot1 is not another candiddate and not explicitly not our candidate, but we already have the profile stored as our candidate, don't accept new data
-        updateData.ballot1 = profile.ballot1;
-      } else {
-        updateData.ballot1 = shapedData.ballot1;
-      }
-    }
-
-    var updateDataValue = commaSeperate(
+  if (profile.organizer && shapedData.organizer) {
+    updateData.organizer = commaSeperate(
       profile.organizer,
       shapedData.organizer
     );
-    if (updateDataValue) {
-      updateData.organizer = updateDataValue;
-    }
-
-    updateDataValue = commaSeperate(profile.language, shapedData.language);
-    if (updateDataValue) {
-      updateData.language = updateDataValue;
-    }
-    /*
-    if (shapedData.olp23_ballot1 && profile.olp23_ballot1) {
-      if (
-        //if ballot 1 is the candidate, accept the new data
-        shapedData.olp23_ballot1 == process.env.CANDIDATE
-      ) {
-        updateData.olp23_ballot1 = shapedData.olp23_ballot1;
-      } else if (shapedData.olp23_ballot1 == process.env.NOT_CANDIDATE) {
-        //if olp23_ballot1 is Not Candidate, accept the new data
-        updateData.olp23_ballot1 = process.env.NOT_CANDIDATE;
-      } else if (
-        process.env.OLD_CANDIDATES.split(",").includes(
-          shapedData.olp23_ballot1
-        ) &&
-        shapedData.olp23_ballot1 != process.env.CANDIDATE &&
-        profile.olp23_ballot1 == process.env.CANDIDATE
-      ) {
-        //if olp23_ballot1 is another candidate but old data is our candidate, turn old data as possibly our canddate
-        updateData.olp23_ballot1 = process.env.POSSIBLE_CANDIDATE;
-      } else if (profile.olp23_ballot1 == process.env.CANDIDATE) {
-        //if olp23_ballot1 is not another candiddate and not explicitly not our candidate, but we already have the profile stored as our candidate, don't accept new data
-        updateData.olp23_ballot1 = profile.olp23_ballot1;
-      } else {
-        updateData.olp23_ballot1 = shapedData.olp23_ballot1;
-      }
-    }*/
   }
+
+  if (profile.language && shapedData.language) {
+    updateData.language = commaSeperate(profile.language, shapedData.language);
+  }
+  updateData.id = profile.id;
+  return updateData;
 }
 
-export const upsertData = async (payload) => {
-  const shapedData = payload.payload;
+const upsertData = async (payload) => {
+  let response = {
+    trace: [{ step: "upsert", task: "upsertData" }],
+  };
+  const shapedData = payload.body;
   const supabase = createClient(process.env.DATABASE_URL, process.env.KEY);
   const profile = findProfile(supabase, shapedData);
   const updateData = consolidateData(profile, shapedData);
@@ -348,17 +343,12 @@ export const upsertData = async (payload) => {
 
   if (personError) {
     console.error("Upsert error:", personError);
-    throw personError;
+    throw new Error("Upsert error", { statusCode: 500, cause: personError });
   }
 
   console.log("Successfully upserted:", JSON.stringify(person[0]));
-
-  return {
-    response: 200,
-    update: person[0],
-  };
-  //search for a matching row in supabase
-  //go through every key and consolidate
-  //upsert
-  //return
+  return person[0];
 };
+
+upsertData.__module = path.basename(import.meta.url);
+export { upsertData };
