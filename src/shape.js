@@ -178,7 +178,7 @@ const shapeData = async (event) => {
       Object.entries(shaped_data).filter(([_, value]) => value !== undefined)
     );
     //console.log("cleaned_data", cleaned_data);
-    response.statusCode = 200;
+    //response.statusCode = 200;
     let output = { headers: event.headers, body: cleaned_data };
     //console.log("shapeData response", JSON.stringify(response));
     return output;

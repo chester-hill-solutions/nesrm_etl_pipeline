@@ -1,6 +1,8 @@
 import "dotenv/config";
 import { createClient } from "@supabase/supabase-js";
 import path from "path";
+import HttpError from "simple-http-error";
+import logger from "simple-logs-sai-node";
 
 const provinces = {
   AB: "Alberta",
@@ -332,8 +334,8 @@ const upsertData = async (payload) => {
   const profile = findProfile(supabase, shapedData);
   const updateData = consolidateData(profile, shapedData);
 
-  console.log("About to upsert:", JSON.stringify(updateData));
-
+  logger.log("About to upsert");
+  logger.dev.log(JSON.stringify(updateData));
   let query = supabase.from("contact");
   const { data: person, error: personError } = await query
     .upsert(updateData, {
@@ -343,10 +345,10 @@ const upsertData = async (payload) => {
 
   if (personError) {
     console.error("Upsert error:", personError);
-    throw new Error("Upsert error", { statusCode: 500, cause: personError });
+    throw new HttpError("Upsert error", 500, { originalError: personError });
   }
 
-  console.log("Successfully upserted:", JSON.stringify(person[0]));
+  logger.dev.log("Successfully upserted:", JSON.stringify(person[0]));
   return person[0];
 };
 

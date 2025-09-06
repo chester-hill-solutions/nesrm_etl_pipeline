@@ -1,9 +1,12 @@
 import { createClient } from "@supabase/supabase-js";
 import "dotenv/config";
 import path from "path";
+import HttpError from "simple-http-error";
+import logger from "simple-logs-sai-node";
 
 const ingest = {
-  headerCheck: (headers) => {
+  headerCheck: (event) => {
+    let headers = event.headers;
     let response = {
       body: {
         trace: [
@@ -15,9 +18,15 @@ const ingest = {
       },
     };
     if (!headers) {
-      throw new Error("Missing headers", { statusCode: 400 });
+      throw new HttpError("Missing headers", 400);
     }
     if (!headers["origin"] || !headers["x-forwarded-for"]) {
+      throw new HttpError(
+        `Event missing headers: {${!headers["origin"] ? " origin" : ""} ${
+          !headers["x-forwarded-for"] ? " x-forwarded-for" : ""
+        } }`,
+        400
+      ); /*
       throw new Error(
         `Event missing headers: {${!headers["origin"] ? " origin" : ""} ${
           !headers["x-forwarded-for"] ? " x-forwarded-for" : ""
@@ -48,19 +57,9 @@ const ingest = {
         },
       };*/
     }
-    return undefined;
+    return event;
   },
   storeEvent: async (event) => {
-    let response = {
-      body: {
-        trace: [
-          {
-            step: "ingest",
-            task: "storeEvent",
-          },
-        ],
-      },
-    };
     //connect to supabase client
     const supabase = createClient(process.env.DATABASE_URL, process.env.KEY);
 
@@ -68,20 +67,23 @@ const ingest = {
     const { data, requestStorageError } = await supabase
       .from("request")
       .insert({
-        event: event,
+        payload: event,
         origin: event.headers["origin"],
         ip: event.headers["x-forwarded-for"],
-      });
+      })
+      .select();
 
     if (requestStorageError) {
       console.log("storage error", requestStorageError);
-      response.body.trace[0].data = data;
-      throw new Error("Supabase Error", {
-        statusCode: 400,
-        cause: requestStorageError,
+      //response.body.trace[0].data = data;
+      throw new HttpError("Supabase Error", 400, {
+        originalError: requestStorageError,
       });
     }
-    return undefined;
+    //logger.log("sb data", data);
+    let ret = structuredClone(event);
+    ret.headers.request_backup_id = data[0].id;
+    return ret;
   },
 };
 
