@@ -31,7 +31,12 @@ const shapeData = async (event) => {
   if (!event.body) {
     throw new HttpError("Missing body", 422);
   }
-  const body = event.body;
+  let body;
+  try {
+    body = JSON.parse(event.body);
+  } catch (error) {
+    body = event.body;
+  }
   try {
     let shaped_data = {
       firstname: cleanString(getValue(body, "firstname")),
