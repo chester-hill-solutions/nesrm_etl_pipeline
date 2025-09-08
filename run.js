@@ -16,7 +16,7 @@ async function post(payload, num = 0) {
       headers: payloadWiHeader.headers,
       body: JSON.stringify(payloadWiHeader.body),
     });
-    console.log(JSON.stringify(response.json));
+    console.log(JSON.stringify(response));
     return response;
   } catch (error) {
     console.log(error);

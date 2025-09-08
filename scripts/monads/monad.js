@@ -88,6 +88,7 @@ export const statusCodeMonad = {
         //ret.input = rawFuncResponse ? rawFuncResponse : ret.input;
       }
     } catch (error) {
+      console.error("monadic input", monadic.input);
       console.error("caught", error);
       ret.response.statusCode = error.statusCode ? error.statusCode : 500;
       ret.response.body.message = error.message;

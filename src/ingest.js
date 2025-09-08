@@ -82,11 +82,11 @@ const ingest = {
     }
     //logger.log("sb data", data);
     let ret = structuredClone(event);
-    if (data[0]) {
+    if (data) {
       ret.headers.request_backup_id = data[0].id;
     } else {
-      logger.log("event", event);
       logger.log("data", data);
+      throw new HttpError("Failed to store request");
     }
     return ret;
   },
