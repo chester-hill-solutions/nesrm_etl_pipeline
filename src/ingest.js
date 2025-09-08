@@ -45,7 +45,7 @@ const ingest = {
     }
     if (
       !process.env.ORIGIN_WHITELIST.split(",").some((item) =>
-        headers.origin.includes(item)
+        headers.Origin.includes(item)
       )
     ) {
       throw new Error("Unauthorized", { statusCode: 401 });
