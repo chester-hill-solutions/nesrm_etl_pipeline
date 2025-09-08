@@ -20,7 +20,7 @@ const ingest = {
     if (!headers) {
       throw new HttpError("Missing headers", 400);
     }
-    if (!headers["origin"] || !headers["x-forwarded-for"]) {
+    if (!headers["Origin"] || !headers["X-Forwarded-For"]) {
       throw new HttpError(
         `Event missing headers: {${!headers["origin"] ? " origin" : ""} ${
           !headers["x-forwarded-for"] ? " x-forwarded-for" : ""

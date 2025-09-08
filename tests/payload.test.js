@@ -12,7 +12,7 @@ const __dirname = path.dirname(__filename);
 
 function attachHeader(obj) {
   //logger.dev.log("attachHeader", obj);
-  const headers = { origin: "www.meetsai.ca", "x-forwarded-for": "124.0.0.1" };
+  const headers = { Origin: "www.meetsai.ca", "X-Forwarded-For": "124.0.0.1" };
   if (obj.body) {
     obj.headers = headers;
   } else {
