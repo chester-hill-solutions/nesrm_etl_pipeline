@@ -16,7 +16,12 @@ async function post(payload, num = 0) {
       headers: payloadWiHeader.headers,
       body: JSON.stringify(payloadWiHeader.body),
     });
-    console.log(JSON.stringify(response));
+    const data = await response.json();
+    console.log(
+      "response",
+      response.status,
+      response.status < 300 ? "" : JSON.stringify(data, null, 2)
+    );
     return response;
   } catch (error) {
     console.log(error);

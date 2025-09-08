@@ -7,6 +7,7 @@ import { shapeData } from "./src/shape.js";
 import { statusCodeMonad as scMonad } from "./scripts/monads/monad.js";
 import { upsertData } from "./src/upsert.js";
 import logger from "simple-logs-sai-node";
+import { mailStatus } from "./src/mailStatus.js";
 
 async function s(response) {
   response.body = JSON.stringify(response.body);
@@ -57,9 +58,18 @@ export const handler = async (event) => {
       updated_data = payload.trace[0].output;
     }
     //console.log("compare", payload.trace[0].output == payload.input);
+    if (payload.input.comms_consent) {
+      payload = await scMonad.bindMonad(scMonad.unit(payload), mailStatus);
+      if (payload.response.statusCode != 200) {
+        return s(payload.response);
+      } else {
+        payload.input = payload.trace[0].output;
+        updated_data = payload.trace[0].output;
+      }
+    }
 
     //Reponse
-    console.log("index.js response", payload.response);
+    logger.dev.log("index.js response", payload.response);
     return s(payload.response);
   } catch (error) {
     console.error(error);

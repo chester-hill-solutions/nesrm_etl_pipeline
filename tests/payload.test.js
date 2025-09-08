@@ -110,7 +110,7 @@ async function main() {
   });
   //console.log(JSON.stringify(await getTestData("uncommons"), null, 2));
 }
-//main();
+main();
 
 /*
 describe("uncommons payload test", async () => {
