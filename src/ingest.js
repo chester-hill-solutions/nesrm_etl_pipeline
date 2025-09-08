@@ -67,9 +67,14 @@ const ingest = {
     const { data, requestStorageError } = await supabase
       .from("request")
       .insert({
-        payload: event,
-        Origin: event.headers["Origin"],
+        payload: event.body ? event.body : event,
+        origin: event.headers["Origin"],
         ip: event.headers["X-Forwarded-For"],
+        email: event.body
+          ? event.body.email
+            ? event.body.email
+            : undefined
+          : undefined,
       })
       .select();
 
