@@ -82,7 +82,12 @@ const ingest = {
     }
     //logger.log("sb data", data);
     let ret = structuredClone(event);
-    ret.headers.request_backup_id = data[0].id;
+    if (data[0]) {
+      ret.headers.request_backup_id = data[0].id;
+    } else {
+      logger.log("event", event);
+      logger.log("data", data);
+    }
     return ret;
   },
 };
