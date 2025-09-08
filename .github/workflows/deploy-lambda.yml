@@ -16,9 +16,9 @@ jobs:
       id-token: write
       contents: read
     env:
-      S3_BUCKET: nesrm-mailerlite-load
+      S3_BUCKET: nesrm-ingest
       S3_KEY: src.zip
-      LAMBDA_FUNCTION_NAME: nesrm-mailerlite_load
+      LAMBDA_FUNCTION_NAME: nesrm_ingest
 
     steps:
       # Checkout repository with submodules
