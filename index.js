@@ -15,7 +15,7 @@ async function s(response) {
 
 export const handler = async (event) => {
   try {
-    logger.log("event triggered" /*, JSON.stringify(event, null, 2)*/);
+    logger.log("event triggered", JSON.stringify(event, null, 2));
     logger.dev.log("event triggered", JSON.stringify(event, null, 2));
     let funcOutput;
     //Ingest
