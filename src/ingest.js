@@ -22,14 +22,14 @@ const ingest = {
     }
     if (!headers["Origin"] || !headers["X-Forwarded-For"]) {
       throw new HttpError(
-        `Event missing headers: {${!headers["origin"] ? " origin" : ""} ${
-          !headers["x-forwarded-for"] ? " x-forwarded-for" : ""
+        `Event missing headers: {${!headers["Origin"] ? " Origin" : ""} ${
+          !headers["X-Forwarded-For"] ? " X-Forwarded-For" : ""
         } }`,
         400
       ); /*
       throw new Error(
-        `Event missing headers: {${!headers["origin"] ? " origin" : ""} ${
-          !headers["x-forwarded-for"] ? " x-forwarded-for" : ""
+        `Event missing headers: {${!headers["Origin"] ? " Origin" : ""} ${
+          !headers["X-Forwarded-For"] ? " X-Forwarded-For" : ""
         } }`,
         { statusCode: 400 }
       ); /*
@@ -37,8 +37,8 @@ const ingest = {
         statusCode: 400,
         body: {
           error: `Event missing headers: {${
-            !headers["origin"] ? " origin" : ""
-          } ${!headers["x-forwarded-for"] ? " x-forwarded-for" : ""} }`,
+            !headers["Origin"] ? " Origin" : ""
+          } ${!headers["X-Forwarded-For"] ? " X-Forwarded-For" : ""} }`,
           ...response.body,
         },
       };*/
@@ -68,8 +68,8 @@ const ingest = {
       .from("request")
       .insert({
         payload: event,
-        origin: event.headers["origin"],
-        ip: event.headers["x-forwarded-for"],
+        Origin: event.headers["Origin"],
+        ip: event.headers["X-Forwarded-For"],
       })
       .select();
 
