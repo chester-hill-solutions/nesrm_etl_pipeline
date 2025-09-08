@@ -88,7 +88,7 @@ export const statusCodeMonad = {
         //ret.input = rawFuncResponse ? rawFuncResponse : ret.input;
       }
     } catch (error) {
-      logger.dev.error("caught", error);
+      logger.error("caught", error);
       ret.response.statusCode = error.statusCode ? error.statusCode : 500;
       ret.response.body.message = error.message;
       t[0].output = error;

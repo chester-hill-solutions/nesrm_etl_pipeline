@@ -6,7 +6,8 @@
   "scripts": {
     "test": "node --test",
     "flow-test": "node run.js",
-    "tests": "npm run test"
+    "tests": "npm run test",
+    "main-push": "bash scripts/main_push.sh"
   },
   "author": "",
   "license": "ISC",
