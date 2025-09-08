@@ -1,4 +1,6 @@
 import path from "path";
+import HttpError from "simple-http-error";
+import logger from "simple-logs-sai-node";
 
 const cleanString = (str) => {
   //If string is empty return undefined
@@ -27,7 +29,7 @@ const getValue = (payload, key) => {
 const shapeData = async (event) => {
   let response = { body: { trace: [{ step: "shape", task: "shapeData" }] } };
   if (!event.body) {
-    throw new Error("Missing body", { statusCode: 422 });
+    throw new HttpError("Missing body", 422);
   }
   const body = event.body;
   try {
@@ -66,46 +68,46 @@ const shapeData = async (event) => {
         return birthData;
       })(),
 
-      ...() => {
+      ...(() => {
         let addressData = {};
         let addressCat = getValue(body, "address");
+        let addressSource;
         if (addressCat) {
-          let addressSource = addressCat;
-          addressData.street_address = cleanString(
-            getValue(addressSource, "street_address")
-          );
-          addressData.municipality = cleanString(
-            getValue(addressSource, "municipality")
-          );
-          addressData.district = cleanString(
-            getValue(addressSource, "district")
-          );
-          addressData.region = cleanString(getValue(addressSource, "region"));
-          addressData.county = cleanString(getValue(addressSource, "county"));
-          addressData.country = cleanString(getValue(addressSource, "country"));
-          addressData.postcode = cleanString(
-            getValue(addressSource, "postcode")
-          );
+          logger.dev.log("addressCategoryExists");
+          addressSource = addressCat;
         } else {
-          let addressSource = addressCat;
-          addressData.street_address = cleanString(
-            getValue(addressSource, "street_address")
-          );
-          addressData.municipality = cleanString(
-            getValue(addressSource, "municipality")
-          );
-          addressData.district = cleanString(
-            getValue(addressSource, "district")
-          );
-          addressData.region = cleanString(getValue(addressSource, "region"));
-          addressData.county = cleanString(getValue(addressSource, "county"));
-          addressData.country = cleanString(getValue(addressSource, "country"));
-          addressData.postcode = cleanString(
-            getValue(addressSource, "postcode")
-          );
+          logger.dev.log("no address category");
+          addressSource = body;
         }
+        addressData.street_address = cleanString(
+          getValue(addressSource, "street_address")
+        )
+          ? cleanString(getValue(addressSource, "street_address"))
+          : cleanString(getValue(addressSource, "street"));
+
+        addressData.municipality = cleanString(
+          getValue(addressSource, "municipality")
+        )
+          ? cleanString(getValue(addressSource, "municipality"))
+          : cleanString(getValue(addressSource, "city"));
+
+        addressData.district = cleanString(getValue(addressSource, "district"))
+          ? cleanString(getValue(addressSource, "district"))
+          : cleanString(getValue(addressSource, "province"))
+          ? cleanString(getValue(addressSource, "province"))
+          : cleanString(getValue(addressSource, "state"));
+
+        addressData.region = cleanString(getValue(addressSource, "region"));
+        addressData.county = cleanString(getValue(addressSource, "county"));
+        addressData.country = cleanString(getValue(addressSource, "country"));
+
+        addressData.postcode = cleanString(getValue(addressSource, "postcode"))
+          ? cleanString(getValue(addressSource, "postcode"))
+          : cleanString(getValue(addressSource, "postal"));
+        logger.dev.log("addressData", addressData);
+
         return addressData;
-      },
+      })(),
       federal_electoral_district: cleanString(
         getValue(body, "federal_electoral_district")
       ),

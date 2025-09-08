@@ -123,10 +123,11 @@ export const statusCodeMonad = {
       func.name,
       "bindMonad output",
       ret.response.statusCode === 200
-        ? JSON.stringify(ret.response, null, 2)
+        ? JSON.stringify(ret.response.statusCode, null, 2)
         : JSON.stringify(ret),
       "\n"
     );
+    logger.dev.log("Full output", JSON.stringify(ret, null, 2));
     return ret;
   },
 };

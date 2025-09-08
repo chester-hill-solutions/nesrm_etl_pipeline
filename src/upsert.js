@@ -31,13 +31,15 @@ const normalizeName = (name) => name?.toLowerCase().trim();
 
 async function findProfile(supabaseClient, shapedData) {
   if (!supabaseClient || !shapedData)
-    throw new Error("Invalid parameters", { statusCode: 500 });
+    throw new HttpError("Invalid parameters", 500);
 
   try {
     const shapedDataFirstName = normalizeName(shapedData.firstname);
     const shapedDataLastName = normalizeName(shapedData.surname);
     const shapedDataAddress = normalizeName(shapedData.address);
-    const shapedDataEmail = normalizeName(shapedData.email).split("@")[0];
+    const shapedDataEmail = normalizeName(shapedData.email);
+    logger.dev.log(shapedDataEmail);
+    const shapedDataEmailPrefix = normalizeName(shapedData.email).split("@")[0];
     const shapedDataPostal = normalizePostal(shapedData.postcode);
     const shapedDataPhone = normalizePhone(shapedData.phone);
     const shapedDataRiding = normalizeName(
@@ -71,16 +73,6 @@ async function findProfile(supabaseClient, shapedData) {
               .ilike("surname", `%${shapedDataLastName}%`)
               .ilike("phone", `%${shapedDataPhone}%`),
         },
-      // Same name + postal
-      shapedDataFirstName &&
-        shapedDataLastName &&
-        shapedDataPostal && {
-          query: (q) =>
-            q
-              .ilike("firstname", `%${shapedDataFirstName}%`)
-              .ilike("surname", `%${shapedDataLastName}%`)
-              .eq("postcode", shapedDataPostal),
-        },
       // Same name + address
       shapedDataFirstName &&
         shapedDataLastName &&
@@ -91,15 +83,25 @@ async function findProfile(supabaseClient, shapedData) {
               .ilike("surname", `%${shapedDataLastName}%`)
               .ilike("street_address", `%${shapedDataLastName}%`),
         },
-      // Same name + provincial riding
+      // Same name + postal
       shapedDataFirstName &&
         shapedDataLastName &&
-        shapedDataRiding && {
+        shapedDataPostal && {
           query: (q) =>
             q
               .ilike("firstname", `%${shapedDataFirstName}%`)
               .ilike("surname", `%${shapedDataLastName}%`)
-              .ilike("division_electoral_district", `%${shapedDataRiding}%`),
+              .ilike("postcode", shapedDataPostal),
+        },
+      // Same name + same email prefix
+      shapedDataFirstName &&
+        shapedDataLastName &&
+        shapedData.email && {
+          query: (q) =>
+            q
+              .ilike("firstname", `%${shapedDataFirstName}%`)
+              .ilike("surname", `%${shapedDataLastName}%`)
+              .ilike("email", `%${shapedDataEmailPrefix}%`),
         },
       // Same name and nothing else
       shapedDataFirstName &&
@@ -108,16 +110,49 @@ async function findProfile(supabaseClient, shapedData) {
             q
               .ilike("firstname", `%${shapedDataFirstName}%`)
               .ilike("surname", `%${shapedDataLastName}%`)
-              .eq("street_address", `%${shapedDataLastName}%`)
+              .is("street_address", null)
               .is("email", null)
               .is("phone", null)
               .is("postcode", null)
               .is("division_electoral_district", null),
         },
+      // Same email and nothing else
+      shapedDataEmail && {
+        query: (q) =>
+          q
+            .ilike("email", `%${shapedDataEmail}`)
+            .is("firstname", null)
+            .is("surname", null)
+            .is("street_address", null)
+            .is("phone", null)
+            .is("postcode", null)
+            .is("division_electoral_district", null),
+      },
+      // Same email prefix and nothing else
+      shapedDataEmailPrefix && {
+        query: (q) =>
+          q
+            .ilike("email", `%${shapedDataEmail}`)
+            .is("firstname", null)
+            .is("surname", null)
+            .is("street_address", null)
+            .is("phone", null)
+            .is("postcode", null)
+            .is("division_electoral_district", null),
+      },
+      // Same email (maybe should check if everything else in new data is null as to not overwrite? or maybe overwrite in this situation fine?)
+      shapedDataEmail && {
+        query: (q) => q.ilike("email", `%${shapedDataEmail}`),
+      },
+      // Same email prefix
+      shapedDataEmailPrefix && {
+        query: (q) => q.ilike("email", `%${shapedDataEmailPrefix}`),
+      },
     ].filter(Boolean);
-
+    logger.dev.log("shapedDataEmail", shapedDataEmail);
     // Try each condition in sequence
     for (const condition of searchConditions) {
+      logger.dev.log("enter", condition);
       const query = supabaseClient.from("contact").select();
       condition.query(query);
 
@@ -129,20 +164,22 @@ async function findProfile(supabaseClient, shapedData) {
         });
 
       if (data?.length > 0) {
+        logger.log("Found Matching Profile", data[0].id);
         // If multiple matches, use most recently updated record
         const sorted = data.sort((a, b) =>
           (b.updated_at || b.created_at || "").localeCompare(
             a.updated_at || a.created_at || ""
           )
         );
+        logger.log("Found Matching Profile", data[0].id);
         return sorted[0];
       }
     }
-
+    logger.log("No matching profile found");
     return null;
   } catch (error) {
     console.error("Profile lookup error:", error);
-    throw new Error("Profile lookup error", { statusCode: 500, cause: error });
+    throw new HttpError("Profile lookup error", 500, { originalError: error });
   }
 }
 
@@ -174,10 +211,12 @@ const opennorth_postcode = async (postcode, sets) => {
 };
 const get_fed = async (postcode) => {
   try {
-    const data = opennorth_postcode(
+    logger.dev.log("get_fed", postcode);
+    const data = await opennorth_postcode(
       postcode,
       "/?sets=federal-electoral-districts-2023-representation-order"
     );
+    logger.dev.log("fed", data?.boundaries_centroid?.[0]?.name);
     return data?.boundaries_centroid?.[0]?.name || null;
   } catch (error) {
     throw new Error("federal electoral district lookup error", {
@@ -188,10 +227,12 @@ const get_fed = async (postcode) => {
 };
 const get_ded = async (postcode) => {
   try {
-    const data = opennorth_postcode(
+    logger.dev.log("get_ded", postcode);
+    const data = await opennorth_postcode(
       postcode,
       "/?sets=ontario-electoral-districts-representation-act-2015"
     );
+    logger.dev.log("ded", data?.boundaries_centroid?.[0]?.name);
     return data?.boundaries_centroid?.[0]?.name || null;
   } catch (error) {
     throw new Error("upsert.js/district electoral district lookup error", {
@@ -202,7 +243,7 @@ const get_ded = async (postcode) => {
 };
 const get_geo = async (postcode) => {
   try {
-    const data = opennorth_postcode(postcode, "");
+    const data = await opennorth_postcode(postcode, "");
     const municipality = data?.city;
     const division = data?.province;
     return { municipality, division };
@@ -210,9 +251,9 @@ const get_geo = async (postcode) => {
 };
 const getRidings = async (postcode) => {
   try {
-    const fed = get_fed(postcode);
-    const ded = get_ded(postcode);
-    const geo = get_geo(postcode);
+    const fed = await get_fed(postcode);
+    const ded = await get_ded(postcode);
+    const geo = await get_geo(postcode);
     return { fed, ded };
   } catch (error) {
     console.log("riding search error:", error);
@@ -245,15 +286,16 @@ function commaSeperateUpdateLogic(updateData, profile, shapedData, key) {
   }
   return updateData;
 }
-function consolidateData(profile, shapedData) {
+async function consolidateData(profile, shapedData) {
   const updateData = {};
   if (!profile) {
     return shapedData;
   }
-
+  logger.dev.log(profile);
+  logger.dev.log(shapedData);
   for (const key in shapedData) {
     if (key.includes("olp23")) {
-      commaSeperateUpdateLogic(updateData, profile, shapedData, key);
+      await commaSeperateUpdateLogic(updateData, profile, shapedData, key);
     } else if (profile[key]) {
       if (profile[key] === shapedData[key]) {
         updateData[key] = shapedData[key];
@@ -279,12 +321,15 @@ function consolidateData(profile, shapedData) {
     const postcode = updateData.postcode
       ? updateData.postcode
       : shapedData.postcode;
-    const ridings = getRidings(postcode);
+    const ridings = await getRidings(postcode);
+    logger.dev.log(ridings);
     updateData.federal_electoral_district = ridings.fed;
     updateData.division_electoral_district = ridings.ded;
-    const geo = get_geo(postcode);
+    const geo = await get_geo(postcode);
     updateData.division = provinces[geo.division.toUpperCase()];
-    updateData.municipality = geo.municipality;
+    updateData.municipality =
+      geo.municipality[0].toUpperCase() +
+      geo.municipality.slice(1).toLowerCase();
   }
 
   if (shapedData.ballot1 && profile.ballot1) {
@@ -326,18 +371,22 @@ function consolidateData(profile, shapedData) {
 }
 
 const upsertData = async (payload) => {
-  let response = {
-    trace: [{ step: "upsert", task: "upsertData" }],
-  };
   const shapedData = payload.body;
-  const supabase = createClient(process.env.DATABASE_URL, process.env.KEY);
-  const profile = findProfile(supabase, shapedData);
-  const updateData = consolidateData(profile, shapedData);
+  const supabase = await createClient(
+    process.env.DATABASE_URL,
+    process.env.KEY
+  );
+  const foundProfile = await findProfile(supabase, shapedData);
+  const updateData = await consolidateData(foundProfile, shapedData);
 
   logger.log("About to upsert");
   logger.dev.log(JSON.stringify(updateData));
   let query = supabase.from("contact");
-  const { data: person, error: personError } = await query
+  const {
+    data: person,
+    status,
+    error: personError,
+  } = await query
     .upsert(updateData, {
       onConflict: "id",
     })
@@ -348,6 +397,7 @@ const upsertData = async (payload) => {
     throw new HttpError("Upsert error", 500, { originalError: personError });
   }
 
+  logger.log("Successfully upserted", status);
   logger.dev.log("Successfully upserted:", JSON.stringify(person[0]));
   return person[0];
 };
