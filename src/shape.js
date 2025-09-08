@@ -91,8 +91,8 @@ const shapeData = async (event) => {
           ? cleanString(getValue(addressSource, "municipality"))
           : cleanString(getValue(addressSource, "city"));
 
-        addressData.district = cleanString(getValue(addressSource, "district"))
-          ? cleanString(getValue(addressSource, "district"))
+        addressData.division = cleanString(getValue(addressSource, "division"))
+          ? cleanString(getValue(addressSource, "division"))
           : cleanString(getValue(addressSource, "province"))
           ? cleanString(getValue(addressSource, "province"))
           : cleanString(getValue(addressSource, "state"));

@@ -16,7 +16,7 @@
     "@supabase/supabase-js": "^2.49.8",
     "axios": "^1.9.0",
     "dotenv": "^16.5.0",
-    "simple-http-error": "^1.0.0",
-    "simple-logs-sai-node": "^1.0.1"
+    "simple-http-error": "^1.0.2",
+    "simple-logs-sai-node": "^1.0.2"
   }
 }

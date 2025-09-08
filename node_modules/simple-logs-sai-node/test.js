@@ -1,8 +1,8 @@
-import cons from "./index.js";
+import logger from "./index.js";
 
 function testList(text) {
-  cons.log("prod log", text);
-  cons.dev.log("dev log", text);
+  logger.log("prod log", text);
+  logger.dev.log("dev log", text);
 }
 
 function main() {
@@ -14,5 +14,7 @@ function main() {
   testList(process.env.ENVIRONMENT);
   process.env.ENVIRONMENT = "DEVELOPMENT";
   testList(process.env.ENVIRONMENT);
+  logger.log("logger.log", "one", "two", "tree");
+  logger.dev.log("logger.dev.log", "one", "two", "tree");
 }
 main();

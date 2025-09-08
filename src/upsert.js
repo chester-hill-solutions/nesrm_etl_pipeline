@@ -254,7 +254,7 @@ const getRidings = async (postcode) => {
     const fed = await get_fed(postcode);
     const ded = await get_ded(postcode);
     const geo = await get_geo(postcode);
-    return { fed, ded };
+    return { fed, ded, geo };
   } catch (error) {
     console.log("riding search error:", error);
     throw new Error("upsert.js/getRidings() error", {
@@ -325,11 +325,11 @@ async function consolidateData(profile, shapedData) {
     logger.dev.log(ridings);
     updateData.federal_electoral_district = ridings.fed;
     updateData.division_electoral_district = ridings.ded;
-    const geo = await get_geo(postcode);
-    updateData.division = provinces[geo.division.toUpperCase()];
+    //const geo = await get_geo(postcode);
+    updateData.division = provinces[ridings.geo.division.toUpperCase()];
     updateData.municipality =
-      geo.municipality[0].toUpperCase() +
-      geo.municipality.slice(1).toLowerCase();
+      ridings.geo.municipality[0].toUpperCase() +
+      ridings.geo.municipality.slice(1).toLowerCase();
   }
 
   if (shapedData.ballot1 && profile.ballot1) {
