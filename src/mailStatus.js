@@ -14,10 +14,10 @@ const post = async (obj) => {
     data.state = data.division;
     delete data.division;
     data.last_name = data.surname;
-    delete data.last_name;
+    delete data.surname;
     data.name = data.firstname;
     delete data.firstname;
-    data["z_i_p"];
+    data["z_i_p"] = data.postcode;
     let headers = {
       Authorization: "Bearer " + process.env.MAIL_BEARER,
       "Content-Type": "application/json",

@@ -35,6 +35,9 @@ async function storeSuccess(logs, success) {
 
 async function s(payload, success = false) {
   storeSuccess(payload, success);
+  payload.response.request_backup_id = REQUEST_BACKUP_ID
+    ? REQUEST_BACKUP_ID
+    : undefined;
   payload.response.body = JSON.stringify(payload.response.body);
   return payload.response;
 }
