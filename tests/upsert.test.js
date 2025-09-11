@@ -78,7 +78,7 @@ describe("upsertData tests", () => {
       signup_submitted: null,
       street_address: "442 Pharmacy Ave",
       surname: "Syed",
-      van_id: null,
+      olp_van_id: null,
     };
     const result = await upsertData(payload);
     delete result.created_at;

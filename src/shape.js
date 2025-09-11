@@ -134,7 +134,8 @@ const shapeData = async (event) => {
 
       organizer: cleanString(getValue(body, "organizer")),
       language: cleanString(getValue(body, "language")),
-      van_id: cleanString(getValue(body, "van_id")),
+      olp_van_id: cleanString(getValue(body, "olp_van_id")),
+      lpc_van_id: cleanString(getValue(body, "lpc_van_id")),
 
       olp23_ballot1: cleanString(getValue(body, "olp23_ballot1")),
       olp23_ballot2: cleanString(getValue(body, "olp23_ballot2")),

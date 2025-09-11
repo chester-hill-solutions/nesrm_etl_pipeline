@@ -49,14 +49,17 @@ async function findProfile(supabaseClient, shapedData) {
     // Search conditions in order of reliability
     const searchConditions = [
       // Exact VAN ID match
-      shapedData.van_id && {
-        query: (q) => q.eq("van_id", shapedData.van_id),
+      shapedData.olp_van_id && {
+        query: (q) => q.eq("olp_van_id", shapedData.olp_van_id),
       },
-
+      // Exact VAN ID match
+      shapedData.lpc_van_id && {
+        query: (q) => q.eq("lpc_van_id", shapedData.lpc_van_id),
+      },
       // Same name + email
       shapedDataFirstName &&
         shapedDataLastName &&
-        shapedData.email && {
+        shapedDataEmail && {
           query: (q) =>
             q
               .ilike("firstname", `%${shapedDataFirstName}%`)
@@ -103,7 +106,7 @@ async function findProfile(supabaseClient, shapedData) {
               .ilike("surname", `%${shapedDataLastName}%`)
               .ilike("email", `%${shapedDataEmailPrefix}%`),
         },
-      // Same name and nothing else
+      // Same name and nothing else exists
       shapedDataFirstName &&
         shapedDataLastName && {
           query: (q) =>
