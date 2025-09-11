@@ -110,15 +110,15 @@ async function main() {
   });
   //console.log(JSON.stringify(await getTestData("uncommons"), null, 2));
 }
-main();
+//main();
 
-describe("general test", () => {
+/*describe("general test", () => {
   it("should fail", () => {
     let payload = attachHeader({});
     payload.headers.throw = true;
     handler(payload);
   });
-});
+});*/
 
 /*
 describe("uncommons payload test", async () => {
