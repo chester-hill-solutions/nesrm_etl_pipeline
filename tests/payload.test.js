@@ -112,6 +112,14 @@ async function main() {
 }
 main();
 
+describe("general test", () => {
+  it("should fail", () => {
+    let payload = attachHeader({});
+    payload.headers.throw = true;
+    handler(payload);
+  });
+});
+
 /*
 describe("uncommons payload test", async () => {
   let testDataArray = await getTestData("uncommons");

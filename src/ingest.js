@@ -7,16 +7,6 @@ import logger from "simple-logs-sai-node";
 const ingest = {
   headerCheck: (event) => {
     let headers = event.headers;
-    let response = {
-      body: {
-        trace: [
-          {
-            step: "ingest",
-            task: "headerCheck",
-          },
-        ],
-      },
-    };
     if (!headers) {
       throw new HttpError("Missing headers", 400);
     }
@@ -26,29 +16,14 @@ const ingest = {
           !headers["X-Forwarded-For"] ? " X-Forwarded-For" : ""
         } }`,
         400
-      ); /*
-      throw new Error(
-        `Event missing headers: {${!headers["Origin"] ? " Origin" : ""} ${
-          !headers["X-Forwarded-For"] ? " X-Forwarded-For" : ""
-        } }`,
-        { statusCode: 400 }
-      ); /*
-      return {
-        statusCode: 400,
-        body: {
-          error: `Event missing headers: {${
-            !headers["Origin"] ? " Origin" : ""
-          } ${!headers["X-Forwarded-For"] ? " X-Forwarded-For" : ""} }`,
-          ...response.body,
-        },
-      };*/
+      );
     }
     if (
       !process.env.ORIGIN_WHITELIST.split(",").some((item) =>
         headers.Origin.includes(item)
       )
     ) {
-      throw new Error("Unauthorized", { statusCode: 401 });
+      throw new HttpError("Unauthorized", 401);
       /*return {
         statusCode: 401,
         body: {

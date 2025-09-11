@@ -38,8 +38,10 @@ async function findProfile(supabaseClient, shapedData) {
     const shapedDataLastName = normalizeName(shapedData.surname);
     const shapedDataAddress = normalizeName(shapedData.address);
     const shapedDataEmail = normalizeName(shapedData.email);
-    logger.dev.log(shapedDataEmail);
-    const shapedDataEmailPrefix = normalizeName(shapedData.email).split("@")[0];
+    logger.dev.log("shapedDataEmail", shapedDataEmail);
+    const shapedDataEmailPrefix = normalizeName(shapedData.email)?.split(
+      "@"
+    )[0];
     const shapedDataPostal = normalizePostal(shapedData.postcode);
     const shapedDataPhone = normalizePhone(shapedData.phone);
     const shapedDataRiding = normalizeName(
@@ -62,7 +64,7 @@ async function findProfile(supabaseClient, shapedData) {
         shapedDataEmail && {
           query: (q) =>
             q
-              .ilike("firstname", `%${shapedDataFirstName}%`)
+              .ilike("firstname", `%${shapedDataFirstName}%,`)
               .ilike("surname", `%${shapedDataLastName}%`)
               .ilike("email", `%${shapedDataEmail}%`),
         },
@@ -152,29 +154,29 @@ async function findProfile(supabaseClient, shapedData) {
         query: (q) => q.ilike("email", `%${shapedDataEmailPrefix}`),
       },
     ].filter(Boolean);
-    logger.dev.log("shapedDataEmail", shapedDataEmail);
     // Try each condition in sequence
     for (const condition of searchConditions) {
-      logger.dev.log("enter", condition);
+      logger.dev.log("try condition", condition);
       const query = supabaseClient.from("contact").select();
       condition.query(query);
 
       const { data, error } = await query;
-      if (error)
-        throw new Error("Find Profile Condition Check Failed", {
-          statusCode: 500,
+      if (error) {
+        logger.dev.log("supabase search error", error);
+        throw new HttpError("Find Profile Condition Check Failed", 500, {
           cause: error,
         });
+      }
 
       if (data?.length > 0) {
-        logger.log("Found Matching Profile", data[0].id);
+        logger.log("Found Matching Profiles", data[0].id);
         // If multiple matches, use most recently updated record
         const sorted = data.sort((a, b) =>
           (b.updated_at || b.created_at || "").localeCompare(
             a.updated_at || a.created_at || ""
           )
         );
-        logger.log("Found Matching Profile", data[0].id);
+        //logger.log("Found Matching Profile", data[0].id);
         return sorted[0];
       }
     }
@@ -294,8 +296,8 @@ async function consolidateData(profile, shapedData) {
   if (!profile) {
     return shapedData;
   }
-  logger.dev.log(profile);
-  logger.dev.log(shapedData);
+  logger.dev.log("profile", profile);
+  logger.dev.log("shapedData", shapedData);
   for (const key in shapedData) {
     if (key.includes("olp23")) {
       await commaSeperateUpdateLogic(updateData, profile, shapedData, key);
@@ -319,42 +321,34 @@ async function consolidateData(profile, shapedData) {
       updateData[key] = shapedData[key];
     }
   }
-
-  if (updateData.postcode || shapedData.postcode) {
-    const postcode = updateData.postcode
-      ? updateData.postcode
-      : shapedData.postcode;
-    const ridings = await getRidings(postcode);
-    logger.dev.log(ridings);
-    updateData.federal_electoral_district = ridings.fed;
-    updateData.division_electoral_district = ridings.ded;
-    //const geo = await get_geo(postcode);
-    updateData.division = provinces[ridings.geo.division.toUpperCase()];
-    updateData.municipality =
-      ridings.geo.municipality[0].toUpperCase() +
-      ridings.geo.municipality.slice(1).toLowerCase();
-  }
+  logger.dev.log("updateData iter 1", updateData);
 
   if (shapedData.ballot1 && profile.ballot1) {
     if (
       //if ballot 1 is the candidate, accept the new data
       shapedData.ballot1 == process.env.CANDIDATE
     ) {
+      logger.dev.log("1");
       updateData.ballot1 = shapedData.ballot1;
     } else if (shapedData.ballot1 == process.env.NOT_CANDIDATE) {
+      logger.dev.log("2");
       //if ballot1 is Not Candidate, accept the new data
       updateData.ballot1 = process.env.NOT_CANDIDATE;
     } else if (
       process.env.CANDIDATES.split(",").includes(shapedData.ballot1) &&
       shapedData.ballot1 != process.env.CANDIDATE &&
-      profile.ballot1 == process.env.CANDIDATE
+      (profile.ballot1 == process.env.CANDIDATE ||
+        profile.ballot1 == process.env.POSSIBLY_CANDIDATE)
     ) {
+      logger.dev.log("3");
       //if ballot1 is another candidate but old data is our candidate, turn old data as possibly our canddate
-      updateData.ballot1 = process.env.POSSIBLE_CANDIDATE;
+      updateData.ballot1 = process.env.POSSIBLY_CANDIDATE;
     } else if (profile.ballot1 == process.env.CANDIDATE) {
+      logger.dev.log("4");
       //if ballot1 is not another candiddate and not explicitly not our candidate, but we already have the profile stored as our candidate, don't accept new data
       updateData.ballot1 = profile.ballot1;
     } else {
+      logger.dev.log("5");
       updateData.ballot1 = shapedData.ballot1;
     }
   }
@@ -369,18 +363,61 @@ async function consolidateData(profile, shapedData) {
   if (profile.language && shapedData.language) {
     updateData.language = commaSeperate(profile.language, shapedData.language);
   }
+
+  let today = new Date();
+  if (
+    shapedData.birthyear &&
+    (today.getFullYear() - shapedData.birthyear < 5 ||
+      today.getFullYear() - shapedData.birthyear > 112)
+    /* && today.getFullYear() - shapedData.birthyear <
+      parseInt(process.env.SIGNUP_AGE_LIMIT, 10) /*||
+    (shapedData.birthyear &&
+      shapedData.birthmonth &&
+      shapedData.birthyear === today.getFullYear() &&
+      today.getMonth() + 1 - shapedData.birthmonth < 0) ||
+    (shapedData.birthyear &&
+      shapedData.birthmonth &&
+      shapedData.birthyear === today.getFullYear() &&
+      shapedData.birthmonth === today.getMonth() + 1 &&
+      today.getDate() - shapedData.birthdate < 0)*/
+  ) {
+    logger.dev.log("Invalid birthdate");
+    updateData.birthyear = profile.birthyear ? profile.birthyear : null;
+    updateData.birthmonth = profile.birthmonth ? profile.birthmonth : null;
+    updateData.birthdate = profile.birthdate ? profile.birthdate : null;
+  }
   updateData.id = profile.id;
   return updateData;
 }
 
 const upsertData = async (payload) => {
-  const shapedData = payload.body;
+  const shapedData = payload.body ? payload.body : payload;
   const supabase = await createClient(
     process.env.DATABASE_URL,
     process.env.KEY
   );
   const foundProfile = await findProfile(supabase, shapedData);
   const updateData = await consolidateData(foundProfile, shapedData);
+
+  if (updateData.postcode || shapedData.postcode) {
+    logger.dev.log("postcode found");
+    const postcode = updateData.postcode
+      ? updateData.postcode
+      : shapedData.postcode;
+    const ridings = await getRidings(postcode);
+    logger.dev.log(ridings);
+    updateData.federal_electoral_district = ridings.fed;
+    updateData.division_electoral_district = ridings.ded;
+    //const geo = await get_geo(postcode);
+    updateData.division = provinces[ridings.geo.division.toUpperCase()];
+    updateData.municipality =
+      ridings.geo.municipality[0].toUpperCase() +
+      ridings.geo.municipality.slice(1).toLowerCase();
+  }
+
+  updateData.last_request = payload.headers?.request_backup_id
+    ? payload.headers.request_backup_id
+    : null;
 
   logger.log("About to upsert");
   logger.dev.log(JSON.stringify(updateData));

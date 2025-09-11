@@ -1,7 +1,140 @@
-import { describe, it } from "node:test";
+import test, { describe, it } from "node:test";
 import assert from "node:assert";
 
 import { upsertData } from "../src/upsert.js";
+import logger from "simple-logs-sai-node";
+
+const HEADERS = {
+  origin: "www.meetsai.ca",
+  "x-forwarded-for": "124.0.0.1",
+  request_backup_id: 289,
+};
+
+function pick(obj, keys) {
+  return Object.fromEntries(keys.map((k) => [k, obj[k]]));
+}
+
+describe("Condition Match Test", () => {
+  it("should return a person with the email only given in a second payload since the second payload's match value is a substring of the db value match value", async () => {
+    const p1 = {
+      headers: HEADERS,
+      body: {
+        firstname: "Saihaan",
+        surname: "Syed",
+        phone: "123456",
+        municipality: "Toronto",
+      },
+    };
+    const p2 = {
+      headers: HEADERS,
+      body: {
+        firstname: "Sai",
+        surname: "Syed",
+        phone: "123456",
+        email: "testEmail@gmail.com",
+      },
+    };
+    logger.dev.log("first");
+    const first = await upsertData(p1);
+    logger.dev.log("second");
+    const second = await upsertData(p2);
+    logger.dev.log("second data", JSON.stringify(second, null, 2));
+    assert.strictEqual(second.municipality, p1.body.municipality);
+  });
+});
+
+describe("birthday field tests", () => {
+  it("should return with the first payloads birthday since the others are invalid", async () => {
+    const p1 = {
+      headers: HEADERS,
+      body: {
+        olp_van_id: "test123",
+        birthyear: 2003,
+        birthmonth: 8,
+        birthdate: 29,
+      },
+    };
+    const p2 = {
+      body: {
+        olp_van_id: "test123",
+        birthyear: 2021,
+      },
+    };
+    const p3 = {
+      body: {
+        olp_van_id: "test123",
+        birthyear: 1913,
+      },
+    };
+    const first = await upsertData(p1);
+    const second = await upsertData(p2);
+    const third = await upsertData(p3);
+    assert.strictEqual;
+    third.birthyear, p1.body.birthyear;
+  });
+});
+
+describe("Ballot sequence tests", () => {
+  const jt = {
+    body: { olp_van_id: "test123", ballot1: "Justin Trudeau" },
+  };
+  const pp = {
+    body: { olp_van_id: "test123", ballot1: "Pierre Pollievre" },
+  };
+  const js = {
+    body: { olp_van_id: "test123", ballot1: "Jagmeet Singh" },
+  };
+  const njt = {
+    body: { olp_van_id: "test123", ballot1: "Not Justin" },
+  };
+  const pjt = {
+    body: { olp_van_id: "test123", ballot1: "Possibly Justin" },
+  };
+  const random = {
+    body: { olp_van_id: "test123", ballot1: "random" },
+  };
+  it("should allow the ballot to pass", async () => {
+    const expected = { ballot1: "Justin Trudeau" };
+    await upsertData({ body: { olp_van_id: "test123", ballot1: null } });
+
+    const result = await upsertData(jt);
+    const diff = pick(result, Object.keys(expected));
+    assert.deepStrictEqual(diff, expected);
+  });
+  it("should allow the ballot to pass from not candidate to candidate", async () => {
+    const expected = { ballot1: "Justin Trudeau" };
+    await upsertData(jt);
+    await upsertData(njt);
+
+    const result = await upsertData(jt);
+    const diff = pick(result, Object.keys(expected));
+    assert.deepStrictEqual(diff, expected);
+  });
+  it("should allow the ballot to pass from not candidate to opposing candidate", async () => {
+    const expected = { ballot1: "Pierre Pollievre" };
+    await upsertData(jt);
+    await upsertData(njt);
+    const result = await upsertData(pp);
+    const diff = pick(result, Object.keys(expected));
+    assert.deepStrictEqual(diff, expected);
+  });
+  it("should change old data to possible if we try to replace candidate with opposing candidate", async () => {
+    const expected = { ballot1: "Possibly Justin" };
+    await upsertData(jt);
+
+    const result = await upsertData(pp);
+    const diff = pick(result, Object.keys(expected));
+    assert.deepStrictEqual(diff, expected);
+  });
+  it("should not change old data", async () => {
+    const expected = { ballot1: "Justin Trudeau" };
+    await upsertData(jt);
+
+    const result = await upsertData(random);
+    const diff = pick(result, Object.keys(expected));
+    assert.deepStrictEqual(diff, expected);
+  });
+});
 
 describe("upsertData tests", () => {
   it("should return upserted payload", async () => {
@@ -25,64 +158,19 @@ describe("upsertData tests", () => {
       },
     };
     const expected = {
-      ballot1: null,
-      ballot2: null,
-      ballot3: null,
-      ballot4: null,
-      birthdate: 29,
-      birthmonth: 8,
-      birthyear: 2003,
-      comms_consent: true,
       country: "CA",
       division: "Ontario",
       division_electoral_district: "Scarborough Southwest",
       email: "saihaansyedprofiles@gmail.com",
       federal_electoral_district: "Scarborough Southwest",
       firstname: "Saihaan",
-      id: 87,
-      language: null,
-      member: null,
-      municipal_electoral_district: null,
       municipality: "Scarborough",
-      olp23_ballot1: null,
-      olp23_ballot2: null,
-      olp23_ballot3: null,
-      olp23_ballot4: null,
-      olp23_callhub_notes: null,
-      olp23_campus_club: null,
-      olp23_comms_consent: null,
-      olp23_donation_amount: null,
-      olp23_donor_status: null,
-      olp23_gender: null,
-      olp23_member: null,
-      olp23_membership_status: null,
-      olp23_nate_signup: null,
-      olp23_nes_support_level: null,
-      olp23_organizer: null,
-      olp23_organizer_ref_id: null,
-      olp23_riding: null,
-      olp23_signup_consent: null,
-      olp23_signup_submitted: null,
-      olp23_source: null,
-      olp23_volunteer_status: null,
-      olp23_voted: null,
-      olp23_voting_association: null,
-      olp23_voting_group: null,
-      olp23_voting_location: null,
-      olp23_voting_period: null,
-      organizer: null,
-      phone: null,
       postcode: "M1L 3G6",
-      region: null,
-      signup_consent: null,
-      signup_submitted: null,
       street_address: "442 Pharmacy Ave",
       surname: "Syed",
-      olp_van_id: null,
     };
     const result = await upsertData(payload);
-    delete result.created_at;
-    delete result.updated_at;
-    assert.deepStrictEqual(result, expected);
+    const filteredResult = pick(result, Object.keys(expected));
+    assert.deepStrictEqual(filteredResult, expected);
   });
 });

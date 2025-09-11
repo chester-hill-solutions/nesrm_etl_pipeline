@@ -49,7 +49,7 @@ describe("shapeData tests", () => {
       birthdate: "29",
       street_address: "442 Pharmacy Ave",
       municipality: "Scarborough",
-      district: "Ontario",
+      division: "Ontario",
       postcode: "M1L 3G6",
       country: "CA",
     };

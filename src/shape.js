@@ -1,12 +1,29 @@
 import path from "path";
 import HttpError from "simple-http-error";
 import logger from "simple-logs-sai-node";
+function collapseSpaces(str) {
+  let result = "";
+  let lastWasSpace = false;
 
+  for (const char of str) {
+    if (char === " ") {
+      if (!lastWasSpace) {
+        result += char;
+        lastWasSpace = true;
+      }
+    } else {
+      result += char;
+      lastWasSpace = false;
+    }
+  }
+
+  return result;
+}
 const cleanString = (str) => {
   //If string is empty return undefined
   if (str === null || str === undefined) return undefined;
   //trim either side of string
-  const cleaned = String(str).trim();
+  const cleaned = collapseSpaces(String(str).trim());
   return cleaned === "" ? undefined : cleaned;
 };
 //get value
@@ -48,9 +65,9 @@ const shapeData = async (event) => {
       ...(() => {
         const birthData = {};
         const dob = cleanString(getValue(body, "dob"));
-        let birthdate = cleanString(getValue(body, "birthdate"));
-        let birthmonth = cleanString(getValue(body, "birthmonth"));
-        let birthyear = cleanString(getValue(body, "birthyear"));
+        let birthdate = parseInt(cleanString(getValue(body, "birthdate")));
+        let birthmonth = parseInt(cleanString(getValue(body, "birthmonth")));
+        let birthyear = parseInt(cleanString(getValue(body, "birthyear")));
 
         if (
           birthdate &&
@@ -191,7 +208,7 @@ const shapeData = async (event) => {
     //console.log("shapeData response", JSON.stringify(response));
     return output;
   } catch (error) {
-    throw new Error("", { statusCode: 422, cause: error });
+    throw new HttpError("", 422, { originalError: error });
   }
 };
 shapeData.__module = path.basename(import.meta.url);
