@@ -1,5 +1,6 @@
 import { handler } from "./index.js";
 import { readFile } from "fs/promises";
+import fs from "fs";
 import "dotenv/config";
 import {
   attachHeader,
@@ -28,9 +29,25 @@ async function post(payload, num = 0) {
     console.log(JSON.stringify(payloadWiHeader));
   }
 }
+async function csvToJson(filePath) {
+  const data = await fs.promises.readFile(filePath, "utf8");
 
+  const [headerLine, ...lines] = data.trim().split("\n");
+  const headers = headerLine.split(",");
+
+  const result = lines.map((line) => {
+    const values = line.split(",");
+    return headers.reduce((obj, header, i) => {
+      obj[header.trim()] = values[i]?.trim() ?? null;
+      return obj;
+    }, {});
+  });
+
+  return result;
+}
 const main = async () => {
-  const testDataArray = await getTestData("uncommons");
+  //const testDataArray = await getTestData("../supporterData.csv");
+  const testDataArray = await csvToJson("../supporterDataSample.csv");
   for (const testDataIndex in testDataArray) {
     let response;
     console.log("testDataIndex:", testDataIndex);
@@ -46,5 +63,5 @@ const main = async () => {
     }
   }
 };
-
+//console.log(await csvToJson("./tests/test_payloads/csv_test/dummy_csv.csv"));
 main();

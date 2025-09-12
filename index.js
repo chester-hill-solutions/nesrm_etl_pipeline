@@ -44,7 +44,7 @@ async function s(payload, success = false) {
 
 export const handler = async (event) => {
   try {
-    logger.log("event triggered", JSON.stringify(event, null, 2));
+    logger.log("event triggered");
     logger.dev.log("event triggered", JSON.stringify(event, null, 2));
     let funcOutput;
     //Ingest param check

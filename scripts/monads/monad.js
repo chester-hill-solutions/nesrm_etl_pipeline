@@ -67,7 +67,7 @@ export const statusCodeMonad = {
     return ret;
   },
   bindMonad: async (monadic, func) => {
-    logger.log("\nbind", "to", func.name);
+    logger.log("bind", "to", func.name);
     logger.dev.log("monadic input", JSON.stringify(monadic.input, null, 2));
     let t = [{ step: func.__module, task: func.name }];
     let ret = {
@@ -125,8 +125,7 @@ export const statusCodeMonad = {
       "bindMonad output",
       ret.response.statusCode === 200
         ? JSON.stringify(ret.response.statusCode, null, 2)
-        : JSON.stringify(ret),
-      "\n"
+        : JSON.stringify(ret)
     );
     logger.dev.log("Full output", JSON.stringify(ret, null, 2));
     return ret;

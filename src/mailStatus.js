@@ -37,7 +37,7 @@ const post = async (obj) => {
     } catch (error) {
       console.log("data", data);
       console.error(error);
-      throw error;
+      throw new error();
     }
   }
 };

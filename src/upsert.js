@@ -3,8 +3,9 @@ import { createClient } from "@supabase/supabase-js";
 import path from "path";
 import HttpError from "simple-http-error";
 import logger from "simple-logs-sai-node";
+import { error } from "console";
 
-const provinces = {
+const PROVINCES = {
   AB: "Alberta",
   BC: "British Columbia",
   MB: "Manitoba",
@@ -164,7 +165,7 @@ async function findProfile(supabaseClient, shapedData) {
       if (error) {
         logger.dev.log("supabase search error", error);
         throw new HttpError("Find Profile Condition Check Failed", 500, {
-          cause: error,
+          originalError: error,
         });
       }
 
@@ -189,30 +190,34 @@ async function findProfile(supabaseClient, shapedData) {
 }
 
 const opennorth_postcode = async (postcode, sets) => {
-  try {
-    const response = await fetch(
-      `https://represent.opennorth.ca/postcodes/${postcode.replace(
-        " ",
-        ""
-      )}${sets}`,
-      {
-        headers: {
-          "Content-Type": "application/json",
-        },
-      }
-    );
-
-    if (!response.ok) {
-      throw new Error(`HTTP error! status: ${response.status}`);
+  const response = await fetch(
+    `https://represent.opennorth.ca/postcodes/${postcode.replace(
+      " ",
+      ""
+    )}${sets}`,
+    {
+      headers: {
+        "Content-Type": "application/json",
+      },
     }
-
-    return await response.json();
-  } catch (error) {
-    throw new Error("Opennorth lookup error", {
-      statusCode: 500,
-      cause: error,
-    });
+  );
+  let bodyText = await response.text();
+  let body;
+  try {
+    body = JSON.parse(bodyText);
+  } catch {
+    body = bodyText;
   }
+  if (!response.ok) {
+    logger.log("opennorth fetch code", response.status);
+    throw new HttpError(
+      `HTTP error! status: ${response.status}`,
+      response.status,
+      { originalError: body }
+    );
+  }
+
+  return body;
 };
 const get_fed = async (postcode) => {
   try {
@@ -224,10 +229,13 @@ const get_fed = async (postcode) => {
     logger.dev.log("fed", data?.boundaries_centroid?.[0]?.name);
     return data?.boundaries_centroid?.[0]?.name || null;
   } catch (error) {
-    throw new Error("federal electoral district lookup error", {
-      statusCode: 500,
-      cause: error,
-    });
+    throw new HttpError(
+      `upsert.js/federal electoral district lookup error ${postcode}`,
+      error.statusCode ?? 500,
+      {
+        originalError: error,
+      }
+    );
   }
 };
 const get_ded = async (postcode) => {
@@ -240,10 +248,54 @@ const get_ded = async (postcode) => {
     logger.dev.log("ded", data?.boundaries_centroid?.[0]?.name);
     return data?.boundaries_centroid?.[0]?.name || null;
   } catch (error) {
-    throw new Error("upsert.js/district electoral district lookup error", {
-      statusCode: 500,
-      cause: error,
-    });
+    throw new HttpError(
+      `upsert.js/district electoral district lookup error ${postcode}`,
+      error.statusCode ?? 500,
+      {
+        originalError: error,
+      }
+    );
+  }
+};
+const get_opennorth = async (postcode) => {
+  let municipality = undefined;
+  let division = undefined;
+  let ded = undefined;
+  let fed = undefined;
+  try {
+    logger.log("get_opennorth", postcode);
+    const data = await opennorth_postcode(postcode, "");
+    logger.log("got_opennorth", postcode);
+    logger.dev.log("fed", data?.boundaries_centroid?.[0]?.name);
+    logger.dev.log("ded", data?.boundaries_centroid?.[0]?.name);
+    logger.dev.log("municipality", data?.boundaries_centroid?.[0]?.name);
+    logger.dev.log("division", data?.boundaries_centroid?.[0]?.name);
+    municipality = data?.city;
+    division = data?.province;
+    fed = data?.boundaries_centroid.find(
+      (item) =>
+        item.related?.boundary_set_url ===
+        "/boundary-sets/federal-electoral-districts-2023-representation-order/"
+    )?.name;
+    ded = data?.boundaries_centroid.find(
+      (item) =>
+        item.related?.boundary_set_url ===
+        "/boundary-sets/ontario-electoral-districts-representation-act-2015/"
+    )?.name;
+    return { municipality, division, fed, ded };
+  } catch (error) {
+    if (error.statusCode == 429) {
+      //console.log("Open north rate limit hit");
+      return { municipality, division, fed, ded };
+    }
+    console.error(error);
+    throw new HttpError(
+      `upsert.js/electoral district lookup error ${postcode}`,
+      error.statusCode ?? 500,
+      {
+        originalError: error,
+      }
+    );
   }
 };
 const get_geo = async (postcode) => {
@@ -256,15 +308,15 @@ const get_geo = async (postcode) => {
 };
 const getRidings = async (postcode) => {
   try {
-    const fed = await get_fed(postcode);
-    const ded = await get_ded(postcode);
-    const geo = await get_geo(postcode);
-    return { fed, ded, geo };
+    //const fed = await get_fed(postcode);
+    //const ded = await get_ded(postcode);
+    //const geo = await get_geo(postcode);
+    const { fed, ded, municipality, division } = await get_opennorth(postcode);
+    return { fed, ded, municipality, division };
   } catch (error) {
-    console.log("riding search error:", error);
-    throw new Error("upsert.js/getRidings() error", {
-      statusCode: 500,
-      cause: error,
+    logger.log("riding search error:", postcode, error);
+    throw new HttpError("upsert.js/getRidings() error", 500, {
+      originalError: error,
     });
   }
 };
@@ -404,15 +456,15 @@ const upsertData = async (payload) => {
     const postcode = updateData.postcode
       ? updateData.postcode
       : shapedData.postcode;
-    const ridings = await getRidings(postcode);
-    logger.dev.log(ridings);
-    updateData.federal_electoral_district = ridings.fed;
-    updateData.division_electoral_district = ridings.ded;
+    const { municipality, division, fed, ded } = await get_opennorth(postcode);
+    logger.dev.log("getRidings", fed, ded, municipality, division);
+    updateData.federal_electoral_district = fed ?? undefined;
+    updateData.division_electoral_district = ded ?? undefined;
     //const geo = await get_geo(postcode);
-    updateData.division = provinces[ridings.geo.division.toUpperCase()];
-    updateData.municipality =
-      ridings.geo.municipality[0].toUpperCase() +
-      ridings.geo.municipality.slice(1).toLowerCase();
+    updateData.division = division
+      ? PROVINCES[division.toUpperCase()]
+      : undefined;
+    updateData.municipality = municipality ?? undefined;
   }
 
   updateData.last_request = payload.headers?.request_backup_id
@@ -420,14 +472,17 @@ const upsertData = async (payload) => {
     : null;
 
   logger.log("About to upsert");
-  logger.dev.log(JSON.stringify(updateData));
+  const cleaned_data = Object.fromEntries(
+    Object.entries(updateData).filter(([_, value]) => value !== undefined)
+  );
+  logger.dev.log(JSON.stringify(cleaned_data));
   let query = supabase.from("contact");
   const {
     data: person,
     status,
     error: personError,
   } = await query
-    .upsert(updateData, {
+    .upsert(cleaned_data, {
       onConflict: "id",
     })
     .select();
