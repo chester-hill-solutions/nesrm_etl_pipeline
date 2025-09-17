@@ -2,6 +2,7 @@ import HttpError from "simple-http-error";
 import logger from "simple-logs-sai-node";
 import "dotenv/config";
 import path from "node:path";
+import { bestMatch } from "../scripts/mailReconcile/index.js";
 
 const HEADERS = {
   Authorization: "Bearer " + process.env.MAIL_BEARER,
@@ -94,7 +95,7 @@ const mail = async (obj) => {
     : (() => {
         throw new HttpError("Missing email or id to upload", 500);
       })();
-  let payload = await shapeForMail(cleaned);
+  let payload = await shapeForMail(data);
   let mailData;
   try {
     mailData = await get(data.mailerlite_id || data.email);
@@ -106,7 +107,9 @@ const mail = async (obj) => {
   }
   if (mailData?.data?.fields && mailData?.data?.email) {
     mailData.data.fields.email = mailData.data.email;
-    payload = await reconcileNames(mailData.data.fields, payload);
+    try {
+      payload = await reconcileNames(mailData.data.fields, payload);
+    } catch (e) {}
   }
   return await post(payload);
 };
@@ -159,7 +162,7 @@ async function scoreNameSet(email, { firstname, surname }) {
   return firstScore + lastScore;
 }
 
-async function bestMatch(email, setA, setB) {
+async function oldbestMatch(email, setA, setB) {
   logger.dev.log("bestMatch", email, setA, setB);
   if (setA.firstname == setB.firstname && setA.surname == setB.surname)
     return setA;
@@ -188,6 +191,8 @@ const reconcileNames = async (mailData, dbData) => {
       dbData.firstname,
       dbData.surname
     );
+    logger.dev.error(mailData);
+    logger.dev.error(dbData);
     throw new Error("Missing fields");
   }
   let output = structuredClone(dbData);

@@ -3,6 +3,7 @@ import { createClient } from "@supabase/supabase-js";
 import path from "path";
 import HttpError from "simple-http-error";
 import logger from "simple-logs-sai-node";
+import { bestMatch } from "../scripts/mailReconcile/index.js";
 import { error } from "console";
 
 const PROVINCES = {
@@ -403,6 +404,22 @@ async function consolidateData(profile, shapedData) {
     }
   }
   logger.dev.log("updateData iter 1", updateData);
+
+  if (
+    shapedData.email &&
+    shapedData.firstname &&
+    shapedData.surname &&
+    profile.firstname &&
+    profile.surname
+  ) {
+    const { ufirstname, usurname } = bestMatch(
+      shapedData.email,
+      { firstname: shapedData.firstname, surname: shapedData.surname },
+      { firstname: profile.firstname, surname: profile.surname }
+    );
+    updateData.firstname = ufirstname;
+    updateData.surname = usurname;
+  }
 
   if (shapedData.ballot1 && profile.ballot1) {
     if (
