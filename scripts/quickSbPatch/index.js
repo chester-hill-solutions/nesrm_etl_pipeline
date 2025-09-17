@@ -7,10 +7,12 @@ async function sbPatch(table, id, field, value) {
       process.env.DATABASE_URL,
       process.env.KEY
     );
+    const u = {};
+    u[field] = value;
     const { error: sbError } = await supabase
       .from(table)
-      .update({ field: value })
-      .eq("id");
+      .update(u)
+      .eq("id", id);
     if (sbError) {
       logger.error(sbError);
       throw new HttpError(sbError.message, 500, { originalCause: error });
@@ -19,3 +21,5 @@ async function sbPatch(table, id, field, value) {
     console.error(error);
   }
 }
+
+export { sbPatch };
