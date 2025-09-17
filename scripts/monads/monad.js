@@ -88,11 +88,16 @@ export const statusCodeMonad = {
         //ret.input = rawFuncResponse ? rawFuncResponse : ret.input;
       }
     } catch (error) {
-      console.error("monadic input", monadic.input);
-      console.error("caught", error);
-      ret.response.statusCode = error.statusCode ? error.statusCode : 500;
-      ret.response.body.message = error.message;
       t[0].output = error;
+      if (error.statusCode === 429) {
+        ret.resposne.statusCode = 200;
+        t[0].statusCode === 429;
+      } else {
+        console.error("monadic input", monadic.input);
+        console.error("caught", error);
+        ret.response.statusCode = error.statusCode ? error.statusCode : 500;
+        ret.response.body.message = error.message;
+      }
     }
     //ret.trace[0].input = monadic.input;
     t = t.concat(monadic.trace);

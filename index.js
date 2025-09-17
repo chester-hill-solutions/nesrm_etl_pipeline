@@ -7,7 +7,7 @@ import { shapeData } from "./src/shape.js";
 import { statusCodeMonad as scMonad } from "./scripts/monads/monad.js";
 import { upsertData } from "./src/upsert.js";
 import logger from "simple-logs-sai-node";
-import { mailStatus } from "./src/mailStatus.js";
+import { mail } from "./src/mail.js";
 import { createClient } from "@supabase/supabase-js";
 
 let REQUEST_BACKUP_ID;
@@ -69,32 +69,32 @@ export const handler = async (event) => {
       return s(payload);
     }
     //Shape
-    let cleaned_data;
+    //let cleaned_data;
     payload = await scMonad.bindMonad(scMonad.unit(payload), shapeData);
     if (payload.response.statusCode != 200) {
       return s(payload);
     } else {
       payload.input = payload.trace[0].output;
     }
-    cleaned_data = payload.input;
+    //cleaned_data = payload.input;
 
     //Upsert
-    let updated_data;
+    //let updated_data;
     payload = await scMonad.bindMonad(scMonad.unit(payload), upsertData);
     if (payload.response.statusCode != 200) {
       return s(payload);
     } else {
       payload.input = payload.trace[0].output;
-      updated_data = payload.trace[0].output;
+      //updated_data = payload.trace[0].output;
     }
     //console.log("compare", payload.trace[0].output == payload.input);
     if (payload.input.comms_consent) {
-      payload = await scMonad.bindMonad(scMonad.unit(payload), mailStatus);
+      payload = await scMonad.bindMonad(scMonad.unit(payload), mail);
       if (payload.response.statusCode != 200) {
         return s(payload);
       } else {
         payload.input = payload.trace[0].output;
-        updated_data = payload.trace[0].output;
+        //updated_data = payload.trace[0].output;
       }
     }
 

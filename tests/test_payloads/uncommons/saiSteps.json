@@ -2,7 +2,7 @@
   {
     "body": {
       "step": 1,
-      "email": "saihaansyedprofiles@gmail.com",
+      "email": "saiTest@gmail.com",
       "isVerified": true,
       "isSubscribed": true,
       "comms_consent": true,
@@ -12,10 +12,10 @@
   {
     "body": {
       "step": 2,
-      "email": "saihaansyedprofiles@gmail.com",
-      "firstname": "Saihaan",
-      "surname": "Syed",
-      "dob": "2003-08-29",
+      "email": "saiTest@gmail.com",
+      "firstname": "sai",
+      "surname": "guy",
+      "dob": "1990-09-30",
       "isVerified": true,
       "isSubscribed": true
     }
@@ -23,17 +23,17 @@
   {
     "body": {
       "step": 3,
-      "email": "saihaansyedprofiles@gmail.com",
+      "email": "saiTest@gmail.com",
       "address": {
-        "street": "442 Pharmacy Ave",
+        "street": "551 Road Ave",
         "city": "Scarborough",
         "state": "Ontario",
         "postal": "M1L 3G6",
         "country": "CA"
       },
-      "firstname": "Saihaan",
-      "surname": "Syed",
-      "dob": "2003-08-29",
+      "firstname": "sai",
+      "surname": "guy",
+      "dob": "1990-09-30",
       "isVerified": true,
       "isSubscribed": true
     }
@@ -41,17 +41,17 @@
   {
     "body": {
       "step": 2,
-      "email": "saihaansyedprofiles@gmail.com",
+      "email": "saiTest@gmail.com",
       "address": {
-        "street": "442 Pharmacy Ave",
+        "street": "551 Road Ave",
         "city": "Scarborough",
         "state": "Ontario",
         "postal": "M1L 3G6",
         "country": "CA"
       },
-      "firstname": "Saihaan",
-      "surname": "Syed",
-      "dob": "2003-08-29",
+      "firstname": "sai",
+      "surname": "guy",
+      "dob": "1990-09-30",
       "isVerified": true,
       "isSubscribed": true
     }

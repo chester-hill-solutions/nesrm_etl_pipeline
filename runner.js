@@ -3,6 +3,7 @@ import path from "path";
 import fs from "fs/promises";
 import { createObjectCsvWriter } from "csv-writer";
 import { csvToJson, attachHeader } from "./scripts/shapeData/index.js";
+import logger from "simple-logs-sai-node";
 const HEADERS = {
   Origin: "www.meetsai.ca",
   "X-Forwarded-For": "124.0.0.1",
@@ -32,42 +33,41 @@ async function runner(payload) {
     return await handler(payload);
   }
 }
-const CSV_FILE = "failedUploads.csv";
-async function logEvent(data, response) {
-  if (!response.statusCode || response.statusCode >= 300) return;
+const JSON_FILE = "failedUploads.json";
 
+async function logEvent(data, response) {
+  // Only log successful responses
+  if (!response.statusCode || response.statusCode <= 300) return;
+  logger.log(response.statusCode);
+  logger.log("logEvent", data, response);
   const dataToWrite = {
     ...data,
-    ...response.body,
-    response_object: JSON.stringify(response), // store entire response
+    statusCode: response.statusCode,
+    response_object: JSON.stringify(response),
   };
-
-  // If request_backup_id exists, include it
+  logger.log(dataToWrite);
+  // Include request_backup_id if it exists
   if (response.body?.request_backup_id) {
     dataToWrite.request_backup_id = response.body.request_backup_id;
   }
 
-  // Check if CSV exists
-  let headers = [];
-  if (fs.existsSync(CSV_FILE)) {
-    const firstLine = fs.readFileSync(CSV_FILE, "utf-8").split("\n")[0];
-    headers = firstLine.split(",");
+  let existingData = [];
+
+  // Read existing JSON array if file exists
+  try {
+    const fileContent = await fs.readFile(JSON_FILE, "utf-8");
+    existingData = JSON.parse(fileContent);
+    if (!Array.isArray(existingData)) existingData = [];
+  } catch {
+    // File does not exist or is invalid → start with empty array
+    existingData = [];
   }
 
-  // Merge headers with new keys
-  const allKeys = Array.from(
-    new Set([...headers, ...Object.keys(dataToWrite)])
-  );
+  // Append new entry
+  existingData.push(dataToWrite);
 
-  // Create CSV writer
-  const csvWriter = createObjectCsvWriter({
-    path: CSV_FILE,
-    header: allKeys.map((key) => ({ id: key, title: key })),
-    append: fs.existsSync(CSV_FILE),
-  });
-
-  // Write the row
-  await csvWriter.writeRecords([dataToWrite]);
+  // Write back to file
+  await fs.writeFile(JSON_FILE, JSON.stringify(existingData, null, 2), "utf-8");
 }
 async function runOverArray(dataArray, callback) {
   if (process.env.SLOW === "true") {
@@ -76,7 +76,7 @@ async function runOverArray(dataArray, callback) {
   for (const dataIndex in dataArray) {
     if (Array.isArray(dataArray[dataIndex])) {
       console.log("File", dataIndex);
-      await parseDataArray(dataArray[dataIndex]);
+      await runOverArray(dataArray[dataIndex], callback);
     } else {
       const event = await attachHeader(dataArray[dataIndex], HEADERS);
       console.log(
@@ -84,15 +84,23 @@ async function runOverArray(dataArray, callback) {
         dataIndex,
         event.body?.email || event.body?.phone || event.body?.firstname
       );
-      const response = await callback(event);
-      console.log(
-        "response",
-        response.statusCode,
-        response.statusCode < 300
-          ? ""
-          : JSON.stringify(dataArray[dataIndex], null, 2)
-      );
-      logEvent(event, response);
+      try {
+        const response = await callback(event);
+        console.log(
+          "response",
+          response.statusCode,
+          response.statusCode < 300
+            ? ""
+            : JSON.stringify(dataArray[dataIndex], null, 2)
+        );
+        logEvent(event, response);
+      } catch (error) {
+        logEvent(event, {
+          statusCode: 500,
+          body: "{message: failure on runner.js side}",
+        });
+      }
+
       if (process.env.SLOW === "true") {
         console.log("waiting...");
         await sleep(1500);
