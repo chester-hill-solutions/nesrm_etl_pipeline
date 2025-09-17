@@ -109,7 +109,7 @@ async function findProfile(supabaseClient, shapedData) {
               .ilike("surname", `%${shapedDataLastName}%`)
               .ilike("email", `%${shapedDataEmailPrefix}%`),
         },
-      // Same name and nothing else exists
+      // Same name and nothing else in db
       shapedDataFirstName &&
         shapedDataLastName && {
           query: (q) =>
@@ -119,10 +119,9 @@ async function findProfile(supabaseClient, shapedData) {
               .is("street_address", null)
               .is("email", null)
               .is("phone", null)
-              .is("postcode", null)
-              .is("division_electoral_district", null),
+              .is("postcode", null),
         },
-      // Same email and nothing else
+      // Same email and nothing else in db
       shapedDataEmail && {
         query: (q) =>
           q
@@ -131,21 +130,44 @@ async function findProfile(supabaseClient, shapedData) {
             .is("surname", null)
             .is("street_address", null)
             .is("phone", null)
-            .is("postcode", null)
-            .is("division_electoral_district", null),
+            .is("postcode", null),
       },
-      // Same email prefix and nothing else
+      // Same email prefix and nothing else in db
       shapedDataEmailPrefix && {
         query: (q) =>
           q
-            .ilike("email", `%${shapedDataEmail}`)
+            .ilike("email", `%${shapedDataEmailPrefix}`)
             .is("firstname", null)
             .is("surname", null)
             .is("street_address", null)
             .is("phone", null)
-            .is("postcode", null)
-            .is("division_electoral_district", null),
+            .is("postcode", null),
       },
+      // Same phone and nothing else in db
+      shapedDataPhone && {
+        query: (q) =>
+          q
+            .ilike("phone", `%${shapedDataPhone}`)
+            .is("firstname", null)
+            .is("surname", null)
+            .is("street_address", null)
+            .is("email", null)
+            .is("postcode", null),
+      },
+      // Same email prefix and new data is null nothing else in db
+      shapedDataPhone &&
+        !shapedDataEmail &&
+        !shapedDataFirstName &&
+        !shapedDataLastName && {
+          query: (q) => q.ilike("phone", `%${shapedDataPhone}`),
+        },
+      !shapedDataPhone &&
+        shapedDataEmail &&
+        !shapedDataFirstName &&
+        !shapedDataLastName && {
+          query: (q) => q.ilike("phone", `%${shapedDataPhone}`),
+        },
+      /*
       // Same email (maybe should check if everything else in new data is null as to not overwrite? or maybe overwrite in this situation fine?)
       shapedDataEmail && {
         query: (q) => q.ilike("email", `%${shapedDataEmail}`),
@@ -153,11 +175,14 @@ async function findProfile(supabaseClient, shapedData) {
       // Same email prefix
       shapedDataEmailPrefix && {
         query: (q) => q.ilike("email", `%${shapedDataEmailPrefix}`),
-      },
-    ].filter(Boolean);
+      },*/
+    ]; //.filter(Boolean);
     // Try each condition in sequence
+    let index = 0;
     for (const condition of searchConditions) {
-      logger.dev.log("try condition", condition);
+      index++;
+      logger.dev.log("try condition", index);
+      if (!condition) continue;
       const query = supabaseClient.from("contact").select();
       condition.query(query);
 
@@ -170,6 +195,7 @@ async function findProfile(supabaseClient, shapedData) {
       }
 
       if (data?.length > 0) {
+        logger.dev.log("found condition", index);
         logger.log("Found Matching Profiles", data[0].id);
         // If multiple matches, use most recently updated record
         const sorted = data.sort((a, b) =>
@@ -322,7 +348,10 @@ const getRidings = async (postcode) => {
 };
 function commaSeperate(profileValue, shapedDataValue) {
   if (shapedDataValue && profileValue) {
-    if (profileValue.split(",").includes(shapedDataValue)) {
+    const shapedLower = shapedDataValue.toLowerCase();
+    const values = profileValue.split(",").map((v) => v.trim().toLowerCase());
+
+    if (values.includes(shapedLower)) {
       return profileValue;
     } else {
       return profileValue + "," + shapedDataValue;
@@ -411,7 +440,9 @@ async function consolidateData(profile, shapedData) {
       shapedData.organizer
     );
   }
-
+  if (profile.tags && shapedData.tags) {
+    updateData.tags = commaSeperate(profile.tags, shapedData.tags);
+  }
   if (profile.language && shapedData.language) {
     updateData.language = commaSeperate(profile.language, shapedData.language);
   }
@@ -469,8 +500,8 @@ const upsertData = async (payload) => {
 
   updateData.last_request = payload.headers?.request_backup_id
     ? payload.headers.request_backup_id
-    : null;
-
+    : undefined;
+  logger.dev.log("paylllooaad", JSON.stringify(payload, null, 2));
   logger.log("About to upsert");
   const cleaned_data = Object.fromEntries(
     Object.entries(updateData).filter(([_, value]) => value !== undefined)

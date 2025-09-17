@@ -44,7 +44,7 @@ const getValue = (payload, key) => {
 };
 
 const shapeData = async (event) => {
-  let response = { body: { trace: [{ step: "shape", task: "shapeData" }] } };
+  logger.dev.log("shaping", JSON.stringify(event, null, 2));
   if (!event.body) {
     throw new HttpError("Missing body", 422);
   }
@@ -54,6 +54,7 @@ const shapeData = async (event) => {
   } catch (error) {
     body = event.body;
   }
+  logger.dev.log("body to shape", body);
   try {
     let shaped_data = {
       firstname: cleanString(getValue(body, "firstname")),
@@ -148,11 +149,34 @@ const shapeData = async (event) => {
       signup_consent: cleanString(getValue(body, "signup_consent")),
       signup_submitted: cleanString(getValue(body, "signup_submitted")),
       member: cleanString(getValue(body, "member")),
-
+      tags: cleanString(getValue(body, "tags")),
       organizer: cleanString(getValue(body, "organizer")),
       language: cleanString(getValue(body, "language")),
       olp_van_id: cleanString(getValue(body, "olp_van_id")),
       lpc_van_id: cleanString(getValue(body, "lpc_van_id")),
+      ...(() => {
+        let o = { gender: cleanString(getValue(body, "gender")) };
+        let g = cleanString(getValue(body, "gender"));
+        if (
+          o.gender &&
+          (o.gender?.toUpperCase() == "M" || o.gender?.toUpperCase() == "MALE")
+        ) {
+          o.gender = "MALE";
+        } else if (
+          o.gender &&
+          (o.gender?.toUpperCase() == "F" ||
+            o.gender?.toUpperCase() == "FEMALE")
+        ) {
+          o.gender = "FEMALE";
+        } else if (
+          o.gender &&
+          (o.gender?.toUpperCase() === "O" ||
+            o.gender?.toUpperCase() === "OTHER")
+        ) {
+          o.gender = "OTHER";
+        }
+        return o;
+      })(),
 
       olp23_ballot1: cleanString(getValue(body, "olp23_ballot1")),
       olp23_ballot2: cleanString(getValue(body, "olp23_ballot2")),
@@ -205,6 +229,7 @@ const shapeData = async (event) => {
     //console.log("cleaned_data", cleaned_data);
     //response.statusCode = 200;
     let output = { headers: event.headers, body: cleaned_data };
+    logger.dev.log("shaped output", output);
     //console.log("shapeData response", JSON.stringify(response));
     return output;
   } catch (error) {

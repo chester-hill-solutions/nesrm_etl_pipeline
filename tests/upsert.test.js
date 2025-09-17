@@ -1,26 +1,22 @@
 import test, { describe, it } from "node:test";
 import assert from "node:assert";
-
+import "dotenv/config";
+import { pick, keyCompare } from "../scripts/pickKeys/index.js";
 import { upsertData } from "../src/upsert.js";
 import logger from "simple-logs-sai-node";
 
 const HEADERS = {
   origin: "www.meetsai.ca",
   "x-forwarded-for": "124.0.0.1",
-  request_backup_id: 289,
 };
-
-function pick(obj, keys) {
-  return Object.fromEntries(keys.map((k) => [k, obj[k]]));
-}
 
 describe("Condition Match Test", () => {
   it("should return a person with the email only given in a second payload since the second payload's match value is a substring of the db value match value", async () => {
     const p1 = {
       headers: HEADERS,
       body: {
-        firstname: "Saihaan",
-        surname: "Syed",
+        firstname: "fname",
+        surname: "sname",
         phone: "123456",
         municipality: "Toronto",
       },
@@ -28,9 +24,9 @@ describe("Condition Match Test", () => {
     const p2 = {
       headers: HEADERS,
       body: {
-        firstname: "Sai",
-        surname: "Syed",
-        phone: "123456",
+        firstname: "fname",
+        surname: "sname",
+        phone: "2345",
         email: "testEmail@gmail.com",
       },
     };
@@ -40,6 +36,34 @@ describe("Condition Match Test", () => {
     const second = await upsertData(p2);
     logger.dev.log("second data", JSON.stringify(second, null, 2));
     assert.strictEqual(second.municipality, p1.body.municipality);
+  });
+  it("should return a person with the new data because I only passed a phone number", async () => {
+    const p1 = {
+      headers: HEADERS,
+      body: {
+        firstname: "only",
+        surname: "phone",
+        phone: "378468436",
+        email: "onlyphone@gmail.com",
+      },
+    };
+    const p1r = await upsertData(p1);
+    const p2 = {
+      headers: HEADERS,
+      body: {
+        phone: "378468436",
+        gender: "f",
+      },
+    };
+    const p2e = {
+      firstname: "only",
+      surname: "phone",
+      phone: "378468436",
+      email: "onlyphone@gmail.com",
+      gender: "f",
+    };
+    const p2r = await upsertData(p2);
+    assert.deepStrictEqual(keyCompare(p2r, p2e), p2e);
   });
 });
 
@@ -76,25 +100,31 @@ describe("birthday field tests", () => {
 
 describe("Ballot sequence tests", () => {
   const jt = {
-    body: { olp_van_id: "test123", ballot1: "Justin Trudeau" },
+    body: { olp_van_id: "test123", ballot1: process.env.CANDIDATE },
   };
   const pp = {
-    body: { olp_van_id: "test123", ballot1: "Pierre Pollievre" },
+    body: {
+      olp_van_id: "test123",
+      ballot1: process.env.CANDIDATES.split(",")[1],
+    },
   };
   const js = {
-    body: { olp_van_id: "test123", ballot1: "Jagmeet Singh" },
+    body: {
+      olp_van_id: "test123",
+      ballot1: process.env.CANDIDATES.split(",")[2],
+    },
   };
   const njt = {
-    body: { olp_van_id: "test123", ballot1: "Not Justin" },
+    body: { olp_van_id: "test123", ballot1: process.env.NOT_CANDIDATE },
   };
   const pjt = {
-    body: { olp_van_id: "test123", ballot1: "Possibly Justin" },
+    body: { olp_van_id: "test123", ballot1: process.env.POSSIBLY_CANDIDATE },
   };
   const random = {
     body: { olp_van_id: "test123", ballot1: "random" },
   };
   it("should allow the ballot to pass", async () => {
-    const expected = { ballot1: "Justin Trudeau" };
+    const expected = { ballot1: process.env.CANDIDATE };
     await upsertData({ body: { olp_van_id: "test123", ballot1: null } });
 
     const result = await upsertData(jt);
@@ -102,7 +132,7 @@ describe("Ballot sequence tests", () => {
     assert.deepStrictEqual(diff, expected);
   });
   it("should allow the ballot to pass from not candidate to candidate", async () => {
-    const expected = { ballot1: "Justin Trudeau" };
+    const expected = { ballot1: process.env.CANDIDATE };
     await upsertData(jt);
     await upsertData(njt);
 
@@ -111,7 +141,7 @@ describe("Ballot sequence tests", () => {
     assert.deepStrictEqual(diff, expected);
   });
   it("should allow the ballot to pass from not candidate to opposing candidate", async () => {
-    const expected = { ballot1: "Pierre Pollievre" };
+    const expected = { ballot1: process.env.CANDIDATES.split(",")[1] };
     await upsertData(jt);
     await upsertData(njt);
     const result = await upsertData(pp);
@@ -119,7 +149,7 @@ describe("Ballot sequence tests", () => {
     assert.deepStrictEqual(diff, expected);
   });
   it("should change old data to possible if we try to replace candidate with opposing candidate", async () => {
-    const expected = { ballot1: "Possibly Justin" };
+    const expected = { ballot1: process.env.POSSIBLY_CANDIDATE };
     await upsertData(jt);
 
     const result = await upsertData(pp);
@@ -127,7 +157,7 @@ describe("Ballot sequence tests", () => {
     assert.deepStrictEqual(diff, expected);
   });
   it("should not change old data", async () => {
-    const expected = { ballot1: "Justin Trudeau" };
+    const expected = { ballot1: process.env.CANDIDATE };
     await upsertData(jt);
 
     const result = await upsertData(random);
@@ -142,16 +172,15 @@ describe("upsertData tests", () => {
       headers: {
         origin: "www.meetsai.ca",
         "x-forwarded-for": "124.0.0.1",
-        request_backup_id: 289,
       },
       body: {
         firstname: "Saihaan",
         surname: "Syed",
-        email: "saihaansyedprofiles@gmail.com",
-        birthyear: "2003",
-        birthmonth: "08",
-        birthdate: "29",
-        street_address: "442 Pharmacy Ave",
+        email: "saitesteremail@test.com",
+        birthyear: "1990",
+        birthmonth: "09",
+        birthdate: "30",
+        street_address: "331 Road Ave",
         municipality: "Scarborough",
         country: "CA",
         postcode: "M1L 3G6",
@@ -161,16 +190,146 @@ describe("upsertData tests", () => {
       country: "CA",
       division: "Ontario",
       division_electoral_district: "Scarborough Southwest",
-      email: "saihaansyedprofiles@gmail.com",
+      email: "saitesteremail@test.com",
       federal_electoral_district: "Scarborough Southwest",
       firstname: "Saihaan",
-      municipality: "Scarborough",
+      municipality: "SCARBOROUGH",
       postcode: "M1L 3G6",
-      street_address: "442 Pharmacy Ave",
+      street_address: "331 Road Ave",
       surname: "Syed",
+      birthyear: 1990,
+      birthmonth: 9,
+      birthdate: 30,
     };
     const result = await upsertData(payload);
     const filteredResult = pick(result, Object.keys(expected));
     assert.deepStrictEqual(filteredResult, expected);
+  });
+});
+
+describe("comma seperated values test", () => {
+  it("should return a single organizer since comma seperated fields should not allow duplicates", async () => {
+    const p1 = {
+      headers: HEADERS,
+      body: {
+        firstname: "fname",
+        surname: "sname",
+        phone: "123456",
+      },
+    };
+    const p1e = {
+      firstname: "fname",
+      surname: "sname",
+      phone: "123456",
+    };
+    const p1r = await upsertData(p1);
+    assert.deepStrictEqual(pick(p1r, Object.keys(p1e)), p1e);
+    const p2 = {
+      headers: HEADERS,
+      body: {
+        firstname: "fname",
+        surname: "sname",
+        phone: "123456",
+        organizer: "sai",
+      },
+    };
+    const p2e = {
+      firstname: "fname",
+      surname: "sname",
+      phone: "123456",
+      organizer: "sai",
+    };
+    const p2r = await upsertData(p2);
+    assert.deepStrictEqual(pick(p2r, Object.keys(p2e)), p2e);
+    const p3 = {
+      headers: HEADERS,
+      body: {
+        firstname: "fname",
+        surname: "sname",
+        phone: "123456",
+        organizer: "sai",
+      },
+    };
+    const p3e = {
+      firstname: "fname",
+      surname: "sname",
+      phone: "123456",
+      organizer: "sai",
+    };
+    const p3r = await upsertData(p3);
+    assert.deepStrictEqual(pick(p3r, Object.keys(p3e)), p3e);
+  });
+  it("should return an untouched array since this comma seperated fields should not be destroyed from null inserts", async () => {
+    const p1 = {
+      headers: HEADERS,
+      body: {
+        firstname: "fname",
+        surname: "sname",
+        phone: "123456",
+      },
+    };
+    const p1e = {
+      firstname: "fname",
+      surname: "sname",
+      phone: "123456",
+      organizer: "sai",
+    };
+    const p1r = await upsertData(p1);
+    assert.deepStrictEqual(pick(p1r, Object.keys(p1e)), p1e);
+  });
+  it("should return an array with multiple values", async () => {
+    const p1 = {
+      headers: HEADERS,
+      body: {
+        firstname: "fname",
+        surname: "sname",
+        phone: "123456",
+        tags: "best guy",
+      },
+    };
+    const p1e = {
+      firstname: "fname",
+      surname: "sname",
+      phone: "123456",
+      tags: "best guy",
+    };
+    const p1r = await upsertData(p1);
+    //assert.deepStrictEqual(pick(p1r, Object.keys(p1e)), p1e);
+    const p2 = {
+      headers: HEADERS,
+      body: {
+        firstname: "fname",
+        surname: "sname",
+        phone: "123456",
+        tags: "nice dude",
+      },
+    };
+    const p2e = {
+      firstname: "fname",
+      surname: "sname",
+      phone: "123456",
+      tags: "best guy,nice dude",
+    };
+    const p2r = await upsertData(p2);
+    assert.deepStrictEqual(pick(p2r, Object.keys(p2e)), p2e);
+  });
+  it("should return an unchanged array of multiple values since now adding in duplicates should not affect it", async () => {
+    const p2 = {
+      headers: HEADERS,
+      body: {
+        firstname: "fname",
+        surname: "sname",
+        phone: "123456",
+        tags: "nice dude",
+      },
+    };
+    const p2e = {
+      firstname: "fname",
+      surname: "sname",
+      phone: "123456",
+      tags: "best guy,nice dude",
+    };
+    const p2r = await upsertData(p2);
+    assert.deepStrictEqual(pick(p2r, Object.keys(p2e)), p2e);
   });
 });

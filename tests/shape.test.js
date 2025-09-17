@@ -1,8 +1,11 @@
 import { describe, it } from "node:test";
 import assert from "node:assert";
-
+import { pick } from "../scripts/pickKeys/index.js";
 import { shapeData } from "../src/shape.js";
-
+const HEADERS = {
+  origin: "www.meetsai.ca",
+  "x-forwarded-for": "124.0.0.1",
+};
 describe("shapeData tests", () => {
   it("should return statusCode 422 if missing body", async () => {
     const payload = {
@@ -55,5 +58,140 @@ describe("shapeData tests", () => {
     };
     const result = await shapeData(payload);
     assert.deepStrictEqual(result.body, expected);
+  });
+});
+
+describe("gender test", () => {
+  it("should test that m gets registered as MALE", async () => {
+    const p1 = {
+      headers: HEADERS,
+      body: {
+        firstname: "fname",
+        surname: "sname",
+        phone: "123456",
+        gender: "m",
+      },
+    };
+    const p1e = {
+      headers: HEADERS,
+      body: {
+        firstname: "fname",
+        surname: "sname",
+        phone: "123456",
+        gender: "MALE",
+      },
+    };
+    const p1r = await shapeData(p1);
+    assert.deepStrictEqual(pick(p1r, Object.keys(p1e)), p1e);
+  });
+  it("should test that F gets registered as FEMALE", async () => {
+    const p1 = {
+      headers: HEADERS,
+      body: {
+        firstname: "fname",
+        surname: "sname",
+        phone: "123456",
+        gender: "f",
+      },
+    };
+    const p1e = {
+      headers: HEADERS,
+      body: {
+        firstname: "fname",
+        surname: "sname",
+        phone: "123456",
+        gender: "FEMALE",
+      },
+    };
+    const p1r = await shapeData(p1);
+    assert.deepStrictEqual(pick(p1r, Object.keys(p1e)), p1e);
+  });
+  it("should test that male gets registered as MALE", async () => {
+    const p1 = {
+      headers: HEADERS,
+      body: {
+        firstname: "fname",
+        surname: "sname",
+        phone: "123456",
+        gender: "male",
+      },
+    };
+    const p1e = {
+      headers: HEADERS,
+      body: {
+        firstname: "fname",
+        surname: "sname",
+        phone: "123456",
+        gender: "MALE",
+      },
+    };
+    const p1r = await shapeData(p1);
+    assert.deepStrictEqual(pick(p1r, Object.keys(p1e)), p1e);
+  });
+  it("should test that female gets registered as FEMALE", async () => {
+    const p1 = {
+      headers: HEADERS,
+      body: {
+        firstname: "fname",
+        surname: "sname",
+        phone: "123456",
+        gender: "female",
+      },
+    };
+    const p1e = {
+      headers: HEADERS,
+      body: {
+        firstname: "fname",
+        surname: "sname",
+        phone: "123456",
+        gender: "FEMALE",
+      },
+    };
+    const p1r = await shapeData(p1);
+    assert.deepStrictEqual(pick(p1r, Object.keys(p1e)), p1e);
+  });
+  it("should test that MALE gets registered as MALE", async () => {
+    const p1 = {
+      headers: HEADERS,
+      body: {
+        firstname: "fname",
+        surname: "sname",
+        phone: "123456",
+        gender: "MALE",
+      },
+    };
+    const p1e = {
+      headers: HEADERS,
+      body: {
+        firstname: "fname",
+        surname: "sname",
+        phone: "123456",
+        gender: "MALE",
+      },
+    };
+    const p1r = await shapeData(p1);
+    assert.deepStrictEqual(pick(p1r, Object.keys(p1e)), p1e);
+  });
+  it("should test that FEMALE gets registered as FEMALE", async () => {
+    const p1 = {
+      headers: HEADERS,
+      body: {
+        firstname: "fname",
+        surname: "sname",
+        phone: "123456",
+        gender: "FEMALE",
+      },
+    };
+    const p1e = {
+      headers: HEADERS,
+      body: {
+        firstname: "fname",
+        surname: "sname",
+        phone: "123456",
+        gender: "FEMALE",
+      },
+    };
+    const p1r = await shapeData(p1);
+    assert.deepStrictEqual(pick(p1r, Object.keys(p1e)), p1e);
   });
 });
