@@ -93,9 +93,10 @@ async function runOverArray(dataArray, callback) {
             ? ""
             : JSON.stringify(dataArray[dataIndex], null, 2)
         );
-        logEvent(event, response);
+        await logEvent(event, response);
       } catch (error) {
-        logEvent(event, {
+        console.error(error);
+        await logEvent(event, {
           statusCode: 500,
           body: "{message: failure on runner.js side}",
         });

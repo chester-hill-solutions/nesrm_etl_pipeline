@@ -83,7 +83,7 @@ const post = async (payload) => {
     });
   }
 };
-const mail = async (obj) => {
+const mail = async (obj, reconcile = true) => {
   let data = obj.mailerlite_id
     ? structuredClone(obj)
     : obj.body?.mailerlite_id
@@ -108,7 +108,9 @@ const mail = async (obj) => {
   if (mailData?.data?.fields && mailData?.data?.email) {
     mailData.data.fields.email = mailData.data.email;
     try {
-      payload = await reconcileNames(mailData.data.fields, payload);
+      payload = reconcile
+        ? await reconcileNames(mailData.data.fields, payload)
+        : payload;
     } catch (e) {}
   }
   return await post(payload);
@@ -116,7 +118,7 @@ const mail = async (obj) => {
 
 const get = async (email) => {
   try {
-    logger.dev.log(email);
+    logger.dev.log("get", email);
     const response = await fetch(
       "https://" + process.env.MAIL_HOSTNAME + "/api/subscribers/" + email,
       {
@@ -178,18 +180,18 @@ const reconcileNames = async (mailData, dbData) => {
   logger.dev.log("reconcileNames");
   if (
     !mailData.email ||
-    !mailData.firstname ||
-    !mailData.surname ||
-    !dbData.firstname ||
-    !dbData.surname
+    !mailData.name ||
+    !mailData.last_name ||
+    !dbData.name ||
+    !dbData.last_name
   ) {
     logger.dev.log("missing fields");
     logger.dev.log(
       mailData.email,
-      mailData.firstname,
-      mailData.surname,
-      dbData.firstname,
-      dbData.surname
+      mailData.name,
+      mailData.last_name,
+      dbData.name,
+      dbData.last_name
     );
     logger.dev.error(mailData);
     logger.dev.error(dbData);
@@ -199,11 +201,11 @@ const reconcileNames = async (mailData, dbData) => {
   logger.dev.log("original output", output);
   const truthData = await bestMatch(
     mailData.email,
-    { firstname: mailData.firstname, surname: mailData.surname },
-    { firstname: dbData.firstname, surname: dbData.surname }
+    { firstname: mailData.name, surname: mailData.last_name },
+    { firstname: dbData.name, surname: dbData.last_name }
   );
-  output.firstname = truthData.firstname;
-  output.surname = truthData.surname;
+  output.name = truthData.firstname;
+  output.last_name = truthData.surname;
   return output;
 };
 
