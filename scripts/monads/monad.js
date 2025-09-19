@@ -69,7 +69,7 @@ export const statusCodeMonad = {
   bindMonad: async (monadic, func) => {
     logger.log("bind", "to", func.name);
     logger.dev.log("monadic input", JSON.stringify(monadic.input, null, 2));
-    let t = [{ step: func.__module, task: func.name }];
+    let t = [{ step: func.__module, task: func.name, input: monadic.input }];
     let ret = {
       response: {
         statusCode: 200,
@@ -101,7 +101,9 @@ export const statusCodeMonad = {
     }
     //ret.trace[0].input = monadic.input;
     t = t.concat(monadic.trace);
-    ret.response.body.trace = t.map(({ output, ...rest }) => ({ ...rest }));
+    ret.response.body.trace = t.map(({ input, output, ...rest }) => ({
+      ...rest,
+    }));
     ret.trace = t.map((obj) => ({ ...obj }));
     /*
     ret.response.body.trace = ret.response.body.trace.concat(
@@ -130,9 +132,9 @@ export const statusCodeMonad = {
       "bindMonad output",
       ret.response.statusCode === 200
         ? JSON.stringify(ret.response.statusCode, null, 2)
-        : JSON.stringify(ret)
+        : JSON.stringify(ret, null, 2)
     );
-    logger.dev.log("Full output", JSON.stringify(ret, null, 2));
+    //logger.dev.log("Full output", JSON.stringify(ret, null, 2));
     return ret;
   },
 };

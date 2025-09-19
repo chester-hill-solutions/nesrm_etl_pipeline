@@ -4,7 +4,6 @@ import path from "path";
 import HttpError from "simple-http-error";
 import logger from "simple-logs-sai-node";
 import { bestMatch } from "../scripts/mailReconcile/index.js";
-import { error } from "console";
 
 const PROVINCES = {
   AB: "Alberta",

@@ -102,12 +102,20 @@ export const handler = async (event) => {
             "mailerlite_id",
             payload.input.data.id
           );
+          payload.input = {
+            table: "contact",
+            id: upserted_data.id,
+            field: "mailerlite_id",
+            value: payload.input.data.id,
+          };
+          payload = await scMonad.bindMonad(scMonad.unit(payload), sbPatch);
+          /*
           sbPatch(
             "contact",
-            upserted_data.id,
+          upserted_data.id,
             "mailerlite_id",
             payload.input.data.id
-          );
+          );*/
         }
         //updated_data = payload.trace[0].output;
       }
