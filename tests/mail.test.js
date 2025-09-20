@@ -25,13 +25,13 @@ describe("reconcileNames test", () => {
   it("it should return the p2 names since p2 has the right name", async () => {
     const p1 = {
       email: "kebbieq@sympatico.com",
-      firstname: "Jen",
-      surname: "Myers",
+      name: "Jen",
+      last_name: "Myers",
     };
     const p2 = {
       email: "kebbieq@sympatico.com",
-      firstname: "Kebra",
-      surname: "Queen",
+      name: "Kebra",
+      last_name: "Queen",
       otherData: "blah",
     };
     assert.deepStrictEqual(await reconcileNames(p1, p2), p2);
@@ -57,7 +57,7 @@ describe("post test", () => {
     );
   });
   it("should return safely if hits 429", async () => {
-    let response;
+    let response = 429;
     const p1 = {
       email: "saihaansyedprofiles@gmail.com",
       street_address: "552 Road Ave",

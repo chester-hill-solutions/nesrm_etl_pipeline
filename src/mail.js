@@ -39,10 +39,6 @@ const easyPost = async (obj) => {
   }
 };
 
-const old = async (data) => {
-  return await easyPost(data);
-};
-
 const replaceKey = async (obj, old, n) => {
   if (old in obj) obj[n] = obj[old];
   delete obj[old];
@@ -51,33 +47,59 @@ const replaceKey = async (obj, old, n) => {
 
 const shapeForMail = async (data) => {
   let cleaned = structuredClone(data);
+  logger.dev.log("dirty mail payload", data);
   replaceKey(cleaned, "surname", "last_name");
   replaceKey(cleaned, "division", "state");
   replaceKey(cleaned, "firstname", "name");
   replaceKey(cleaned, "postcode", "z_i_p");
   replaceKey(cleaned, "municipality", "city");
+  delete cleaned.created_at;
+  delete cleaned.updated_at;
+  delete cleaned.id;
+  logger.dev.log("clean mail payload", cleaned);
   return cleaned;
 };
-const post = async (payload) => {
+const post = async (payload, id = undefined) => {
   try {
+    let path = "/api/subscribers";
+    id ? (path = path + "/" + id) : (path = path);
     const response = await fetch(
-      "https://" + process.env.MAIL_HOSTNAME + "/api/subscribers",
+      "https://" + process.env.MAIL_HOSTNAME + path,
       {
-        method: "POST",
+        method: id ? "PUT" : "POST",
         headers: HEADERS,
-        body: JSON.stringify({ email: payload.email, fields: payload }),
+        body: JSON.stringify({
+          email: payload.email,
+          fields: Object.fromEntries(
+            Object.entries(payload).filter(([_, v]) => v !== null)
+          ),
+        }),
       }
     );
     const out = await response.json();
-    console.log(response.status);
+    logger.log("post status", response.status);
     if (response.status >= 300) {
-      throw new HttpError(out.message, response.status);
+      throw new HttpError(out.message, response.status, {
+        originalError: out,
+      });
     }
     logger.dev.log(out);
     return out;
   } catch (error) {
-    console.log("data", payload);
-    console.error(error);
+    logger.log(
+      "post payload",
+      JSON.stringify(
+        {
+          email: payload.email,
+          fields: Object.fromEntries(
+            Object.entries(payload).filter(([_, v]) => v !== null)
+          ),
+        },
+        null,
+        2
+      )
+    );
+    logger.error(error);
     throw new HttpError(error.message, error.statusCode ?? 500, {
       originalError: error,
     });
@@ -93,14 +115,14 @@ const mail = async (obj, reconcile = true) => {
     : obj.body?.email
     ? structuredClone(obj.body)
     : (() => {
-        throw new HttpError("Missing email or id to upload", 500);
+        throw new HttpError("Missing email or id to upload", 422);
       })();
   let payload = await shapeForMail(data);
   let mailData;
   try {
     mailData = await get(data.mailerlite_id || data.email);
   } catch (error) {
-    console.error(error);
+    console.error("getMailData error", error);
     throw new HttpError(error.message, error.statusCode ?? 500, {
       originalError: error,
     });
@@ -108,12 +130,17 @@ const mail = async (obj, reconcile = true) => {
   if (mailData?.data?.fields && mailData?.data?.email) {
     mailData.data.fields.email = mailData.data.email;
     try {
-      payload = reconcile
-        ? await reconcileNames(mailData.data.fields, payload)
-        : payload;
+      payload =
+        reconcile && process.env.RECONCILE != false
+          ? await reconcileNames(mailData.data.fields, payload)
+          : payload;
     } catch (e) {}
   }
-  return await post(payload);
+  if (mailData?.data?.id) {
+    return await post(payload, mailData?.data?.id);
+  } else {
+    return await post(payload);
+  }
 };
 
 const get = async (email) => {
@@ -177,6 +204,7 @@ async function oldbestMatch(email, setA, setB) {
 }
 
 const reconcileNames = async (mailData, dbData) => {
+  let output = structuredClone(dbData);
   logger.dev.log("reconcileNames");
   if (
     !mailData.email ||
@@ -195,17 +223,18 @@ const reconcileNames = async (mailData, dbData) => {
     );
     logger.dev.error(mailData);
     logger.dev.error(dbData);
-    throw new Error("Missing fields");
+    output.name = dbData.name ?? mailData.name ?? null;
+    output.last_name = dbData.last_name ?? mailData.last_name ?? null;
+  } else {
+    logger.dev.log("original output", output);
+    const truthData = await bestMatch(
+      mailData.email,
+      { firstname: mailData.name, surname: mailData.last_name },
+      { firstname: dbData.name, surname: dbData.last_name }
+    );
+    output.name = truthData.firstname;
+    output.last_name = truthData.surname;
   }
-  let output = structuredClone(dbData);
-  logger.dev.log("original output", output);
-  const truthData = await bestMatch(
-    mailData.email,
-    { firstname: mailData.name, surname: mailData.last_name },
-    { firstname: dbData.name, surname: dbData.last_name }
-  );
-  output.name = truthData.firstname;
-  output.last_name = truthData.surname;
   return output;
 };
 

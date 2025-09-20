@@ -20,6 +20,7 @@ const PROVINCES = {
   SK: "Saskatchewan",
   YT: "Yukon",
 };
+const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
 // Normalize phone numbers
 const normalizePhone = (phone) => phone?.replace(/\D/g, "").slice(-10);
@@ -196,7 +197,7 @@ async function findProfile(supabaseClient, shapedData) {
 
       if (data?.length > 0) {
         logger.dev.log("found condition", index);
-        logger.log("Found Matching Profiles", data[0].id);
+        logger.log("Found Matching Profile ID:", data[0].id);
         // If multiple matches, use most recently updated record
         const sorted = data.sort((a, b) =>
           (b.updated_at || b.created_at || "").localeCompare(
@@ -245,44 +246,7 @@ const opennorth_postcode = async (postcode, sets) => {
 
   return body;
 };
-const get_fed = async (postcode) => {
-  try {
-    logger.dev.log("get_fed", postcode);
-    const data = await opennorth_postcode(
-      postcode,
-      "/?sets=federal-electoral-districts-2023-representation-order"
-    );
-    logger.dev.log("fed", data?.boundaries_centroid?.[0]?.name);
-    return data?.boundaries_centroid?.[0]?.name || null;
-  } catch (error) {
-    throw new HttpError(
-      `upsert.js/federal electoral district lookup error ${postcode}`,
-      error.statusCode ?? 500,
-      {
-        originalError: error,
-      }
-    );
-  }
-};
-const get_ded = async (postcode) => {
-  try {
-    logger.dev.log("get_ded", postcode);
-    const data = await opennorth_postcode(
-      postcode,
-      "/?sets=ontario-electoral-districts-representation-act-2015"
-    );
-    logger.dev.log("ded", data?.boundaries_centroid?.[0]?.name);
-    return data?.boundaries_centroid?.[0]?.name || null;
-  } catch (error) {
-    throw new HttpError(
-      `upsert.js/district electoral district lookup error ${postcode}`,
-      error.statusCode ?? 500,
-      {
-        originalError: error,
-      }
-    );
-  }
-};
+
 const get_opennorth = async (postcode) => {
   let municipality = undefined;
   let division = undefined;
@@ -311,9 +275,11 @@ const get_opennorth = async (postcode) => {
     return { municipality, division, fed, ded };
   } catch (error) {
     if (error.statusCode == 429) {
-      //console.log("Open north rate limit hit");
+      //add exponential backoff eventually
+      //{ municipality, division, fed, ded } = ;
       return { municipality, division, fed, ded };
-    }
+    } else if (error.statusCode == 404)
+      return { municipality, division, fed, ded };
     console.error(error);
     throw new HttpError(
       `upsert.js/electoral district lookup error ${postcode}`,
@@ -324,28 +290,7 @@ const get_opennorth = async (postcode) => {
     );
   }
 };
-const get_geo = async (postcode) => {
-  try {
-    const data = await opennorth_postcode(postcode, "");
-    const municipality = data?.city;
-    const division = data?.province;
-    return { municipality, division };
-  } catch (error) {}
-};
-const getRidings = async (postcode) => {
-  try {
-    //const fed = await get_fed(postcode);
-    //const ded = await get_ded(postcode);
-    //const geo = await get_geo(postcode);
-    const { fed, ded, municipality, division } = await get_opennorth(postcode);
-    return { fed, ded, municipality, division };
-  } catch (error) {
-    logger.log("riding search error:", postcode, error);
-    throw new HttpError("upsert.js/getRidings() error", 500, {
-      originalError: error,
-    });
-  }
-};
+
 function commaSeperate(profileValue, shapedDataValue) {
   if (shapedDataValue && profileValue) {
     const shapedLower = shapedDataValue.toLowerCase();
@@ -503,7 +448,9 @@ const upsertData = async (payload) => {
     const postcode = updateData.postcode
       ? updateData.postcode
       : shapedData.postcode;
-    const { municipality, division, fed, ded } = await get_opennorth(postcode);
+
+    let { municipality, division, fed, ded } = await get_opennorth(postcode);
+
     logger.dev.log("getRidings", fed, ded, municipality, division);
     updateData.federal_electoral_district = fed ?? undefined;
     updateData.division_electoral_district = ded ?? undefined;
