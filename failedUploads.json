@@ -1,0 +1,600 @@
+[
+  {
+    "headers": {
+      "Origin": "www.meetsai.ca",
+      "X-Forwarded-For": "124.0.0.1",
+      "Authorization": "Bearer null"
+    },
+    "body": {
+      "firstname": "Gayle",
+      "surname": "Siddall",
+      "email": "gmsiddall@gmail.com",
+      "phone": "5195641184",
+      "olp23_ballot1": "Nate Erskine-Smith",
+      "Date of birth": "1957-09-09",
+      "street_address": "\"118 Baldwin Ave",
+      "municipality": "RR 1\"",
+      "postcode": "Harrow",
+      "Gender": "N0R 1G0",
+      "organizer": "",
+      "comms_consent": "AmySymington"
+    },
+    "statusCode": 500,
+    "response_object": "{\"statusCode\":500,\"body\":\"{\\\"message\\\":\\\"Upsert error\\\",\\\"trace\\\":[{\\\"step\\\":\\\"upsert.js\\\",\\\"task\\\":\\\"upsertData\\\"},{\\\"step\\\":\\\"shape.js\\\",\\\"task\\\":\\\"shapeData\\\"},{\\\"step\\\":\\\"ingest.js\\\",\\\"task\\\":\\\"storeEvent\\\"},{\\\"step\\\":\\\"ingest.js\\\",\\\"task\\\":\\\"headerCheck\\\"}],\\\"request_backup_id\\\":2593}\"}"
+  },
+  {
+    "headers": {
+      "Origin": "www.meetsai.ca",
+      "X-Forwarded-For": "124.0.0.1",
+      "Authorization": "Bearer null"
+    },
+    "body": {
+      "firstname": "James",
+      "surname": "KIRBY",
+      "email": "jimkirby6@outlook.com",
+      "phone": "1647519531",
+      "olp23_ballot1": "Nate Erskine-Smith",
+      "Date of birth": "1947-09-25",
+      "street_address": "\"11 Townsgate Dr unit 1004",
+      "municipality": "Thornhill",
+      "postcode": "ON",
+      "Gender": "Canada\"",
+      "organizer": "Vaughan",
+      "comms_consent": "L4J 8G4"
+    },
+    "statusCode": 500,
+    "response_object": "{\"statusCode\":500,\"body\":\"{\\\"message\\\":\\\"Upsert error\\\",\\\"trace\\\":[{\\\"step\\\":\\\"upsert.js\\\",\\\"task\\\":\\\"upsertData\\\"},{\\\"step\\\":\\\"shape.js\\\",\\\"task\\\":\\\"shapeData\\\"},{\\\"step\\\":\\\"ingest.js\\\",\\\"task\\\":\\\"storeEvent\\\"},{\\\"step\\\":\\\"ingest.js\\\",\\\"task\\\":\\\"headerCheck\\\"}],\\\"request_backup_id\\\":2724}\"}"
+  },
+  {
+    "headers": {
+      "Origin": "www.meetsai.ca",
+      "X-Forwarded-For": "124.0.0.1",
+      "Authorization": "Bearer null"
+    },
+    "body": {
+      "firstname": "Gloria",
+      "surname": "Cauley",
+      "email": "gloria.cauley@gmail.com",
+      "phone": "3283352861",
+      "olp23_ballot1": "Nate Erskine-Smith",
+      "Date of birth": "1955-09-15",
+      "street_address": "\"140 Western Ave",
+      "municipality": "RR 3\"",
+      "postcode": "Smiths Falls",
+      "Gender": "K7A 4S4",
+      "organizer": "",
+      "comms_consent": "JordanJohnstone"
+    },
+    "statusCode": 500,
+    "response_object": "{\"statusCode\":500,\"body\":\"{\\\"message\\\":\\\"Upsert error\\\",\\\"trace\\\":[{\\\"step\\\":\\\"upsert.js\\\",\\\"task\\\":\\\"upsertData\\\"},{\\\"step\\\":\\\"shape.js\\\",\\\"task\\\":\\\"shapeData\\\"},{\\\"step\\\":\\\"ingest.js\\\",\\\"task\\\":\\\"storeEvent\\\"},{\\\"step\\\":\\\"ingest.js\\\",\\\"task\\\":\\\"headerCheck\\\"}],\\\"request_backup_id\\\":2833}\"}"
+  },
+  {
+    "headers": {
+      "Origin": "www.meetsai.ca",
+      "X-Forwarded-For": "124.0.0.1",
+      "Authorization": "Bearer null"
+    },
+    "body": {
+      "firstname": "Laura",
+      "surname": "Potje",
+      "email": "llpotje@gmail.com",
+      "phone": "5195801276",
+      "olp23_ballot1": "Nate Erskine-Smith",
+      "Date of birth": "1959-08-04",
+      "street_address": "\"827525 Township Road 8",
+      "municipality": "RR 1\"",
+      "postcode": "Drumbo",
+      "Gender": "N0J 1G0",
+      "organizer": "Female",
+      "comms_consent": "RyanCarlsen"
+    },
+    "statusCode": 500,
+    "response_object": "{\"statusCode\":500,\"body\":\"{\\\"message\\\":\\\"Upsert error\\\",\\\"trace\\\":[{\\\"step\\\":\\\"upsert.js\\\",\\\"task\\\":\\\"upsertData\\\"},{\\\"step\\\":\\\"shape.js\\\",\\\"task\\\":\\\"shapeData\\\"},{\\\"step\\\":\\\"ingest.js\\\",\\\"task\\\":\\\"storeEvent\\\"},{\\\"step\\\":\\\"ingest.js\\\",\\\"task\\\":\\\"headerCheck\\\"}],\\\"request_backup_id\\\":2992}\"}"
+  },
+  {
+    "headers": {
+      "Origin": "www.meetsai.ca",
+      "X-Forwarded-For": "124.0.0.1",
+      "Authorization": "Bearer null"
+    },
+    "body": {
+      "firstname": "Greigory",
+      "surname": "Mordue",
+      "email": "gmordue@gmail.com",
+      "phone": "2418355519",
+      "olp23_ballot1": "Nate Erskine-Smith",
+      "Date of birth": "1961-08-28",
+      "street_address": "\"847348 Township Road 9",
+      "municipality": "RR 1\"",
+      "postcode": "Drumbo",
+      "Gender": "N0J 1G0",
+      "organizer": "",
+      "comms_consent": "Oxford"
+    },
+    "statusCode": 500,
+    "response_object": "{\"statusCode\":500,\"body\":\"{\\\"message\\\":\\\"Upsert error\\\",\\\"trace\\\":[{\\\"step\\\":\\\"upsert.js\\\",\\\"task\\\":\\\"upsertData\\\"},{\\\"step\\\":\\\"shape.js\\\",\\\"task\\\":\\\"shapeData\\\"},{\\\"step\\\":\\\"ingest.js\\\",\\\"task\\\":\\\"storeEvent\\\"},{\\\"step\\\":\\\"ingest.js\\\",\\\"task\\\":\\\"headerCheck\\\"}],\\\"request_backup_id\\\":3038}\"}"
+  },
+  {
+    "headers": {
+      "Origin": "www.meetsai.ca",
+      "X-Forwarded-For": "124.0.0.1",
+      "Authorization": "Bearer null"
+    },
+    "body": {
+      "firstname": "Tara",
+      "surname": "Schuck",
+      "email": "tara.schuck@gmail.com",
+      "phone": "8072202767",
+      "olp23_ballot1": "Nate Erskine-Smith",
+      "Date of birth": "1983-08-15",
+      "street_address": "\"59 Brough DR Comp 147",
+      "municipality": "RR 2 Site 230 Lcd\"",
+      "postcode": "Dryden",
+      "Gender": "P8N 2Y5",
+      "organizer": "",
+      "comms_consent": "JordanH0001"
+    },
+    "statusCode": 500,
+    "response_object": "{\"statusCode\":500,\"body\":\"{\\\"message\\\":\\\"Upsert error\\\",\\\"trace\\\":[{\\\"step\\\":\\\"upsert.js\\\",\\\"task\\\":\\\"upsertData\\\"},{\\\"step\\\":\\\"shape.js\\\",\\\"task\\\":\\\"shapeData\\\"},{\\\"step\\\":\\\"ingest.js\\\",\\\"task\\\":\\\"storeEvent\\\"},{\\\"step\\\":\\\"ingest.js\\\",\\\"task\\\":\\\"headerCheck\\\"}],\\\"request_backup_id\\\":3193}\"}"
+  },
+  {
+    "headers": {
+      "Origin": "www.meetsai.ca",
+      "X-Forwarded-For": "124.0.0.1",
+      "Authorization": "Bearer null"
+    },
+    "body": {
+      "firstname": "Mohammad Tawfik",
+      "surname": "Alwan",
+      "email": "tawfik.alwan@gmail.com",
+      "phone": "6472959456",
+      "olp23_ballot1": "Nate Erskine-Smith",
+      "Date of birth": "1972-08-14",
+      "street_address": "\"2187 Fiddlers Way",
+      "municipality": "Unit # 50\"",
+      "postcode": "Oakville",
+      "Gender": "L6M 0L6",
+      "organizer": "Male",
+      "comms_consent": "ACVote"
+    },
+    "statusCode": 500,
+    "response_object": "{\"statusCode\":500,\"body\":\"{\\\"message\\\":\\\"Upsert error\\\",\\\"trace\\\":[{\\\"step\\\":\\\"upsert.js\\\",\\\"task\\\":\\\"upsertData\\\"},{\\\"step\\\":\\\"shape.js\\\",\\\"task\\\":\\\"shapeData\\\"},{\\\"step\\\":\\\"ingest.js\\\",\\\"task\\\":\\\"storeEvent\\\"},{\\\"step\\\":\\\"ingest.js\\\",\\\"task\\\":\\\"headerCheck\\\"}],\\\"request_backup_id\\\":3211}\"}"
+  },
+  {
+    "headers": {
+      "Origin": "www.meetsai.ca",
+      "X-Forwarded-For": "124.0.0.1",
+      "Authorization": "Bearer null"
+    },
+    "body": {
+      "firstname": "Mohsen",
+      "surname": "Borjian",
+      "email": "borjian.mohsen@gmail.com",
+      "phone": "9797685647",
+      "olp23_ballot1": "Nate Erskine-Smith",
+      "Date of birth": "1971-08-01",
+      "street_address": "\"275 Askin Ave",
+      "municipality": "Unit 405\"",
+      "postcode": "Windsor",
+      "Gender": "N9B 3R5",
+      "organizer": "",
+      "comms_consent": "YazdanNikoo"
+    },
+    "statusCode": 500,
+    "response_object": "{\"statusCode\":500,\"body\":\"{\\\"message\\\":\\\"Upsert error\\\",\\\"trace\\\":[{\\\"step\\\":\\\"upsert.js\\\",\\\"task\\\":\\\"upsertData\\\"},{\\\"step\\\":\\\"shape.js\\\",\\\"task\\\":\\\"shapeData\\\"},{\\\"step\\\":\\\"ingest.js\\\",\\\"task\\\":\\\"storeEvent\\\"},{\\\"step\\\":\\\"ingest.js\\\",\\\"task\\\":\\\"headerCheck\\\"}],\\\"request_backup_id\\\":3263}\"}"
+  },
+  {
+    "headers": {
+      "Origin": "www.meetsai.ca",
+      "X-Forwarded-For": "124.0.0.1",
+      "Authorization": "Bearer null"
+    },
+    "body": {
+      "firstname": "Nicholas",
+      "surname": "Aboagye",
+      "email": "nicholas.aboagye711@gmail.com",
+      "phone": "2269897961",
+      "olp23_ballot1": "Nate Erskine-Smith",
+      "Date of birth": "2003-07-28",
+      "street_address": "38 Indigo St",
+      "municipality": "Kitchener",
+      "postcode": "N2E 4E6",
+      "Gender": "",
+      "organizer": "",
+      "comms_consent": "True"
+    },
+    "statusCode": 422,
+    "response_object": "{\"statusCode\":422,\"body\":\"{\\\"message\\\":\\\"The email has already been taken.\\\",\\\"trace\\\":[{\\\"step\\\":\\\"mail.js\\\",\\\"task\\\":\\\"mail\\\"},{\\\"step\\\":\\\"upsert.js\\\",\\\"task\\\":\\\"upsertData\\\"},{\\\"step\\\":\\\"shape.js\\\",\\\"task\\\":\\\"shapeData\\\"},{\\\"step\\\":\\\"ingest.js\\\",\\\"task\\\":\\\"storeEvent\\\"},{\\\"step\\\":\\\"ingest.js\\\",\\\"task\\\":\\\"headerCheck\\\"}],\\\"request_backup_id\\\":3378}\"}"
+  },
+  {
+    "headers": {
+      "Origin": "www.meetsai.ca",
+      "X-Forwarded-For": "124.0.0.1",
+      "Authorization": "Bearer null"
+    },
+    "body": {
+      "firstname": "Shaza",
+      "surname": "Alwan",
+      "email": "shazzooz81@gmail.com",
+      "phone": "6476804535",
+      "olp23_ballot1": "Nate Erskine-Smith",
+      "Date of birth": "1981-06-20",
+      "street_address": "\"2187 Fiddlers Way",
+      "municipality": "Unit # 50\"",
+      "postcode": "Oakville",
+      "Gender": "L6M 0L6",
+      "organizer": "Female",
+      "comms_consent": "ACVote"
+    },
+    "statusCode": 500,
+    "response_object": "{\"statusCode\":500,\"body\":\"{\\\"message\\\":\\\"Upsert error\\\",\\\"trace\\\":[{\\\"step\\\":\\\"upsert.js\\\",\\\"task\\\":\\\"upsertData\\\"},{\\\"step\\\":\\\"shape.js\\\",\\\"task\\\":\\\"shapeData\\\"},{\\\"step\\\":\\\"ingest.js\\\",\\\"task\\\":\\\"storeEvent\\\"},{\\\"step\\\":\\\"ingest.js\\\",\\\"task\\\":\\\"headerCheck\\\"}],\\\"request_backup_id\\\":3773}\"}"
+  },
+  {
+    "headers": {
+      "Origin": "www.meetsai.ca",
+      "X-Forwarded-For": "124.0.0.1",
+      "Authorization": "Bearer null"
+    },
+    "body": {
+      "firstname": "Linda",
+      "surname": "Marshall",
+      "email": "linda41@gmail.com",
+      "phone": "5545081270",
+      "olp23_ballot1": "Nate Erskine-Smith",
+      "Date of birth": "1963-06-18",
+      "street_address": "\"6207 Fansher Rd",
+      "municipality": "RR 2\"",
+      "postcode": "Florence",
+      "Gender": "N0P 1R0",
+      "organizer": "",
+      "comms_consent": "EvanScrimshaw"
+    },
+    "statusCode": 500,
+    "response_object": "{\"statusCode\":500,\"body\":\"{\\\"message\\\":\\\"Upsert error\\\",\\\"trace\\\":[{\\\"step\\\":\\\"upsert.js\\\",\\\"task\\\":\\\"upsertData\\\"},{\\\"step\\\":\\\"shape.js\\\",\\\"task\\\":\\\"shapeData\\\"},{\\\"step\\\":\\\"ingest.js\\\",\\\"task\\\":\\\"storeEvent\\\"},{\\\"step\\\":\\\"ingest.js\\\",\\\"task\\\":\\\"headerCheck\\\"}],\\\"request_backup_id\\\":3807}\"}"
+  },
+  {
+    "headers": {
+      "Origin": "www.meetsai.ca",
+      "X-Forwarded-For": "124.0.0.1",
+      "Authorization": "Bearer null"
+    },
+    "body": {
+      "firstname": "Munir",
+      "surname": "Pervaiz",
+      "email": "munirpervaiz@rogers.com",
+      "phone": "4168911807",
+      "olp23_ballot1": "Nate Erskine-Smith",
+      "Date of birth": "1951-05-09",
+      "street_address": "\"35-1250 Mississauga Valley Blvd",
+      "municipality": "Unit 35\"",
+      "postcode": "Mississauga",
+      "Gender": "L5A 3R6",
+      "organizer": "",
+      "comms_consent": "HarminderDhillon"
+    },
+    "statusCode": 500,
+    "response_object": "{\"statusCode\":500,\"body\":\"{\\\"message\\\":\\\"Upsert error\\\",\\\"trace\\\":[{\\\"step\\\":\\\"upsert.js\\\",\\\"task\\\":\\\"upsertData\\\"},{\\\"step\\\":\\\"shape.js\\\",\\\"task\\\":\\\"shapeData\\\"},{\\\"step\\\":\\\"ingest.js\\\",\\\"task\\\":\\\"storeEvent\\\"},{\\\"step\\\":\\\"ingest.js\\\",\\\"task\\\":\\\"headerCheck\\\"}],\\\"request_backup_id\\\":3905}\"}"
+  },
+  {
+    "headers": {
+      "Origin": "www.meetsai.ca",
+      "X-Forwarded-For": "124.0.0.1",
+      "Authorization": "Bearer null"
+    },
+    "body": {
+      "firstname": "Haiat",
+      "surname": "Iman",
+      "email": "haiatiman@gmail.com",
+      "phone": "4768630226",
+      "olp23_ballot1": "Nate Erskine-Smith",
+      "Date of birth": "1981-05-29",
+      "street_address": "\"2133 Dufferin St",
+      "municipality": "Unit A\"",
+      "postcode": "York",
+      "Gender": "M6E 3R3",
+      "organizer": "",
+      "comms_consent": "Senai"
+    },
+    "statusCode": 500,
+    "response_object": "{\"statusCode\":500,\"body\":\"{\\\"message\\\":\\\"Upsert error\\\",\\\"trace\\\":[{\\\"step\\\":\\\"upsert.js\\\",\\\"task\\\":\\\"upsertData\\\"},{\\\"step\\\":\\\"shape.js\\\",\\\"task\\\":\\\"shapeData\\\"},{\\\"step\\\":\\\"ingest.js\\\",\\\"task\\\":\\\"storeEvent\\\"},{\\\"step\\\":\\\"ingest.js\\\",\\\"task\\\":\\\"headerCheck\\\"}],\\\"request_backup_id\\\":4002}\"}"
+  },
+  {
+    "headers": {
+      "Origin": "www.meetsai.ca",
+      "X-Forwarded-For": "124.0.0.1",
+      "Authorization": "Bearer null"
+    },
+    "body": {
+      "firstname": "Brenda",
+      "surname": "Jones",
+      "email": "brendajjones24@gmail.com",
+      "phone": "5252811890",
+      "olp23_ballot1": "Nate Erskine-Smith",
+      "Date of birth": "1963-05-28",
+      "street_address": "237 Wilson Ave",
+      "municipality": "Tillsonburg",
+      "postcode": "N4G 0H4",
+      "Gender": "",
+      "organizer": "",
+      "comms_consent": "True"
+    },
+    "statusCode": 500,
+    "response_object": "{\"statusCode\":500,\"body\":\"{\\\"message\\\":\\\"TypeError: fetch failed\\\",\\\"trace\\\":[{\\\"task\\\":\\\"sbPatch\\\"},{\\\"step\\\":\\\"mail.js\\\",\\\"task\\\":\\\"mail\\\"},{\\\"step\\\":\\\"upsert.js\\\",\\\"task\\\":\\\"upsertData\\\"},{\\\"step\\\":\\\"shape.js\\\",\\\"task\\\":\\\"shapeData\\\"},{\\\"step\\\":\\\"ingest.js\\\",\\\"task\\\":\\\"storeEvent\\\"},{\\\"step\\\":\\\"ingest.js\\\",\\\"task\\\":\\\"headerCheck\\\"}],\\\"request_backup_id\\\":4013}\"}"
+  },
+  {
+    "headers": {
+      "Origin": "www.meetsai.ca",
+      "X-Forwarded-For": "124.0.0.1",
+      "Authorization": "Bearer null"
+    },
+    "body": {
+      "firstname": "Gregory",
+      "surname": "Tripp",
+      "email": "gregory.tripp@sympatico.ca",
+      "phone": "4166949963",
+      "olp23_ballot1": "Nate Erskine-Smith",
+      "Date of birth": "1957-05-28",
+      "street_address": "19 Drummondville Lane",
+      "municipality": "Toronto",
+      "postcode": "M4E 3X7",
+      "Gender": "Male",
+      "organizer": "",
+      "comms_consent": "True"
+    },
+    "statusCode": 500,
+    "response_object": "{\"statusCode\":500,\"body\":\"{\\\"message\\\":\\\"Failed to store request\\\",\\\"trace\\\":[{\\\"step\\\":\\\"ingest.js\\\",\\\"task\\\":\\\"storeEvent\\\"},{\\\"step\\\":\\\"ingest.js\\\",\\\"task\\\":\\\"headerCheck\\\"}],\\\"request_backup_id\\\":4013}\"}"
+  },
+  {
+    "headers": {
+      "Origin": "www.meetsai.ca",
+      "X-Forwarded-For": "124.0.0.1",
+      "Authorization": "Bearer null"
+    },
+    "body": {
+      "firstname": "Paul",
+      "surname": "campbell",
+      "email": "paulsniz2805@gmail.com",
+      "phone": "4168192094",
+      "olp23_ballot1": "Nate Erskine-Smith",
+      "Date of birth": "1951-05-28",
+      "street_address": "180 Beech Ave",
+      "municipality": "Toronto",
+      "postcode": "M4E 3H9",
+      "Gender": "M",
+      "organizer": "",
+      "comms_consent": "True"
+    },
+    "statusCode": 500,
+    "response_object": "{\"statusCode\":500,\"body\":\"{\\\"message\\\":\\\"Failed to store request\\\",\\\"trace\\\":[{\\\"step\\\":\\\"ingest.js\\\",\\\"task\\\":\\\"storeEvent\\\"},{\\\"step\\\":\\\"ingest.js\\\",\\\"task\\\":\\\"headerCheck\\\"}],\\\"request_backup_id\\\":4013}\"}"
+  },
+  {
+    "headers": {
+      "Origin": "www.meetsai.ca",
+      "X-Forwarded-For": "124.0.0.1",
+      "Authorization": "Bearer null"
+    },
+    "body": {
+      "firstname": "Paul",
+      "surname": "Campbell",
+      "email": "paulsniz2805@gmail.com",
+      "phone": "4168192094",
+      "olp23_ballot1": "Nate Erskine-Smith",
+      "Date of birth": "1951-05-28",
+      "street_address": "180 Beech Ave",
+      "municipality": "Toronto",
+      "postcode": "M4E 3H9",
+      "Gender": "",
+      "organizer": "",
+      "comms_consent": "True"
+    },
+    "statusCode": 500,
+    "response_object": "{\"statusCode\":500,\"body\":\"{\\\"message\\\":\\\"upsert.js/electoral district lookup error M4E 3H9\\\",\\\"trace\\\":[{\\\"step\\\":\\\"upsert.js\\\",\\\"task\\\":\\\"upsertData\\\"},{\\\"step\\\":\\\"shape.js\\\",\\\"task\\\":\\\"shapeData\\\"},{\\\"step\\\":\\\"ingest.js\\\",\\\"task\\\":\\\"storeEvent\\\"},{\\\"step\\\":\\\"ingest.js\\\",\\\"task\\\":\\\"headerCheck\\\"}],\\\"request_backup_id\\\":4014}\"}"
+  },
+  {
+    "headers": {
+      "Origin": "www.meetsai.ca",
+      "X-Forwarded-For": "124.0.0.1",
+      "Authorization": "Bearer null"
+    },
+    "body": {
+      "firstname": "Jack R",
+      "surname": "Ireland",
+      "email": "jackireland@mac.com",
+      "phone": "6694759641",
+      "olp23_ballot1": "Nate Erskine-Smith",
+      "Date of birth": "1950-05-28",
+      "street_address": "31 Firstbrooke Rd",
+      "municipality": "Toronto",
+      "postcode": "M4E 2L2",
+      "Gender": "",
+      "organizer": "",
+      "comms_consent": "True"
+    },
+    "statusCode": 500,
+    "response_object": "{\"statusCode\":500,\"body\":\"{\\\"message\\\":\\\"upsert.js/electoral district lookup error M4E 2L2\\\",\\\"trace\\\":[{\\\"step\\\":\\\"upsert.js\\\",\\\"task\\\":\\\"upsertData\\\"},{\\\"step\\\":\\\"shape.js\\\",\\\"task\\\":\\\"shapeData\\\"},{\\\"step\\\":\\\"ingest.js\\\",\\\"task\\\":\\\"storeEvent\\\"},{\\\"step\\\":\\\"ingest.js\\\",\\\"task\\\":\\\"headerCheck\\\"}],\\\"request_backup_id\\\":4015}\"}"
+  },
+  {
+    "headers": {
+      "Origin": "www.meetsai.ca",
+      "X-Forwarded-For": "124.0.0.1",
+      "Authorization": "Bearer null"
+    },
+    "body": {
+      "firstname": "Guifang",
+      "surname": "Lan",
+      "email": "gflan70@gmail.com",
+      "phone": "9266652651",
+      "olp23_ballot1": "Nate Erskine-Smith",
+      "Date of birth": "1970-05-27",
+      "street_address": "8 Thornton Ave",
+      "municipality": "London",
+      "postcode": "N5Y 2Y2",
+      "Gender": "",
+      "organizer": "Bryn",
+      "comms_consent": "True"
+    },
+    "statusCode": 500,
+    "response_object": "{\"statusCode\":500,\"body\":\"{\\\"message\\\":\\\"fetch failed\\\",\\\"trace\\\":[{\\\"step\\\":\\\"mail.js\\\",\\\"task\\\":\\\"mail\\\"},{\\\"step\\\":\\\"upsert.js\\\",\\\"task\\\":\\\"upsertData\\\"},{\\\"step\\\":\\\"shape.js\\\",\\\"task\\\":\\\"shapeData\\\"},{\\\"step\\\":\\\"ingest.js\\\",\\\"task\\\":\\\"storeEvent\\\"},{\\\"step\\\":\\\"ingest.js\\\",\\\"task\\\":\\\"headerCheck\\\"}],\\\"request_backup_id\\\":4022}\"}"
+  },
+  {
+    "headers": {
+      "Origin": "www.meetsai.ca",
+      "X-Forwarded-For": "124.0.0.1",
+      "Authorization": "Bearer null"
+    },
+    "body": {
+      "firstname": "Bruce",
+      "surname": "Parlette",
+      "email": "bruce@muskokasoul.com",
+      "phone": "4169942166",
+      "olp23_ballot1": "Nate Erskine-Smith",
+      "Date of birth": "1959-05-27",
+      "street_address": "33 Garnock Ave",
+      "municipality": "Toronto",
+      "postcode": "M4K 1M1",
+      "Gender": "Male",
+      "organizer": "",
+      "comms_consent": "True"
+    },
+    "statusCode": 500,
+    "response_object": "{\"statusCode\":500,\"body\":\"{\\\"message\\\":\\\"Failed to store request\\\",\\\"trace\\\":[{\\\"step\\\":\\\"ingest.js\\\",\\\"task\\\":\\\"storeEvent\\\"},{\\\"step\\\":\\\"ingest.js\\\",\\\"task\\\":\\\"headerCheck\\\"}],\\\"request_backup_id\\\":4022}\"}"
+  },
+  {
+    "headers": {
+      "Origin": "www.meetsai.ca",
+      "X-Forwarded-For": "124.0.0.1",
+      "Authorization": "Bearer null"
+    },
+    "body": {
+      "firstname": "Alice",
+      "surname": "Scully",
+      "email": "alice.scully@yahoo.ca",
+      "phone": "6136125590",
+      "olp23_ballot1": "Nate Erskine-Smith",
+      "Date of birth": "1957-05-27",
+      "street_address": "2479 Regatta Ave",
+      "municipality": "Nepean",
+      "postcode": "K2J 5V6",
+      "Gender": "",
+      "organizer": "",
+      "comms_consent": "True"
+    },
+    "statusCode": 500,
+    "response_object": "{\"statusCode\":500,\"body\":\"{\\\"message\\\":\\\"upsert.js/electoral district lookup error K2J 5V6\\\",\\\"trace\\\":[{\\\"step\\\":\\\"upsert.js\\\",\\\"task\\\":\\\"upsertData\\\"},{\\\"step\\\":\\\"shape.js\\\",\\\"task\\\":\\\"shapeData\\\"},{\\\"step\\\":\\\"ingest.js\\\",\\\"task\\\":\\\"storeEvent\\\"},{\\\"step\\\":\\\"ingest.js\\\",\\\"task\\\":\\\"headerCheck\\\"}],\\\"request_backup_id\\\":4023}\"}"
+  },
+  {
+    "headers": {
+      "Origin": "www.meetsai.ca",
+      "X-Forwarded-For": "124.0.0.1",
+      "Authorization": "Bearer null"
+    },
+    "body": {
+      "firstname": "Karen",
+      "surname": "Hutton",
+      "email": "khutton1@rogers.com",
+      "phone": "6456759841",
+      "olp23_ballot1": "Nate Erskine-Smith",
+      "Date of birth": "1946-05-27",
+      "street_address": "27 Glen Manor Dr",
+      "municipality": "Toronto",
+      "postcode": "M4E 2X4",
+      "Gender": "",
+      "organizer": "",
+      "comms_consent": "True"
+    },
+    "statusCode": 500,
+    "response_object": "{\"statusCode\":500,\"body\":\"{\\\"message\\\":\\\"upsert.js/electoral district lookup error M4E 2X4\\\",\\\"trace\\\":[{\\\"step\\\":\\\"upsert.js\\\",\\\"task\\\":\\\"upsertData\\\"},{\\\"step\\\":\\\"shape.js\\\",\\\"task\\\":\\\"shapeData\\\"},{\\\"step\\\":\\\"ingest.js\\\",\\\"task\\\":\\\"storeEvent\\\"},{\\\"step\\\":\\\"ingest.js\\\",\\\"task\\\":\\\"headerCheck\\\"}],\\\"request_backup_id\\\":4024}\"}"
+  },
+  {
+    "headers": {
+      "Origin": "www.meetsai.ca",
+      "X-Forwarded-For": "124.0.0.1",
+      "Authorization": "Bearer null"
+    },
+    "body": {
+      "firstname": "Theo",
+      "surname": "Vangelatos",
+      "email": "theovangelatos@gmail.com",
+      "phone": "3453577861",
+      "olp23_ballot1": "Nate Erskine-Smith",
+      "Date of birth": "1998-05-16",
+      "street_address": "\"72 Grayrock Cres - Cr",
+      "municipality": "RR 2\"",
+      "postcode": "Gananoque",
+      "Gender": "K7G 2V4",
+      "organizer": "",
+      "comms_consent": "FrankYe"
+    },
+    "statusCode": 500,
+    "response_object": "{\"statusCode\":500,\"body\":\"{\\\"message\\\":\\\"Upsert error\\\",\\\"trace\\\":[{\\\"step\\\":\\\"upsert.js\\\",\\\"task\\\":\\\"upsertData\\\"},{\\\"step\\\":\\\"shape.js\\\",\\\"task\\\":\\\"shapeData\\\"},{\\\"step\\\":\\\"ingest.js\\\",\\\"task\\\":\\\"storeEvent\\\"},{\\\"step\\\":\\\"ingest.js\\\",\\\"task\\\":\\\"headerCheck\\\"}],\\\"request_backup_id\\\":4125}\"}"
+  },
+  {
+    "headers": {
+      "Origin": "www.meetsai.ca",
+      "X-Forwarded-For": "124.0.0.1",
+      "Authorization": "Bearer null"
+    },
+    "body": {
+      "firstname": "Bruce",
+      "surname": "Barnett",
+      "email": "barnettbruce@hotmail.com",
+      "phone": "3353220613",
+      "olp23_ballot1": "Nate Erskine-Smith",
+      "Date of birth": "1947-05-12",
+      "street_address": "\"1079 Price Rd",
+      "municipality": "RR 2\"",
+      "postcode": "Arden",
+      "Gender": "K0H 1B0",
+      "organizer": "Male",
+      "comms_consent": "EvanScrimshaw"
+    },
+    "statusCode": 500,
+    "response_object": "{\"statusCode\":500,\"body\":\"{\\\"message\\\":\\\"Upsert error\\\",\\\"trace\\\":[{\\\"step\\\":\\\"upsert.js\\\",\\\"task\\\":\\\"upsertData\\\"},{\\\"step\\\":\\\"shape.js\\\",\\\"task\\\":\\\"shapeData\\\"},{\\\"step\\\":\\\"ingest.js\\\",\\\"task\\\":\\\"storeEvent\\\"},{\\\"step\\\":\\\"ingest.js\\\",\\\"task\\\":\\\"headerCheck\\\"}],\\\"request_backup_id\\\":4176}\"}"
+  },
+  {
+    "headers": {
+      "Origin": "www.meetsai.ca",
+      "X-Forwarded-For": "124.0.0.1",
+      "Authorization": "Bearer null"
+    },
+    "body": {
+      "firstname": "James",
+      "surname": "Hogg",
+      "email": "james@tealbook.com",
+      "phone": "6472786404",
+      "olp23_ballot1": "Nate Erskine-Smith",
+      "Date of birth": "1990-05-01",
+      "street_address": "2097 Danforth Ave",
+      "municipality": "Toronto",
+      "postcode": "M4C 1K1",
+      "Gender": "",
+      "organizer": "",
+      "comms_consent": "True"
+    },
+    "statusCode": 422,
+    "response_object": "{\"statusCode\":422,\"body\":\"{\\\"message\\\":\\\"The email has already been taken.\\\",\\\"trace\\\":[{\\\"step\\\":\\\"mail.js\\\",\\\"task\\\":\\\"mail\\\"},{\\\"step\\\":\\\"upsert.js\\\",\\\"task\\\":\\\"upsertData\\\"},{\\\"step\\\":\\\"shape.js\\\",\\\"task\\\":\\\"shapeData\\\"},{\\\"step\\\":\\\"ingest.js\\\",\\\"task\\\":\\\"storeEvent\\\"},{\\\"step\\\":\\\"ingest.js\\\",\\\"task\\\":\\\"headerCheck\\\"}],\\\"request_backup_id\\\":4202}\"}"
+  },
+  {
+    "headers": {
+      "Origin": "www.meetsai.ca",
+      "X-Forwarded-For": "124.0.0.1",
+      "Authorization": "Bearer null"
+    },
+    "body": {
+      "firstname": "Anne",
+      "surname": "Griffin",
+      "email": "agriffintor@hotmail.com",
+      "phone": "3897377416",
+      "olp23_ballot1": "Nate Erskine-Smith",
+      "Date of birth": "1962-04-09",
+      "street_address": "\"35 Ormskirk Ave",
+      "municipality": "Apt 705\"",
+      "postcode": "Toronto",
+      "Gender": "M6S 1A8",
+      "organizer": "",
+      "comms_consent": "SherryBowman"
+    },
+    "statusCode": 500,
+    "response_object": "{\"statusCode\":500,\"body\":\"{\\\"message\\\":\\\"Upsert error\\\",\\\"trace\\\":[{\\\"step\\\":\\\"upsert.js\\\",\\\"task\\\":\\\"upsertData\\\"},{\\\"step\\\":\\\"shape.js\\\",\\\"task\\\":\\\"shapeData\\\"},{\\\"step\\\":\\\"ingest.js\\\",\\\"task\\\":\\\"storeEvent\\\"},{\\\"step\\\":\\\"ingest.js\\\",\\\"task\\\":\\\"headerCheck\\\"}],\\\"request_backup_id\\\":4212}\"}"
+  }
+]

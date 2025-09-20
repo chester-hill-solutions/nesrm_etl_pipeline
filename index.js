@@ -1,4 +1,5 @@
 import "dotenv/config";
+import { performance } from "perf_hooks";
 //import AWS from "aws-sdk";
 import { SFNClient, StartExecutionCommand } from "@aws-sdk/client-sfn";
 
@@ -44,6 +45,7 @@ async function s(payload, success = false) {
 }
 
 export const handler = async (event) => {
+  const start = performance.now();
   try {
     logger.log("event triggered");
     logger.dev.log("event triggered", JSON.stringify(event, null, 2));

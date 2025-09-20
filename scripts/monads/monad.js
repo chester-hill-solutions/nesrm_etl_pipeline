@@ -1,4 +1,5 @@
 import logger from "simple-logs-sai-node";
+import { performance } from "perf_hooks";
 
 const newExampleUnit = {
   response: {
@@ -80,8 +81,10 @@ export const statusCodeMonad = {
       //trace: t.map((obj) => ({ ...obj })),
     };
     //logger.dev.log("base ret", JSON.stringify(ret, null, 2));
+    const start = performance.now();
     try {
       const rawFuncResponse = await func(monadic.input);
+
       if (rawFuncResponse) {
         //logger.dev.log("rawFuncResponse", rawFuncResponse);
         t[0].output = rawFuncResponse;
@@ -99,6 +102,8 @@ export const statusCodeMonad = {
         ret.response.body.message = error.message;
       }
     }
+    const end = performance.now();
+    t[0].duration = end - start;
     //ret.trace[0].input = monadic.input;
     t = t.concat(monadic.trace);
     ret.response.body.trace = t.map(({ input, output, ...rest }) => ({
