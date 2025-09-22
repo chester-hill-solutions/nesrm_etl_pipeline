@@ -26,6 +26,20 @@ const cleanString = (str) => {
   const cleaned = collapseSpaces(String(str).trim());
   return cleaned === "" ? undefined : cleaned;
 };
+const cleanEmail = (str) => {
+  if (typeof str !== "string") return str;
+
+  // 1. Remove leading periods
+  let cleaned = str.replace(/^\.+/, "");
+
+  // 2. Remove trailing periods
+  cleaned = cleaned.replace(/\.+$/, "");
+
+  // 3. Remove all periods immediately before @
+  cleaned = cleaned.replace(/\.+(?=@)/g, "");
+
+  return cleaned;
+};
 //get value
 const getValue = (payload, key) => {
   // Check form fields format
@@ -59,7 +73,7 @@ const shapeData = async (event) => {
     let shaped_data = {
       firstname: cleanString(getValue(body, "firstname")),
       surname: cleanString(getValue(body, "surname")),
-      email: cleanString(getValue(body, "email")),
+      email: cleanEmail(cleanString(getValue(body, "email"))),
       phone: cleanString(getValue(body, "phone")),
 
       // Birth date information

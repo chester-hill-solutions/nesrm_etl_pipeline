@@ -124,7 +124,11 @@ export const handler = async (event) => {
     }
 
     //Reponse
-    logger.dev.log("index.js response", payload.response);
+    logger.dev.log("time duration", performance.now() - start);
+    logger.dev.log(
+      "index.js response",
+      JSON.stringify(payload.response, null, 2)
+    );
     return s(payload, true);
   } catch (error) {
     console.error(error);
