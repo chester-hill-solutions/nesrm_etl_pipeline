@@ -12,6 +12,7 @@ const HEADERS = {
 const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 async function runner(payload) {
   if (process.env.PIPELINE == "gateway") {
+    console.log("gateway");
     try {
       const response = await fetch(process.env.AWS_API_GATEWAY_ENDPOINT, {
         method: "POST",
@@ -30,6 +31,7 @@ async function runner(payload) {
       console.log(JSON.stringify(payload));
     }
   } else if (process.env.PIPELINE == "local") {
+    console.log("local");
     return await handler(payload);
   }
 }
@@ -140,7 +142,11 @@ async function parseDir(pathLike) {
 }
 
 async function main() {
+  if (!process.env.PIPELINE) {
+    process.env.PIPELINE = "local";
+  }
   const argv = process.argv.slice(2);
+
   for (const arg of argv) {
     if (arg.startsWith("--")) {
       // Long form: --flag
@@ -151,6 +157,7 @@ async function main() {
           break;
         case "gateway":
           process.env.PIPELINE = "gateway";
+          break;
         case "slow":
           process.env.SLOW = "true";
         default:
@@ -169,6 +176,8 @@ async function main() {
             break;
           case "s":
             process.env.SLOW = "true";
+          default:
+            break;
           // add more short options here
         }
       }

@@ -1,32 +1,28 @@
 import fs from "fs";
+import { parse } from "csv-parse/sync";
 
 function attachHeader(obj, headers) {
-  //logger.dev.log("attachHeader", obj);
+  let result;
   if (obj.body) {
-    obj.headers = headers;
+    result = { headers, body: obj.body };
   } else {
     return {
       headers: headers,
       body: obj,
     };
   }
-  return obj;
+  return result;
 }
 
 async function csvToJson(filePath) {
   const data = await fs.promises.readFile(filePath, "utf8");
 
-  const [headerLine, ...lines] = data.trim().split("\n");
-  const headers = headerLine.split(",");
-
-  const result = lines.map((line) => {
-    const values = line.split(",");
-    return headers.reduce((obj, header, i) => {
-      obj[header.trim()] = values[i]?.trim() ?? null;
-      return obj;
-    }, {});
+  const records = parse(data, {
+    columns: true, // first row as headers
+    skip_empty_lines: true,
+    trim: true,
   });
 
-  return result;
+  return records;
 }
 export { attachHeader, csvToJson };
