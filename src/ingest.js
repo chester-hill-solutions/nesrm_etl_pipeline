@@ -6,31 +6,27 @@ import logger from "simple-logs-sai-node";
 
 const ingest = {
   headerCheck: (event) => {
-    let headers = event.headers;
-    if (!headers) {
+    let rawHeaders = event.headers;
+    if (!rawHeaders) {
       throw new HttpError("Missing headers", 400);
     }
-    if (!headers["Origin"] || !headers["X-Forwarded-For"]) {
+    const headers = Object.fromEntries(
+      Object.entries(headers).map(([k, v]) => [k.toLowerCase(), v])
+    );
+    if (!headers["origin"] || !headers["x-forwarded-for"]) {
       throw new HttpError(
-        `Event missing headers: {${!headers["Origin"] ? " Origin" : ""} ${
-          !headers["X-Forwarded-For"] ? " X-Forwarded-For" : ""
+        `Event missing headers: {${!headers["origin"] ? " Origin" : ""} ${
+          !headers["x-forwarded-for"] ? " x-forwarded-for" : ""
         } }`,
         400
       );
     }
     if (
       !process.env.ORIGIN_WHITELIST.split(",").some((item) =>
-        headers.Origin.includes(item)
+        headers.origin.includes(item)
       )
     ) {
       throw new HttpError("Unauthorized", 401);
-      /*return {
-        statusCode: 401,
-        body: {
-          error: `Unauthorized`,
-          ...response.body,
-        },
-      };*/
     }
     return event;
   },
@@ -39,12 +35,15 @@ const ingest = {
     const supabase = createClient(process.env.DATABASE_URL, process.env.KEY);
 
     //store request in supabase
+    const headers = Object.fromEntries(
+      Object.entries(event.headers).map(([k, v]) => [k.toLowerCase(), v])
+    );
     const { data, requestStorageError } = await supabase
       .from("request")
       .insert({
         payload: event.body ? event.body : event,
-        origin: event.headers["Origin"],
-        ip: event.headers["X-Forwarded-For"],
+        origin: headers["origin"],
+        ip: headers["x-forwarded-for"],
         email: event.body
           ? event.body.email
             ? event.body.email
