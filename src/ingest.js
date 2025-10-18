@@ -6,12 +6,12 @@ import logger from "simple-logs-sai-node";
 
 const ingest = {
   headerCheck: (event) => {
-    let rawHeaders = event.headers;
-    if (!rawHeaders) {
+    if (!event.headers) {
       throw new HttpError("Missing headers", 400);
     }
+    let rawHeaders = event.headers;
     const headers = Object.fromEntries(
-      Object.entries(headers).map(([k, v]) => [k.toLowerCase(), v])
+      Object.entries(rawHeaders).map(([k, v]) => [k.toLowerCase(), v])
     );
     if (!headers["origin"] || !headers["x-forwarded-for"]) {
       throw new HttpError(
