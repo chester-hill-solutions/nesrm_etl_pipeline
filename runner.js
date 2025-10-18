@@ -4,6 +4,8 @@ import fs from "fs/promises";
 import { createObjectCsvWriter } from "csv-writer";
 import { csvToJson, attachHeader } from "./scripts/shapeData/index.js";
 import logger from "simple-logs-sai-node";
+import { performance } from "perf_hooks";
+
 const HEADERS = {
   Origin: "www.meetsai.ca",
   "X-Forwarded-For": "124.0.0.1",
@@ -142,6 +144,7 @@ async function parseDir(pathLike) {
 }
 
 async function main() {
+  const start = performance.now();
   if (!process.env.PIPELINE) {
     process.env.PIPELINE = "local";
   }
@@ -186,6 +189,7 @@ async function main() {
       await runOverArray(dataArray, runner);
     }
   }
+  console.log("duration", performance.now() - start);
 }
 
 main();
