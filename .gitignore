@@ -1,4 +1,5 @@
 *.env
+*.env*
 failedUploads.csv
 failedUploads.json
 oidc.yml
