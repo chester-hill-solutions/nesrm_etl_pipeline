@@ -1,6 +1,6 @@
 import HttpError from "simple-http-error";
 import logger from "simple-logs-sai-node";
-import "dotenv/config";
+//import "dotenv/config";
 import path from "node:path";
 import { bestMatch } from "../scripts/mailReconcile/index.js";
 

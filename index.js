@@ -1,4 +1,3 @@
-import "dotenv/config";
 import { performance } from "perf_hooks";
 //import AWS from "aws-sdk";
 import { SFNClient, StartExecutionCommand } from "@aws-sdk/client-sfn";
@@ -11,6 +10,8 @@ import { upsertData } from "./src/upsert.js";
 import logger from "simple-logs-sai-node";
 import { mail } from "./src/mail.js";
 import { createClient } from "@supabase/supabase-js";
+
+import "./loadEnv.js";
 
 let REQUEST_BACKUP_ID;
 

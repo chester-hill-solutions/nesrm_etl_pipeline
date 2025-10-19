@@ -24,10 +24,10 @@ describe("shapeData tests", () => {
         step: 2,
         email: "saihaansyedprofiles@gmail.com",
         address: {
-          street: "442 Pharmacy Ave",
+          street: "123 Street Rd",
           city: "Scarborough",
           state: "Ontario",
-          postal: "M1L 3G6",
+          postal: "K1A 0A9",
           country: "CA",
         },
         firstname: "Saihaan",
@@ -50,10 +50,10 @@ describe("shapeData tests", () => {
       birthyear: "2003",
       birthmonth: "08",
       birthdate: "29",
-      street_address: "442 Pharmacy Ave",
+      street_address: "123 Street Rd",
       municipality: "Scarborough",
       division: "Ontario",
-      postcode: "M1L 3G6",
+      postcode: "K1A 0A9",
       country: "CA",
     };
     const result = await shapeData(payload);
