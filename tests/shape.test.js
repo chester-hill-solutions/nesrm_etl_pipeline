@@ -25,7 +25,7 @@ describe("shapeData tests", () => {
         email: "saihaansyedprofiles@gmail.com",
         address: {
           street: "123 Street Rd",
-          city: "Scarborough",
+          city: "OTTAWA",
           state: "Ontario",
           postal: "K1A 0A9",
           country: "CA",
@@ -51,7 +51,7 @@ describe("shapeData tests", () => {
       birthmonth: "08",
       birthdate: "29",
       street_address: "123 Street Rd",
-      municipality: "Scarborough",
+      municipality: "OTTAWA",
       division: "Ontario",
       postcode: "K1A 0A9",
       country: "CA",
