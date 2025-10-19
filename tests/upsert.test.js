@@ -180,10 +180,10 @@ describe("upsertData tests", () => {
         birthyear: "1990",
         birthmonth: "09",
         birthdate: "30",
-        street_address: "331 Road Ave",
+        street_address: "123 Street Rd",
         municipality: "Scarborough",
         country: "CA",
-        postcode: "M1L 3G6",
+        postcode: "K1A 0A9",
       },
     };
     const expected = {
@@ -194,8 +194,8 @@ describe("upsertData tests", () => {
       federal_electoral_district: "Scarborough Southwest",
       firstname: "Saihaan",
       municipality: "SCARBOROUGH",
-      postcode: "M1L 3G6",
-      street_address: "331 Road Ave",
+      postcode: "K1A 0A9",
+      street_address: "123 Street Rd",
       surname: "Syed",
       birthyear: 1990,
       birthmonth: 9,
