@@ -4,7 +4,7 @@
   "main": "index.mjs",
   "type": "module",
   "scripts": {
-    "test": "node --import ./loadEnv.js --test",
+    "test": "node --import ./tests/setup.js --test",
     "tests": "npm run test",
     "flow-test": "node run.js",
     "main-push": "bash scripts/main_push.sh",
@@ -21,7 +21,7 @@
     "csv-writer": "^1.6.0",
     "dotenv": "^16.5.0",
     "simple-http-error": "^1.0.2",
-    "simple-logs-sai-node": "^1.0.3"
+    "simple-logs-sai-node": "^1.0.6"
   },
   "devDependencies": {
     "supabase": "^2.51.0"
