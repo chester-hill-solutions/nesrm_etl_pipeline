@@ -1,5 +1,5 @@
 import { createClient } from "@supabase/supabase-js";
-import "dotenv/config";
+//import "dotenv/config";
 import path from "path";
 import HttpError from "simple-http-error";
 import logger from "simple-logs-sai-node";
