@@ -32,6 +32,8 @@ npx supabase start psql "postgresql://postgres:postgres@localhost:54322/postgres
 npx supabase migration up --debug
 ```
 
+You may also need `touch ./supabase/.temp/profile` and `echo "supabase" > ./supabase/.temp/profile`
+
 **Sync local db to cloud schema if not included**
 
 ```bash
