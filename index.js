@@ -14,7 +14,7 @@ import { createClient } from "@supabase/supabase-js";
 import "./loadEnv.js";
 
 let REQUEST_BACKUP_ID;
-
+//comment
 async function storeSuccess(logs, success) {
   if (REQUEST_BACKUP_ID) {
     try {
