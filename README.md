@@ -21,14 +21,7 @@ npm install -y
 ```bash
 npx supabase init
 npx supabase start --debug
-npx supabase migration up --debug
-```
-
-If that gives you an error with the roles not being created try this
-
-```bash
-cp ./supabase/migrations/*_roles.sql ./supabase/roles/
-npx supabase start psql "postgresql://postgres:postgres@localhost:54322/postgres" -f supabase/roles/<PICK THE LATEST OR RUN THIS MULTIPLE TIMES FOR THEM ALL>_roles.sql --debug
+psql "postgresql://postgres:postgres@localhost:54322/postgres" -f ./supabase/roles/<PICK THE LATEST ONE>roles.sql
 npx supabase migration up --debug
 ```
 
@@ -39,24 +32,14 @@ You may also need `touch ./supabase/.temp/profile` and `echo "supabase" > ./supa
 ```bash
 # BEFORE YOU DELETE make some sort of backup for the migration folder and copy contents there then
 rm -rf ./supabase/migrations && mkdir ./supabase/migrations
+rm -rf ./supabase/roles && mkdir ./supabase/roles
 npx supabase login --debug
 npx supabase link --project-ref <SUPABASE-PROJECT-REF> --debug
-mkdir -p <some back up directory for old role files>
-cp ./supabase/migrations/*_roles.sql ./<the backup role file directory>
-npx supabase db dump --db-url "postgresql://postgres:YOURPASSWORD@db.YOUR_REF.supabase.co:5432/postgres" -f supabase/migrations/<TODAYS-YYYY><MM><DD><HH><MN>00roles.sql --role-only --debug
+npx supabase db dump -f supabase/roles/<TODAYS-YYYY><MM><DD><HH><MN>00roles.sql --role-only --debug
 # note that supabase defaults to using UTC time. So if you put your current time, it might run earlier or later in order then you expect
+psql "postgresql://postgres:postgres@localhost:54322/postgres" -f ./supabase/roles/<TODAYS-YYYY><MM><DD><HH><MN>roles.sql
 npx supabase db pull --debug
 npx supabase migration up --debug
-```
-
-If you get an error about roles not being created try this:
-
-```bash
-npx supabase db dump --db-url "postgresql://postgres:YOURPASSWORD@db.YOUR_REF.supabase.co:5432/postgres" -f supabase/migrations/<TODAYS-YYYY><MM><DD><HH><MN>roles.sql --role-only --debug
-psql "postgresql://postgres:postgres@localhost:54322/postgres" -f ./supabase/migrations<TODAYS-YYYY><MM><DD><HH><MN>roles.sql
-npx supabase db pull --debug
-npx supabase migration up --debug
-
 ```
 
 #### Environment
