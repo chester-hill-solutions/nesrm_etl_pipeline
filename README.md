@@ -43,7 +43,8 @@ npx supabase login --debug
 npx supabase link --project-ref <SUPABASE-PROJECT-REF> --debug
 mkdir -p <some back up directory for old role files>
 cp ./supabase/migrations/*_roles.sql ./<the backup role file directory>
-npx supabase db dump --db-url "postgresql://postgres:YOURPASSWORD@db.YOUR_REF.supabase.co:5432/postgres" -f supabase/migrations/<TODAYS-YYYY><MM><DD><HH><MN>roles.sql --role-only --debug
+npx supabase db dump --db-url "postgresql://postgres:YOURPASSWORD@db.YOUR_REF.supabase.co:5432/postgres" -f supabase/migrations/<TODAYS-YYYY><MM><DD><HH><MN>00roles.sql --role-only --debug
+# note that supabase defaults to using UTC time. So if you put your current time, it might run earlier or later in order then you expect
 npx supabase db pull --debug
 npx supabase migration up --debug
 ```
