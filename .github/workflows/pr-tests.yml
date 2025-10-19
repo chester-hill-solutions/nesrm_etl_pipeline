@@ -53,6 +53,5 @@ jobs:
       - name: Run tests
         env:
           NODE_ENV: test
-          DATABASE_URL: postgresql://postgres:postgres@localhost:54322/postgres
-          API_KEY: ${{ secrets.MAIL_BEARER }}
+          MAIL_BEARER: ${{ secrets.MAIL_BEARER }}
         run: npm test
