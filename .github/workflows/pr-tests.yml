@@ -47,7 +47,7 @@ jobs:
       - name: Apply remaining migrations
         run: |
           echo "Applying remaining migrations..."
-          npx supabase migration up --include-all --db-url "postgresql://postgres:postgres@localhost:54322/postgres"
+          npx supabase migration up --include-all --debug
 
       # 8️⃣ Run your test suite
       - name: Run tests
