@@ -20,7 +20,7 @@ npx supabase start --debug
 Make sure there's a geo_role_passwords.sql file with every riding and region and corresponding passwords
 
 ```bash
-cp supabase/roles/20251023_create_riding_region_roles.sql supabase/roles/20251023_create_riding_region_roles_with_passwords.sql
+cp supabase/20251023_create_riding_region_roles.sql supabase/roles/20251023_create_riding_region_with_passwords_roles.sql
 node scripts/updateRolePasswords.js
 ```
 

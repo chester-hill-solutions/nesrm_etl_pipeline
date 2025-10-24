@@ -103,7 +103,10 @@ function normalizeStringLiterals(sql) {
 
       const prev = sql[i - 1];
       const isWordAdjacent =
-        prev && next && /[\p{L}\p{N}]/u.test(prev) && /[\p{L}\p{N}]/u.test(next);
+        prev &&
+        next &&
+        /[\p{L}\p{N}]/u.test(prev) &&
+        /[\p{L}\p{N}]/u.test(next);
 
       if (isWordAdjacent) {
         result += "''";
@@ -164,7 +167,11 @@ function updateSqlPasswords(sqlFile, passwordMap) {
 
   const hasChanges = normalizedChanged || passwordChanges;
   if (!hasChanges) {
-    return { changed: false, passwordChanges: false, stringEscapesFixed: false };
+    return {
+      changed: false,
+      passwordChanges: false,
+      stringEscapesFixed: false,
+    };
   }
 
   if (updatedSql !== originalSql) {
@@ -209,7 +216,7 @@ function main() {
   const envFile = resolveEnvFile(envArg);
   const sqlFile = path.resolve(
     sqlArg ||
-      "supabase/roles/20251023_create_riding_region_roles_with_passwords.sql"
+      "supabase/roles/20251023_create_riding_region_with_passwords_roles.sql"
   );
 
   ensureFile(envFile, "Password environment file");
@@ -223,7 +230,9 @@ function main() {
   const result = updateSqlPasswords(sqlFile, passwordMap);
 
   if (!result.changed) {
-    console.log(`No CREATE ROLE passwords changed; ${sqlFile} is already in sync.`);
+    console.log(
+      `No CREATE ROLE passwords changed; ${sqlFile} is already in sync.`
+    );
     return;
   }
 
