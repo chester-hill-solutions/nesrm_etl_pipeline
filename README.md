@@ -4,24 +4,29 @@ This is the lambda function to handle NES Relationship Manager Ingestion.
 
 ## Development
 
-### Active
-
-```bash
-NODE_ENV=development
-```
-
-### Initial Setup
-
 ```bash
 npm install -y
 ```
 
-#### Setup DB
+### Setup DB
 
 ```bash
 npx supabase init
 npx supabase start --debug
-psql "postgresql://postgres:postgres@localhost:54322/postgres" -f ./supabase/roles/<PICK THE LATEST ONE>roles.sql
+```
+
+#### Setup roles
+
+Make sure there's a geo_role_passwords.sql file with every riding and region and corresponding passwords
+
+```bash
+cp supabase/roles/20251023_create_riding_region_roles.sql supabase/roles/20251023_create_riding_region_roles_with_passwords.sql
+node scripts/updateRolePasswords.js
+```
+
+```bash
+psql "postgresql://postgres:postgres@localhost:54322/postgres" -f ./supabase/roles/init_sys_roles.sql
+psql "postgresql://postgres:postgres@localhost:54322/postgres" -f ./supabase/roles/20251023_create_riding_region_roles_with_passwords.sql
 npx supabase migration up --debug
 ```
 
@@ -47,6 +52,12 @@ npx supabase migration up --debug
 Navigate to `http://localhost:54323/project/default/editor/18509?schema=public&showConnect=true&framework=nextjs&tab=frameworks` and copy the `DATABASE_URL` and `KEY` in `.env.local`
 
 Setup the rest of `.env.local` based on `.env.template`
+
+### Active Development
+
+```bash
+npx supabase start
+```
 
 ## Deploy
 
