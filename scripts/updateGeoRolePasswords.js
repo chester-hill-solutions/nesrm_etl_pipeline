@@ -36,10 +36,12 @@ function loadPasswordMap(envFile) {
   return map;
 }
 
-function extractBaseRoleName(roleName) {
-  return roleName
-    .replace(/^(riding|region)_/, "")
-    .replace(/_(reader|writer)$/i, "");
+function parseRoleName(roleName) {
+  const trimmed = roleName.replace(/^(riding|region)_/i, "");
+  const match = trimmed.match(/_(reader|writer)$/i);
+  const suffix = match ? match[1].toLowerCase() : null;
+  const base = match ? trimmed.slice(0, -match[0].length) : trimmed;
+  return { base, suffix };
 }
 
 function normalizeStringLiterals(sql) {
@@ -142,8 +144,22 @@ function updateSqlPasswords(sqlFile, passwordMap) {
   const updatedSql = normalizedSql.replace(
     createRolePattern,
     (match, prefix, roleName, middle, currentPassword, suffix) => {
-      const base = extractBaseRoleName(roleName);
-      const password = passwordMap.get(normalizeKey(base));
+      const { base, suffix: roleType } = parseRoleName(roleName);
+      const candidates = [];
+
+      if (roleType) {
+        candidates.push(`${base}_${roleType}`);
+      }
+
+      candidates.push(base);
+
+      let password;
+      for (const candidate of candidates) {
+        password = passwordMap.get(normalizeKey(candidate));
+        if (password) {
+          break;
+        }
+      }
 
       if (!password) {
         missing.add(roleName);
