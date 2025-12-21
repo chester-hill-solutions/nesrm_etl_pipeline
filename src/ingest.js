@@ -38,17 +38,21 @@ const ingest = {
     const headers = Object.fromEntries(
       Object.entries(event.headers).map(([k, v]) => [k.toLowerCase(), v])
     );
+    const body = (() => {
+      try {
+        return JSON.parse(event?.body);
+      } catch {
+        return event?.body;
+      }
+    })();
+
     const { data, requestStorageError } = await supabase
       .from("request")
       .insert({
-        payload: event.body ? event.body : event,
-        origin: headers["origin"],
-        ip: headers["x-forwarded-for"],
-        email: event.body
-          ? event.body.email
-            ? event.body.email
-            : undefined
-          : undefined,
+        payload: body ?? event,
+        origin: headers?.origin,
+        ip: headers?.["x-forwarded-for"],
+        email: body?.email,
       })
       .select();
 
