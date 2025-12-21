@@ -36,10 +36,12 @@ function loadPasswordMap(envFile) {
   return map;
 }
 
-function extractBaseRoleName(roleName) {
-  return roleName
-    .replace(/^(riding|region)_/, "")
-    .replace(/_(reader|writer)$/i, "");
+function parseRoleName(roleName) {
+  const trimmed = roleName.replace(/^(riding|region)_/i, "");
+  const match = trimmed.match(/_(reader|writer)$/i);
+  const suffix = match ? match[1].toLowerCase() : null;
+  const base = match ? trimmed.slice(0, -match[0].length) : trimmed;
+  return { base, suffix };
 }
 
 function normalizeStringLiterals(sql) {
@@ -103,7 +105,10 @@ function normalizeStringLiterals(sql) {
 
       const prev = sql[i - 1];
       const isWordAdjacent =
-        prev && next && /[\p{L}\p{N}]/u.test(prev) && /[\p{L}\p{N}]/u.test(next);
+        prev &&
+        next &&
+        /[\p{L}\p{N}]/u.test(prev) &&
+        /[\p{L}\p{N}]/u.test(next);
 
       if (isWordAdjacent) {
         result += "''";
@@ -139,8 +144,22 @@ function updateSqlPasswords(sqlFile, passwordMap) {
   const updatedSql = normalizedSql.replace(
     createRolePattern,
     (match, prefix, roleName, middle, currentPassword, suffix) => {
-      const base = extractBaseRoleName(roleName);
-      const password = passwordMap.get(normalizeKey(base));
+      const { base, suffix: roleType } = parseRoleName(roleName);
+      const candidates = [];
+
+      if (roleType) {
+        candidates.push(`${base}_${roleType}`);
+      }
+
+      candidates.push(base);
+
+      let password;
+      for (const candidate of candidates) {
+        password = passwordMap.get(normalizeKey(candidate));
+        if (password) {
+          break;
+        }
+      }
 
       if (!password) {
         missing.add(roleName);
@@ -164,7 +183,11 @@ function updateSqlPasswords(sqlFile, passwordMap) {
 
   const hasChanges = normalizedChanged || passwordChanges;
   if (!hasChanges) {
-    return { changed: false, passwordChanges: false, stringEscapesFixed: false };
+    return {
+      changed: false,
+      passwordChanges: false,
+      stringEscapesFixed: false,
+    };
   }
 
   if (updatedSql !== originalSql) {
@@ -209,7 +232,7 @@ function main() {
   const envFile = resolveEnvFile(envArg);
   const sqlFile = path.resolve(
     sqlArg ||
-      "supabase/roles/20251023_create_riding_region_roles_with_passwords.sql"
+      "supabase/roles/20251023_create_riding_region_with_passwords_roles.sql"
   );
 
   ensureFile(envFile, "Password environment file");
@@ -223,7 +246,9 @@ function main() {
   const result = updateSqlPasswords(sqlFile, passwordMap);
 
   if (!result.changed) {
-    console.log(`No CREATE ROLE passwords changed; ${sqlFile} is already in sync.`);
+    console.log(
+      `No CREATE ROLE passwords changed; ${sqlFile} is already in sync.`
+    );
     return;
   }
 

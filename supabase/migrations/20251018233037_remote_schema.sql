@@ -10341,39 +10341,10 @@ CREATE POLICY "allow read for campaign_manager" ON "public"."contact" TO "campai
 ALTER TABLE "public"."contact" ENABLE ROW LEVEL SECURITY;
 
 
-CREATE POLICY "contact_delete_ssw" ON "public"."contact" FOR DELETE TO "riding_captain_scarboroughsouthwest" USING (("division_electoral_district" = 'Scarborough Southwest'::"text"));
-
-
-
-CREATE POLICY "contact_insert_ssw" ON "public"."contact" FOR INSERT TO "riding_captain_scarboroughsouthwest" WITH CHECK (("division_electoral_district" = 'Scarborough Southwest'::"text"));
-
-
-
-CREATE POLICY "contact_sai2_reader" ON "public"."contact" TO "sai2@chsolutions.ca" USING (("organizer" ~~* '%sai%'::"text"));
-
-
-
-CREATE POLICY "contact_select_ssw" ON "public"."contact" FOR SELECT TO "riding_captain_scarboroughsouthwest" USING (("division_electoral_district" = 'Scarborough Southwest'::"text"));
-
-
-
-CREATE POLICY "contact_update_ssw" ON "public"."contact" FOR UPDATE TO "riding_captain_scarboroughsouthwest" USING (("division_electoral_district" = 'Scarborough Southwest'::"text")) WITH CHECK (("division_electoral_district" = 'Scarborough Southwest'::"text"));
-
-
-
 ALTER TABLE "public"."division_electoral_district" ENABLE ROW LEVEL SECURITY;
 
 
 ALTER TABLE "public"."request" ENABLE ROW LEVEL SECURITY;
-
-
-CREATE POLICY "toronto_yns_reader_policy" ON "public"."contact" FOR SELECT TO "toronto_yns_reader" USING (("division_electoral_district" = ANY (ARRAY['Don Valley East'::"text", 'Don Valley North'::"text", 'Don Valley West'::"text", 'Eglinton—Lawrence'::"text", 'Humber River—Black Creek'::"text", 'Scarborough Centre'::"text", 'Scarborough North'::"text", 'Scarborough Southwest'::"text", 'Scarborough—Agincourt'::"text", 'Scarborough—Guildwood'::"text", 'Scarborough—Rouge Park'::"text", 'Willowdale'::"text", 'York Centre'::"text", 'York South—Weston'::"text"])));
-
-
-
-CREATE POLICY "toronto_yns_writer_policy" ON "public"."contact" TO "toronto_yns_writer" USING (("division_electoral_district" = ANY (ARRAY['Don Valley East'::"text", 'Don Valley North'::"text", 'Don Valley West'::"text", 'Eglinton—Lawrence'::"text", 'Humber River—Black Creek'::"text", 'Scarborough Centre'::"text", 'Scarborough North'::"text", 'Scarborough Southwest'::"text", 'Scarborough—Agincourt'::"text", 'Scarborough—Guildwood'::"text", 'Scarborough—Rouge Park'::"text", 'Willowdale'::"text", 'York Centre'::"text", 'York South—Weston'::"text"]))) WITH CHECK (("division_electoral_district" = ANY (ARRAY['Don Valley East'::"text", 'Don Valley North'::"text", 'Don Valley West'::"text", 'Eglinton—Lawrence'::"text", 'Humber River—Black Creek'::"text", 'Scarborough Centre'::"text", 'Scarborough North'::"text", 'Scarborough Southwest'::"text", 'Scarborough—Agincourt'::"text", 'Scarborough—Guildwood'::"text", 'Scarborough—Rouge Park'::"text", 'Willowdale'::"text", 'York Centre'::"text", 'York South—Weston'::"text"])));
-
-
 
 
 
@@ -10585,9 +10556,6 @@ GRANT ALL ON TABLE "public"."contact" TO "authenticated";
 GRANT ALL ON TABLE "public"."contact" TO "service_role";
 GRANT SELECT,INSERT,DELETE,UPDATE ON TABLE "public"."contact" TO "my_pgadmin_user";
 GRANT SELECT,INSERT,DELETE,UPDATE ON TABLE "public"."contact" TO "campaign_manager";
-GRANT SELECT,INSERT,DELETE,UPDATE ON TABLE "public"."contact" TO "riding_captain_scarboroughsouthwest";
-GRANT SELECT ON TABLE "public"."contact" TO "toronto_yns_reader";
-GRANT INSERT,DELETE,UPDATE ON TABLE "public"."contact" TO "toronto_yns_writer";
 
 
 
