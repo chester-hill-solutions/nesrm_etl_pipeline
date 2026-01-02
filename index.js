@@ -12,6 +12,7 @@ import { mail } from "./src/mail.js";
 import { createClient } from "@supabase/supabase-js";
 
 import "./loadEnv.js";
+import { sendTeamWelcome } from "./src/mailWelcome.js";
 
 let REQUEST_BACKUP_ID;
 //comment
@@ -20,7 +21,7 @@ async function storeSuccess(logs, success) {
     try {
       const supabase = await createClient(
         process.env.DATABASE_URL,
-        process.env.KEY
+        process.env.KEY,
       );
       const { error: sbError } = await supabase
         .from("request")
@@ -54,7 +55,7 @@ export const handler = async (event) => {
     //Ingest param check
     let payload = await scMonad.bindMonad(
       scMonad.unit(event),
-      ingest.headerCheck
+      ingest.headerCheck,
     );
     if (payload.response.statusCode != 200) {
       return s(payload);
@@ -103,7 +104,7 @@ export const handler = async (event) => {
             "index/handler/sbPatch contact",
             upserted_data.id,
             "mailerlite_id",
-            payload.input.data.id
+            payload.input.data.id,
           );
           payload.input = {
             table: "contact",
@@ -123,12 +124,17 @@ export const handler = async (event) => {
         //updated_data = payload.trace[0].output;
       }
     }
+    const welcomeResponse = await scMonad.bindMonad(
+      scMonad.unit(upserted_data),
+      sendTeamWelcome,
+    );
+    logger.log("welcomeResponse", welcomeResponse);
 
     //Reponse
     logger.log("time duration", performance.now() - start);
     logger.dev.log(
       "index.js response",
-      JSON.stringify(payload.response, null, 2)
+      JSON.stringify(payload.response, null, 2),
     );
     return s(payload, true);
   } catch (error) {
