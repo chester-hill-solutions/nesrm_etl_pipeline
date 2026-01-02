@@ -4,7 +4,7 @@
   "main": "index.mjs",
   "type": "module",
   "scripts": {
-    "test": "node --import ./tests/setup.js --test tests/**",
+    "test": "node --import ./testsuite/init/setup.js ./testsuite/init/dbHealthCheck.test.js && node --import ./testsuite/init/setup.js --test testsuite/tests/**",
     "tests": "npm run test",
     "flow-test": "node run.js",
     "main-push": "bash scripts/main_push.sh",

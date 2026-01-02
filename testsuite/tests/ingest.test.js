@@ -1,7 +1,7 @@
 import { describe, it } from "node:test";
 import assert from "node:assert";
 
-import { handler } from "../index.js";
+import { handler } from "../../index.js";
 
 describe("headerCheck tests", () => {
   it("should return statusCode 400 if missing headers", async () => {
