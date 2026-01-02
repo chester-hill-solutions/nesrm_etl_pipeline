@@ -1,0 +1,1 @@
+alter table "public"."contact" add column "campus_club" text;

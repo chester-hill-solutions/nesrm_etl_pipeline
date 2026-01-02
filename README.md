@@ -2,18 +2,46 @@
 
 This is the lambda function to handle NES Relationship Manager Ingestion.
 
-## Development
+## Development Setup
+
+Every time:
 
 ```bash
 npm install -y
+npx supabase start --debug
+npx supabase status -o json #if you ever lose the environment variables
+npx supabase migration up --local
 ```
 
-### Setup DB
+Setup environment variables
+
+If you want to use the GUI to make database changes ensure that you `npx supabase db diff -f` before you push so your changes get put into a migration file. Best practice however is to run the following command and write SQL
 
 ```bash
-npx supabase init
-npx supabase start --debug
+npx supabase migration new <migration name>
 ```
+
+# Development Wrap Up Before Push
+
+```bash
+npx supabase db diff -f # to create a migration file if you used Supabase Studio GUI rather then making your own migration files
+```
+
+### Sai's initial setup:
+
+```bash
+npm install -y
+npx supabase init --debug # if not supabase folder
+npx supabase start --debug
+npx supabase login --debug
+npx supabase link --project-ref <project_ref> # if you have access to the cloud database. otherwise skip this
+# every time
+npx supabase db pull --debug # if you have access to the cloud database. otherwise skip this
+# this might list lots of migration files to repair. run those repair commands
+npx supabase migration up
+```
+
+# OLD
 
 #### Setup roles
 

@@ -4,7 +4,7 @@
   "main": "index.mjs",
   "type": "module",
   "scripts": {
-    "test": "node --import ./tests/setup.js --test",
+    "test": "node --import ./tests/setup.js --test tests/**",
     "tests": "npm run test",
     "flow-test": "node run.js",
     "main-push": "bash scripts/main_push.sh",
