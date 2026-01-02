@@ -2,6 +2,8 @@
 
 This is the lambda function to handle NES Relationship Manager Ingestion.
 
+node runner.js tests/test_payloads/uncommons/saiSteps.json
+
 ## Development
 
 ```bash
