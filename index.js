@@ -93,14 +93,14 @@ export const handler = async (event) => {
       upserted_data = payload.trace[0].output;
     }
 
-    if (getValue(event, "index") == 0) {
+    if (JSON.parse(event.body)._meta.step.index == 0) {
       const welcomeResponse = await scMonad.bindMonad(
         scMonad.unit(upserted_data),
         sendTeamWelcome,
       );
       logger.log("welcomeResponse", welcomeResponse);
     } else {
-      logger.log("not sending welcomeResponse")
+      logger.log("not sending welcomeResponse", JSON.parse(event.body)._meta.step.index)
     }
 
 
