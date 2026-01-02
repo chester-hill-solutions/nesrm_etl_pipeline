@@ -99,6 +99,8 @@ export const handler = async (event) => {
         sendTeamWelcome,
       );
       logger.log("welcomeResponse", welcomeResponse);
+    } else {
+      logger.log("not sending welcomeResponse")
     }
 
 
