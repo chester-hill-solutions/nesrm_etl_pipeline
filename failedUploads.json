@@ -412,5 +412,110 @@
     },
     "statusCode": 500,
     "response_object": "{\"statusCode\":500}"
+  },
+  {
+    "headers": {
+      "Origin": "www.meetsai.ca",
+      "X-Forwarded-For": "124.0.0.1",
+      "Authorization": "Bearer null"
+    },
+    "body": {
+      "step": 1,
+      "email": "saiTest@gmail.com",
+      "isVerified": true,
+      "isSubscribed": true,
+      "comms_consent": true,
+      "action": "subscription_completed"
+    },
+    "statusCode": 401,
+    "response_object": "{\"statusCode\":401,\"body\":\"{\\\"message\\\":\\\"Unauthenticated.\\\",\\\"trace\\\":[{\\\"step\\\":\\\"mail.js\\\",\\\"task\\\":\\\"mail\\\",\\\"duration\\\":599.3185430000001},{\\\"step\\\":\\\"upsert.js\\\",\\\"task\\\":\\\"upsertData\\\",\\\"duration\\\":41.26944599999996},{\\\"step\\\":\\\"shape.js\\\",\\\"task\\\":\\\"shapeData\\\",\\\"duration\\\":1.722671000000048},{\\\"step\\\":\\\"ingest.js\\\",\\\"task\\\":\\\"storeEvent\\\",\\\"duration\\\":75.569403},{\\\"step\\\":\\\"ingest.js\\\",\\\"task\\\":\\\"headerCheck\\\",\\\"duration\\\":0.3837949999999921}],\\\"request_backup_id\\\":1}\"}"
+  },
+  {
+    "headers": {
+      "Origin": "www.meetsai.ca",
+      "X-Forwarded-For": "124.0.0.1",
+      "Authorization": "Bearer null"
+    },
+    "body": {
+      "step": 2,
+      "email": "saiTest@gmail.com",
+      "firstname": "sai",
+      "surname": "guy",
+      "dob": "1990-09-30",
+      "isVerified": true,
+      "isSubscribed": true
+    },
+    "statusCode": 401,
+    "response_object": "{\"statusCode\":401,\"body\":\"{\\\"message\\\":\\\"Unauthenticated.\\\",\\\"trace\\\":[{\\\"step\\\":\\\"mail.js\\\",\\\"task\\\":\\\"mail\\\",\\\"duration\\\":276.3805249999998},{\\\"step\\\":\\\"upsert.js\\\",\\\"task\\\":\\\"upsertData\\\",\\\"duration\\\":48.40972999999997},{\\\"step\\\":\\\"shape.js\\\",\\\"task\\\":\\\"shapeData\\\",\\\"duration\\\":0.7506189999999151},{\\\"step\\\":\\\"ingest.js\\\",\\\"task\\\":\\\"storeEvent\\\",\\\"duration\\\":21.418166999999926},{\\\"step\\\":\\\"ingest.js\\\",\\\"task\\\":\\\"headerCheck\\\",\\\"duration\\\":0.05756800000006024}],\\\"request_backup_id\\\":2}\"}"
+  },
+  {
+    "headers": {
+      "Origin": "www.meetsai.ca",
+      "X-Forwarded-For": "124.0.0.1",
+      "Authorization": "Bearer null"
+    },
+    "body": {
+      "step": 3,
+      "email": "saiTest@gmail.com",
+      "address": {
+        "street": "551 Road Ave",
+        "city": "Scarborough",
+        "state": "Ontario",
+        "postal": "K1A 0A9",
+        "country": "CA"
+      },
+      "firstname": "sai",
+      "surname": "guy",
+      "dob": "1990-09-30",
+      "isVerified": true,
+      "isSubscribed": true
+    },
+    "statusCode": 401,
+    "response_object": "{\"statusCode\":401,\"body\":\"{\\\"message\\\":\\\"Unauthenticated.\\\",\\\"trace\\\":[{\\\"step\\\":\\\"mail.js\\\",\\\"task\\\":\\\"mail\\\",\\\"duration\\\":301.8794230000001},{\\\"step\\\":\\\"upsert.js\\\",\\\"task\\\":\\\"upsertData\\\",\\\"duration\\\":339.8028730000001},{\\\"step\\\":\\\"shape.js\\\",\\\"task\\\":\\\"shapeData\\\",\\\"duration\\\":0.6064930000000004},{\\\"step\\\":\\\"ingest.js\\\",\\\"task\\\":\\\"storeEvent\\\",\\\"duration\\\":9.574469000000136},{\\\"step\\\":\\\"ingest.js\\\",\\\"task\\\":\\\"headerCheck\\\",\\\"duration\\\":0.0415419999999358}],\\\"request_backup_id\\\":3}\"}"
+  },
+  {
+    "headers": {
+      "Origin": "www.meetsai.ca",
+      "X-Forwarded-For": "124.0.0.1",
+      "Authorization": "Bearer null"
+    },
+    "body": {
+      "step": 2,
+      "email": "saiTest@gmail.com",
+      "address": {
+        "street": "551 Road Ave",
+        "city": "Scarborough",
+        "state": "Ontario",
+        "postal": "K1A 0A9",
+        "country": "CA"
+      },
+      "firstname": "sai",
+      "surname": "guy",
+      "dob": "1990-09-30",
+      "isVerified": true,
+      "isSubscribed": true
+    },
+    "statusCode": 401,
+    "response_object": "{\"statusCode\":401,\"body\":\"{\\\"message\\\":\\\"Unauthenticated.\\\",\\\"trace\\\":[{\\\"step\\\":\\\"mail.js\\\",\\\"task\\\":\\\"mail\\\",\\\"duration\\\":307.05414500000006},{\\\"step\\\":\\\"upsert.js\\\",\\\"task\\\":\\\"upsertData\\\",\\\"duration\\\":138.15312199999994},{\\\"step\\\":\\\"shape.js\\\",\\\"task\\\":\\\"shapeData\\\",\\\"duration\\\":0.7781089999998585},{\\\"step\\\":\\\"ingest.js\\\",\\\"task\\\":\\\"storeEvent\\\",\\\"duration\\\":7.460918999999876},{\\\"step\\\":\\\"ingest.js\\\",\\\"task\\\":\\\"headerCheck\\\",\\\"duration\\\":0.04302200000006451}],\\\"request_backup_id\\\":4}\"}"
+  },
+  {
+    "headers": {
+      "Origin": "www.meetsai.ca",
+      "X-Forwarded-For": "124.0.0.1",
+      "Authorization": "Bearer null"
+    },
+    "body": "{\"comms_consent\":\"true\",\"organizer\":\"default\",\"firstname\":\"Saihaan\",\"surname\":\"Syed\",\"email\":\"saihaansyedprofiles@gmail.com\",\"postcode\":\"M1L3G6\",\"message\":\"\",\"_meta\":{\"ip\":\"2607:fea8:a7a5:6600:2e18:c3ea:100:371d\",\"user_agent\":\"Mozilla\\/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit\\/537.36 (KHTML, like Gecko) Chrome\\/143.0.0.0 Safari\\/537.36\",\"referer\":\"https:\\/\\/nateerskinesmith.ca\\/\",\"step\":{\"index\":0,\"is_final\":false}},\"_status\":\"draft\"}",
+    "statusCode": 401,
+    "response_object": "{\"statusCode\":401,\"body\":\"{\\\"message\\\":\\\"Unauthenticated.\\\",\\\"trace\\\":[{\\\"step\\\":\\\"mail.js\\\",\\\"task\\\":\\\"mail\\\",\\\"duration\\\":441.232072},{\\\"step\\\":\\\"upsert.js\\\",\\\"task\\\":\\\"upsertData\\\",\\\"duration\\\":423.510594},{\\\"step\\\":\\\"shape.js\\\",\\\"task\\\":\\\"shapeData\\\",\\\"duration\\\":2.0367899999999963},{\\\"step\\\":\\\"ingest.js\\\",\\\"task\\\":\\\"storeEvent\\\",\\\"duration\\\":68.36704399999999},{\\\"step\\\":\\\"ingest.js\\\",\\\"task\\\":\\\"headerCheck\\\",\\\"duration\\\":0.30654899999998975}],\\\"request_backup_id\\\":5}\"}"
+  },
+  {
+    "headers": {
+      "Origin": "www.meetsai.ca",
+      "X-Forwarded-For": "124.0.0.1",
+      "Authorization": "Bearer null"
+    },
+    "body": "{\"comms_consent\":\"true\",\"organizer\":\"default\",\"firstname\":\"Sai\",\"surname\":\"sy\",\"email\":\"saihaansyedprofiles@gmail.com\",\"postcode\":\"M1L3G6\",\"message\":\"this doesn\\\\'t work yet\",\"address\":\"442 Pharmacy Ave\",\"city\":\"Toronto\",\"phone\":\"6478657844\",\"birth_day\":\"29\",\"birth_month\":\"8\",\"birth_year\":\"2003\",\"student_org\":\"\",\"party_consent\":[\"By submitting this form, you agree that you support the purposes of the Ontario Liberal Party, are not a member of any other provincial political party, and further declare that you are eligible to be a Member of the Ontario Liberal Party, and agree to abide by the Constitution of the Ontario Liberal Party, the Workplace Discrimination, Harassment and Violence Prevention Policy, and the OLP Code of Conduct. These documents are available at ontarioliberal.ca\"],\"_meta\":{\"ip\":\"2607:fea8:a7a5:6600:2e18:c3ea:100:371d\",\"user_agent\":\"Mozilla\\/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit\\/537.36 (KHTML, like Gecko) Chrome\\/143.0.0.0 Safari\\/537.36\",\"device\":{\"os\":\"Windows\",\"browser\":\"Chrome\",\"device_type\":\"desktop\"},\"referer\":\"https:\\/\\/nateerskinesmith.ca\\/\"},\"_status\":\"complete\"}",
+    "statusCode": 401,
+    "response_object": "{\"statusCode\":401,\"body\":\"{\\\"message\\\":\\\"Unauthenticated.\\\",\\\"trace\\\":[{\\\"step\\\":\\\"mail.js\\\",\\\"task\\\":\\\"mail\\\",\\\"duration\\\":285.4405300000001},{\\\"step\\\":\\\"upsert.js\\\",\\\"task\\\":\\\"upsertData\\\",\\\"duration\\\":26.054710999999998},{\\\"step\\\":\\\"shape.js\\\",\\\"task\\\":\\\"shapeData\\\",\\\"duration\\\":0.7466759999999795},{\\\"step\\\":\\\"ingest.js\\\",\\\"task\\\":\\\"storeEvent\\\",\\\"duration\\\":9.616140000000087},{\\\"step\\\":\\\"ingest.js\\\",\\\"task\\\":\\\"headerCheck\\\",\\\"duration\\\":0.02923699999996643}],\\\"request_backup_id\\\":6}\"}"
   }
 ]

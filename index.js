@@ -3,7 +3,7 @@ import { performance } from "perf_hooks";
 import { SFNClient, StartExecutionCommand } from "@aws-sdk/client-sfn";
 
 import ingest from "./src/ingest.js";
-import { shapeData } from "./src/shape.js";
+import { getValue, shapeData } from "./src/shape.js";
 import { statusCodeMonad as scMonad } from "./scripts/monads/monad.js";
 import { sbPatch } from "./scripts/quickSbPatch/index.js";
 import { upsertData } from "./src/upsert.js";
@@ -124,11 +124,13 @@ export const handler = async (event) => {
         //updated_data = payload.trace[0].output;
       }
     }
-    const welcomeResponse = await scMonad.bindMonad(
-      scMonad.unit(upserted_data),
-      sendTeamWelcome,
-    );
-    logger.log("welcomeResponse", welcomeResponse);
+    if (getValue(event, "index") == 0) {
+      const welcomeResponse = await scMonad.bindMonad(
+        scMonad.unit(upserted_data),
+        sendTeamWelcome,
+      );
+      logger.log("welcomeResponse", welcomeResponse);
+    }
 
     //Reponse
     logger.log("time duration", performance.now() - start);

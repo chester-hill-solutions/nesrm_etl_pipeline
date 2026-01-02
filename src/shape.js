@@ -42,7 +42,7 @@ const cleanEmail = (str) => {
   return cleaned;
 };
 //get value
-const getValue = (payload, key) => {
+export const getValue = (payload, key) => {
   // Check form fields format
   if (payload[`fields[${key}][value]`] !== undefined) {
     return payload[`fields[${key}][value]`];
