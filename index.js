@@ -92,6 +92,16 @@ export const handler = async (event) => {
       payload.input = payload.trace[0].output;
       upserted_data = payload.trace[0].output;
     }
+
+    if (getValue(event, "index") == 0) {
+      const welcomeResponse = await scMonad.bindMonad(
+        scMonad.unit(upserted_data),
+        sendTeamWelcome,
+      );
+      logger.log("welcomeResponse", welcomeResponse);
+    }
+
+
     //console.log("compare", payload.trace[0].output == payload.input);
     if (payload.input.comms_consent) {
       payload = await scMonad.bindMonad(scMonad.unit(payload), mail);
@@ -123,13 +133,6 @@ export const handler = async (event) => {
         }
         //updated_data = payload.trace[0].output;
       }
-    }
-    if (getValue(event, "index") == 0) {
-      const welcomeResponse = await scMonad.bindMonad(
-        scMonad.unit(upserted_data),
-        sendTeamWelcome,
-      );
-      logger.log("welcomeResponse", welcomeResponse);
     }
 
     //Reponse
