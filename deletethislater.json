@@ -1,1 +1,33 @@
-{\"comms_consent\":\"true\",\"organizer\":\"default\",\"firstname\":\"saiguyy\",\"surname\":\"sysy\",\"email\":\"saihaansyedprofiles@gmail.com\",\"postcode\":\"M1L3G6\",\"message\":\"\",\"address\":\"442 Pharmacy Ave\",\"city\":\"Toronto\",\"phone\":\"6478657844\",\"birth_day\":\"29\",\"birth_month\":\"8\",\"birth_year\":\"2003\",\"is_student_club\":[\"I\\u2019m a student and am interested in my campus Ontario Young Liberal (OYL) club.\"],\"student_org\":\"\",\"party_consent\":[\"By submitting this form, you agree that you support the purposes of the Ontario Liberal Party, are not a member of any other provincial political party, and further declare that you are eligible to be a Member of the Ontario Liberal Party, and agree to abide by the Constitution of the Ontario Liberal Party, the Workplace Discrimination, Harassment and Violence Prevention Policy, and the OLP Code of Conduct. These documents are available at ontarioliberal.ca\"],\"_meta\":{\"ip\":\"2607:fea8:a7a5:6600:2e18:c3ea:100:371d\",\"user_agent\":\"Mozilla\\/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit\\/537.36 (KHTML, like Gecko) Chrome\\/143.0.0.0 Safari\\/537.36\",\"device\":{\"os\":\"Windows\",\"browser\":\"Chrome\",\"device_type\":\"desktop\"},\"referer\":\"https:\\/\\/nateerskinesmith.ca\\/\"},\"_status\":\"complete\"}
+{
+  "comms_consent": "true",
+  "organizer": "default",
+  "firstname": "saiguyy",
+  "surname": "sysy",
+  "email": "saihaansyedprofiles@gmail.com",
+  "postcode": "M1L3G6",
+  "message": "",
+  "address": "442 Pharmacy Ave",
+  "city": "Toronto",
+  "phone": "6478657844",
+  "birth_day": "29",
+  "birth_month": "8",
+  "birth_year": "2003",
+  "is_student_club": [
+    "Iu2019m a student and am interested in my campus Ontario Young Liberal (OYL) club."
+  ],
+  "student_org": "",
+  "party_consent": [
+    "By submitting this form, you agree that you support the purposes of the Ontario Liberal Party, are not a member of any other provincial political party, and further declare that you are eligible to be a Member of the Ontario Liberal Party, and agree to abide by the Constitution of the Ontario Liberal Party, the Workplace Discrimination, Harassment and Violence Prevention Policy, and the OLP Code of Conduct. These documents are available at ontarioliberal.ca"
+  ],
+  "_meta": {
+    "ip": "2607:fea8:a7a5:6600:2e18:c3ea:100:371d",
+    "user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36",
+    "device": {
+      "os": "Windows",
+      "browser": "Chrome",
+      "device_type": "desktop"
+    },
+    "referer": "https://nateerskinesmith.ca/"
+  },
+  "_status": "complete"
+}
