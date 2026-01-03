@@ -159,7 +159,7 @@ const shapeData = async (event) => {
       ballot1: cleanString(getValue(body, "ballot1")),
       ballot2: cleanString(getValue(body, "ballot2")),
       ballot3: cleanString(getValue(body, "ballot3")),
-      campusClub: cleanString(getValue(body,"campusClub")),
+      campus_club: cleanString(getValue(body,"campus_club") ?? getValue(body,"campusClub")),
 
       comms_consent: cleanString(getValue(body, "comms_consent")),
       signup_consent: cleanString(getValue(body, "signup_consent")),
