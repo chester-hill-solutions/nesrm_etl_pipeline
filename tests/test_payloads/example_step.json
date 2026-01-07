@@ -1,73 +1,97 @@
 [
   {
-    "resource": "/contact",
-    "path": "/contact",
-    "httpMethod": "POST",
-    "headers": {
-      "Accept": "*/*",
-      "Accept-Encoding": "deflate, gzip, br, zstd",
-      "Content-Type": "application/json",
-      "Host": "wmk8eyx1a1.execute-api.us-east-1.amazonaws.com",
-      "Origin": "https://nateerskinesmith.ca",
-      "User-Agent": "WordPress/6.9; https://nateerskinesmith.ca",
-      "X-Amzn-Trace-Id": "Root=1-69583e91-0aae46452117bcd72185b784",
-      "X-Forwarded-For": "2607:fea8:a7a5:6600:2e18:c3ea:100:371d, 172.69.214.43, 162.220.232.120",
-      "X-Forwarded-Port": "443",
-      "X-Forwarded-Proto": "https",
-      "request_backup_id": 23308
-    },
-    "multiValueHeaders": {
-      "Accept": ["*/*"],
-      "Accept-Encoding": ["deflate, gzip, br, zstd"],
-      "Content-Type": ["application/json"],
-      "Host": ["wmk8eyx1a1.execute-api.us-east-1.amazonaws.com"],
-      "Origin": ["https://nateerskinesmith.ca"],
-      "User-Agent": ["WordPress/6.9; https://nateerskinesmith.ca"],
-      "X-Amzn-Trace-Id": ["Root=1-69583e91-0aae46452117bcd72185b784"],
-      "X-Forwarded-For": [
-        "2607:fea8:a7a5:6600:2e18:c3ea:100:371d, 172.69.214.43, 162.220.232.120"
-      ],
-      "X-Forwarded-Port": ["443"],
-      "X-Forwarded-Proto": ["https"]
-    },
-    "queryStringParameters": null,
-    "multiValueQueryStringParameters": null,
-    "pathParameters": null,
-    "stageVariables": {
-      "arn": "arn:aws:states:us-east-1:060795934875:stateMachine:nesrm_ingestion_pipeline"
-    },
-    "requestContext": {
-      "resourceId": "9smu8h",
-      "resourcePath": "/contact",
-      "httpMethod": "POST",
-      "extendedRequestId": "Wk620FtLoAMEfFg=",
-      "requestTime": "02/Jan/2026:21:54:25 +0000",
-      "path": "/prod/contact",
-      "accountId": "060795934875",
-      "protocol": "HTTP/1.1",
-      "stage": "prod",
-      "domainPrefix": "wmk8eyx1a1",
-      "requestTimeEpoch": 1767390865632,
-      "requestId": "0b642e35-61a9-4af9-a246-8f7cbf59e46f",
-      "identity": {
-        "cognitoIdentityPoolId": null,
-        "accountId": null,
-        "cognitoIdentityId": null,
-        "caller": null,
-        "sourceIp": "162.220.232.120",
-        "principalOrgId": null,
-        "accessKey": null,
-        "cognitoAuthenticationType": null,
-        "cognitoAuthenticationProvider": null,
-        "userArn": null,
-        "userAgent": "WordPress/6.9; https://nateerskinesmith.ca",
-        "user": null
+    "_meta": {
+      "ip": "2607:fea8:a7a5:6600:985c:b70b:93f0:727a",
+      "step": {
+        "index": 0,
+        "is_final": false
       },
-      "domainName": "wmk8eyx1a1.execute-api.us-east-1.amazonaws.com",
-      "deploymentId": "84rbfg",
-      "apiId": "wmk8eyx1a1"
+      "referer": "https://nateerskinesmith.ca/?organizer=SaihaanSyed",
+      "user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36",
+      "submission_source": "organic"
     },
-    "body": "{\"comms_consent\":\"true\",\"organizer\":\"default\",\"firstname\":\"Saihaan\",\"surname\":\"Syed\",\"email\":\"saihaansyedprofiles@gmail.com\",\"postcode\":\"M1L3G6\",\"message\":\"\",\"_meta\":{\"ip\":\"2607:fea8:a7a5:6600:2e18:c3ea:100:371d\",\"user_agent\":\"Mozilla\\/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit\\/537.36 (KHTML, like Gecko) Chrome\\/143.0.0.0 Safari\\/537.36\",\"referer\":\"https:\\/\\/nateerskinesmith.ca\\/\",\"step\":{\"index\":0,\"is_final\":false}},\"_status\":\"draft\"}",
-    "isBase64Encoded": false
+    "email": "azfer01@hotmail.com",
+    "_query": {
+      "organizer": "SaihaanSyed"
+    },
+    "_status": "draft",
+    "message": "",
+    "surname": "Ababa",
+    "postcode": "M1L3G6",
+    "firstname": "Addis",
+    "organizer": "SaihaanSyed",
+    "comms_consent": "true"
+  },
+  {
+    "city": "Toronto",
+    "_status": "draft",
+    "_meta": {
+      "ip": "2607:fea8:a7a5:6600:985c:b70b:93f0:727a",
+      "step": {
+        "index": 1,
+        "is_final": false
+      },
+      "device": {
+        "os": "Windows",
+        "browser": "Chrome",
+        "device_type": "desktop"
+      },
+      "referer": "https://nateerskinesmith.ca/?organizer=SaihaanSyed",
+      "user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36",
+      "submission_source": "organic"
+    },
+    "email": "azfer01@hotmail.com",
+    "phone": "4168780316",
+    "_query": {
+      "organizer": "SaihaanSyed"
+    },
+    "address": "442 Ababa Ave",
+    "message": "",
+    "surname": "Ababa",
+    "postcode": "M1L3G6",
+    "birthdate": "1",
+    "birthyear": "1964",
+    "firstname": "Addis",
+    "organizer": "SaihaanSyed",
+    "birthmonth": "1",
+    "campusClub": ""
+  },
+  {
+    "city": "Toronto",
+    "_meta": {
+      "ip": "2607:fea8:a7a5:6600:985c:b70b:93f0:727a",
+      "step": {
+        "index": 2,
+        "is_final": true
+      },
+      "device": {
+        "os": "Windows",
+        "browser": "Chrome",
+        "device_type": "desktop"
+      },
+      "referer": "https://nateerskinesmith.ca/?organizer=SaihaanSyed",
+      "user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36",
+      "submission_source": "organic"
+    },
+    "email": "azfer01@hotmail.com",
+    "phone": "4168780316",
+    "_query": {
+      "organizer": "SaihaanSyed"
+    },
+    "_status": "complete",
+    "address": "442 Ababa Ave",
+    "message": "",
+    "surname": "Ababa",
+    "postcode": "M1L3G6",
+    "birthdate": "1",
+    "birthyear": "1964",
+    "firstname": "Addis",
+    "organizer": "SaihaanSyed",
+    "birthmonth": "1",
+    "campusClub": "",
+    "comms_consent": "true",
+    "signup_consent": [
+      "I want voting status as a registered Ontario Liberal Party member, and I agree to abide by the rules of membership outlined at ontarioliberal.ca"
+    ]
   }
 ]
