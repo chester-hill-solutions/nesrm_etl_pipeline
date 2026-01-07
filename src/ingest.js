@@ -4,6 +4,20 @@ import path from "path";
 import HttpError from "simple-http-error";
 import logger from "simple-logs-sai-node";
 
+async function storeRequest(
+  storeData,
+  supabase = createClient(process.env.DATABASE_URL, process.env.KEY),
+) {
+  const { data, error: sbError } = await supabase
+    .from("request")
+    .upsert(storeData).select();
+  if (sbError) {
+    logger.log("sbError:", sbError);
+    throw new HttpError(sbError, 500, { originalError: sbError });
+  }
+  return data;
+}
+
 const ingest = {
   headerCheck: (event) => {
     if (!event.headers) {
@@ -45,16 +59,27 @@ const ingest = {
         return event?.body;
       }
     })();
+    const storeData = {
+      payload: typeof event === "string" ? JSON.parse(event) : event,
+      origin: headers?.origin,
+      ip: headers?.["x-forwarded-for"],
+      email: body?.email,
+      step: body?._meta?.step?.index,
+    };
+    let data = await storeRequest(storeData, supabase);
 
-    const { data, requestStorageError } = await supabase
+    let ret = structuredClone(event);
+    if (data) {
+      ret.headers.request_backup_id = data[0].id;
+    } else {
+      logger.log("data", data);
+      throw new HttpError("Failed to store request");
+    }
+    return ret;
+
+    const { data: sbData, requestStorageError } = await supabase
       .from("request")
-      .insert({
-        payload: body ?? event,
-        origin: headers?.origin,
-        ip: headers?.["x-forwarded-for"],
-        email: body?.email,
-        step: body?._meta?.step?.index
-      })
+      .insert(storeData)
       .select();
 
     if (requestStorageError) {
@@ -65,7 +90,7 @@ const ingest = {
       });
     }
     //logger.log("sb data", data);
-    let ret = structuredClone(event);
+    //let ret = structuredClone(event);
     if (data) {
       ret.headers.request_backup_id = data[0].id;
     } else {
@@ -74,15 +99,7 @@ const ingest = {
     }
     return ret;
   },
-  storeRequest: async (supabase, storedata) => {
-    const { data, error: sbError } = await supabase
-      .from("request")
-      .upsert(storedata)
-    if (sbError) {
-      logger.log("sbError:", sbError)
-      throw new HttpError(sbError, 500, {originalError:sbError})
-    }
-  },
+  storeRequest,
 };
 
 const moduleName = path.basename(import.meta.url);

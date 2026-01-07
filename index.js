@@ -46,37 +46,62 @@ async function s(payload, success = false) {
   return payload.response;
 }
 
+async function storeRequestReturnPayload(payload, dataStore, supabase) {
+  const data = ingest.storeRequest(dataStore, supabase);
+  payload.response.body.request_backup_id = data.id;
+  return payload.response;
+}
+
 export const handler = async (event) => {
   const start = performance.now();
+
   try {
+    const supabase = createClient(process.env.DATABASE_URL, process.env.KEY);
+
     logger.log("event triggered");
-    logger.dev.log("event triggered", JSON.stringify(event, null, 2));
+    logger.log("event triggered", JSON.stringify(event, null, 2));
     //Ingest param check
     let payload = await scMonad.bindMonad(
       scMonad.unit(event),
       ingest.headerCheck,
     );
     if (payload.response.statusCode != 200) {
-      return s(payload);
+      return storeRequestReturnPayload(
+        payload,
+        { logs: payload, success: false },
+        supabase,
+      );
     } else {
       payload.input = payload.trace[0].output;
     }
     //Ingest store event
     payload = await scMonad.bindMonad(scMonad.unit(payload), ingest.storeEvent);
     if (payload.response.statusCode != 200) {
-      return s(payload);
+      return storeRequestReturnPayload(
+        payload,
+        { logs: payload, success: false },
+        supabase,
+      );
     } else {
       payload.input = payload.trace[0].output;
       REQUEST_BACKUP_ID = payload.trace[0].output.headers.request_backup_id;
     }
     if (event.headers.throw) {
-      return s(payload);
+      return storeRequestReturnPayload(
+        payload,
+        { logs: payload, success: false },
+        supabase,
+      );
     }
     //Shape
     //let cleaned_data;
     payload = await scMonad.bindMonad(scMonad.unit(payload), shapeData);
     if (payload.response.statusCode != 200) {
-      return s(payload);
+      return storeRequestReturnPayload(
+        payload,
+        { logs: payload, success: false },
+        supabase,
+      );
     } else {
       payload.input = payload.trace[0].output;
     }
@@ -86,11 +111,34 @@ export const handler = async (event) => {
     let upserted_data;
     payload = await scMonad.bindMonad(scMonad.unit(payload), upsertData);
     if (payload.response.statusCode != 200) {
-      return s(payload);
+      return storeRequestReturnPayload(
+        payload,
+        { logs: payload, success: false },
+        supabase,
+      );
     } else {
       payload.input = payload.trace[0].output;
       upserted_data = payload.trace[0].output;
     }
+
+    payload = await scMonad.bindMonad(
+      scMonad.unit({
+        id: REQUEST_BACKUP_ID,
+        contact_id: upserted_data.id,
+      }),
+      ingest.storeRequest,
+    );
+    if (payload.response.statusCode != 200) {
+      return storeRequestReturnPayload(
+        payload,
+        { logs: payload, success: false },
+        supabase,
+      );
+    } else {
+      payload.input = upserted_data;
+    }
+
+    //send team welcome
     try {
       const event_body =
         typeof event.body === "string" ? JSON.parse(event.body) : event.body;
@@ -103,10 +151,20 @@ export const handler = async (event) => {
           sendTeamWelcome,
         );
         logger.log("welcomeResponse", welcomeResponse);
+        if (welcomeResponse.response.statusCode != 200) {
+          return storeRequestReturnPayload(
+            welcomeResponse,
+            { logs: welcomeResponse, success: false },
+            supabase,
+          );
+        } else {
+          payload.input = upserted_data;
+        }
       } else {
         logger.log(
           "not sending welcomeResponse",
-          event_body._status,event_body._meta.submission_source
+          event_body._status,
+          event_body._meta.submission_source,
         );
       }
     } catch (error) {
@@ -152,8 +210,14 @@ export const handler = async (event) => {
       "index.js response",
       JSON.stringify(payload.response, null, 2),
     );
+    return storeRequestReturnPayload(
+      payload,
+      { logs: payload, status: true },
+      supabase,
+    );
     return s(payload, true);
   } catch (error) {
+    logger.log(error);
     console.error(error);
     return {
       statusCode: 500,
