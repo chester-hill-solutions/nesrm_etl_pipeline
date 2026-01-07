@@ -49,7 +49,7 @@ const ingest = {
     const { data, requestStorageError } = await supabase
       .from("request")
       .insert({
-        payload: body ?? event,
+        payload: typeof event === "string" ? JSON.parse(event) : event,
         origin: headers?.origin,
         ip: headers?.["x-forwarded-for"],
         email: body?.email,
