@@ -108,20 +108,20 @@ const shapeData = async (event) => {
 
       ...(() => {
         let addressData = {};
+
         let addressCat = getValue(body, "address");
-        let addressSource;
-        if (addressCat) {
-          logger.dev.log("addressCategoryExists");
-          addressSource = addressCat;
-        } else {
-          logger.dev.log("no address category");
-          addressSource = body;
-        }
-        addressData.street_address = cleanString(
-          getValue(addressSource, "street_address"),
-        )
-          ? cleanString(getValue(addressSource, "street_address"))
-          : cleanString(getValue(addressSource, "street"));
+        let isObject = addressCat && typeof addressCat === "object";
+
+        logger.dev.log(
+          isObject ? "addressCategoryExists" : "no address category",
+        );
+
+        let addressSource = isObject ? addressCat : body;
+
+        addressData.street_address =
+          cleanString(getValue(addressSource, "street_address")) ||
+          cleanString(getValue(addressSource, "street")) ||
+          (!isObject && cleanString(addressCat));
 
         addressData.municipality = cleanString(
           getValue(addressSource, "municipality"),
