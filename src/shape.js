@@ -164,13 +164,13 @@ const shapeData = async (event) => {
       ),
 
       comms_consent: cleanString(getValue(body, "comms_consent")),
-      signup_consent: () => {
+      signup_consent: (() => {
         let val = cleanString(getValue(body, "signup_consent"));
         if (val && val != false && val != "false") {
           return true;
         }
         return undefined;
-      },
+      })(),
       signup_submitted: cleanString(getValue(body, "signup_submitted")),
       member: cleanString(getValue(body, "member")),
       tags: cleanString(getValue(body, "tags")),
