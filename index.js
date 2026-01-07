@@ -92,17 +92,27 @@ export const handler = async (event) => {
       payload.input = payload.trace[0].output;
       upserted_data = payload.trace[0].output;
     }
-
-    if (JSON.parse(event.body)._status == "complete") {
-      const welcomeResponse = await scMonad.bindMonad(
-        scMonad.unit(upserted_data),
-        sendTeamWelcome,
-      );
-      logger.log("welcomeResponse", welcomeResponse);
-    } else {
-      logger.log("not sending welcomeResponse", JSON.parse(event.body)._status)
+    try {
+      const event_body =
+        typeof event.body === "string" ? JSON.parse(event.body) : event.body;
+      if (
+        event_body._status == "complete" &&
+        event_body._meta.submission_source == "organic"
+      ) {
+        const welcomeResponse = await scMonad.bindMonad(
+          scMonad.unit(upserted_data),
+          sendTeamWelcome,
+        );
+        logger.log("welcomeResponse", welcomeResponse);
+      } else {
+        logger.log(
+          "not sending welcomeResponse",
+          event_body._status,event_body._meta.submission_source
+        );
+      }
+    } catch (error) {
+      logger.log(error);
     }
-
 
     //console.log("compare", payload.trace[0].output == payload.input);
     if (payload.input.comms_consent) {

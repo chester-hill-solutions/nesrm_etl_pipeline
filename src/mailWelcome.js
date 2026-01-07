@@ -1,5 +1,7 @@
 // sendTeamWelcome.js
 
+import logger from "simple-logs-sai-node";
+
 export const sendTeamWelcome = async (payload) => {
   const response = await fetch(
     "https://primary-production-a6b4.up.railway.app/webhook/team-welcome",
@@ -17,6 +19,8 @@ export const sendTeamWelcome = async (payload) => {
     throw new Error(
       `Request failed (${response.status}): ${text}`
     );
+  } else {
+    logger.log("mailWelcome ok")
   }
 
   // Try JSON first, fall back to text if needed
