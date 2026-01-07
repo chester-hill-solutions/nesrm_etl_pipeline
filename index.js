@@ -120,6 +120,25 @@ export const handler = async (event) => {
       payload.input = payload.trace[0].output;
       upserted_data = payload.trace[0].output;
     }
+
+    payload = await scMonad.bindMonad(
+      scMonad.unit({
+        id: REQUEST_BACKUP_ID,
+        contact_id: upserted_data.id,
+      }),
+      ingest.storeRequest,
+    );
+    if (payload.response.statusCode != 200) {
+      return storeRequestReturnPayload(
+        payload,
+        { logs: payload, success: false },
+        supabase,
+      );
+    } else {
+      payload.input = upserted_data;
+    }
+
+    //send team welcome
     try {
       const event_body =
         typeof event.body === "string" ? JSON.parse(event.body) : event.body;
@@ -132,6 +151,15 @@ export const handler = async (event) => {
           sendTeamWelcome,
         );
         logger.log("welcomeResponse", welcomeResponse);
+        if (welcomeResponse.response.statusCode != 200) {
+          return storeRequestReturnPayload(
+            welcomeResponse,
+            { logs: welcomeResponse, success: false },
+            supabase,
+          );
+        } else {
+          payload.input = upserted_data;
+        }
       } else {
         logger.log(
           "not sending welcomeResponse",
@@ -189,6 +217,7 @@ export const handler = async (event) => {
     );
     return s(payload, true);
   } catch (error) {
+    logger.log(error);
     console.error(error);
     return {
       statusCode: 500,
