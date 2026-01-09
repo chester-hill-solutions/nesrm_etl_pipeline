@@ -1,0 +1,97 @@
+[
+  {
+    "_meta": {
+      "ip": "2607:fea8:a7a5:6600:985c:b70b:93f0:727a",
+      "step": {
+        "index": 0,
+        "is_final": false
+      },
+      "referer": "https://nateerskinesmith.ca/?organizer=SaihaanSyed",
+      "user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36",
+      "submission_source": "organic"
+    },
+    "email": "sai+azfer01@chsolutions.ca",
+    "_query": {
+      "organizer": "SaihaanSyed"
+    },
+    "_status": "draft",
+    "message": "",
+    "surname": "Ababa",
+    "postcode": "M1L3G6",
+    "firstname": "Addis",
+    "organizer": "SaihaanSyed",
+    "comms_consent": "true"
+  },
+  {
+    "city": "Toronto",
+    "_status": "draft",
+    "_meta": {
+      "ip": "2607:fea8:a7a5:6600:985c:b70b:93f0:727a",
+      "step": {
+        "index": 1,
+        "is_final": false
+      },
+      "device": {
+        "os": "Windows",
+        "browser": "Chrome",
+        "device_type": "desktop"
+      },
+      "referer": "https://nateerskinesmith.ca/?organizer=SaihaanSyed",
+      "user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36",
+      "submission_source": "organic"
+    },
+    "email": "sai+azfer01@chsolutions.ca",
+    "phone": "4168780316",
+    "_query": {
+      "organizer": "SaihaanSyed"
+    },
+    "address": "442 Ababa Ave",
+    "message": "",
+    "surname": "Ababa",
+    "postcode": "M1L3G6",
+    "birthdate": "1",
+    "birthyear": "1964",
+    "firstname": "Addis",
+    "organizer": "SaihaanSyed",
+    "birthmonth": "1",
+    "campusClub": ""
+  },
+  {
+    "city": "Toronto",
+    "_meta": {
+      "ip": "2607:fea8:a7a5:6600:985c:b70b:93f0:727a",
+      "step": {
+        "index": 2,
+        "is_final": true
+      },
+      "device": {
+        "os": "Windows",
+        "browser": "Chrome",
+        "device_type": "desktop"
+      },
+      "referer": "https://nateerskinesmith.ca/?organizer=SaihaanSyed",
+      "user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36",
+      "submission_source": "organic"
+    },
+    "email": "sai+azfer01@chsolutions.ca",
+    "phone": "4168780316",
+    "_query": {
+      "organizer": "SaihaanSyed"
+    },
+    "_status": "complete",
+    "address": "442 Ababa Ave",
+    "message": "",
+    "surname": "Ababa",
+    "postcode": "M1L3G6",
+    "birthdate": "1",
+    "birthyear": "1964",
+    "firstname": "Addis",
+    "organizer": "SaihaanSyed",
+    "birthmonth": "1",
+    "campusClub": "",
+    "comms_consent": "true",
+    "signup_consent": [
+      "I want voting status as a registered Ontario Liberal Party member, and I agree to abide by the rules of membership outlined at ontarioliberal.ca"
+    ]
+  }
+]

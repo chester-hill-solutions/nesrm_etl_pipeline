@@ -42,7 +42,7 @@ const cleanEmail = (str) => {
   return cleaned;
 };
 //get value
-const getValue = (payload, key) => {
+export const getValue = (payload, key) => {
   // Check form fields format
   if (payload[`fields[${key}][value]`] !== undefined) {
     return payload[`fields[${key}][value]`];
@@ -108,23 +108,23 @@ const shapeData = async (event) => {
 
       ...(() => {
         let addressData = {};
+
         let addressCat = getValue(body, "address");
-        let addressSource;
-        if (addressCat) {
-          logger.dev.log("addressCategoryExists");
-          addressSource = addressCat;
-        } else {
-          logger.dev.log("no address category");
-          addressSource = body;
-        }
-        addressData.street_address = cleanString(
-          getValue(addressSource, "street_address")
-        )
-          ? cleanString(getValue(addressSource, "street_address"))
-          : cleanString(getValue(addressSource, "street"));
+        let isObject = addressCat && typeof addressCat === "object";
+
+        logger.dev.log(
+          isObject ? "addressCategoryExists" : "no address category",
+        );
+
+        let addressSource = isObject ? addressCat : body;
+
+        addressData.street_address =
+          cleanString(getValue(addressSource, "street_address")) ||
+          cleanString(getValue(addressSource, "street")) ||
+          (!isObject && cleanString(addressCat));
 
         addressData.municipality = cleanString(
-          getValue(addressSource, "municipality")
+          getValue(addressSource, "municipality"),
         )
           ? cleanString(getValue(addressSource, "municipality"))
           : cleanString(getValue(addressSource, "city"));
@@ -132,8 +132,8 @@ const shapeData = async (event) => {
         addressData.division = cleanString(getValue(addressSource, "division"))
           ? cleanString(getValue(addressSource, "division"))
           : cleanString(getValue(addressSource, "province"))
-          ? cleanString(getValue(addressSource, "province"))
-          : cleanString(getValue(addressSource, "state"));
+            ? cleanString(getValue(addressSource, "province"))
+            : cleanString(getValue(addressSource, "state"));
 
         addressData.region = cleanString(getValue(addressSource, "region"));
         addressData.county = cleanString(getValue(addressSource, "county"));
@@ -147,21 +147,30 @@ const shapeData = async (event) => {
         return addressData;
       })(),
       federal_electoral_district: cleanString(
-        getValue(body, "federal_electoral_district")
+        getValue(body, "federal_electoral_district"),
       ),
       division_electoral_district: cleanString(
-        getValue(body, "division_electoral_district")
+        getValue(body, "division_electoral_district"),
       ),
       municipal_electoral_district: cleanString(
-        getValue(body, "municipal_electoral_district")
+        getValue(body, "municipal_electoral_district"),
       ),
 
       ballot1: cleanString(getValue(body, "ballot1")),
       ballot2: cleanString(getValue(body, "ballot2")),
       ballot3: cleanString(getValue(body, "ballot3")),
+      campus_club: cleanString(
+        getValue(body, "campus_club") ?? getValue(body, "campusClub"),
+      ),
 
       comms_consent: cleanString(getValue(body, "comms_consent")),
-      signup_consent: cleanString(getValue(body, "signup_consent")),
+      signup_consent: (() => {
+        let val = cleanString(getValue(body, "signup_consent"));
+        if (val && val != false && val != "false") {
+          return true;
+        }
+        return undefined;
+      })(),
       signup_submitted: cleanString(getValue(body, "signup_submitted")),
       member: cleanString(getValue(body, "member")),
       tags: cleanString(getValue(body, "tags")),
@@ -201,14 +210,14 @@ const shapeData = async (event) => {
       olp23_comms_consent: cleanString(getValue(body, "olp23_comms_consent")),
       olp23_signup_consent: cleanString(getValue(body, "olp23_signup_consent")),
       olp23_volunteeer_status: cleanString(
-        getValue(body, "olp23_volunteeer_status")
+        getValue(body, "olp23_volunteeer_status"),
       ),
       olp23_donor_status: cleanString(getValue(body, "olp23_donor_status")),
       olp23_donation_amount: cleanString(
-        getValue(body, "olp23_donation_amount")
+        getValue(body, "olp23_donation_amount"),
       ),
       olp23_signup_submitted: cleanString(
-        getValue(body, "olp23_signup_submitted")
+        getValue(body, "olp23_signup_submitted"),
       ),
       olp23_organizer: cleanString(getValue(body, "olp23_organizer")),
       olp23_source: cleanString(getValue(body, "olp23_source")),
@@ -216,30 +225,30 @@ const shapeData = async (event) => {
       olp23_voted: cleanString(getValue(body, "olp23_voted")),
       olp23_voting_group: cleanString(getValue(body, "olp23_voting_group")),
       olp23_voting_location: cleanString(
-        getValue(body, "olp23_voting_location")
+        getValue(body, "olp23_voting_location"),
       ),
       olp23_voting_period: cleanString(getValue(body, "olp23_voting_period")),
       olp23_voting_assocation: cleanString(
-        getValue(body, "olp23_voting_assocation")
+        getValue(body, "olp23_voting_assocation"),
       ),
       olp23_nate_signup: cleanString(getValue(body, "olp23_nate_signup")),
       olp23_campus_club: cleanString(getValue(body, "olp23_campus_club")),
       olp23_callhub_notes: cleanString(getValue(body, "olp23_callhub_notes")),
       olp23_nes_support_level: cleanString(
-        getValue(body, "olp23_nes_support_level")
+        getValue(body, "olp23_nes_support_level"),
       ),
       olp23_gender: cleanString(getValue(body, "olp23_gender")),
       olp23_riding: cleanString(getValue(body, "olp23_riding")),
       olp23_organizer_ref_id: cleanString(
-        getValue(body, "olp23_organizer_ref_id")
+        getValue(body, "olp23_organizer_ref_id"),
       ),
       olp23_membership_status: cleanString(
-        getValue(body, "olp23_membership_status")
+        getValue(body, "olp23_membership_status"),
       ),
     };
     //console.log(shaped_data);
     const cleaned_data = Object.fromEntries(
-      Object.entries(shaped_data).filter(([_, value]) => value !== undefined)
+      Object.entries(shaped_data).filter(([_, value]) => value !== undefined),
     );
     //console.log("cleaned_data", cleaned_data);
     //response.statusCode = 200;
