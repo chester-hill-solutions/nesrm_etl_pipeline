@@ -8,12 +8,13 @@ async function storeRequest(
   storeData,
   supabase = createClient(process.env.DATABASE_URL, process.env.KEY),
 ) {
-  const { data, error: sbError } = await supabase
+  const { data, error } = await supabase
     .from("request")
-    .upsert(storeData).select();
-  if (sbError) {
-    logger.log("sbError:", sbError);
-    throw new HttpError(sbError, 500, { originalError: sbError });
+    .upsert(storeData)
+    .select();
+  if (error) {
+    logger.log("error:", error);
+    throw new HttpError(error, 500, { originalError: error });
   }
   return data;
 }
@@ -44,10 +45,10 @@ const ingest = {
     }
     return event;
   },
-  storeEvent: async (event) => {
-    //connect to supabase client
-    const supabase = createClient(process.env.DATABASE_URL, process.env.KEY);
-
+  storeEvent: async (
+    event,
+    supabase = createClient(process.env.DATABASE_URL, process.env.KEY),
+  ) => {
     //store request in supabase
     const headers = Object.fromEntries(
       Object.entries(event.headers).map(([k, v]) => [k.toLowerCase(), v]),
@@ -59,6 +60,7 @@ const ingest = {
         return event?.body;
       }
     })();
+
     const storeData = {
       payload: typeof event === "string" ? JSON.parse(event) : event,
       origin: headers?.origin,
@@ -66,16 +68,18 @@ const ingest = {
       email: body?.email,
       step: body?._meta?.step?.index,
     };
+
     let data = await storeRequest(storeData, supabase);
 
     let ret = structuredClone(event);
     if (data) {
+      logger.dev.log("storeEvent().data", data);
       ret.headers.request_backup_id = data[0].id;
     } else {
       logger.log("data", data);
       throw new HttpError("Failed to store request");
     }
-    return ret;
+    return data;
 
     const { data: sbData, requestStorageError } = await supabase
       .from("request")

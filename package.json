@@ -6,6 +6,7 @@
   "scripts": {
     "test": "node --import ./testsuite/init/setup.js ./testsuite/init/dbHealthCheck.test.js && node --import ./testsuite/init/setup.js --test testsuite/tests/**",
     "tests": "npm run test",
+    "verbose-test": "node --import ./testsuite/init/setup.js ./testsuite/init/dbHealthCheck.test.js && node --import ./testsuite/init/setup.js --test testsuite/tests/** --test-reporter=spec",
     "flow-test": "node run.js",
     "main-push": "bash scripts/main_push.sh",
     "pull-cloud-db": "bash scripts/pull-cloud-db.sh"

@@ -83,8 +83,10 @@ export const handler = async (event) => {
         supabase,
       );
     } else {
-      payload.input = payload.trace[0].output;
-      REQUEST_BACKUP_ID = payload.trace[0].output.headers.request_backup_id;
+      REQUEST_BACKUP_ID = payload.trace[0].output.headers.id;
+      let ret = structuredClone(event)
+      ret.headers.request_backup_id = data[0].id;
+      payload.input = ret;
     }
     if (event.headers.throw) {
       return storeRequestReturnPayload(
