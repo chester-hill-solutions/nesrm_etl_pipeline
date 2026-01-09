@@ -49,11 +49,13 @@ async function s(payload, success = false) {
 async function storeRequestReturnPayload(payload, dataStore, supabase) {
   const data = ingest.storeRequest(dataStore, supabase);
   payload.response.body.request_backup_id = data.id;
+  logger.log(payload);
   return payload.response;
 }
 
 export const handler = async (event) => {
   const start = performance.now();
+  let payload;
 
   try {
     const supabase = createClient(process.env.DATABASE_URL, process.env.KEY);
@@ -61,10 +63,7 @@ export const handler = async (event) => {
     logger.log("event triggered");
     logger.log("event triggered", JSON.stringify(event, null, 2));
     //Ingest param check
-    let payload = await scMonad.bindMonad(
-      scMonad.unit(event),
-      ingest.headerCheck,
-    );
+    payload = await scMonad.bindMonad(scMonad.unit(event), ingest.headerCheck);
     if (payload.response.statusCode != 200) {
       return storeRequestReturnPayload(
         payload,
@@ -177,7 +176,11 @@ export const handler = async (event) => {
     if (payload.input.comms_consent) {
       payload = await scMonad.bindMonad(scMonad.unit(payload), mail);
       if (payload.response.statusCode != 200) {
-        return s(payload);
+        return storeRequestReturnPayload(
+          payload,
+          { logs: payload, success: false },
+          supabase,
+        );
       } else {
         payload.input = payload.trace[0].output;
         if (payload.input?.data?.id) {
@@ -223,6 +226,7 @@ export const handler = async (event) => {
     console.error(error);
     return {
       statusCode: 500,
+      body: { error: error, payload: payload },
     };
   }
 };
