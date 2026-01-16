@@ -71,6 +71,7 @@ const ingest = {
     let ret = structuredClone(event);
     if (data) {
       ret.headers.request_backup_id = data[0].id;
+      ret.headers.request_created_at = data[0].created_at;      
     } else {
       logger.log("data", data);
       throw new HttpError("Failed to store request");
