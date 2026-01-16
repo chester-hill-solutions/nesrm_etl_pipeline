@@ -119,15 +119,13 @@ export const handler = async (event) => {
             shaped_data
         }),appendToSheet);
     if (payload.response.statusCode != 200) {
-      return storeRequestReturnPayload(
+      storeRequestReturnPayload(
         payload,
         { logs: payload, success: false },
         supabase,
       );
-    } else {
+    } 
       payload.input = shaped_data
-    }
-    
 
     //Upsert
     let upserted_data;

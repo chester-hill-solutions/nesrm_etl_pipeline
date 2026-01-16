@@ -1,6 +1,6 @@
 // scripts/sheetsAppend/index.js
 import path from "node:path";
-import { google } from "googleapis";
+import { auth, sheets } from "@googleapis/sheets";
 
 /**
  * 1) Create GoogleAuth (service account key file)
@@ -10,7 +10,7 @@ export function createGoogleAuth({
   keyFile = env.GOOGLE_SERVICE_ACCOUNT_KEY_FILE,
   scopes = ["https://www.googleapis.com/auth/spreadsheets"],
   resolvePath = path.resolve,
-  googleApi = google,
+  googleApi = {auth,sheets},
 } = {}) {
   if (!keyFile) {
     throw new Error(
@@ -27,7 +27,7 @@ export function createGoogleAuth({
 /**
  * 2) Create Sheets client
  */
-export function createSheetsClient({ auth, googleApi = google } = {}) {
+export function createSheetsClient({ auth, googleApi = {auth,sheets} } = {}) {
   if (!auth) throw new Error("auth is required");
   return googleApi.sheets({ version: "v4", auth });
 }
