@@ -8,6 +8,8 @@ async function storeRequest(
   storeData,
   supabase = createClient(process.env.DATABASE_URL, process.env.KEY),
 ) {
+  logger.dev.log("storeRequest()");
+  logger.dev.log("storeData", storeData);
   const { data, error: sbError } = await supabase
     .from("request")
     .upsert(storeData).select();
@@ -15,6 +17,7 @@ async function storeRequest(
     logger.log("sbError:", sbError);
     throw new HttpError(sbError, 500, { originalError: sbError });
   }
+  logger.dev.log("storeRequest output", data);
   return data;
 }
 
