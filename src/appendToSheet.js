@@ -9,6 +9,7 @@ import {
     appendRow,
     objectToAppendRow, // uncomment if you want header-based mapping
 } from "../scripts/sheetsAppend/index.js";
+import logger from "simple-logs-sai-node";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -97,9 +98,8 @@ export default async function appendToSheet({
     request_id,
     body,
     shaped_data,
-    ...rest, // include any extra keys passed in too
   });
-    console.log("rowObj",rowObj);
+    logger.dev.log("rowObj",rowObj);
 
   // If your sheet stores payload/body/shaped_data as text columns, stringify them
   // (Keeps normal scalar fields as-is)
