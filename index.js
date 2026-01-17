@@ -49,6 +49,9 @@ async function s(payload, success = false) {
 }
 
 async function storeRequestReturnPayload(payload, dataStore, supabase) {
+  logger.dev.log("storeRequestReturnPayload()");
+  logger.dev.log("payload", payload);
+  logger.dev.log("dataStore", dataStore);
   const data = ingest.storeRequest(dataStore, supabase);
   payload.response.body.request_backup_id = data.id;
   logger.log(payload);
@@ -118,9 +121,9 @@ export const handler = async (event) => {
             shaped_data
         }),appendToSheet);
     if (payload.response.statusCode != 200) {
-      storeRequestReturnPayload(
+      await storeRequestReturnPayload(
         payload,
-        { logs: payload, success: false },
+        { id: REQUEST_BACKUP_ID, logs: payload, success: false },
         supabase,
       );
     } 
@@ -189,7 +192,6 @@ export const handler = async (event) => {
     } catch (error) {
       logger.log(error);
     }
-
     //console.log("compare", payload.trace[0].output == payload.input);
     if (payload.input.comms_consent) {
       payload = await scMonad.bindMonad(scMonad.unit(payload), mail);
@@ -235,7 +237,10 @@ export const handler = async (event) => {
     );
     return storeRequestReturnPayload(
       payload,
-      { logs: payload, success: true },
+      { logs: payload, 
+        success: true,
+        id: REQUEST_BACKUP_ID,
+    },
       supabase,
     );
     return s(payload, true);
