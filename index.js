@@ -228,14 +228,14 @@ export const handler = async (event) => {
     }
 
     //Reponse
-    logger.log("time duration", performance.now() - start);
+    logger.log("total time duration", performance.now() - start);
     logger.dev.log(
       "index.js response",
       JSON.stringify(payload.response, null, 2),
     );
     return storeRequestReturnPayload(
       payload,
-      { logs: payload, status: true },
+      { logs: payload, success: true },
       supabase,
     );
     return s(payload, true);

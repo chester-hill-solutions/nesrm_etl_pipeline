@@ -82,7 +82,7 @@ async function runOverArray(dataArray, callback) {
       console.log("File", dataIndex);
       await runOverArray(dataArray[dataIndex], callback);
     } else {
-      const event = await attachHeader(dataArray[dataIndex], HEADERS);
+      const event = dataArray[dataIndex].headers ? dataArray[dataIndex] : attachHeader(dataArray[dataIndex], HEADERS);
       console.log(
         "\nPayload",
         dataIndex,

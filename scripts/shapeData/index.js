@@ -1,10 +1,10 @@
 import fs from "fs";
 import { parse } from "csv-parse/sync";
 
-function attachHeader(obj, headers) {
+function attachHeader(obj, headers, force=false) {
   let result;
   if (obj.body) {
-    result = { headers, body: obj.body };
+    result = { headers: (obj.headers && force != true) ? obj.headers : headers, body: obj.body };
   } else {
     return {
       headers: headers,

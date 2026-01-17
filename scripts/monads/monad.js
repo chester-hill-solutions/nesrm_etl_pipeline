@@ -93,7 +93,7 @@ export const statusCodeMonad = {
     } catch (error) {
       t[0].output = error;
       if (error.statusCode === 429) {
-        ret.resposne.statusCode = 200;
+        ret.response.statusCode = 200;
         t[0].statusCode === 429;
       } else {
         console.error("monadic input", monadic.input);
