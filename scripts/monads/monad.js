@@ -14,7 +14,7 @@ const newExampleUnit = {
 
 export const statusCodeMonad = {
   unit: (nonUnit) => {
-    //logger.dev.log("nonUnit:", nonUnit);
+    logger.log("nonUnit:", nonUnit);
     let ret = {};
     if (!nonUnit) {
       ret = {
@@ -64,7 +64,7 @@ export const statusCodeMonad = {
         ret.input = nonUnit.input;
       }
     }
-    //logger.dev.log("monadic unit", JSON.stringify(ret, null, 2));
+    logger.log("monadic unit", JSON.stringify(ret, null, 2));
     return ret;
   },
   bindMonad: async (monadic, func) => {
@@ -89,8 +89,12 @@ export const statusCodeMonad = {
         //logger.dev.log("rawFuncResponse", rawFuncResponse);
         t[0].output = rawFuncResponse;
         //ret.input = rawFuncResponse ? rawFuncResponse : ret.input;
+        logger.dev.log("bind no error t", t)
+        logger.dev.og("bind no error ret", ret)
+        logger.dev.log("bind no error monadic", monadic);
       }
     } catch (error) {
+      logger.log("bind error", error);
       t[0].output = error;
       if (error.statusCode === 429) {
         ret.response.statusCode = 200;
@@ -101,6 +105,9 @@ export const statusCodeMonad = {
         ret.response.statusCode = error.statusCode ? error.statusCode : 500;
         ret.response.body.message = error.message;
       }
+      logger.log("bind error t", t);
+      logger.log("bind error ret", ret);
+      logger.dev.log("bind error monadic", monadic);
     }
     const end = performance.now();
     t[0].duration = end - start;
@@ -110,28 +117,16 @@ export const statusCodeMonad = {
       ...rest,
     }));
     ret.trace = t.map((obj) => ({ ...obj }));
-    /*
+    
     ret.response.body.trace = ret.response.body.trace.concat(
       monadic.response.body.trace
-    );*/
-    /*logger.dev.log(
-      "Monadic",
-      func.name,
-      "return",
-      JSON.stringify(ret, null, 2)
     );
-    logger.log(
-      "Monadic",
-      func.name,
-      "response",
-      JSON.stringify(ret.response, null, 2)
-    );
-    logger.dev.log(
+    ret.response.statusCode === 200 ? logger.log(
       "Monadic",
       func.name,
       "output",
       JSON.stringify(ret, null, 2)
-    );*/
+    ) : null;
     logger.log(
       func.name,
       "bindMonad output",
