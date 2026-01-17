@@ -13,8 +13,10 @@ import { createClient } from "@supabase/supabase-js";
 
 import "./loadEnv.js";
 import { sendTeamWelcome } from "./src/mailWelcome.js";
+import appendToSheet from "./src/appendToSheet.js";
 
 let REQUEST_BACKUP_ID;
+let REQUEST_CREATED_AT;
 //comment
 async function storeSuccess(logs, success) {
   if (REQUEST_BACKUP_ID) {
@@ -84,6 +86,7 @@ export const handler = async (event) => {
     } else {
       payload.input = payload.trace[0].output;
       REQUEST_BACKUP_ID = payload.trace[0].output.headers.request_backup_id;
+      REQUEST_CREATED_AT = payload.trace[0].output.headers.request_created_at;
     }
     if (event.headers.throw) {
       return storeRequestReturnPayload(
@@ -93,7 +96,7 @@ export const handler = async (event) => {
       );
     }
     //Shape
-    //let cleaned_data;
+    let shaped_data;
     payload = await scMonad.bindMonad(scMonad.unit(payload), shapeData);
     if (payload.response.statusCode != 200) {
       return storeRequestReturnPayload(
@@ -104,7 +107,24 @@ export const handler = async (event) => {
     } else {
       payload.input = payload.trace[0].output;
     }
-    //cleaned_data = payload.input;
+    shaped_data = payload.input;
+
+    //Append to Sheet    
+    payload = await scMonad.bindMonad(scMonad.unit({
+            payload: event,
+            created_at: REQUEST_CREATED_AT,
+            request_id: REQUEST_BACKUP_ID,
+            body: event["body"],
+            shaped_data
+        }),appendToSheet);
+    if (payload.response.statusCode != 200) {
+      storeRequestReturnPayload(
+        payload,
+        { logs: payload, success: false },
+        supabase,
+      );
+    } 
+      payload.input = shaped_data
 
     //Upsert
     let upserted_data;
