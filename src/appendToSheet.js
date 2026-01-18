@@ -15,7 +15,7 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 // Load .env from project root (2 levels up from scripts/sheetsAppend)
-dotenv.config({ path: path.resolve(__dirname, "../../.env") });
+dotenv.config({ path: path.resolve(__dirname, "../.env.local") });
 
 // Optional: make key file path work even if .env uses a relative path
 function resolveFromProjectRoot(p) {

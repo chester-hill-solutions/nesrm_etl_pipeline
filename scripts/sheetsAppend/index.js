@@ -81,7 +81,7 @@ export async function objectToAppendRow({
     range: headerRange,
     majorDimension: "ROWS",
   });
-  console.log("objectToAppendRow res", res);
+  logger.dev.log("objectToAppendRow res", res);
 
   const headersRaw = (res.data.values?.[0] ?? []).filter(
     (h) => h !== null && h !== undefined && String(h).trim() !== ""

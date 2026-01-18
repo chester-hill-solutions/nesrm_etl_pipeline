@@ -139,7 +139,7 @@ export const handler = async (event) => {
     if (payload.response.statusCode != 200) {
       return storeRequestReturnPayload(
         payload,
-        { logs: payload, success: false },
+        { id:REQUEST_BACKUP_ID, logs: payload, success: false },
         supabase,
       );
     } else {
@@ -155,7 +155,7 @@ export const handler = async (event) => {
     if (payload.response.statusCode != 200) {
       return storeRequestReturnPayload(
         payload,
-        { logs: payload, success: false },
+        { id: REQUEST_BACKUP_ID, logs: payload, success: false },
         supabase,
       );
     } else {

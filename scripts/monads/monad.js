@@ -14,7 +14,7 @@ const newExampleUnit = {
 
 export const statusCodeMonad = {
   unit: (nonUnit) => {
-    logger.log("nonUnit:", nonUnit);
+    logger.dev.log("nonUnit:", nonUnit);
     let ret = {};
     if (!nonUnit) {
       ret = {
@@ -64,7 +64,7 @@ export const statusCodeMonad = {
         ret.input = nonUnit.input;
       }
     }
-    logger.log("monadic unit", JSON.stringify(ret, null, 2));
+    logger.dev.log("monadic unit", JSON.stringify(ret, null, 2));
     return ret;
   },
   bindMonad: async (monadic, func) => {
@@ -100,14 +100,13 @@ export const statusCodeMonad = {
         ret.response.statusCode = 200;
         t[0].statusCode === 429;
       } else {
-        console.error("monadic input", monadic.input);
-        console.error("caught", error);
+        logger.log("monadic", monadic);
+        logger.log("caught", error);
         ret.response.statusCode = error.statusCode ? error.statusCode : 500;
         ret.response.body.message = error.message;
       }
-      logger.log("bind error t", t);
-      logger.log("bind error ret", ret);
-      logger.dev.log("bind error monadic", monadic);
+      logger.dev.log("bind error t", t);
+      logger.dev.log("bind error ret", ret);
     }
     const end = performance.now();
     t[0].duration = end - start;
@@ -121,12 +120,6 @@ export const statusCodeMonad = {
     ret.response.body.trace = ret.response.body.trace.concat(
       monadic.response.body.trace
     );
-    ret.response.statusCode === 200 ? logger.log(
-      "Monadic",
-      func.name,
-      "output",
-      JSON.stringify(ret, null, 2)
-    ) : null;
     logger.log(
       func.name,
       "bindMonad output",
