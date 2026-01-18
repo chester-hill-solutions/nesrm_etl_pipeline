@@ -17,36 +17,6 @@ import appendToSheet from "./src/appendToSheet.js";
 
 let REQUEST_BACKUP_ID;
 let REQUEST_CREATED_AT;
-//comment
-async function storeSuccess(logs, success) {
-  if (REQUEST_BACKUP_ID) {
-    try {
-      const supabase = await createClient(
-        process.env.DATABASE_URL,
-        process.env.KEY,
-      );
-      const { error: sbError } = await supabase
-        .from("request")
-        .update({ success: success, logs: logs })
-        .eq("id", REQUEST_BACKUP_ID);
-      if (sbError) {
-        console.error(sbError);
-        throw new Error(sbError);
-      }
-    } catch (error) {
-      console.error(error);
-    }
-  }
-}
-
-async function s(payload, success = false) {
-  storeSuccess(payload, success);
-  payload.response.body.request_backup_id = REQUEST_BACKUP_ID
-    ? REQUEST_BACKUP_ID
-    : undefined;
-  payload.response.body = JSON.stringify(payload.response.body);
-  return payload.response;
-}
 
 async function storeRequestReturnPayload(payload, dataStore, supabase) {
   logger.dev.log("storeRequestReturnPayload()");
@@ -96,7 +66,7 @@ export const handler = async (event) => {
     if (event.headers.throw) {
       return storeRequestReturnPayload(
         payload,
-        { logs: payload, success: false },
+        { id: REQUEST_BACKUP_ID, logs: payload, success: false },
         supabase,
       );
     }
@@ -107,7 +77,7 @@ export const handler = async (event) => {
     if (payload.response.statusCode != 200) {
       return storeRequestReturnPayload(
         payload,
-        { logs: payload, success: false },
+        { id: REQUEST_BACKUP_ID, logs: payload, success: false },
         supabase,
       );
     } else {
@@ -178,7 +148,7 @@ export const handler = async (event) => {
         if (welcomeResponse.response.statusCode != 200) {
           return storeRequestReturnPayload(
             welcomeResponse,
-            { logs: welcomeResponse, success: false },
+            { id: REQUEST_BACKUP_ID, logs: welcomeResponse, success: false },
             supabase,
           );
         } else {
@@ -200,7 +170,7 @@ export const handler = async (event) => {
       if (payload.response.statusCode != 200) {
         return storeRequestReturnPayload(
           payload,
-          { logs: payload, success: false },
+          { id: REQUEST_BACKUP_ID, logs: payload, success: false },
           supabase,
         );
       } else {
@@ -239,13 +209,11 @@ export const handler = async (event) => {
     );
     return storeRequestReturnPayload(
       payload,
-      { logs: payload, 
+      { id: REQUEST_BACKUP_ID, logs: payload, 
         success: true,
-        id: REQUEST_BACKUP_ID,
     },
       supabase,
     );
-    return s(payload, true);
   } catch (error) {
     logger.log(error);
     console.error(error);
