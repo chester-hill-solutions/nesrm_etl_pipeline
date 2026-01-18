@@ -15,23 +15,6 @@ export function createGoogleAuth({
   resolvePath = path.resolve,
   googleApi = {auth,sheets},
 } = {}) {
-  let credentials;
-  try {
-    credentials = JSON.parse(credentials_env_str)
-  } catch (error) {
-    throw new HttpError("", 500,{originalError: error});
-  }
-  if (!credentials && !keyFile) {
-    throw new Error(
-      "Missing creds or GOOGLE_SERVICE_ACCOUNT_KEY_FILE (or pass keyFile)"
-    );
-  }
-  if (credentials) {
-    return new googleApi.auth.GoogleAuth({
-      credentials: credentials,
-      scopes,
-    })
-  }
 
   return new googleApi.auth.GoogleAuth({
     keyFile: resolvePath(keyFile),
