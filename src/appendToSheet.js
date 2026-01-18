@@ -10,6 +10,7 @@ import {
     objectToAppendRow, // uncomment if you want header-based mapping
 } from "../scripts/sheetsAppend/index.js";
 import logger from "simple-logs-sai-node";
+import { downloadFromSupabaseBucket } from "../scripts/downloadSupabaseBucket/index.js";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -52,6 +53,7 @@ function buildRowObject(input = {}) {
     shaped_data.body &&
     typeof shaped_data.body === "object" &&
     shaped_data.body !== null;
+  logger.log("hasShapedBodyObject",hasShapedBodyObject)
 
   // Expand ONLY one of these:
   const expanded = hasShapedBodyObject
@@ -70,20 +72,27 @@ function buildRowObject(input = {}) {
   };
 }
 
-export default async function appendToSheet({
-  payload,
-  created_at,
-  request_id,
-  body,
-  shaped_data,
-  ...rest
-} = {}) {
+export default async function appendToSheet(
+  {
+    input:{
+      payload,
+      created_at,
+      request_id,
+      body,
+      shaped_data,
+      ...rest
+    },
+    supabase,
+  } = {}) {
+  console.log("appendToSheet typeof supabase", typeof supabase)
   // Ensure keyfile path is absolute (so GoogleAuth can always find it)
   if (process.env.GOOGLE_SERVICE_ACCOUNT_KEY_FILE) {
     process.env.GOOGLE_SERVICE_ACCOUNT_KEY_FILE = resolveFromProjectRoot(
       process.env.GOOGLE_SERVICE_ACCOUNT_KEY_FILE
     );
   }
+  let keyfile = await downloadFromSupabaseBucket({supabase:supabase});
+  logger.log("keyFile", keyfile);
 
   const auth = createGoogleAuth();
   const sheets = createSheetsClient({ auth });
@@ -99,7 +108,7 @@ export default async function appendToSheet({
     body,
     shaped_data,
   });
-    logger.dev.log("rowObj",rowObj);
+    logger.log("rowObj",rowObj);
 
   // If your sheet stores payload/body/shaped_data as text columns, stringify them
   // (Keeps normal scalar fields as-is)

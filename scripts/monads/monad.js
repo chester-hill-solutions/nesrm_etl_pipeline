@@ -1,5 +1,6 @@
 import logger from "simple-logs-sai-node";
 import { performance } from "perf_hooks";
+import util from "node:util";
 
 const newExampleUnit = {
   response: {
@@ -67,7 +68,7 @@ export const statusCodeMonad = {
     logger.dev.log("monadic unit", JSON.stringify(ret, null, 2));
     return ret;
   },
-  bindMonad: async (monadic, func) => {
+  bindMonad: async (monadic, func, supabase=null) => {
     logger.log("bind", "to", func.name);
     logger.dev.log("monadic input", JSON.stringify(monadic.input, null, 2));
     let t = [{ step: func.__module, task: func.name, input: monadic.input }];
@@ -80,10 +81,10 @@ export const statusCodeMonad = {
       },
       //trace: t.map((obj) => ({ ...obj })),
     };
-    //logger.dev.log("base ret", JSON.stringify(ret, null, 2));
     const start = performance.now();
     try {
-      const rawFuncResponse = await func(monadic.input);
+      console.log("bindMonad", func.name, typeof supabase);
+      const rawFuncResponse = supabase ? await func({input: monadic.input, supabase:supabase}) : await (async () => {logger.log("no sb client passed"); return await func(monadic.input)})();
 
       if (rawFuncResponse) {
         //logger.dev.log("rawFuncResponse", rawFuncResponse);
@@ -100,7 +101,9 @@ export const statusCodeMonad = {
         ret.response.statusCode = 200;
         t[0].statusCode === 429;
       } else {
-        logger.log("monadic", monadic);
+        logger.dev.log("monadic short", monadic);
+        logger.dev.log("monadic long", util.inspect(monadic, {depth: null, maxArrayLength: null, colors: true}));
+        logger.dev.log("monadic", monadic);
         logger.log("caught", error);
         ret.response.statusCode = error.statusCode ? error.statusCode : 500;
         ret.response.body.message = error.message;

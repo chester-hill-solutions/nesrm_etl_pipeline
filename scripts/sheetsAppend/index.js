@@ -1,6 +1,8 @@
 // scripts/sheetsAppend/index.js
 import path from "node:path";
 import { auth, sheets } from "@googleapis/sheets";
+import HttpError from "simple-http-error";
+import logger from "simple-logs-sai-node";
 
 /**
  * 1) Create GoogleAuth (service account key file)
@@ -8,14 +10,27 @@ import { auth, sheets } from "@googleapis/sheets";
 export function createGoogleAuth({
   env = process.env,
   keyFile = env.GOOGLE_SERVICE_ACCOUNT_KEY_FILE,
+  credentials_env_str = env.GOOGLE_SERVICE_ACCOUNT_KEY_JSON,
   scopes = ["https://www.googleapis.com/auth/spreadsheets"],
   resolvePath = path.resolve,
   googleApi = {auth,sheets},
 } = {}) {
-  if (!keyFile) {
+  let credentials;
+  try {
+    credentials = JSON.parse(credentials_env_str)
+  } catch (error) {
+    throw new HttpError("", 500,{originalError: error});
+  }
+  if (!credentials && !keyFile) {
     throw new Error(
-      "Missing GOOGLE_SERVICE_ACCOUNT_KEY_FILE (or pass keyFile)"
+      "Missing creds or GOOGLE_SERVICE_ACCOUNT_KEY_FILE (or pass keyFile)"
     );
+  }
+  if (credentials) {
+    return new googleApi.auth.GoogleAuth({
+      credentials: credentials,
+      scopes,
+    })
   }
 
   return new googleApi.auth.GoogleAuth({
@@ -109,7 +124,8 @@ export async function objectToAppendRow({
 
     return transformValue(val, originalHeader);
   });
-
+  logger.log("objectToAppendRow headers", headers);
+  logger.log("objectToAppendRow rowValues", rowValues);
   return { headers, rowValues };
 }
 
