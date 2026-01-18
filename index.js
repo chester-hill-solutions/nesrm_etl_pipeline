@@ -33,7 +33,7 @@ export const handler = async (event) => {
   let payload;
 
   try {
-    const supabase = createClient(process.env.DATABASE_URL, process.env.KEY);
+    const supabase = createClient(process.env.DATABASE_URL, process.env.SUPABASE_SERVICE_ROLE_KEY);
 
     logger.log("event triggered");
     logger.log("event triggered", JSON.stringify(event, null, 2));
@@ -81,17 +81,19 @@ export const handler = async (event) => {
         supabase,
       );
     } else {
+    shaped_data = payload.trace[0].output;
       payload.input = {
             payload: event,
             created_at: REQUEST_CREATED_AT,
             request_id: REQUEST_BACKUP_ID,
             body: event["body"],
-            shaped_data};
+            shaped_data,
+      };
     }
-    shaped_data = payload.trace[0].output;
+    logger.log("shaped_data",shaped_data)
 
     //Append to Sheet    
-    payload = await scMonad.bindMonad(scMonad.unit(payload),appendToSheet);
+    payload = await scMonad.bindMonad(scMonad.unit(payload),appendToSheet,supabase);
     logger.dev.log("payload respone trace", payload.response.body.trace)
     if (payload.response.statusCode != 200) {
       await storeRequestReturnPayload(
