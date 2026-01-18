@@ -22,7 +22,7 @@ async function storeRequestReturnPayload(payload, dataStore, supabase) {
   logger.dev.log("storeRequestReturnPayload()");
   logger.dev.log("payload", payload);
   logger.dev.log("dataStore", dataStore);
-  const data = ingest.storeRequest(dataStore, supabase);
+  const data = await ingest.storeRequest(dataStore, supabase);
   payload.response.body.request_backup_id = data.id;
   logger.log(payload);
   return payload.response;
