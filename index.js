@@ -92,7 +92,7 @@ export const handler = async (event) => {
     }
     logger.log("shaped_data",shaped_data)
 
-    /*//Append to Sheet    
+    //Append to Sheet    
     payload = await scMonad.bindMonad(scMonad.unit(payload),appendToSheet,supabase);
     logger.dev.log("payload respone trace", payload.response.body.trace)
     if (payload.response.statusCode != 200) {
@@ -101,7 +101,7 @@ export const handler = async (event) => {
         { id: REQUEST_BACKUP_ID, logs: payload, success: false },
         supabase,
       );
-    } */
+    }
       payload.input = shaped_data
 
     //Upsert
@@ -191,7 +191,7 @@ export const handler = async (event) => {
             field: "mailerlite_id",
             value: payload.input.data.id,
           };
-          payload = await scMonad.bindMonad(scMonad.unit(payload), sbPatch);
+          payload = await scMonad.bindMonad(scMonad.unit(payload), sbPatch, supabase);
           /*
           sbPatch(
             "contact",
