@@ -434,9 +434,10 @@ async function consolidateData(profile, shapedData) {
   return updateData;
 }
 
-const upsertData = async (payload) => {
+const upsertData = async ({input, supabase=null}) => {
+  let payload = input;
   const shapedData = payload.body ? payload.body : payload;
-  const supabase = createClient(
+  supabase = supabase ?? createClient(
     process.env.DATABASE_URL,
     process.env.KEY
   );
