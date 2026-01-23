@@ -83,7 +83,6 @@ export const statusCodeMonad = {
     };
     const start = performance.now();
     try {
-      console.log("bindMonad", func.name, typeof supabase);
       const rawFuncResponse = supabase ? await func({input: monadic.input, supabase:supabase}) : await (async () => {logger.log("no sb client passed"); return await func(monadic.input)})();
 
       if (rawFuncResponse) {
@@ -91,11 +90,13 @@ export const statusCodeMonad = {
         t[0].output = rawFuncResponse;
         //ret.input = rawFuncResponse ? rawFuncResponse : ret.input;
         logger.dev.log("bind no error t", t)
-        logger.dev.og("bind no error ret", ret)
+        logger.dev.log("bind no error ret", ret)
         logger.dev.log("bind no error monadic", monadic);
       }
     } catch (error) {
       logger.log("bind error", error);
+      logger.log("bind input", monadic.input);
+      logger.log("bind monadic", monadic);
       t[0].output = error;
       if (error.statusCode === 429) {
         ret.response.statusCode = 200;

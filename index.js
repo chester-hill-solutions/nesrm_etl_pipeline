@@ -18,11 +18,11 @@ import appendToSheet from "./src/appendToSheet.js";
 let REQUEST_BACKUP_ID;
 let REQUEST_CREATED_AT;
 
-async function storeRequestReturnPayload(payload, dataStore, supabase) {
+async function storeRequestReturnPayload(payload, storeData, supabase) {
   logger.dev.log("storeRequestReturnPayload()");
   logger.dev.log("payload", payload);
-  logger.dev.log("dataStore", dataStore);
-  const data = await ingest.storeRequest(dataStore, supabase);
+  logger.dev.log("dataStore", storeData);
+  const data = await ingest.storeRequest({input:storeData, supabase});
   payload.response.body.request_backup_id = data.id;
   logger.log(payload);
   return payload.response;
@@ -50,7 +50,7 @@ export const handler = async (event) => {
       payload.input = payload.trace[0].output;
     }
     //Ingest store event
-    payload = await scMonad.bindMonad(scMonad.unit(payload), ingest.storeEvent);
+    payload = await scMonad.bindMonad(scMonad.unit(payload), ingest.storeEvent, supabase);
     logger.dev.log("payload respone trace", payload.response.body.trace)
     if (payload.response.statusCode != 200) {
       return storeRequestReturnPayload(
@@ -81,7 +81,7 @@ export const handler = async (event) => {
         supabase,
       );
     } else {
-    shaped_data = payload.trace[0].output;
+    shaped_data = structuredClone(payload.trace[0].output);
       payload.input = {
             payload: event,
             created_at: REQUEST_CREATED_AT,
@@ -92,7 +92,7 @@ export const handler = async (event) => {
     }
     logger.log("shaped_data",shaped_data)
 
-    //Append to Sheet    
+    /*//Append to Sheet    
     payload = await scMonad.bindMonad(scMonad.unit(payload),appendToSheet,supabase);
     logger.dev.log("payload respone trace", payload.response.body.trace)
     if (payload.response.statusCode != 200) {
@@ -101,12 +101,12 @@ export const handler = async (event) => {
         { id: REQUEST_BACKUP_ID, logs: payload, success: false },
         supabase,
       );
-    } 
+    } */
       payload.input = shaped_data
 
     //Upsert
     let upserted_data;
-    payload = await scMonad.bindMonad(scMonad.unit(payload), upsertData);
+    payload = await scMonad.bindMonad(scMonad.unit(payload), upsertData, supabase);
     logger.dev.log("payload respone trace", payload.response.body.trace)
     if (payload.response.statusCode != 200) {
       return storeRequestReturnPayload(
@@ -115,7 +115,7 @@ export const handler = async (event) => {
         supabase,
       );
     } else {
-      upserted_data = payload.trace[0].output;
+      upserted_data = structuredClone(payload.trace[0].output);
       payload.input = {id: REQUEST_BACKUP_ID,
         contact_id: upserted_data.id}
     }
@@ -123,6 +123,7 @@ export const handler = async (event) => {
     payload = await scMonad.bindMonad(
       scMonad.unit(payload),
       ingest.storeRequest,
+      supabase
     );
     if (payload.response.statusCode != 200) {
       return storeRequestReturnPayload(
@@ -144,7 +145,7 @@ export const handler = async (event) => {
       ) {
         const welcomeResponse = await scMonad.bindMonad(
           scMonad.unit(upserted_data),
-          sendTeamWelcome,
+          sendTeamWelcome
         );
         logger.log("welcomeResponse", welcomeResponse);
         if (welcomeResponse.response.statusCode != 200) {

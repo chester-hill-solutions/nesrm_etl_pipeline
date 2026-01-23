@@ -4,12 +4,14 @@ import path from "path";
 import HttpError from "simple-http-error";
 import logger from "simple-logs-sai-node";
 
-async function storeRequest(
-  storeData,
-  supabase = createClient(process.env.DATABASE_URL, process.env.KEY),
+async function storeRequest({
+  input,
+  supabase = null}
 ) {
-  logger.dev.log("storeRequest()");
-  logger.dev.log("storeData", storeData);
+  logger.log("storeRequest()");
+  let storeData = input
+  logger.log("storeData", storeData);
+  supabase = supabase ?? createClient(process.env.DATABASE_URL, process.env.KEY)
   const { data, error: sbError } = await supabase
     .from("request")
     .upsert(storeData).select();
@@ -17,7 +19,7 @@ async function storeRequest(
     logger.log("sbError:", sbError);
     throw new HttpError(sbError, 500, { originalError: sbError });
   }
-  logger.dev.log("storeRequest output", data);
+  logger.log("storeRequest output", data);
   return data;
 }
 
@@ -47,9 +49,10 @@ const ingest = {
     }
     return event;
   },
-  storeEvent: async (event) => {
+  storeEvent: async ({input, supabase=null}) => {
     //connect to supabase client
-    const supabase = createClient(process.env.DATABASE_URL, process.env.KEY);
+    supabase = supabase ? supabase : createClient(process.env.DATABASE_URL, process.env.KEY);
+    let event = input
 
     //store request in supabase
     const headers = Object.fromEntries(
@@ -69,7 +72,7 @@ const ingest = {
       email: body?.email,
       step: body?._meta?.step?.index,
     };
-    let data = await storeRequest(storeData, supabase);
+    let data = await storeRequest({input:storeData, supabase});
 
     let ret = structuredClone(event);
     if (data) {
