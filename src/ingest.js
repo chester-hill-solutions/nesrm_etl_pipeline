@@ -3,18 +3,18 @@ import { createClient } from "@supabase/supabase-js";
 import path from "path";
 import HttpError from "simple-http-error";
 import logger from "simple-logs-sai-node";
+import { parseQueryParams } from "../scripts/parseQueryParams/index.js";
 
-async function storeRequest({
-  input,
-  supabase = null}
-) {
+async function storeRequest({ input, supabase = null }) {
   logger.log("storeRequest()");
-  let storeData = input
+  let storeData = input;
   logger.log("storeData", storeData);
-  supabase = supabase ?? createClient(process.env.DATABASE_URL, process.env.KEY)
+  supabase =
+    supabase ?? createClient(process.env.DATABASE_URL, process.env.KEY);
   const { data, error: sbError } = await supabase
     .from("request")
-    .upsert(storeData).select();
+    .upsert(storeData)
+    .select();
   if (sbError) {
     logger.log("sbError:", sbError);
     throw new HttpError(sbError, 500, { originalError: sbError });
@@ -34,8 +34,7 @@ const ingest = {
     );
     if (!headers["origin"] || !headers["x-forwarded-for"]) {
       throw new HttpError(
-        `Event missing headers: {${!headers["origin"] ? " Origin" : ""} ${
-          !headers["x-forwarded-for"] ? " x-forwarded-for" : ""
+        `Event missing headers: {${!headers["origin"] ? " Origin" : ""} ${!headers["x-forwarded-for"] ? " x-forwarded-for" : ""
         } }`,
         400,
       );
@@ -49,10 +48,12 @@ const ingest = {
     }
     return event;
   },
-  storeEvent: async ({input, supabase=null}) => {
+  storeEvent: async ({ input, supabase = null }) => {
     //connect to supabase client
-    supabase = supabase ? supabase : createClient(process.env.DATABASE_URL, process.env.KEY);
-    let event = input
+    supabase = supabase
+      ? supabase
+      : createClient(process.env.DATABASE_URL, process.env.KEY);
+    let event = input;
 
     //store request in supabase
     const headers = Object.fromEntries(
@@ -65,19 +66,37 @@ const ingest = {
         return event?.body;
       }
     })();
-    const storeData = {
+    let storeData = {
       payload: typeof event === "string" ? JSON.parse(event) : event,
       origin: headers?.origin,
       ip: headers?.["x-forwarded-for"],
       email: body?.email,
       step: body?._meta?.step?.index,
+      referer: headers?.referer ?? body?._meta?.referer ?? undefined,
     };
-    let data = await storeRequest({input:storeData, supabase});
+    let searchParams = await parseQueryParams(storeData.referer, { coerce: true });
+    logger.log(
+      "typeof search params",
+      typeof searchParams,
+      "searchParams",
+      searchParams,
+    );
+    let urlParams = {
+      search_params: searchParams,
+      utm_source: searchParams.utm_source,
+      utm_medium: searchParams.utm_medium,
+      utm_campaign: searchParams.utm_campaign,
+      utm_term: searchParams.utm_term,
+      utm_content: searchParams.utm_content,
+    };
+    storeData = { ...storeData, ...urlParams };
+    logger.log("storeData w urlParams", storeData);
+    let data = await storeRequest({ input: storeData, supabase });
 
     let ret = structuredClone(event);
     if (data) {
       ret.headers.request_backup_id = data[0].id;
-      ret.headers.request_created_at = data[0].created_at;      
+      ret.headers.request_created_at = data[0].created_at;
     } else {
       logger.log("data", data);
       throw new HttpError("Failed to store request");
