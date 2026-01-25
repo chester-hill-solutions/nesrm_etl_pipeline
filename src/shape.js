@@ -24,7 +24,7 @@ const cleanString = (str) => {
   if (str === null || str === undefined) return undefined;
   //trim either side of string
   const s = collapseSpaces(String(str).trim());
-  let cleaned = s.replace(/^,+|,+$/g, "");
+  let cleaned = s.replace(/^,+|,+$/g, "").replace(/\\(?=['"])/g, "");
   return cleaned === "" ? undefined : cleaned;
 };
 const cleanEmail = (str) => {

@@ -237,8 +237,8 @@ storeData {
 }
 storeRequest output [
   {
-    id: 54,
-    created_at: '2026-01-25T22:07:29.564911+00:00',
+    id: 61,
+    created_at: '2026-01-25T22:24:18.039291+00:00',
     origin: 'https://nateerskinesmith.ca',
     payload: {
       body: `{"comms_consent":"true","organizer":"","firstname":"Michael","surname":"O\\\\'Morrow","email":"mike.omorrow@gmail.com","postcode":"M4C0A7","message":"I am interested in volunteering for a potential leadership campaign. I am an Ontario public servant with experience in policy and communications. I think Ontario is experiencing a crisis of leadership. The government is unopposed and unaccountable, and we have a gimmick Premier. Ontario desperately needs a pragmatic and honest leader willing to put forward real solutions to tough problems. ","phone":"6472335877","birthdate":"2","birthmonth":"8","birthyear":"1983","address":"2301 Danforth Avenue, 406","city":"Toronto","_meta":{"ip":"134.231.49.117","user_agent":"Mozilla\\/5.0 (iPhone; CPU iPhone OS 18_7 like Mac OS X) AppleWebKit\\/605.1.15 (KHTML, like Gecko) Version\\/26.2 Mobile\\/15E148 Safari\\/604.1","referer":"https:\\/\\/nateerskinesmith.ca\\/","steps":3,"is_final":false,"step":{"index":1,"is_final":false},"submission_source":"organic"},"_status":"draft"}`,
@@ -317,12 +317,12 @@ shaped_data {
     'X-Forwarded-For': '134.231.49.117, 172.70.50.154, 162.220.234.59',
     'X-Forwarded-Port': '443',
     'X-Forwarded-Proto': 'https',
-    request_backup_id: 54,
-    request_created_at: '2026-01-25T22:07:29.564911+00:00'
+    request_backup_id: 61,
+    request_created_at: '2026-01-25T22:24:18.039291+00:00'
   },
   body: {
     firstname: 'Michael',
-    surname: "O\\'Morrow",
+    surname: "O'Morrow",
     email: 'mike.omorrow@gmail.com',
     phone: '6472335877',
     birthyear: 1983,
@@ -334,6 +334,8 @@ shaped_data {
     comms_consent: 'true'
   }
 }
+RAW: O'Morrow
+JSON: "O'Morrow"
 bind to appendToSheet
 appendToSheet typeof supabase object
 downloadFromSupabaseBucket typeof supabase object
@@ -342,7 +344,7 @@ bind error Error: Failed to download google-service-account-key.json from bucket
     at process.processTicksAndRejections (node:internal/process/task_queues:103:5)
     at async appendToSheet (file:///Users/saihaansyed/chsolutions/projects/nes/pipeline/nesrm_etl_pipeline/src/appendToSheet.js:94:17)
     at async Object.bindMonad (file:///Users/saihaansyed/chsolutions/projects/nes/pipeline/nesrm_etl_pipeline/scripts/monads/monad.js:86:42)
-    at async handler (file:///Users/saihaansyed/chsolutions/projects/nes/pipeline/nesrm_etl_pipeline/index.js:96:15)
+    at async handler (file:///Users/saihaansyed/chsolutions/projects/nes/pipeline/nesrm_etl_pipeline/index.js:98:15)
     at async runner (file:///Users/saihaansyed/chsolutions/projects/nes/pipeline/nesrm_etl_pipeline/runner.js:37:12)
     at async runOverArray (file:///Users/saihaansyed/chsolutions/projects/nes/pipeline/nesrm_etl_pipeline/runner.js:92:26)
     at async main (file:///Users/saihaansyed/chsolutions/projects/nes/pipeline/nesrm_etl_pipeline/runner.js:189:7)
@@ -402,8 +404,8 @@ bind input {
     queryStringParameters: null,
     multiValueQueryStringParameters: null
   },
-  created_at: '2026-01-25T22:07:29.564911+00:00',
-  request_id: 54,
+  created_at: '2026-01-25T22:24:18.039291+00:00',
+  request_id: 61,
   body: `{"comms_consent":"true","organizer":"","firstname":"Michael","surname":"O\\\\'Morrow","email":"mike.omorrow@gmail.com","postcode":"M4C0A7","message":"I am interested in volunteering for a potential leadership campaign. I am an Ontario public servant with experience in policy and communications. I think Ontario is experiencing a crisis of leadership. The government is unopposed and unaccountable, and we have a gimmick Premier. Ontario desperately needs a pragmatic and honest leader willing to put forward real solutions to tough problems. ","phone":"6472335877","birthdate":"2","birthmonth":"8","birthyear":"1983","address":"2301 Danforth Avenue, 406","city":"Toronto","_meta":{"ip":"134.231.49.117","user_agent":"Mozilla\\/5.0 (iPhone; CPU iPhone OS 18_7 like Mac OS X) AppleWebKit\\/605.1.15 (KHTML, like Gecko) Version\\/26.2 Mobile\\/15E148 Safari\\/604.1","referer":"https:\\/\\/nateerskinesmith.ca\\/","steps":3,"is_final":false,"step":{"index":1,"is_final":false},"submission_source":"organic"},"_status":"draft"}`,
   shaped_data: {
     headers: {
@@ -417,12 +419,12 @@ bind input {
       'X-Forwarded-For': '134.231.49.117, 172.70.50.154, 162.220.234.59',
       'X-Forwarded-Port': '443',
       'X-Forwarded-Proto': 'https',
-      request_backup_id: 54,
-      request_created_at: '2026-01-25T22:07:29.564911+00:00'
+      request_backup_id: 61,
+      request_created_at: '2026-01-25T22:24:18.039291+00:00'
     },
     body: {
       firstname: 'Michael',
-      surname: "O\\'Morrow",
+      surname: "O'Morrow",
       email: 'mike.omorrow@gmail.com',
       phone: '6472335877',
       birthyear: 1983,
@@ -443,21 +445,21 @@ bind monadic {
       task: 'shapeData',
       input: [Object],
       output: [Object],
-      duration: 3.315499999999986
+      duration: 1.7159580000000005
     },
     {
       step: 'ingest.js',
       task: 'storeEvent',
       input: [Object],
       output: [Object],
-      duration: 29.343041
+      duration: 23.134667000000007
     },
     {
       step: 'ingest.js',
       task: 'headerCheck',
       input: [Object],
       output: [Object],
-      duration: 0.09483299999999417
+      duration: 0.1256659999999954
     }
   ],
   input: {
@@ -475,8 +477,8 @@ bind monadic {
       queryStringParameters: null,
       multiValueQueryStringParameters: null
     },
-    created_at: '2026-01-25T22:07:29.564911+00:00',
-    request_id: 54,
+    created_at: '2026-01-25T22:24:18.039291+00:00',
+    request_id: 61,
     body: `{"comms_consent":"true","organizer":"","firstname":"Michael","surname":"O\\\\'Morrow","email":"mike.omorrow@gmail.com","postcode":"M4C0A7","message":"I am interested in volunteering for a potential leadership campaign. I am an Ontario public servant with experience in policy and communications. I think Ontario is experiencing a crisis of leadership. The government is unopposed and unaccountable, and we have a gimmick Premier. Ontario desperately needs a pragmatic and honest leader willing to put forward real solutions to tough problems. ","phone":"6472335877","birthdate":"2","birthmonth":"8","birthyear":"1983","address":"2301 Danforth Avenue, 406","city":"Toronto","_meta":{"ip":"134.231.49.117","user_agent":"Mozilla\\/5.0 (iPhone; CPU iPhone OS 18_7 like Mac OS X) AppleWebKit\\/605.1.15 (KHTML, like Gecko) Version\\/26.2 Mobile\\/15E148 Safari\\/604.1","referer":"https:\\/\\/nateerskinesmith.ca\\/","steps":3,"is_final":false,"step":{"index":1,"is_final":false},"submission_source":"organic"},"_status":"draft"}`,
     shaped_data: { headers: [Object], body: [Object] }
   }
@@ -486,7 +488,7 @@ caught Error: Failed to download google-service-account-key.json from bucket sai
     at process.processTicksAndRejections (node:internal/process/task_queues:103:5)
     at async appendToSheet (file:///Users/saihaansyed/chsolutions/projects/nes/pipeline/nesrm_etl_pipeline/src/appendToSheet.js:94:17)
     at async Object.bindMonad (file:///Users/saihaansyed/chsolutions/projects/nes/pipeline/nesrm_etl_pipeline/scripts/monads/monad.js:86:42)
-    at async handler (file:///Users/saihaansyed/chsolutions/projects/nes/pipeline/nesrm_etl_pipeline/index.js:96:15)
+    at async handler (file:///Users/saihaansyed/chsolutions/projects/nes/pipeline/nesrm_etl_pipeline/index.js:98:15)
     at async runner (file:///Users/saihaansyed/chsolutions/projects/nes/pipeline/nesrm_etl_pipeline/runner.js:37:12)
     at async runOverArray (file:///Users/saihaansyed/chsolutions/projects/nes/pipeline/nesrm_etl_pipeline/runner.js:92:26)
     at async main (file:///Users/saihaansyed/chsolutions/projects/nes/pipeline/nesrm_etl_pipeline/runner.js:189:7)
@@ -499,52 +501,52 @@ appendToSheet bindMonad output {
         {
           "step": "appendToSheet.js",
           "task": "appendToSheet",
-          "duration": 17.176333999999997
+          "duration": 15.150166999999982
         },
         {
           "step": "shape.js",
           "task": "shapeData",
-          "duration": 3.315499999999986
+          "duration": 1.7159580000000005
         },
         {
           "step": "ingest.js",
           "task": "storeEvent",
-          "duration": 29.343041
+          "duration": 23.134667000000007
         },
         {
           "step": "ingest.js",
           "task": "headerCheck",
-          "duration": 0.09483299999999417
+          "duration": 0.1256659999999954
         },
         {
           "step": "shape.js",
           "task": "shapeData",
-          "duration": 3.315499999999986
+          "duration": 1.7159580000000005
         },
         {
           "step": "ingest.js",
           "task": "storeEvent",
-          "duration": 29.343041
+          "duration": 23.134667000000007
         },
         {
           "step": "ingest.js",
           "task": "headerCheck",
-          "duration": 0.09483299999999417
+          "duration": 0.1256659999999954
         },
         {
           "step": "ingest.js",
           "task": "storeEvent",
-          "duration": 29.343041
+          "duration": 23.134667000000007
         },
         {
           "step": "ingest.js",
           "task": "headerCheck",
-          "duration": 0.09483299999999417
+          "duration": 0.1256659999999954
         },
         {
           "step": "ingest.js",
           "task": "headerCheck",
-          "duration": 0.09483299999999417
+          "duration": 0.1256659999999954
         }
       ]
     }
@@ -642,8 +644,8 @@ appendToSheet bindMonad output {
           "queryStringParameters": null,
           "multiValueQueryStringParameters": null
         },
-        "created_at": "2026-01-25T22:07:29.564911+00:00",
-        "request_id": 54,
+        "created_at": "2026-01-25T22:24:18.039291+00:00",
+        "request_id": 61,
         "body": "{\"comms_consent\":\"true\",\"organizer\":\"\",\"firstname\":\"Michael\",\"surname\":\"O\\\\'Morrow\",\"email\":\"mike.omorrow@gmail.com\",\"postcode\":\"M4C0A7\",\"message\":\"I am interested in volunteering for a potential leadership campaign. I am an Ontario public servant with experience in policy and communications. I think Ontario is experiencing a crisis of leadership. The government is unopposed and unaccountable, and we have a gimmick Premier. Ontario desperately needs a pragmatic and honest leader willing to put forward real solutions to tough problems. \",\"phone\":\"6472335877\",\"birthdate\":\"2\",\"birthmonth\":\"8\",\"birthyear\":\"1983\",\"address\":\"2301 Danforth Avenue, 406\",\"city\":\"Toronto\",\"_meta\":{\"ip\":\"134.231.49.117\",\"user_agent\":\"Mozilla\\/5.0 (iPhone; CPU iPhone OS 18_7 like Mac OS X) AppleWebKit\\/605.1.15 (KHTML, like Gecko) Version\\/26.2 Mobile\\/15E148 Safari\\/604.1\",\"referer\":\"https:\\/\\/nateerskinesmith.ca\\/\",\"steps\":3,\"is_final\":false,\"step\":{\"index\":1,\"is_final\":false},\"submission_source\":\"organic\"},\"_status\":\"draft\"}",
         "shaped_data": {
           "headers": {
@@ -657,12 +659,12 @@ appendToSheet bindMonad output {
             "X-Forwarded-For": "134.231.49.117, 172.70.50.154, 162.220.234.59",
             "X-Forwarded-Port": "443",
             "X-Forwarded-Proto": "https",
-            "request_backup_id": 54,
-            "request_created_at": "2026-01-25T22:07:29.564911+00:00"
+            "request_backup_id": 61,
+            "request_created_at": "2026-01-25T22:24:18.039291+00:00"
           },
           "body": {
             "firstname": "Michael",
-            "surname": "O\\'Morrow",
+            "surname": "O'Morrow",
             "email": "mike.omorrow@gmail.com",
             "phone": "6472335877",
             "birthyear": 1983,
@@ -676,7 +678,7 @@ appendToSheet bindMonad output {
         }
       },
       "output": {},
-      "duration": 17.176333999999997
+      "duration": 15.150166999999982
     },
     {
       "step": "shape.js",
@@ -695,8 +697,8 @@ appendToSheet bindMonad output {
           "X-Forwarded-For": "134.231.49.117, 172.70.50.154, 162.220.234.59",
           "X-Forwarded-Port": "443",
           "X-Forwarded-Proto": "https",
-          "request_backup_id": 54,
-          "request_created_at": "2026-01-25T22:07:29.564911+00:00"
+          "request_backup_id": 61,
+          "request_created_at": "2026-01-25T22:24:18.039291+00:00"
         },
         "resource": "/contact",
         "httpMethod": "POST",
@@ -783,12 +785,12 @@ appendToSheet bindMonad output {
           "X-Forwarded-For": "134.231.49.117, 172.70.50.154, 162.220.234.59",
           "X-Forwarded-Port": "443",
           "X-Forwarded-Proto": "https",
-          "request_backup_id": 54,
-          "request_created_at": "2026-01-25T22:07:29.564911+00:00"
+          "request_backup_id": 61,
+          "request_created_at": "2026-01-25T22:24:18.039291+00:00"
         },
         "body": {
           "firstname": "Michael",
-          "surname": "O\\'Morrow",
+          "surname": "O'Morrow",
           "email": "mike.omorrow@gmail.com",
           "phone": "6472335877",
           "birthyear": 1983,
@@ -800,7 +802,7 @@ appendToSheet bindMonad output {
           "comms_consent": "true"
         }
       },
-      "duration": 3.315499999999986
+      "duration": 1.7159580000000005
     },
     {
       "step": "ingest.js",
@@ -907,8 +909,8 @@ appendToSheet bindMonad output {
           "X-Forwarded-For": "134.231.49.117, 172.70.50.154, 162.220.234.59",
           "X-Forwarded-Port": "443",
           "X-Forwarded-Proto": "https",
-          "request_backup_id": 54,
-          "request_created_at": "2026-01-25T22:07:29.564911+00:00"
+          "request_backup_id": 61,
+          "request_created_at": "2026-01-25T22:24:18.039291+00:00"
         },
         "resource": "/contact",
         "httpMethod": "POST",
@@ -983,7 +985,7 @@ appendToSheet bindMonad output {
         "queryStringParameters": null,
         "multiValueQueryStringParameters": null
       },
-      "duration": 29.343041
+      "duration": 23.134667000000007
     },
     {
       "step": "ingest.js",
@@ -1164,13 +1166,13 @@ appendToSheet bindMonad output {
         "queryStringParameters": null,
         "multiValueQueryStringParameters": null
       },
-      "duration": 0.09483299999999417
+      "duration": 0.1256659999999954
     }
   ]
 }
 storeRequest()
 storeData {
-  id: 54,
+  id: 61,
   logs: {
     response: { statusCode: 500, body: [Object] },
     trace: [ [Object], [Object], [Object], [Object] ]
@@ -1179,8 +1181,8 @@ storeData {
 }
 storeRequest output [
   {
-    id: 54,
-    created_at: '2026-01-25T22:07:29.564911+00:00',
+    id: 61,
+    created_at: '2026-01-25T22:24:18.039291+00:00',
     origin: 'https://nateerskinesmith.ca',
     payload: {
       body: `{"comms_consent":"true","organizer":"","firstname":"Michael","surname":"O\\\\'Morrow","email":"mike.omorrow@gmail.com","postcode":"M4C0A7","message":"I am interested in volunteering for a potential leadership campaign. I am an Ontario public servant with experience in policy and communications. I think Ontario is experiencing a crisis of leadership. The government is unopposed and unaccountable, and we have a gimmick Premier. Ontario desperately needs a pragmatic and honest leader willing to put forward real solutions to tough problems. ","phone":"6472335877","birthdate":"2","birthmonth":"8","birthyear":"1983","address":"2301 Danforth Avenue, 406","city":"Toronto","_meta":{"ip":"134.231.49.117","user_agent":"Mozilla\\/5.0 (iPhone; CPU iPhone OS 18_7 like Mac OS X) AppleWebKit\\/605.1.15 (KHTML, like Gecko) Version\\/26.2 Mobile\\/15E148 Safari\\/604.1","referer":"https:\\/\\/nateerskinesmith.ca\\/","steps":3,"is_final":false,"step":{"index":1,"is_final":false},"submission_source":"organic"},"_status":"draft"}`,
@@ -1233,50 +1235,50 @@ storeRequest output [
           at process.processTicksAndRejections (node:internal/process/task_queues:103:5)
           at async appendToSheet (file:///Users/saihaansyed/chsolutions/projects/nes/pipeline/nesrm_etl_pipeline/src/appendToSheet.js:94:17)
           at async Object.bindMonad (file:///Users/saihaansyed/chsolutions/projects/nes/pipeline/nesrm_etl_pipeline/scripts/monads/monad.js:86:42)
-          at async handler (file:///Users/saihaansyed/chsolutions/projects/nes/pipeline/nesrm_etl_pipeline/index.js:96:15)
+          at async handler (file:///Users/saihaansyed/chsolutions/projects/nes/pipeline/nesrm_etl_pipeline/index.js:98:15)
           at async runner (file:///Users/saihaansyed/chsolutions/projects/nes/pipeline/nesrm_etl_pipeline/runner.js:37:12)
           at async runOverArray (file:///Users/saihaansyed/chsolutions/projects/nes/pipeline/nesrm_etl_pipeline/runner.js:92:26)
           at async main (file:///Users/saihaansyed/chsolutions/projects/nes/pipeline/nesrm_etl_pipeline/runner.js:189:7),
-      duration: 17.176333999999997
+      duration: 15.150166999999982
     },
     {
       step: 'shape.js',
       task: 'shapeData',
       input: [Object],
       output: [Object],
-      duration: 3.315499999999986
+      duration: 1.7159580000000005
     },
     {
       step: 'ingest.js',
       task: 'storeEvent',
       input: [Object],
       output: [Object],
-      duration: 29.343041
+      duration: 23.134667000000007
     },
     {
       step: 'ingest.js',
       task: 'headerCheck',
       input: [Object],
       output: [Object],
-      duration: 0.09483299999999417
+      duration: 0.1256659999999954
     }
   ]
 }
 bind to upsertData
-shapedDataLastName o\'morrow
-No matching profile found
+shapedDataLastName o'morrow
+Found Matching Profile ID: 1155
 get_opennorth M4C0A7
 got_opennorth M4C0A7
 About to upsert
-Successfully upserted 201
+Successfully upserted 200
 upsertData bindMonad output 200
 bind to storeRequest
 storeRequest()
-storeData { id: 54, contact_id: 1150 }
+storeData { id: 61, contact_id: 1155 }
 storeRequest output [
   {
-    id: 54,
-    created_at: '2026-01-25T22:07:29.564911+00:00',
+    id: 61,
+    created_at: '2026-01-25T22:24:18.039291+00:00',
     origin: 'https://nateerskinesmith.ca',
     payload: {
       body: `{"comms_consent":"true","organizer":"","firstname":"Michael","surname":"O\\\\'Morrow","email":"mike.omorrow@gmail.com","postcode":"M4C0A7","message":"I am interested in volunteering for a potential leadership campaign. I am an Ontario public servant with experience in policy and communications. I think Ontario is experiencing a crisis of leadership. The government is unopposed and unaccountable, and we have a gimmick Premier. Ontario desperately needs a pragmatic and honest leader willing to put forward real solutions to tough problems. ","phone":"6472335877","birthdate":"2","birthmonth":"8","birthyear":"1983","address":"2301 Danforth Avenue, 406","city":"Toronto","_meta":{"ip":"134.231.49.117","user_agent":"Mozilla\\/5.0 (iPhone; CPU iPhone OS 18_7 like Mac OS X) AppleWebKit\\/605.1.15 (KHTML, like Gecko) Version\\/26.2 Mobile\\/15E148 Safari\\/604.1","referer":"https:\\/\\/nateerskinesmith.ca\\/","steps":3,"is_final":false,"step":{"index":1,"is_final":false},"submission_source":"organic"},"_status":"draft"}`,
@@ -1299,7 +1301,7 @@ storeRequest output [
     status: 'new',
     category: null,
     notes: null,
-    contact_id: 1150,
+    contact_id: 1155,
     step: 1,
     utm_source: null,
     utm_medium: null,
@@ -1328,8 +1330,8 @@ post payload {
     "federal_electoral_district": "Beaches—East York",
     "division_electoral_district": "Beaches—East York",
     "comms_consent": true,
-    "last_request": 54,
-    "last_name": "O\\'Morrow",
+    "last_request": 61,
+    "last_name": "O'Morrow",
     "state": "Ontario",
     "name": "Michael",
     "z_i_p": "M4C0A7",
@@ -1343,11 +1345,11 @@ bind error [HttpError: Unauthenticated.] {
   originalStack: null
 }
 bind input {
-  id: 1150,
-  created_at: '2026-01-25T22:07:29.90329+00:00',
-  updated_at: '2026-01-25T22:07:29.90329+00:00',
+  id: 1155,
+  created_at: '2026-01-25T22:23:12.015742+00:00',
+  updated_at: '2026-01-25T22:24:18.327615+00:00',
   firstname: 'Michael',
-  surname: "O\\'Morrow",
+  surname: "O'Morrow",
   email: 'mike.omorrow@gmail.com',
   phone: '6472335877',
   birthdate: 2,
@@ -1400,7 +1402,7 @@ bind input {
   olp23_membership_status: null,
   olp_van_id: null,
   lpc_van_id: null,
-  last_request: 54,
+  last_request: 61,
   tags: null,
   gender: null,
   mailerlite_id: null,
@@ -1422,14 +1424,14 @@ bind monadic {
       task: 'storeRequest',
       input: [Object],
       output: [Array],
-      duration: 4.894874999999956
+      duration: 3.234542000000033
     },
     {
       step: 'upsert.js',
       task: 'upsertData',
       input: [Object],
       output: [Object],
-      duration: 330.853083
+      duration: 260.24629200000004
     },
     {
       step: 'appendToSheet.js',
@@ -1440,40 +1442,40 @@ bind monadic {
           at process.processTicksAndRejections (node:internal/process/task_queues:103:5)
           at async appendToSheet (file:///Users/saihaansyed/chsolutions/projects/nes/pipeline/nesrm_etl_pipeline/src/appendToSheet.js:94:17)
           at async Object.bindMonad (file:///Users/saihaansyed/chsolutions/projects/nes/pipeline/nesrm_etl_pipeline/scripts/monads/monad.js:86:42)
-          at async handler (file:///Users/saihaansyed/chsolutions/projects/nes/pipeline/nesrm_etl_pipeline/index.js:96:15)
+          at async handler (file:///Users/saihaansyed/chsolutions/projects/nes/pipeline/nesrm_etl_pipeline/index.js:98:15)
           at async runner (file:///Users/saihaansyed/chsolutions/projects/nes/pipeline/nesrm_etl_pipeline/runner.js:37:12)
           at async runOverArray (file:///Users/saihaansyed/chsolutions/projects/nes/pipeline/nesrm_etl_pipeline/runner.js:92:26)
           at async main (file:///Users/saihaansyed/chsolutions/projects/nes/pipeline/nesrm_etl_pipeline/runner.js:189:7),
-      duration: 17.176333999999997
+      duration: 15.150166999999982
     },
     {
       step: 'shape.js',
       task: 'shapeData',
       input: [Object],
       output: [Object],
-      duration: 3.315499999999986
+      duration: 1.7159580000000005
     },
     {
       step: 'ingest.js',
       task: 'storeEvent',
       input: [Object],
       output: [Object],
-      duration: 29.343041
+      duration: 23.134667000000007
     },
     {
       step: 'ingest.js',
       task: 'headerCheck',
       input: [Object],
       output: [Object],
-      duration: 0.09483299999999417
+      duration: 0.1256659999999954
     }
   ],
   input: {
-    id: 1150,
-    created_at: '2026-01-25T22:07:29.90329+00:00',
-    updated_at: '2026-01-25T22:07:29.90329+00:00',
+    id: 1155,
+    created_at: '2026-01-25T22:23:12.015742+00:00',
+    updated_at: '2026-01-25T22:24:18.327615+00:00',
     firstname: 'Michael',
-    surname: "O\\'Morrow",
+    surname: "O'Morrow",
     email: 'mike.omorrow@gmail.com',
     phone: '6472335877',
     birthdate: 2,
@@ -1526,7 +1528,7 @@ bind monadic {
     olp23_membership_status: null,
     olp_van_id: null,
     lpc_van_id: null,
-    last_request: 54,
+    last_request: 61,
     tags: null,
     gender: null,
     mailerlite_id: null,
@@ -1556,142 +1558,142 @@ mail bindMonad output {
         {
           "step": "mail.js",
           "task": "mail",
-          "duration": 618.110875
+          "duration": 606.135458
         },
         {
           "step": "ingest.js",
           "task": "storeRequest",
-          "duration": 4.894874999999956
+          "duration": 3.234542000000033
         },
         {
           "step": "upsert.js",
           "task": "upsertData",
-          "duration": 330.853083
+          "duration": 260.24629200000004
         },
         {
           "step": "appendToSheet.js",
           "task": "appendToSheet",
-          "duration": 17.176333999999997
+          "duration": 15.150166999999982
         },
         {
           "step": "shape.js",
           "task": "shapeData",
-          "duration": 3.315499999999986
+          "duration": 1.7159580000000005
         },
         {
           "step": "ingest.js",
           "task": "storeEvent",
-          "duration": 29.343041
+          "duration": 23.134667000000007
         },
         {
           "step": "ingest.js",
           "task": "headerCheck",
-          "duration": 0.09483299999999417
+          "duration": 0.1256659999999954
         },
         {
           "step": "ingest.js",
           "task": "storeRequest",
-          "duration": 4.894874999999956
+          "duration": 3.234542000000033
         },
         {
           "step": "upsert.js",
           "task": "upsertData",
-          "duration": 330.853083
+          "duration": 260.24629200000004
         },
         {
           "step": "appendToSheet.js",
           "task": "appendToSheet",
-          "duration": 17.176333999999997
+          "duration": 15.150166999999982
         },
         {
           "step": "shape.js",
           "task": "shapeData",
-          "duration": 3.315499999999986
+          "duration": 1.7159580000000005
         },
         {
           "step": "ingest.js",
           "task": "storeEvent",
-          "duration": 29.343041
+          "duration": 23.134667000000007
         },
         {
           "step": "ingest.js",
           "task": "headerCheck",
-          "duration": 0.09483299999999417
+          "duration": 0.1256659999999954
         },
         {
           "step": "upsert.js",
           "task": "upsertData",
-          "duration": 330.853083
+          "duration": 260.24629200000004
         },
         {
           "step": "appendToSheet.js",
           "task": "appendToSheet",
-          "duration": 17.176333999999997
+          "duration": 15.150166999999982
         },
         {
           "step": "shape.js",
           "task": "shapeData",
-          "duration": 3.315499999999986
+          "duration": 1.7159580000000005
         },
         {
           "step": "ingest.js",
           "task": "storeEvent",
-          "duration": 29.343041
+          "duration": 23.134667000000007
         },
         {
           "step": "ingest.js",
           "task": "headerCheck",
-          "duration": 0.09483299999999417
+          "duration": 0.1256659999999954
         },
         {
           "step": "appendToSheet.js",
           "task": "appendToSheet",
-          "duration": 17.176333999999997
+          "duration": 15.150166999999982
         },
         {
           "step": "shape.js",
           "task": "shapeData",
-          "duration": 3.315499999999986
+          "duration": 1.7159580000000005
         },
         {
           "step": "ingest.js",
           "task": "storeEvent",
-          "duration": 29.343041
+          "duration": 23.134667000000007
         },
         {
           "step": "ingest.js",
           "task": "headerCheck",
-          "duration": 0.09483299999999417
+          "duration": 0.1256659999999954
         },
         {
           "step": "shape.js",
           "task": "shapeData",
-          "duration": 3.315499999999986
+          "duration": 1.7159580000000005
         },
         {
           "step": "ingest.js",
           "task": "storeEvent",
-          "duration": 29.343041
+          "duration": 23.134667000000007
         },
         {
           "step": "ingest.js",
           "task": "headerCheck",
-          "duration": 0.09483299999999417
+          "duration": 0.1256659999999954
         },
         {
           "step": "ingest.js",
           "task": "storeEvent",
-          "duration": 29.343041
+          "duration": 23.134667000000007
         },
         {
           "step": "ingest.js",
           "task": "headerCheck",
-          "duration": 0.09483299999999417
+          "duration": 0.1256659999999954
         },
         {
           "step": "ingest.js",
           "task": "headerCheck",
-          "duration": 0.09483299999999417
+          "duration": 0.1256659999999954
         }
       ]
     }
@@ -1701,11 +1703,11 @@ mail bindMonad output {
       "step": "mail.js",
       "task": "mail",
       "input": {
-        "id": 1150,
-        "created_at": "2026-01-25T22:07:29.90329+00:00",
-        "updated_at": "2026-01-25T22:07:29.90329+00:00",
+        "id": 1155,
+        "created_at": "2026-01-25T22:23:12.015742+00:00",
+        "updated_at": "2026-01-25T22:24:18.327615+00:00",
         "firstname": "Michael",
-        "surname": "O\\'Morrow",
+        "surname": "O'Morrow",
         "email": "mike.omorrow@gmail.com",
         "phone": "6472335877",
         "birthdate": 2,
@@ -1758,7 +1760,7 @@ mail bindMonad output {
         "olp23_membership_status": null,
         "olp_van_id": null,
         "lpc_van_id": null,
-        "last_request": 54,
+        "last_request": 61,
         "tags": null,
         "gender": null,
         "mailerlite_id": null,
@@ -1779,19 +1781,19 @@ mail bindMonad output {
         "originalMessage": "Unauthenticated.",
         "originalStack": null
       },
-      "duration": 618.110875
+      "duration": 606.135458
     },
     {
       "step": "ingest.js",
       "task": "storeRequest",
       "input": {
-        "id": 54,
-        "contact_id": 1150
+        "id": 61,
+        "contact_id": 1155
       },
       "output": [
         {
-          "id": 54,
-          "created_at": "2026-01-25T22:07:29.564911+00:00",
+          "id": 61,
+          "created_at": "2026-01-25T22:24:18.039291+00:00",
           "origin": "https://nateerskinesmith.ca",
           "payload": {
             "body": "{\"comms_consent\":\"true\",\"organizer\":\"\",\"firstname\":\"Michael\",\"surname\":\"O\\\\'Morrow\",\"email\":\"mike.omorrow@gmail.com\",\"postcode\":\"M4C0A7\",\"message\":\"I am interested in volunteering for a potential leadership campaign. I am an Ontario public servant with experience in policy and communications. I think Ontario is experiencing a crisis of leadership. The government is unopposed and unaccountable, and we have a gimmick Premier. Ontario desperately needs a pragmatic and honest leader willing to put forward real solutions to tough problems. \",\"phone\":\"6472335877\",\"birthdate\":\"2\",\"birthmonth\":\"8\",\"birthyear\":\"1983\",\"address\":\"2301 Danforth Avenue, 406\",\"city\":\"Toronto\",\"_meta\":{\"ip\":\"134.231.49.117\",\"user_agent\":\"Mozilla\\/5.0 (iPhone; CPU iPhone OS 18_7 like Mac OS X) AppleWebKit\\/605.1.15 (KHTML, like Gecko) Version\\/26.2 Mobile\\/15E148 Safari\\/604.1\",\"referer\":\"https:\\/\\/nateerskinesmith.ca\\/\",\"steps\":3,\"is_final\":false,\"step\":{\"index\":1,\"is_final\":false},\"submission_source\":\"organic\"},\"_status\":\"draft\"}",
@@ -1979,13 +1981,13 @@ mail bindMonad output {
                     "queryStringParameters": null,
                     "multiValueQueryStringParameters": null
                   },
-                  "created_at": "2026-01-25T22:07:29.564911+00:00",
-                  "request_id": 54,
+                  "created_at": "2026-01-25T22:24:18.039291+00:00",
+                  "request_id": 61,
                   "shaped_data": {
                     "body": {
                       "email": "mike.omorrow@gmail.com",
                       "phone": "6472335877",
-                      "surname": "O\\'Morrow",
+                      "surname": "O'Morrow",
                       "postcode": "M4C0A7",
                       "birthdate": 2,
                       "birthyear": 1983,
@@ -2006,13 +2008,13 @@ mail bindMonad output {
                       "X-Forwarded-For": "134.231.49.117, 172.70.50.154, 162.220.234.59",
                       "X-Forwarded-Port": "443",
                       "X-Forwarded-Proto": "https",
-                      "request_backup_id": 54,
-                      "request_created_at": "2026-01-25T22:07:29.564911+00:00"
+                      "request_backup_id": 61,
+                      "request_created_at": "2026-01-25T22:24:18.039291+00:00"
                     }
                   }
                 },
                 "output": {},
-                "duration": 17.176333999999997
+                "duration": 15.150166999999982
               },
               {
                 "step": "shape.js",
@@ -2031,8 +2033,8 @@ mail bindMonad output {
                     "X-Forwarded-For": "134.231.49.117, 172.70.50.154, 162.220.234.59",
                     "X-Forwarded-Port": "443",
                     "X-Forwarded-Proto": "https",
-                    "request_backup_id": 54,
-                    "request_created_at": "2026-01-25T22:07:29.564911+00:00"
+                    "request_backup_id": 61,
+                    "request_created_at": "2026-01-25T22:24:18.039291+00:00"
                   },
                   "resource": "/contact",
                   "httpMethod": "POST",
@@ -2111,7 +2113,7 @@ mail bindMonad output {
                   "body": {
                     "email": "mike.omorrow@gmail.com",
                     "phone": "6472335877",
-                    "surname": "O\\'Morrow",
+                    "surname": "O'Morrow",
                     "postcode": "M4C0A7",
                     "birthdate": 2,
                     "birthyear": 1983,
@@ -2132,11 +2134,11 @@ mail bindMonad output {
                     "X-Forwarded-For": "134.231.49.117, 172.70.50.154, 162.220.234.59",
                     "X-Forwarded-Port": "443",
                     "X-Forwarded-Proto": "https",
-                    "request_backup_id": 54,
-                    "request_created_at": "2026-01-25T22:07:29.564911+00:00"
+                    "request_backup_id": 61,
+                    "request_created_at": "2026-01-25T22:24:18.039291+00:00"
                   }
                 },
-                "duration": 3.315499999999986
+                "duration": 1.7159580000000005
               },
               {
                 "step": "ingest.js",
@@ -2243,8 +2245,8 @@ mail bindMonad output {
                     "X-Forwarded-For": "134.231.49.117, 172.70.50.154, 162.220.234.59",
                     "X-Forwarded-Port": "443",
                     "X-Forwarded-Proto": "https",
-                    "request_backup_id": 54,
-                    "request_created_at": "2026-01-25T22:07:29.564911+00:00"
+                    "request_backup_id": 61,
+                    "request_created_at": "2026-01-25T22:24:18.039291+00:00"
                   },
                   "resource": "/contact",
                   "httpMethod": "POST",
@@ -2319,7 +2321,7 @@ mail bindMonad output {
                   "queryStringParameters": null,
                   "multiValueQueryStringParameters": null
                 },
-                "duration": 29.343041
+                "duration": 23.134667000000007
               },
               {
                 "step": "ingest.js",
@@ -2500,7 +2502,7 @@ mail bindMonad output {
                   "queryStringParameters": null,
                   "multiValueQueryStringParameters": null
                 },
-                "duration": 0.09483299999999417
+                "duration": 0.1256659999999954
               }
             ],
             "response": {
@@ -2509,52 +2511,52 @@ mail bindMonad output {
                   {
                     "step": "appendToSheet.js",
                     "task": "appendToSheet",
-                    "duration": 17.176333999999997
+                    "duration": 15.150166999999982
                   },
                   {
                     "step": "shape.js",
                     "task": "shapeData",
-                    "duration": 3.315499999999986
+                    "duration": 1.7159580000000005
                   },
                   {
                     "step": "ingest.js",
                     "task": "storeEvent",
-                    "duration": 29.343041
+                    "duration": 23.134667000000007
                   },
                   {
                     "step": "ingest.js",
                     "task": "headerCheck",
-                    "duration": 0.09483299999999417
+                    "duration": 0.1256659999999954
                   },
                   {
                     "step": "shape.js",
                     "task": "shapeData",
-                    "duration": 3.315499999999986
+                    "duration": 1.7159580000000005
                   },
                   {
                     "step": "ingest.js",
                     "task": "storeEvent",
-                    "duration": 29.343041
+                    "duration": 23.134667000000007
                   },
                   {
                     "step": "ingest.js",
                     "task": "headerCheck",
-                    "duration": 0.09483299999999417
+                    "duration": 0.1256659999999954
                   },
                   {
                     "step": "ingest.js",
                     "task": "storeEvent",
-                    "duration": 29.343041
+                    "duration": 23.134667000000007
                   },
                   {
                     "step": "ingest.js",
                     "task": "headerCheck",
-                    "duration": 0.09483299999999417
+                    "duration": 0.1256659999999954
                   },
                   {
                     "step": "ingest.js",
                     "task": "headerCheck",
-                    "duration": 0.09483299999999417
+                    "duration": 0.1256659999999954
                   }
                 ],
                 "message": "Failed to download google-service-account-key.json from bucket sai-ingestion-sheets-service-key: StorageUnknownError: {}"
@@ -2565,7 +2567,7 @@ mail bindMonad output {
           "status": "new",
           "category": null,
           "notes": null,
-          "contact_id": 1150,
+          "contact_id": 1155,
           "step": 1,
           "utm_source": null,
           "utm_medium": null,
@@ -2576,7 +2578,7 @@ mail bindMonad output {
           "referer": "https://nateerskinesmith.ca/"
         }
       ],
-      "duration": 4.894874999999956
+      "duration": 3.234542000000033
     },
     {
       "step": "upsert.js",
@@ -2593,33 +2595,29 @@ mail bindMonad output {
           "X-Forwarded-For": "134.231.49.117, 172.70.50.154, 162.220.234.59",
           "X-Forwarded-Port": "443",
           "X-Forwarded-Proto": "https",
-          "request_backup_id": 54,
-          "request_created_at": "2026-01-25T22:07:29.564911+00:00"
+          "request_backup_id": 61,
+          "request_created_at": "2026-01-25T22:24:18.039291+00:00"
         },
         "body": {
           "firstname": "Michael",
-          "surname": "O\\'Morrow",
+          "surname": "O'Morrow",
           "email": "mike.omorrow@gmail.com",
           "phone": "6472335877",
           "birthyear": 1983,
           "birthmonth": 8,
           "birthdate": 2,
           "street_address": "2301 Danforth Avenue, 406",
-          "municipality": "TORONTO",
+          "municipality": "Toronto",
           "postcode": "M4C0A7",
-          "comms_consent": "true",
-          "federal_electoral_district": "Beaches—East York",
-          "division_electoral_district": "Beaches—East York",
-          "division": "Ontario",
-          "last_request": 54
+          "comms_consent": "true"
         }
       },
       "output": {
-        "id": 1150,
-        "created_at": "2026-01-25T22:07:29.90329+00:00",
-        "updated_at": "2026-01-25T22:07:29.90329+00:00",
+        "id": 1155,
+        "created_at": "2026-01-25T22:23:12.015742+00:00",
+        "updated_at": "2026-01-25T22:24:18.327615+00:00",
         "firstname": "Michael",
-        "surname": "O\\'Morrow",
+        "surname": "O'Morrow",
         "email": "mike.omorrow@gmail.com",
         "phone": "6472335877",
         "birthdate": 2,
@@ -2672,7 +2670,7 @@ mail bindMonad output {
         "olp23_membership_status": null,
         "olp_van_id": null,
         "lpc_van_id": null,
-        "last_request": 54,
+        "last_request": 61,
         "tags": null,
         "gender": null,
         "mailerlite_id": null,
@@ -2686,7 +2684,7 @@ mail bindMonad output {
         "research_updated_at": null,
         "research_status": null
       },
-      "duration": 330.853083
+      "duration": 260.24629200000004
     },
     {
       "step": "appendToSheet.js",
@@ -2780,8 +2778,8 @@ mail bindMonad output {
           "queryStringParameters": null,
           "multiValueQueryStringParameters": null
         },
-        "created_at": "2026-01-25T22:07:29.564911+00:00",
-        "request_id": 54,
+        "created_at": "2026-01-25T22:24:18.039291+00:00",
+        "request_id": 61,
         "body": "{\"comms_consent\":\"true\",\"organizer\":\"\",\"firstname\":\"Michael\",\"surname\":\"O\\\\'Morrow\",\"email\":\"mike.omorrow@gmail.com\",\"postcode\":\"M4C0A7\",\"message\":\"I am interested in volunteering for a potential leadership campaign. I am an Ontario public servant with experience in policy and communications. I think Ontario is experiencing a crisis of leadership. The government is unopposed and unaccountable, and we have a gimmick Premier. Ontario desperately needs a pragmatic and honest leader willing to put forward real solutions to tough problems. \",\"phone\":\"6472335877\",\"birthdate\":\"2\",\"birthmonth\":\"8\",\"birthyear\":\"1983\",\"address\":\"2301 Danforth Avenue, 406\",\"city\":\"Toronto\",\"_meta\":{\"ip\":\"134.231.49.117\",\"user_agent\":\"Mozilla\\/5.0 (iPhone; CPU iPhone OS 18_7 like Mac OS X) AppleWebKit\\/605.1.15 (KHTML, like Gecko) Version\\/26.2 Mobile\\/15E148 Safari\\/604.1\",\"referer\":\"https:\\/\\/nateerskinesmith.ca\\/\",\"steps\":3,\"is_final\":false,\"step\":{\"index\":1,\"is_final\":false},\"submission_source\":\"organic\"},\"_status\":\"draft\"}",
         "shaped_data": {
           "headers": {
@@ -2795,30 +2793,26 @@ mail bindMonad output {
             "X-Forwarded-For": "134.231.49.117, 172.70.50.154, 162.220.234.59",
             "X-Forwarded-Port": "443",
             "X-Forwarded-Proto": "https",
-            "request_backup_id": 54,
-            "request_created_at": "2026-01-25T22:07:29.564911+00:00"
+            "request_backup_id": 61,
+            "request_created_at": "2026-01-25T22:24:18.039291+00:00"
           },
           "body": {
             "firstname": "Michael",
-            "surname": "O\\'Morrow",
+            "surname": "O'Morrow",
             "email": "mike.omorrow@gmail.com",
             "phone": "6472335877",
             "birthyear": 1983,
             "birthmonth": 8,
             "birthdate": 2,
             "street_address": "2301 Danforth Avenue, 406",
-            "municipality": "TORONTO",
+            "municipality": "Toronto",
             "postcode": "M4C0A7",
-            "comms_consent": "true",
-            "federal_electoral_district": "Beaches—East York",
-            "division_electoral_district": "Beaches—East York",
-            "division": "Ontario",
-            "last_request": 54
+            "comms_consent": "true"
           }
         }
       },
       "output": {},
-      "duration": 17.176333999999997
+      "duration": 15.150166999999982
     },
     {
       "step": "shape.js",
@@ -2837,8 +2831,8 @@ mail bindMonad output {
           "X-Forwarded-For": "134.231.49.117, 172.70.50.154, 162.220.234.59",
           "X-Forwarded-Port": "443",
           "X-Forwarded-Proto": "https",
-          "request_backup_id": 54,
-          "request_created_at": "2026-01-25T22:07:29.564911+00:00"
+          "request_backup_id": 61,
+          "request_created_at": "2026-01-25T22:24:18.039291+00:00"
         },
         "resource": "/contact",
         "httpMethod": "POST",
@@ -2925,12 +2919,12 @@ mail bindMonad output {
           "X-Forwarded-For": "134.231.49.117, 172.70.50.154, 162.220.234.59",
           "X-Forwarded-Port": "443",
           "X-Forwarded-Proto": "https",
-          "request_backup_id": 54,
-          "request_created_at": "2026-01-25T22:07:29.564911+00:00"
+          "request_backup_id": 61,
+          "request_created_at": "2026-01-25T22:24:18.039291+00:00"
         },
         "body": {
           "firstname": "Michael",
-          "surname": "O\\'Morrow",
+          "surname": "O'Morrow",
           "email": "mike.omorrow@gmail.com",
           "phone": "6472335877",
           "birthyear": 1983,
@@ -2942,7 +2936,7 @@ mail bindMonad output {
           "comms_consent": "true"
         }
       },
-      "duration": 3.315499999999986
+      "duration": 1.7159580000000005
     },
     {
       "step": "ingest.js",
@@ -3049,8 +3043,8 @@ mail bindMonad output {
           "X-Forwarded-For": "134.231.49.117, 172.70.50.154, 162.220.234.59",
           "X-Forwarded-Port": "443",
           "X-Forwarded-Proto": "https",
-          "request_backup_id": 54,
-          "request_created_at": "2026-01-25T22:07:29.564911+00:00"
+          "request_backup_id": 61,
+          "request_created_at": "2026-01-25T22:24:18.039291+00:00"
         },
         "resource": "/contact",
         "httpMethod": "POST",
@@ -3125,7 +3119,7 @@ mail bindMonad output {
         "queryStringParameters": null,
         "multiValueQueryStringParameters": null
       },
-      "duration": 29.343041
+      "duration": 23.134667000000007
     },
     {
       "step": "ingest.js",
@@ -3306,13 +3300,13 @@ mail bindMonad output {
         "queryStringParameters": null,
         "multiValueQueryStringParameters": null
       },
-      "duration": 0.09483299999999417
+      "duration": 0.1256659999999954
     }
   ]
 }
 storeRequest()
 storeData {
-  id: 54,
+  id: 61,
   logs: {
     response: { statusCode: 401, body: [Object] },
     trace: [
@@ -3326,8 +3320,8 @@ storeData {
 }
 storeRequest output [
   {
-    id: 54,
-    created_at: '2026-01-25T22:07:29.564911+00:00',
+    id: 61,
+    created_at: '2026-01-25T22:24:18.039291+00:00',
     origin: 'https://nateerskinesmith.ca',
     payload: {
       body: `{"comms_consent":"true","organizer":"","firstname":"Michael","surname":"O\\\\'Morrow","email":"mike.omorrow@gmail.com","postcode":"M4C0A7","message":"I am interested in volunteering for a potential leadership campaign. I am an Ontario public servant with experience in policy and communications. I think Ontario is experiencing a crisis of leadership. The government is unopposed and unaccountable, and we have a gimmick Premier. Ontario desperately needs a pragmatic and honest leader willing to put forward real solutions to tough problems. ","phone":"6472335877","birthdate":"2","birthmonth":"8","birthyear":"1983","address":"2301 Danforth Avenue, 406","city":"Toronto","_meta":{"ip":"134.231.49.117","user_agent":"Mozilla\\/5.0 (iPhone; CPU iPhone OS 18_7 like Mac OS X) AppleWebKit\\/605.1.15 (KHTML, like Gecko) Version\\/26.2 Mobile\\/15E148 Safari\\/604.1","referer":"https:\\/\\/nateerskinesmith.ca\\/","steps":3,"is_final":false,"step":{"index":1,"is_final":false},"submission_source":"organic"},"_status":"draft"}`,
@@ -3350,7 +3344,7 @@ storeRequest output [
     status: 'new',
     category: null,
     notes: null,
-    contact_id: 1150,
+    contact_id: 1155,
     step: 1,
     utm_source: null,
     utm_medium: null,
@@ -3376,21 +3370,21 @@ storeRequest output [
       task: 'mail',
       input: [Object],
       output: [HttpError],
-      duration: 618.110875
+      duration: 606.135458
     },
     {
       step: 'ingest.js',
       task: 'storeRequest',
       input: [Object],
       output: [Array],
-      duration: 4.894874999999956
+      duration: 3.234542000000033
     },
     {
       step: 'upsert.js',
       task: 'upsertData',
       input: [Object],
       output: [Object],
-      duration: 330.853083
+      duration: 260.24629200000004
     },
     {
       step: 'appendToSheet.js',
@@ -3401,32 +3395,32 @@ storeRequest output [
           at process.processTicksAndRejections (node:internal/process/task_queues:103:5)
           at async appendToSheet (file:///Users/saihaansyed/chsolutions/projects/nes/pipeline/nesrm_etl_pipeline/src/appendToSheet.js:94:17)
           at async Object.bindMonad (file:///Users/saihaansyed/chsolutions/projects/nes/pipeline/nesrm_etl_pipeline/scripts/monads/monad.js:86:42)
-          at async handler (file:///Users/saihaansyed/chsolutions/projects/nes/pipeline/nesrm_etl_pipeline/index.js:96:15)
+          at async handler (file:///Users/saihaansyed/chsolutions/projects/nes/pipeline/nesrm_etl_pipeline/index.js:98:15)
           at async runner (file:///Users/saihaansyed/chsolutions/projects/nes/pipeline/nesrm_etl_pipeline/runner.js:37:12)
           at async runOverArray (file:///Users/saihaansyed/chsolutions/projects/nes/pipeline/nesrm_etl_pipeline/runner.js:92:26)
           at async main (file:///Users/saihaansyed/chsolutions/projects/nes/pipeline/nesrm_etl_pipeline/runner.js:189:7),
-      duration: 17.176333999999997
+      duration: 15.150166999999982
     },
     {
       step: 'shape.js',
       task: 'shapeData',
       input: [Object],
       output: [Object],
-      duration: 3.315499999999986
+      duration: 1.7159580000000005
     },
     {
       step: 'ingest.js',
       task: 'storeEvent',
       input: [Object],
       output: [Object],
-      duration: 29.343041
+      duration: 23.134667000000007
     },
     {
       step: 'ingest.js',
       task: 'headerCheck',
       input: [Object],
       output: [Object],
-      duration: 0.09483299999999417
+      duration: 0.1256659999999954
     }
   ]
 }
@@ -3673,6 +3667,6 @@ logEvent {
   queryStringParameters: null,
   multiValueQueryStringParameters: null,
   statusCode: 401,
-  response_object: '{"statusCode":401,"body":{"message":"Unauthenticated.","trace":[{"step":"mail.js","task":"mail","duration":618.110875},{"step":"ingest.js","task":"storeRequest","duration":4.894874999999956},{"step":"upsert.js","task":"upsertData","duration":330.853083},{"step":"appendToSheet.js","task":"appendToSheet","duration":17.176333999999997},{"step":"shape.js","task":"shapeData","duration":3.315499999999986},{"step":"ingest.js","task":"storeEvent","duration":29.343041},{"step":"ingest.js","task":"headerCheck","duration":0.09483299999999417},{"step":"ingest.js","task":"storeRequest","duration":4.894874999999956},{"step":"upsert.js","task":"upsertData","duration":330.853083},{"step":"appendToSheet.js","task":"appendToSheet","duration":17.176333999999997},{"step":"shape.js","task":"shapeData","duration":3.315499999999986},{"step":"ingest.js","task":"storeEvent","duration":29.343041},{"step":"ingest.js","task":"headerCheck","duration":0.09483299999999417},{"step":"upsert.js","task":"upsertData","duration":330.853083},{"step":"appendToSheet.js","task":"appendToSheet","duration":17.176333999999997},{"step":"shape.js","task":"shapeData","duration":3.315499999999986},{"step":"ingest.js","task":"storeEvent","duration":29.343041},{"step":"ingest.js","task":"headerCheck","duration":0.09483299999999417},{"step":"appendToSheet.js","task":"appendToSheet","duration":17.176333999999997},{"step":"shape.js","task":"shapeData","duration":3.315499999999986},{"step":"ingest.js","task":"storeEvent","duration":29.343041},{"step":"ingest.js","task":"headerCheck","duration":0.09483299999999417},{"step":"shape.js","task":"shapeData","duration":3.315499999999986},{"step":"ingest.js","task":"storeEvent","duration":29.343041},{"step":"ingest.js","task":"headerCheck","duration":0.09483299999999417},{"step":"ingest.js","task":"storeEvent","duration":29.343041},{"step":"ingest.js","task":"headerCheck","duration":0.09483299999999417},{"step":"ingest.js","task":"headerCheck","duration":0.09483299999999417}]}}'
+  response_object: '{"statusCode":401,"body":{"message":"Unauthenticated.","trace":[{"step":"mail.js","task":"mail","duration":606.135458},{"step":"ingest.js","task":"storeRequest","duration":3.234542000000033},{"step":"upsert.js","task":"upsertData","duration":260.24629200000004},{"step":"appendToSheet.js","task":"appendToSheet","duration":15.150166999999982},{"step":"shape.js","task":"shapeData","duration":1.7159580000000005},{"step":"ingest.js","task":"storeEvent","duration":23.134667000000007},{"step":"ingest.js","task":"headerCheck","duration":0.1256659999999954},{"step":"ingest.js","task":"storeRequest","duration":3.234542000000033},{"step":"upsert.js","task":"upsertData","duration":260.24629200000004},{"step":"appendToSheet.js","task":"appendToSheet","duration":15.150166999999982},{"step":"shape.js","task":"shapeData","duration":1.7159580000000005},{"step":"ingest.js","task":"storeEvent","duration":23.134667000000007},{"step":"ingest.js","task":"headerCheck","duration":0.1256659999999954},{"step":"upsert.js","task":"upsertData","duration":260.24629200000004},{"step":"appendToSheet.js","task":"appendToSheet","duration":15.150166999999982},{"step":"shape.js","task":"shapeData","duration":1.7159580000000005},{"step":"ingest.js","task":"storeEvent","duration":23.134667000000007},{"step":"ingest.js","task":"headerCheck","duration":0.1256659999999954},{"step":"appendToSheet.js","task":"appendToSheet","duration":15.150166999999982},{"step":"shape.js","task":"shapeData","duration":1.7159580000000005},{"step":"ingest.js","task":"storeEvent","duration":23.134667000000007},{"step":"ingest.js","task":"headerCheck","duration":0.1256659999999954},{"step":"shape.js","task":"shapeData","duration":1.7159580000000005},{"step":"ingest.js","task":"storeEvent","duration":23.134667000000007},{"step":"ingest.js","task":"headerCheck","duration":0.1256659999999954},{"step":"ingest.js","task":"storeEvent","duration":23.134667000000007},{"step":"ingest.js","task":"headerCheck","duration":0.1256659999999954},{"step":"ingest.js","task":"headerCheck","duration":0.1256659999999954}]}}'
 }
-duration 1046.3607499999998
+duration 945.074292
