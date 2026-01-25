@@ -24,7 +24,7 @@ const cleanString = (str) => {
   if (str === null || str === undefined) return undefined;
   //trim either side of string
   const s = collapseSpaces(String(str).trim());
-  let cleaned = s.replace(/^,+|,+$/g, "");
+  let cleaned = s.replace(/^,+|,+$/g, "").replace(/\\(?=['"])/g, "");
   return cleaned === "" ? undefined : cleaned;
 };
 const cleanEmail = (str) => {
@@ -69,7 +69,12 @@ const shapeData = async (event) => {
   } catch (error) {
     body = event.body;
   }
-  logger.dev.log("body to shape", body);
+  logger.log("body to shape", body);
+  console.log("RAW:", body.surname);
+console.log("JSON:", JSON.stringify(body.surname));
+console.log("CHARS:", [...body.surname].map(c => `${c}(${c.charCodeAt(0)})`).join(" "));
+console.log("HAS BACKSLASH:", body.surname.includes("\\"));
+
   try {
     let shaped_data = {
       firstname: cleanString(getValue(body, "firstname")),
@@ -261,4 +266,4 @@ const shapeData = async (event) => {
   }
 };
 shapeData.__module = path.basename(import.meta.url);
-export { shapeData };
+export { shapeData, cleanString };

@@ -1,0 +1,3612 @@
+✅ Loaded .env
+
+Payload 0 undefined
+local
+event triggered
+event triggered {
+  "body": "{\"comms_consent\":\"true\",\"organizer\":\"\",\"firstname\":\"Michael\",\"surname\":\"O\\\\'Morrow\",\"email\":\"mike.omorrow@gmail.com\",\"postcode\":\"M4C0A7\",\"message\":\"I am interested in volunteering for a potential leadership campaign. I am an Ontario public servant with experience in policy and communications. I think Ontario is experiencing a crisis of leadership. The government is unopposed and unaccountable, and we have a gimmick Premier. Ontario desperately needs a pragmatic and honest leader willing to put forward real solutions to tough problems. \",\"_meta\":{\"ip\":\"134.231.49.117\",\"user_agent\":\"Mozilla\\/5.0 (iPhone; CPU iPhone OS 18_7 like Mac OS X) AppleWebKit\\/605.1.15 (KHTML, like Gecko) Version\\/26.2 Mobile\\/15E148 Safari\\/604.1\",\"referer\":\"https:\\/\\/nateerskinesmith.ca\\/\",\"steps\":3,\"is_final\":false,\"step\":{\"index\":0,\"is_final\":false},\"submission_source\":\"organic\"},\"_status\":\"draft\"}",
+  "path": "/contact",
+  "headers": {
+    "Host": "wmk8eyx1a1.execute-api.us-east-1.amazonaws.com",
+    "Accept": "*/*",
+    "Origin": "https://nateerskinesmith.ca",
+    "User-Agent": "WordPress/6.9; https://nateerskinesmith.ca",
+    "Content-Type": "application/json",
+    "Accept-Encoding": "deflate, gzip, br, zstd",
+    "X-Amzn-Trace-Id": "Root=1-697579b2-4da74d4d6a5f31a213794d38",
+    "X-Forwarded-For": "134.231.49.117, 172.70.50.154, 162.220.234.59",
+    "X-Forwarded-Port": "443",
+    "X-Forwarded-Proto": "https"
+  },
+  "resource": "/contact",
+  "httpMethod": "POST",
+  "pathParameters": null,
+  "requestContext": {
+    "path": "/prod/contact",
+    "apiId": "wmk8eyx1a1",
+    "stage": "prod",
+    "identity": {
+      "user": null,
+      "caller": null,
+      "userArn": null,
+      "sourceIp": "162.220.234.59",
+      "accessKey": null,
+      "accountId": null,
+      "userAgent": "WordPress/6.9; https://nateerskinesmith.ca",
+      "principalOrgId": null,
+      "cognitoIdentityId": null,
+      "cognitoIdentityPoolId": null,
+      "cognitoAuthenticationType": null,
+      "cognitoAuthenticationProvider": null
+    },
+    "protocol": "HTTP/1.1",
+    "accountId": "060795934875",
+    "requestId": "5910c8b6-86f7-4143-9ef1-e49c9996c9f0",
+    "domainName": "wmk8eyx1a1.execute-api.us-east-1.amazonaws.com",
+    "httpMethod": "POST",
+    "resourceId": "9smu8h",
+    "requestTime": "25/Jan/2026:02:02:26 +0000",
+    "deploymentId": "84rbfg",
+    "domainPrefix": "wmk8eyx1a1",
+    "resourcePath": "/contact",
+    "requestTimeEpoch": 1769306546734,
+    "extendedRequestId": "Xt_z_EBJIAMEXZg="
+  },
+  "stageVariables": {
+    "arn": "arn:aws:states:us-east-1:060795934875:stateMachine:nesrm_ingestion_pipeline"
+  },
+  "isBase64Encoded": false,
+  "multiValueHeaders": {
+    "Host": [
+      "wmk8eyx1a1.execute-api.us-east-1.amazonaws.com"
+    ],
+    "Accept": [
+      "*/*"
+    ],
+    "Origin": [
+      "https://nateerskinesmith.ca"
+    ],
+    "User-Agent": [
+      "WordPress/6.9; https://nateerskinesmith.ca"
+    ],
+    "Content-Type": [
+      "application/json"
+    ],
+    "Accept-Encoding": [
+      "deflate, gzip, br, zstd"
+    ],
+    "X-Amzn-Trace-Id": [
+      "Root=1-697579b2-4da74d4d6a5f31a213794d38"
+    ],
+    "X-Forwarded-For": [
+      "134.231.49.117, 172.70.50.154, 162.220.234.59"
+    ],
+    "X-Forwarded-Port": [
+      "443"
+    ],
+    "X-Forwarded-Proto": [
+      "https"
+    ]
+  },
+  "queryStringParameters": null,
+  "multiValueQueryStringParameters": null
+}
+bind to headerCheck
+no sb client passed
+headerCheck bindMonad output 200
+bind to storeEvent
+parseQueryParams https://nateerskinesmith.ca/
+parseQueryParams output: {}
+typeof search params object searchParams {}
+storeData w urlParams {
+  payload: {
+    body: `{"comms_consent":"true","organizer":"","firstname":"Michael","surname":"O\\\\'Morrow","email":"mike.omorrow@gmail.com","postcode":"M4C0A7","message":"I am interested in volunteering for a potential leadership campaign. I am an Ontario public servant with experience in policy and communications. I think Ontario is experiencing a crisis of leadership. The government is unopposed and unaccountable, and we have a gimmick Premier. Ontario desperately needs a pragmatic and honest leader willing to put forward real solutions to tough problems. ","_meta":{"ip":"134.231.49.117","user_agent":"Mozilla\\/5.0 (iPhone; CPU iPhone OS 18_7 like Mac OS X) AppleWebKit\\/605.1.15 (KHTML, like Gecko) Version\\/26.2 Mobile\\/15E148 Safari\\/604.1","referer":"https:\\/\\/nateerskinesmith.ca\\/","steps":3,"is_final":false,"step":{"index":0,"is_final":false},"submission_source":"organic"},"_status":"draft"}`,
+    path: '/contact',
+    headers: {
+      Host: 'wmk8eyx1a1.execute-api.us-east-1.amazonaws.com',
+      Accept: '*/*',
+      Origin: 'https://nateerskinesmith.ca',
+      'User-Agent': 'WordPress/6.9; https://nateerskinesmith.ca',
+      'Content-Type': 'application/json',
+      'Accept-Encoding': 'deflate, gzip, br, zstd',
+      'X-Amzn-Trace-Id': 'Root=1-697579b2-4da74d4d6a5f31a213794d38',
+      'X-Forwarded-For': '134.231.49.117, 172.70.50.154, 162.220.234.59',
+      'X-Forwarded-Port': '443',
+      'X-Forwarded-Proto': 'https'
+    },
+    resource: '/contact',
+    httpMethod: 'POST',
+    pathParameters: null,
+    requestContext: {
+      path: '/prod/contact',
+      apiId: 'wmk8eyx1a1',
+      stage: 'prod',
+      identity: [Object],
+      protocol: 'HTTP/1.1',
+      accountId: '060795934875',
+      requestId: '5910c8b6-86f7-4143-9ef1-e49c9996c9f0',
+      domainName: 'wmk8eyx1a1.execute-api.us-east-1.amazonaws.com',
+      httpMethod: 'POST',
+      resourceId: '9smu8h',
+      requestTime: '25/Jan/2026:02:02:26 +0000',
+      deploymentId: '84rbfg',
+      domainPrefix: 'wmk8eyx1a1',
+      resourcePath: '/contact',
+      requestTimeEpoch: 1769306546734,
+      extendedRequestId: 'Xt_z_EBJIAMEXZg='
+    },
+    stageVariables: {
+      arn: 'arn:aws:states:us-east-1:060795934875:stateMachine:nesrm_ingestion_pipeline'
+    },
+    isBase64Encoded: false,
+    multiValueHeaders: {
+      Host: [Array],
+      Accept: [Array],
+      Origin: [Array],
+      'User-Agent': [Array],
+      'Content-Type': [Array],
+      'Accept-Encoding': [Array],
+      'X-Amzn-Trace-Id': [Array],
+      'X-Forwarded-For': [Array],
+      'X-Forwarded-Port': [Array],
+      'X-Forwarded-Proto': [Array]
+    },
+    queryStringParameters: null,
+    multiValueQueryStringParameters: null
+  },
+  origin: 'https://nateerskinesmith.ca',
+  ip: '134.231.49.117, 172.70.50.154, 162.220.234.59',
+  email: 'mike.omorrow@gmail.com',
+  step: 0,
+  referer: 'https://nateerskinesmith.ca/',
+  search_params: {},
+  utm_source: undefined,
+  utm_medium: undefined,
+  utm_campaign: undefined,
+  utm_term: undefined,
+  utm_content: undefined
+}
+storeRequest()
+storeData {
+  payload: {
+    body: `{"comms_consent":"true","organizer":"","firstname":"Michael","surname":"O\\\\'Morrow","email":"mike.omorrow@gmail.com","postcode":"M4C0A7","message":"I am interested in volunteering for a potential leadership campaign. I am an Ontario public servant with experience in policy and communications. I think Ontario is experiencing a crisis of leadership. The government is unopposed and unaccountable, and we have a gimmick Premier. Ontario desperately needs a pragmatic and honest leader willing to put forward real solutions to tough problems. ","_meta":{"ip":"134.231.49.117","user_agent":"Mozilla\\/5.0 (iPhone; CPU iPhone OS 18_7 like Mac OS X) AppleWebKit\\/605.1.15 (KHTML, like Gecko) Version\\/26.2 Mobile\\/15E148 Safari\\/604.1","referer":"https:\\/\\/nateerskinesmith.ca\\/","steps":3,"is_final":false,"step":{"index":0,"is_final":false},"submission_source":"organic"},"_status":"draft"}`,
+    path: '/contact',
+    headers: {
+      Host: 'wmk8eyx1a1.execute-api.us-east-1.amazonaws.com',
+      Accept: '*/*',
+      Origin: 'https://nateerskinesmith.ca',
+      'User-Agent': 'WordPress/6.9; https://nateerskinesmith.ca',
+      'Content-Type': 'application/json',
+      'Accept-Encoding': 'deflate, gzip, br, zstd',
+      'X-Amzn-Trace-Id': 'Root=1-697579b2-4da74d4d6a5f31a213794d38',
+      'X-Forwarded-For': '134.231.49.117, 172.70.50.154, 162.220.234.59',
+      'X-Forwarded-Port': '443',
+      'X-Forwarded-Proto': 'https'
+    },
+    resource: '/contact',
+    httpMethod: 'POST',
+    pathParameters: null,
+    requestContext: {
+      path: '/prod/contact',
+      apiId: 'wmk8eyx1a1',
+      stage: 'prod',
+      identity: [Object],
+      protocol: 'HTTP/1.1',
+      accountId: '060795934875',
+      requestId: '5910c8b6-86f7-4143-9ef1-e49c9996c9f0',
+      domainName: 'wmk8eyx1a1.execute-api.us-east-1.amazonaws.com',
+      httpMethod: 'POST',
+      resourceId: '9smu8h',
+      requestTime: '25/Jan/2026:02:02:26 +0000',
+      deploymentId: '84rbfg',
+      domainPrefix: 'wmk8eyx1a1',
+      resourcePath: '/contact',
+      requestTimeEpoch: 1769306546734,
+      extendedRequestId: 'Xt_z_EBJIAMEXZg='
+    },
+    stageVariables: {
+      arn: 'arn:aws:states:us-east-1:060795934875:stateMachine:nesrm_ingestion_pipeline'
+    },
+    isBase64Encoded: false,
+    multiValueHeaders: {
+      Host: [Array],
+      Accept: [Array],
+      Origin: [Array],
+      'User-Agent': [Array],
+      'Content-Type': [Array],
+      'Accept-Encoding': [Array],
+      'X-Amzn-Trace-Id': [Array],
+      'X-Forwarded-For': [Array],
+      'X-Forwarded-Port': [Array],
+      'X-Forwarded-Proto': [Array]
+    },
+    queryStringParameters: null,
+    multiValueQueryStringParameters: null
+  },
+  origin: 'https://nateerskinesmith.ca',
+  ip: '134.231.49.117, 172.70.50.154, 162.220.234.59',
+  email: 'mike.omorrow@gmail.com',
+  step: 0,
+  referer: 'https://nateerskinesmith.ca/',
+  search_params: {},
+  utm_source: undefined,
+  utm_medium: undefined,
+  utm_campaign: undefined,
+  utm_term: undefined,
+  utm_content: undefined
+}
+storeRequest output [
+  {
+    id: 60,
+    created_at: '2026-01-25T22:24:13.612709+00:00',
+    origin: 'https://nateerskinesmith.ca',
+    payload: {
+      body: `{"comms_consent":"true","organizer":"","firstname":"Michael","surname":"O\\\\'Morrow","email":"mike.omorrow@gmail.com","postcode":"M4C0A7","message":"I am interested in volunteering for a potential leadership campaign. I am an Ontario public servant with experience in policy and communications. I think Ontario is experiencing a crisis of leadership. The government is unopposed and unaccountable, and we have a gimmick Premier. Ontario desperately needs a pragmatic and honest leader willing to put forward real solutions to tough problems. ","_meta":{"ip":"134.231.49.117","user_agent":"Mozilla\\/5.0 (iPhone; CPU iPhone OS 18_7 like Mac OS X) AppleWebKit\\/605.1.15 (KHTML, like Gecko) Version\\/26.2 Mobile\\/15E148 Safari\\/604.1","referer":"https:\\/\\/nateerskinesmith.ca\\/","steps":3,"is_final":false,"step":{"index":0,"is_final":false},"submission_source":"organic"},"_status":"draft"}`,
+      path: '/contact',
+      headers: [Object],
+      resource: '/contact',
+      httpMethod: 'POST',
+      pathParameters: null,
+      requestContext: [Object],
+      stageVariables: [Object],
+      isBase64Encoded: false,
+      multiValueHeaders: [Object],
+      queryStringParameters: null,
+      multiValueQueryStringParameters: null
+    },
+    ip: '134.231.49.117, 172.70.50.154, 162.220.234.59',
+    email: 'mike.omorrow@gmail.com',
+    success: null,
+    logs: null,
+    status: 'new',
+    category: null,
+    notes: null,
+    contact_id: null,
+    step: 0,
+    utm_source: null,
+    utm_medium: null,
+    utm_campaign: null,
+    utm_term: null,
+    utm_content: null,
+    search_params: {},
+    referer: 'https://nateerskinesmith.ca/'
+  }
+]
+storeEvent bindMonad output 200
+bind to shapeData
+no sb client passed
+body to shape {
+  comms_consent: 'true',
+  organizer: '',
+  firstname: 'Michael',
+  surname: "O\\'Morrow",
+  email: 'mike.omorrow@gmail.com',
+  postcode: 'M4C0A7',
+  message: 'I am interested in volunteering for a potential leadership campaign. I am an Ontario public servant with experience in policy and communications. I think Ontario is experiencing a crisis of leadership. The government is unopposed and unaccountable, and we have a gimmick Premier. Ontario desperately needs a pragmatic and honest leader willing to put forward real solutions to tough problems. ',
+  _meta: {
+    ip: '134.231.49.117',
+    user_agent: 'Mozilla/5.0 (iPhone; CPU iPhone OS 18_7 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/26.2 Mobile/15E148 Safari/604.1',
+    referer: 'https://nateerskinesmith.ca/',
+    steps: 3,
+    is_final: false,
+    step: { index: 0, is_final: false },
+    submission_source: 'organic'
+  },
+  _status: 'draft'
+}
+RAW: O\'Morrow
+JSON: "O\\'Morrow"
+CHARS: O(79) \(92) '(39) M(77) o(111) r(114) r(114) o(111) w(119)
+HAS BACKSLASH: true
+shapeData bindMonad output 200
+shaped_data {
+  headers: {
+    Host: 'wmk8eyx1a1.execute-api.us-east-1.amazonaws.com',
+    Accept: '*/*',
+    Origin: 'https://nateerskinesmith.ca',
+    'User-Agent': 'WordPress/6.9; https://nateerskinesmith.ca',
+    'Content-Type': 'application/json',
+    'Accept-Encoding': 'deflate, gzip, br, zstd',
+    'X-Amzn-Trace-Id': 'Root=1-697579b2-4da74d4d6a5f31a213794d38',
+    'X-Forwarded-For': '134.231.49.117, 172.70.50.154, 162.220.234.59',
+    'X-Forwarded-Port': '443',
+    'X-Forwarded-Proto': 'https',
+    request_backup_id: 60,
+    request_created_at: '2026-01-25T22:24:13.612709+00:00'
+  },
+  body: {
+    firstname: 'Michael',
+    surname: "O'Morrow",
+    email: 'mike.omorrow@gmail.com',
+    postcode: 'M4C0A7',
+    comms_consent: 'true'
+  }
+}
+RAW: O'Morrow
+JSON: "O'Morrow"
+bind to appendToSheet
+appendToSheet typeof supabase object
+downloadFromSupabaseBucket typeof supabase object
+bind error Error: Failed to download google-service-account-key.json from bucket sai-ingestion-sheets-service-key: StorageUnknownError: {}
+    at downloadFromSupabaseBucket (file:///Users/saihaansyed/chsolutions/projects/nes/pipeline/nesrm_etl_pipeline/scripts/downloadSupabaseBucket/index.js:50:11)
+    at process.processTicksAndRejections (node:internal/process/task_queues:103:5)
+    at async appendToSheet (file:///Users/saihaansyed/chsolutions/projects/nes/pipeline/nesrm_etl_pipeline/src/appendToSheet.js:94:17)
+    at async Object.bindMonad (file:///Users/saihaansyed/chsolutions/projects/nes/pipeline/nesrm_etl_pipeline/scripts/monads/monad.js:86:42)
+    at async handler (file:///Users/saihaansyed/chsolutions/projects/nes/pipeline/nesrm_etl_pipeline/index.js:98:15)
+    at async runner (file:///Users/saihaansyed/chsolutions/projects/nes/pipeline/nesrm_etl_pipeline/runner.js:37:12)
+    at async runOverArray (file:///Users/saihaansyed/chsolutions/projects/nes/pipeline/nesrm_etl_pipeline/runner.js:92:26)
+    at async main (file:///Users/saihaansyed/chsolutions/projects/nes/pipeline/nesrm_etl_pipeline/runner.js:189:7)
+bind input {
+  payload: {
+    body: `{"comms_consent":"true","organizer":"","firstname":"Michael","surname":"O\\\\'Morrow","email":"mike.omorrow@gmail.com","postcode":"M4C0A7","message":"I am interested in volunteering for a potential leadership campaign. I am an Ontario public servant with experience in policy and communications. I think Ontario is experiencing a crisis of leadership. The government is unopposed and unaccountable, and we have a gimmick Premier. Ontario desperately needs a pragmatic and honest leader willing to put forward real solutions to tough problems. ","_meta":{"ip":"134.231.49.117","user_agent":"Mozilla\\/5.0 (iPhone; CPU iPhone OS 18_7 like Mac OS X) AppleWebKit\\/605.1.15 (KHTML, like Gecko) Version\\/26.2 Mobile\\/15E148 Safari\\/604.1","referer":"https:\\/\\/nateerskinesmith.ca\\/","steps":3,"is_final":false,"step":{"index":0,"is_final":false},"submission_source":"organic"},"_status":"draft"}`,
+    path: '/contact',
+    headers: {
+      Host: 'wmk8eyx1a1.execute-api.us-east-1.amazonaws.com',
+      Accept: '*/*',
+      Origin: 'https://nateerskinesmith.ca',
+      'User-Agent': 'WordPress/6.9; https://nateerskinesmith.ca',
+      'Content-Type': 'application/json',
+      'Accept-Encoding': 'deflate, gzip, br, zstd',
+      'X-Amzn-Trace-Id': 'Root=1-697579b2-4da74d4d6a5f31a213794d38',
+      'X-Forwarded-For': '134.231.49.117, 172.70.50.154, 162.220.234.59',
+      'X-Forwarded-Port': '443',
+      'X-Forwarded-Proto': 'https'
+    },
+    resource: '/contact',
+    httpMethod: 'POST',
+    pathParameters: null,
+    requestContext: {
+      path: '/prod/contact',
+      apiId: 'wmk8eyx1a1',
+      stage: 'prod',
+      identity: [Object],
+      protocol: 'HTTP/1.1',
+      accountId: '060795934875',
+      requestId: '5910c8b6-86f7-4143-9ef1-e49c9996c9f0',
+      domainName: 'wmk8eyx1a1.execute-api.us-east-1.amazonaws.com',
+      httpMethod: 'POST',
+      resourceId: '9smu8h',
+      requestTime: '25/Jan/2026:02:02:26 +0000',
+      deploymentId: '84rbfg',
+      domainPrefix: 'wmk8eyx1a1',
+      resourcePath: '/contact',
+      requestTimeEpoch: 1769306546734,
+      extendedRequestId: 'Xt_z_EBJIAMEXZg='
+    },
+    stageVariables: {
+      arn: 'arn:aws:states:us-east-1:060795934875:stateMachine:nesrm_ingestion_pipeline'
+    },
+    isBase64Encoded: false,
+    multiValueHeaders: {
+      Host: [Array],
+      Accept: [Array],
+      Origin: [Array],
+      'User-Agent': [Array],
+      'Content-Type': [Array],
+      'Accept-Encoding': [Array],
+      'X-Amzn-Trace-Id': [Array],
+      'X-Forwarded-For': [Array],
+      'X-Forwarded-Port': [Array],
+      'X-Forwarded-Proto': [Array]
+    },
+    queryStringParameters: null,
+    multiValueQueryStringParameters: null
+  },
+  created_at: '2026-01-25T22:24:13.612709+00:00',
+  request_id: 60,
+  body: `{"comms_consent":"true","organizer":"","firstname":"Michael","surname":"O\\\\'Morrow","email":"mike.omorrow@gmail.com","postcode":"M4C0A7","message":"I am interested in volunteering for a potential leadership campaign. I am an Ontario public servant with experience in policy and communications. I think Ontario is experiencing a crisis of leadership. The government is unopposed and unaccountable, and we have a gimmick Premier. Ontario desperately needs a pragmatic and honest leader willing to put forward real solutions to tough problems. ","_meta":{"ip":"134.231.49.117","user_agent":"Mozilla\\/5.0 (iPhone; CPU iPhone OS 18_7 like Mac OS X) AppleWebKit\\/605.1.15 (KHTML, like Gecko) Version\\/26.2 Mobile\\/15E148 Safari\\/604.1","referer":"https:\\/\\/nateerskinesmith.ca\\/","steps":3,"is_final":false,"step":{"index":0,"is_final":false},"submission_source":"organic"},"_status":"draft"}`,
+  shaped_data: {
+    headers: {
+      Host: 'wmk8eyx1a1.execute-api.us-east-1.amazonaws.com',
+      Accept: '*/*',
+      Origin: 'https://nateerskinesmith.ca',
+      'User-Agent': 'WordPress/6.9; https://nateerskinesmith.ca',
+      'Content-Type': 'application/json',
+      'Accept-Encoding': 'deflate, gzip, br, zstd',
+      'X-Amzn-Trace-Id': 'Root=1-697579b2-4da74d4d6a5f31a213794d38',
+      'X-Forwarded-For': '134.231.49.117, 172.70.50.154, 162.220.234.59',
+      'X-Forwarded-Port': '443',
+      'X-Forwarded-Proto': 'https',
+      request_backup_id: 60,
+      request_created_at: '2026-01-25T22:24:13.612709+00:00'
+    },
+    body: {
+      firstname: 'Michael',
+      surname: "O'Morrow",
+      email: 'mike.omorrow@gmail.com',
+      postcode: 'M4C0A7',
+      comms_consent: 'true'
+    }
+  }
+}
+bind monadic {
+  response: { statusCode: 200, body: { trace: [Array] } },
+  trace: [
+    {
+      step: 'shape.js',
+      task: 'shapeData',
+      input: [Object],
+      output: [Object],
+      duration: 0.4375419999999792
+    },
+    {
+      step: 'ingest.js',
+      task: 'storeEvent',
+      input: [Object],
+      output: [Object],
+      duration: 41.179542
+    },
+    {
+      step: 'ingest.js',
+      task: 'headerCheck',
+      input: [Object],
+      output: [Object],
+      duration: 0.12170799999998394
+    }
+  ],
+  input: {
+    payload: {
+      body: `{"comms_consent":"true","organizer":"","firstname":"Michael","surname":"O\\\\'Morrow","email":"mike.omorrow@gmail.com","postcode":"M4C0A7","message":"I am interested in volunteering for a potential leadership campaign. I am an Ontario public servant with experience in policy and communications. I think Ontario is experiencing a crisis of leadership. The government is unopposed and unaccountable, and we have a gimmick Premier. Ontario desperately needs a pragmatic and honest leader willing to put forward real solutions to tough problems. ","_meta":{"ip":"134.231.49.117","user_agent":"Mozilla\\/5.0 (iPhone; CPU iPhone OS 18_7 like Mac OS X) AppleWebKit\\/605.1.15 (KHTML, like Gecko) Version\\/26.2 Mobile\\/15E148 Safari\\/604.1","referer":"https:\\/\\/nateerskinesmith.ca\\/","steps":3,"is_final":false,"step":{"index":0,"is_final":false},"submission_source":"organic"},"_status":"draft"}`,
+      path: '/contact',
+      headers: [Object],
+      resource: '/contact',
+      httpMethod: 'POST',
+      pathParameters: null,
+      requestContext: [Object],
+      stageVariables: [Object],
+      isBase64Encoded: false,
+      multiValueHeaders: [Object],
+      queryStringParameters: null,
+      multiValueQueryStringParameters: null
+    },
+    created_at: '2026-01-25T22:24:13.612709+00:00',
+    request_id: 60,
+    body: `{"comms_consent":"true","organizer":"","firstname":"Michael","surname":"O\\\\'Morrow","email":"mike.omorrow@gmail.com","postcode":"M4C0A7","message":"I am interested in volunteering for a potential leadership campaign. I am an Ontario public servant with experience in policy and communications. I think Ontario is experiencing a crisis of leadership. The government is unopposed and unaccountable, and we have a gimmick Premier. Ontario desperately needs a pragmatic and honest leader willing to put forward real solutions to tough problems. ","_meta":{"ip":"134.231.49.117","user_agent":"Mozilla\\/5.0 (iPhone; CPU iPhone OS 18_7 like Mac OS X) AppleWebKit\\/605.1.15 (KHTML, like Gecko) Version\\/26.2 Mobile\\/15E148 Safari\\/604.1","referer":"https:\\/\\/nateerskinesmith.ca\\/","steps":3,"is_final":false,"step":{"index":0,"is_final":false},"submission_source":"organic"},"_status":"draft"}`,
+    shaped_data: { headers: [Object], body: [Object] }
+  }
+}
+caught Error: Failed to download google-service-account-key.json from bucket sai-ingestion-sheets-service-key: StorageUnknownError: {}
+    at downloadFromSupabaseBucket (file:///Users/saihaansyed/chsolutions/projects/nes/pipeline/nesrm_etl_pipeline/scripts/downloadSupabaseBucket/index.js:50:11)
+    at process.processTicksAndRejections (node:internal/process/task_queues:103:5)
+    at async appendToSheet (file:///Users/saihaansyed/chsolutions/projects/nes/pipeline/nesrm_etl_pipeline/src/appendToSheet.js:94:17)
+    at async Object.bindMonad (file:///Users/saihaansyed/chsolutions/projects/nes/pipeline/nesrm_etl_pipeline/scripts/monads/monad.js:86:42)
+    at async handler (file:///Users/saihaansyed/chsolutions/projects/nes/pipeline/nesrm_etl_pipeline/index.js:98:15)
+    at async runner (file:///Users/saihaansyed/chsolutions/projects/nes/pipeline/nesrm_etl_pipeline/runner.js:37:12)
+    at async runOverArray (file:///Users/saihaansyed/chsolutions/projects/nes/pipeline/nesrm_etl_pipeline/runner.js:92:26)
+    at async main (file:///Users/saihaansyed/chsolutions/projects/nes/pipeline/nesrm_etl_pipeline/runner.js:189:7)
+appendToSheet bindMonad output {
+  "response": {
+    "statusCode": 500,
+    "body": {
+      "message": "Failed to download google-service-account-key.json from bucket sai-ingestion-sheets-service-key: StorageUnknownError: {}",
+      "trace": [
+        {
+          "step": "appendToSheet.js",
+          "task": "appendToSheet",
+          "duration": 28.12979199999998
+        },
+        {
+          "step": "shape.js",
+          "task": "shapeData",
+          "duration": 0.4375419999999792
+        },
+        {
+          "step": "ingest.js",
+          "task": "storeEvent",
+          "duration": 41.179542
+        },
+        {
+          "step": "ingest.js",
+          "task": "headerCheck",
+          "duration": 0.12170799999998394
+        },
+        {
+          "step": "shape.js",
+          "task": "shapeData",
+          "duration": 0.4375419999999792
+        },
+        {
+          "step": "ingest.js",
+          "task": "storeEvent",
+          "duration": 41.179542
+        },
+        {
+          "step": "ingest.js",
+          "task": "headerCheck",
+          "duration": 0.12170799999998394
+        },
+        {
+          "step": "ingest.js",
+          "task": "storeEvent",
+          "duration": 41.179542
+        },
+        {
+          "step": "ingest.js",
+          "task": "headerCheck",
+          "duration": 0.12170799999998394
+        },
+        {
+          "step": "ingest.js",
+          "task": "headerCheck",
+          "duration": 0.12170799999998394
+        }
+      ]
+    }
+  },
+  "trace": [
+    {
+      "step": "appendToSheet.js",
+      "task": "appendToSheet",
+      "input": {
+        "payload": {
+          "body": "{\"comms_consent\":\"true\",\"organizer\":\"\",\"firstname\":\"Michael\",\"surname\":\"O\\\\'Morrow\",\"email\":\"mike.omorrow@gmail.com\",\"postcode\":\"M4C0A7\",\"message\":\"I am interested in volunteering for a potential leadership campaign. I am an Ontario public servant with experience in policy and communications. I think Ontario is experiencing a crisis of leadership. The government is unopposed and unaccountable, and we have a gimmick Premier. Ontario desperately needs a pragmatic and honest leader willing to put forward real solutions to tough problems. \",\"_meta\":{\"ip\":\"134.231.49.117\",\"user_agent\":\"Mozilla\\/5.0 (iPhone; CPU iPhone OS 18_7 like Mac OS X) AppleWebKit\\/605.1.15 (KHTML, like Gecko) Version\\/26.2 Mobile\\/15E148 Safari\\/604.1\",\"referer\":\"https:\\/\\/nateerskinesmith.ca\\/\",\"steps\":3,\"is_final\":false,\"step\":{\"index\":0,\"is_final\":false},\"submission_source\":\"organic\"},\"_status\":\"draft\"}",
+          "path": "/contact",
+          "headers": {
+            "Host": "wmk8eyx1a1.execute-api.us-east-1.amazonaws.com",
+            "Accept": "*/*",
+            "Origin": "https://nateerskinesmith.ca",
+            "User-Agent": "WordPress/6.9; https://nateerskinesmith.ca",
+            "Content-Type": "application/json",
+            "Accept-Encoding": "deflate, gzip, br, zstd",
+            "X-Amzn-Trace-Id": "Root=1-697579b2-4da74d4d6a5f31a213794d38",
+            "X-Forwarded-For": "134.231.49.117, 172.70.50.154, 162.220.234.59",
+            "X-Forwarded-Port": "443",
+            "X-Forwarded-Proto": "https"
+          },
+          "resource": "/contact",
+          "httpMethod": "POST",
+          "pathParameters": null,
+          "requestContext": {
+            "path": "/prod/contact",
+            "apiId": "wmk8eyx1a1",
+            "stage": "prod",
+            "identity": {
+              "user": null,
+              "caller": null,
+              "userArn": null,
+              "sourceIp": "162.220.234.59",
+              "accessKey": null,
+              "accountId": null,
+              "userAgent": "WordPress/6.9; https://nateerskinesmith.ca",
+              "principalOrgId": null,
+              "cognitoIdentityId": null,
+              "cognitoIdentityPoolId": null,
+              "cognitoAuthenticationType": null,
+              "cognitoAuthenticationProvider": null
+            },
+            "protocol": "HTTP/1.1",
+            "accountId": "060795934875",
+            "requestId": "5910c8b6-86f7-4143-9ef1-e49c9996c9f0",
+            "domainName": "wmk8eyx1a1.execute-api.us-east-1.amazonaws.com",
+            "httpMethod": "POST",
+            "resourceId": "9smu8h",
+            "requestTime": "25/Jan/2026:02:02:26 +0000",
+            "deploymentId": "84rbfg",
+            "domainPrefix": "wmk8eyx1a1",
+            "resourcePath": "/contact",
+            "requestTimeEpoch": 1769306546734,
+            "extendedRequestId": "Xt_z_EBJIAMEXZg="
+          },
+          "stageVariables": {
+            "arn": "arn:aws:states:us-east-1:060795934875:stateMachine:nesrm_ingestion_pipeline"
+          },
+          "isBase64Encoded": false,
+          "multiValueHeaders": {
+            "Host": [
+              "wmk8eyx1a1.execute-api.us-east-1.amazonaws.com"
+            ],
+            "Accept": [
+              "*/*"
+            ],
+            "Origin": [
+              "https://nateerskinesmith.ca"
+            ],
+            "User-Agent": [
+              "WordPress/6.9; https://nateerskinesmith.ca"
+            ],
+            "Content-Type": [
+              "application/json"
+            ],
+            "Accept-Encoding": [
+              "deflate, gzip, br, zstd"
+            ],
+            "X-Amzn-Trace-Id": [
+              "Root=1-697579b2-4da74d4d6a5f31a213794d38"
+            ],
+            "X-Forwarded-For": [
+              "134.231.49.117, 172.70.50.154, 162.220.234.59"
+            ],
+            "X-Forwarded-Port": [
+              "443"
+            ],
+            "X-Forwarded-Proto": [
+              "https"
+            ]
+          },
+          "queryStringParameters": null,
+          "multiValueQueryStringParameters": null
+        },
+        "created_at": "2026-01-25T22:24:13.612709+00:00",
+        "request_id": 60,
+        "body": "{\"comms_consent\":\"true\",\"organizer\":\"\",\"firstname\":\"Michael\",\"surname\":\"O\\\\'Morrow\",\"email\":\"mike.omorrow@gmail.com\",\"postcode\":\"M4C0A7\",\"message\":\"I am interested in volunteering for a potential leadership campaign. I am an Ontario public servant with experience in policy and communications. I think Ontario is experiencing a crisis of leadership. The government is unopposed and unaccountable, and we have a gimmick Premier. Ontario desperately needs a pragmatic and honest leader willing to put forward real solutions to tough problems. \",\"_meta\":{\"ip\":\"134.231.49.117\",\"user_agent\":\"Mozilla\\/5.0 (iPhone; CPU iPhone OS 18_7 like Mac OS X) AppleWebKit\\/605.1.15 (KHTML, like Gecko) Version\\/26.2 Mobile\\/15E148 Safari\\/604.1\",\"referer\":\"https:\\/\\/nateerskinesmith.ca\\/\",\"steps\":3,\"is_final\":false,\"step\":{\"index\":0,\"is_final\":false},\"submission_source\":\"organic\"},\"_status\":\"draft\"}",
+        "shaped_data": {
+          "headers": {
+            "Host": "wmk8eyx1a1.execute-api.us-east-1.amazonaws.com",
+            "Accept": "*/*",
+            "Origin": "https://nateerskinesmith.ca",
+            "User-Agent": "WordPress/6.9; https://nateerskinesmith.ca",
+            "Content-Type": "application/json",
+            "Accept-Encoding": "deflate, gzip, br, zstd",
+            "X-Amzn-Trace-Id": "Root=1-697579b2-4da74d4d6a5f31a213794d38",
+            "X-Forwarded-For": "134.231.49.117, 172.70.50.154, 162.220.234.59",
+            "X-Forwarded-Port": "443",
+            "X-Forwarded-Proto": "https",
+            "request_backup_id": 60,
+            "request_created_at": "2026-01-25T22:24:13.612709+00:00"
+          },
+          "body": {
+            "firstname": "Michael",
+            "surname": "O'Morrow",
+            "email": "mike.omorrow@gmail.com",
+            "postcode": "M4C0A7",
+            "comms_consent": "true"
+          }
+        }
+      },
+      "output": {},
+      "duration": 28.12979199999998
+    },
+    {
+      "step": "shape.js",
+      "task": "shapeData",
+      "input": {
+        "body": "{\"comms_consent\":\"true\",\"organizer\":\"\",\"firstname\":\"Michael\",\"surname\":\"O\\\\'Morrow\",\"email\":\"mike.omorrow@gmail.com\",\"postcode\":\"M4C0A7\",\"message\":\"I am interested in volunteering for a potential leadership campaign. I am an Ontario public servant with experience in policy and communications. I think Ontario is experiencing a crisis of leadership. The government is unopposed and unaccountable, and we have a gimmick Premier. Ontario desperately needs a pragmatic and honest leader willing to put forward real solutions to tough problems. \",\"_meta\":{\"ip\":\"134.231.49.117\",\"user_agent\":\"Mozilla\\/5.0 (iPhone; CPU iPhone OS 18_7 like Mac OS X) AppleWebKit\\/605.1.15 (KHTML, like Gecko) Version\\/26.2 Mobile\\/15E148 Safari\\/604.1\",\"referer\":\"https:\\/\\/nateerskinesmith.ca\\/\",\"steps\":3,\"is_final\":false,\"step\":{\"index\":0,\"is_final\":false},\"submission_source\":\"organic\"},\"_status\":\"draft\"}",
+        "path": "/contact",
+        "headers": {
+          "Host": "wmk8eyx1a1.execute-api.us-east-1.amazonaws.com",
+          "Accept": "*/*",
+          "Origin": "https://nateerskinesmith.ca",
+          "User-Agent": "WordPress/6.9; https://nateerskinesmith.ca",
+          "Content-Type": "application/json",
+          "Accept-Encoding": "deflate, gzip, br, zstd",
+          "X-Amzn-Trace-Id": "Root=1-697579b2-4da74d4d6a5f31a213794d38",
+          "X-Forwarded-For": "134.231.49.117, 172.70.50.154, 162.220.234.59",
+          "X-Forwarded-Port": "443",
+          "X-Forwarded-Proto": "https",
+          "request_backup_id": 60,
+          "request_created_at": "2026-01-25T22:24:13.612709+00:00"
+        },
+        "resource": "/contact",
+        "httpMethod": "POST",
+        "pathParameters": null,
+        "requestContext": {
+          "path": "/prod/contact",
+          "apiId": "wmk8eyx1a1",
+          "stage": "prod",
+          "identity": {
+            "user": null,
+            "caller": null,
+            "userArn": null,
+            "sourceIp": "162.220.234.59",
+            "accessKey": null,
+            "accountId": null,
+            "userAgent": "WordPress/6.9; https://nateerskinesmith.ca",
+            "principalOrgId": null,
+            "cognitoIdentityId": null,
+            "cognitoIdentityPoolId": null,
+            "cognitoAuthenticationType": null,
+            "cognitoAuthenticationProvider": null
+          },
+          "protocol": "HTTP/1.1",
+          "accountId": "060795934875",
+          "requestId": "5910c8b6-86f7-4143-9ef1-e49c9996c9f0",
+          "domainName": "wmk8eyx1a1.execute-api.us-east-1.amazonaws.com",
+          "httpMethod": "POST",
+          "resourceId": "9smu8h",
+          "requestTime": "25/Jan/2026:02:02:26 +0000",
+          "deploymentId": "84rbfg",
+          "domainPrefix": "wmk8eyx1a1",
+          "resourcePath": "/contact",
+          "requestTimeEpoch": 1769306546734,
+          "extendedRequestId": "Xt_z_EBJIAMEXZg="
+        },
+        "stageVariables": {
+          "arn": "arn:aws:states:us-east-1:060795934875:stateMachine:nesrm_ingestion_pipeline"
+        },
+        "isBase64Encoded": false,
+        "multiValueHeaders": {
+          "Host": [
+            "wmk8eyx1a1.execute-api.us-east-1.amazonaws.com"
+          ],
+          "Accept": [
+            "*/*"
+          ],
+          "Origin": [
+            "https://nateerskinesmith.ca"
+          ],
+          "User-Agent": [
+            "WordPress/6.9; https://nateerskinesmith.ca"
+          ],
+          "Content-Type": [
+            "application/json"
+          ],
+          "Accept-Encoding": [
+            "deflate, gzip, br, zstd"
+          ],
+          "X-Amzn-Trace-Id": [
+            "Root=1-697579b2-4da74d4d6a5f31a213794d38"
+          ],
+          "X-Forwarded-For": [
+            "134.231.49.117, 172.70.50.154, 162.220.234.59"
+          ],
+          "X-Forwarded-Port": [
+            "443"
+          ],
+          "X-Forwarded-Proto": [
+            "https"
+          ]
+        },
+        "queryStringParameters": null,
+        "multiValueQueryStringParameters": null
+      },
+      "output": {
+        "headers": {
+          "Host": "wmk8eyx1a1.execute-api.us-east-1.amazonaws.com",
+          "Accept": "*/*",
+          "Origin": "https://nateerskinesmith.ca",
+          "User-Agent": "WordPress/6.9; https://nateerskinesmith.ca",
+          "Content-Type": "application/json",
+          "Accept-Encoding": "deflate, gzip, br, zstd",
+          "X-Amzn-Trace-Id": "Root=1-697579b2-4da74d4d6a5f31a213794d38",
+          "X-Forwarded-For": "134.231.49.117, 172.70.50.154, 162.220.234.59",
+          "X-Forwarded-Port": "443",
+          "X-Forwarded-Proto": "https",
+          "request_backup_id": 60,
+          "request_created_at": "2026-01-25T22:24:13.612709+00:00"
+        },
+        "body": {
+          "firstname": "Michael",
+          "surname": "O'Morrow",
+          "email": "mike.omorrow@gmail.com",
+          "postcode": "M4C0A7",
+          "comms_consent": "true"
+        }
+      },
+      "duration": 0.4375419999999792
+    },
+    {
+      "step": "ingest.js",
+      "task": "storeEvent",
+      "input": {
+        "body": "{\"comms_consent\":\"true\",\"organizer\":\"\",\"firstname\":\"Michael\",\"surname\":\"O\\\\'Morrow\",\"email\":\"mike.omorrow@gmail.com\",\"postcode\":\"M4C0A7\",\"message\":\"I am interested in volunteering for a potential leadership campaign. I am an Ontario public servant with experience in policy and communications. I think Ontario is experiencing a crisis of leadership. The government is unopposed and unaccountable, and we have a gimmick Premier. Ontario desperately needs a pragmatic and honest leader willing to put forward real solutions to tough problems. \",\"_meta\":{\"ip\":\"134.231.49.117\",\"user_agent\":\"Mozilla\\/5.0 (iPhone; CPU iPhone OS 18_7 like Mac OS X) AppleWebKit\\/605.1.15 (KHTML, like Gecko) Version\\/26.2 Mobile\\/15E148 Safari\\/604.1\",\"referer\":\"https:\\/\\/nateerskinesmith.ca\\/\",\"steps\":3,\"is_final\":false,\"step\":{\"index\":0,\"is_final\":false},\"submission_source\":\"organic\"},\"_status\":\"draft\"}",
+        "path": "/contact",
+        "headers": {
+          "Host": "wmk8eyx1a1.execute-api.us-east-1.amazonaws.com",
+          "Accept": "*/*",
+          "Origin": "https://nateerskinesmith.ca",
+          "User-Agent": "WordPress/6.9; https://nateerskinesmith.ca",
+          "Content-Type": "application/json",
+          "Accept-Encoding": "deflate, gzip, br, zstd",
+          "X-Amzn-Trace-Id": "Root=1-697579b2-4da74d4d6a5f31a213794d38",
+          "X-Forwarded-For": "134.231.49.117, 172.70.50.154, 162.220.234.59",
+          "X-Forwarded-Port": "443",
+          "X-Forwarded-Proto": "https"
+        },
+        "resource": "/contact",
+        "httpMethod": "POST",
+        "pathParameters": null,
+        "requestContext": {
+          "path": "/prod/contact",
+          "apiId": "wmk8eyx1a1",
+          "stage": "prod",
+          "identity": {
+            "user": null,
+            "caller": null,
+            "userArn": null,
+            "sourceIp": "162.220.234.59",
+            "accessKey": null,
+            "accountId": null,
+            "userAgent": "WordPress/6.9; https://nateerskinesmith.ca",
+            "principalOrgId": null,
+            "cognitoIdentityId": null,
+            "cognitoIdentityPoolId": null,
+            "cognitoAuthenticationType": null,
+            "cognitoAuthenticationProvider": null
+          },
+          "protocol": "HTTP/1.1",
+          "accountId": "060795934875",
+          "requestId": "5910c8b6-86f7-4143-9ef1-e49c9996c9f0",
+          "domainName": "wmk8eyx1a1.execute-api.us-east-1.amazonaws.com",
+          "httpMethod": "POST",
+          "resourceId": "9smu8h",
+          "requestTime": "25/Jan/2026:02:02:26 +0000",
+          "deploymentId": "84rbfg",
+          "domainPrefix": "wmk8eyx1a1",
+          "resourcePath": "/contact",
+          "requestTimeEpoch": 1769306546734,
+          "extendedRequestId": "Xt_z_EBJIAMEXZg="
+        },
+        "stageVariables": {
+          "arn": "arn:aws:states:us-east-1:060795934875:stateMachine:nesrm_ingestion_pipeline"
+        },
+        "isBase64Encoded": false,
+        "multiValueHeaders": {
+          "Host": [
+            "wmk8eyx1a1.execute-api.us-east-1.amazonaws.com"
+          ],
+          "Accept": [
+            "*/*"
+          ],
+          "Origin": [
+            "https://nateerskinesmith.ca"
+          ],
+          "User-Agent": [
+            "WordPress/6.9; https://nateerskinesmith.ca"
+          ],
+          "Content-Type": [
+            "application/json"
+          ],
+          "Accept-Encoding": [
+            "deflate, gzip, br, zstd"
+          ],
+          "X-Amzn-Trace-Id": [
+            "Root=1-697579b2-4da74d4d6a5f31a213794d38"
+          ],
+          "X-Forwarded-For": [
+            "134.231.49.117, 172.70.50.154, 162.220.234.59"
+          ],
+          "X-Forwarded-Port": [
+            "443"
+          ],
+          "X-Forwarded-Proto": [
+            "https"
+          ]
+        },
+        "queryStringParameters": null,
+        "multiValueQueryStringParameters": null
+      },
+      "output": {
+        "body": "{\"comms_consent\":\"true\",\"organizer\":\"\",\"firstname\":\"Michael\",\"surname\":\"O\\\\'Morrow\",\"email\":\"mike.omorrow@gmail.com\",\"postcode\":\"M4C0A7\",\"message\":\"I am interested in volunteering for a potential leadership campaign. I am an Ontario public servant with experience in policy and communications. I think Ontario is experiencing a crisis of leadership. The government is unopposed and unaccountable, and we have a gimmick Premier. Ontario desperately needs a pragmatic and honest leader willing to put forward real solutions to tough problems. \",\"_meta\":{\"ip\":\"134.231.49.117\",\"user_agent\":\"Mozilla\\/5.0 (iPhone; CPU iPhone OS 18_7 like Mac OS X) AppleWebKit\\/605.1.15 (KHTML, like Gecko) Version\\/26.2 Mobile\\/15E148 Safari\\/604.1\",\"referer\":\"https:\\/\\/nateerskinesmith.ca\\/\",\"steps\":3,\"is_final\":false,\"step\":{\"index\":0,\"is_final\":false},\"submission_source\":\"organic\"},\"_status\":\"draft\"}",
+        "path": "/contact",
+        "headers": {
+          "Host": "wmk8eyx1a1.execute-api.us-east-1.amazonaws.com",
+          "Accept": "*/*",
+          "Origin": "https://nateerskinesmith.ca",
+          "User-Agent": "WordPress/6.9; https://nateerskinesmith.ca",
+          "Content-Type": "application/json",
+          "Accept-Encoding": "deflate, gzip, br, zstd",
+          "X-Amzn-Trace-Id": "Root=1-697579b2-4da74d4d6a5f31a213794d38",
+          "X-Forwarded-For": "134.231.49.117, 172.70.50.154, 162.220.234.59",
+          "X-Forwarded-Port": "443",
+          "X-Forwarded-Proto": "https",
+          "request_backup_id": 60,
+          "request_created_at": "2026-01-25T22:24:13.612709+00:00"
+        },
+        "resource": "/contact",
+        "httpMethod": "POST",
+        "pathParameters": null,
+        "requestContext": {
+          "path": "/prod/contact",
+          "apiId": "wmk8eyx1a1",
+          "stage": "prod",
+          "identity": {
+            "user": null,
+            "caller": null,
+            "userArn": null,
+            "sourceIp": "162.220.234.59",
+            "accessKey": null,
+            "accountId": null,
+            "userAgent": "WordPress/6.9; https://nateerskinesmith.ca",
+            "principalOrgId": null,
+            "cognitoIdentityId": null,
+            "cognitoIdentityPoolId": null,
+            "cognitoAuthenticationType": null,
+            "cognitoAuthenticationProvider": null
+          },
+          "protocol": "HTTP/1.1",
+          "accountId": "060795934875",
+          "requestId": "5910c8b6-86f7-4143-9ef1-e49c9996c9f0",
+          "domainName": "wmk8eyx1a1.execute-api.us-east-1.amazonaws.com",
+          "httpMethod": "POST",
+          "resourceId": "9smu8h",
+          "requestTime": "25/Jan/2026:02:02:26 +0000",
+          "deploymentId": "84rbfg",
+          "domainPrefix": "wmk8eyx1a1",
+          "resourcePath": "/contact",
+          "requestTimeEpoch": 1769306546734,
+          "extendedRequestId": "Xt_z_EBJIAMEXZg="
+        },
+        "stageVariables": {
+          "arn": "arn:aws:states:us-east-1:060795934875:stateMachine:nesrm_ingestion_pipeline"
+        },
+        "isBase64Encoded": false,
+        "multiValueHeaders": {
+          "Host": [
+            "wmk8eyx1a1.execute-api.us-east-1.amazonaws.com"
+          ],
+          "Accept": [
+            "*/*"
+          ],
+          "Origin": [
+            "https://nateerskinesmith.ca"
+          ],
+          "User-Agent": [
+            "WordPress/6.9; https://nateerskinesmith.ca"
+          ],
+          "Content-Type": [
+            "application/json"
+          ],
+          "Accept-Encoding": [
+            "deflate, gzip, br, zstd"
+          ],
+          "X-Amzn-Trace-Id": [
+            "Root=1-697579b2-4da74d4d6a5f31a213794d38"
+          ],
+          "X-Forwarded-For": [
+            "134.231.49.117, 172.70.50.154, 162.220.234.59"
+          ],
+          "X-Forwarded-Port": [
+            "443"
+          ],
+          "X-Forwarded-Proto": [
+            "https"
+          ]
+        },
+        "queryStringParameters": null,
+        "multiValueQueryStringParameters": null
+      },
+      "duration": 41.179542
+    },
+    {
+      "step": "ingest.js",
+      "task": "headerCheck",
+      "input": {
+        "body": "{\"comms_consent\":\"true\",\"organizer\":\"\",\"firstname\":\"Michael\",\"surname\":\"O\\\\'Morrow\",\"email\":\"mike.omorrow@gmail.com\",\"postcode\":\"M4C0A7\",\"message\":\"I am interested in volunteering for a potential leadership campaign. I am an Ontario public servant with experience in policy and communications. I think Ontario is experiencing a crisis of leadership. The government is unopposed and unaccountable, and we have a gimmick Premier. Ontario desperately needs a pragmatic and honest leader willing to put forward real solutions to tough problems. \",\"_meta\":{\"ip\":\"134.231.49.117\",\"user_agent\":\"Mozilla\\/5.0 (iPhone; CPU iPhone OS 18_7 like Mac OS X) AppleWebKit\\/605.1.15 (KHTML, like Gecko) Version\\/26.2 Mobile\\/15E148 Safari\\/604.1\",\"referer\":\"https:\\/\\/nateerskinesmith.ca\\/\",\"steps\":3,\"is_final\":false,\"step\":{\"index\":0,\"is_final\":false},\"submission_source\":\"organic\"},\"_status\":\"draft\"}",
+        "path": "/contact",
+        "headers": {
+          "Host": "wmk8eyx1a1.execute-api.us-east-1.amazonaws.com",
+          "Accept": "*/*",
+          "Origin": "https://nateerskinesmith.ca",
+          "User-Agent": "WordPress/6.9; https://nateerskinesmith.ca",
+          "Content-Type": "application/json",
+          "Accept-Encoding": "deflate, gzip, br, zstd",
+          "X-Amzn-Trace-Id": "Root=1-697579b2-4da74d4d6a5f31a213794d38",
+          "X-Forwarded-For": "134.231.49.117, 172.70.50.154, 162.220.234.59",
+          "X-Forwarded-Port": "443",
+          "X-Forwarded-Proto": "https"
+        },
+        "resource": "/contact",
+        "httpMethod": "POST",
+        "pathParameters": null,
+        "requestContext": {
+          "path": "/prod/contact",
+          "apiId": "wmk8eyx1a1",
+          "stage": "prod",
+          "identity": {
+            "user": null,
+            "caller": null,
+            "userArn": null,
+            "sourceIp": "162.220.234.59",
+            "accessKey": null,
+            "accountId": null,
+            "userAgent": "WordPress/6.9; https://nateerskinesmith.ca",
+            "principalOrgId": null,
+            "cognitoIdentityId": null,
+            "cognitoIdentityPoolId": null,
+            "cognitoAuthenticationType": null,
+            "cognitoAuthenticationProvider": null
+          },
+          "protocol": "HTTP/1.1",
+          "accountId": "060795934875",
+          "requestId": "5910c8b6-86f7-4143-9ef1-e49c9996c9f0",
+          "domainName": "wmk8eyx1a1.execute-api.us-east-1.amazonaws.com",
+          "httpMethod": "POST",
+          "resourceId": "9smu8h",
+          "requestTime": "25/Jan/2026:02:02:26 +0000",
+          "deploymentId": "84rbfg",
+          "domainPrefix": "wmk8eyx1a1",
+          "resourcePath": "/contact",
+          "requestTimeEpoch": 1769306546734,
+          "extendedRequestId": "Xt_z_EBJIAMEXZg="
+        },
+        "stageVariables": {
+          "arn": "arn:aws:states:us-east-1:060795934875:stateMachine:nesrm_ingestion_pipeline"
+        },
+        "isBase64Encoded": false,
+        "multiValueHeaders": {
+          "Host": [
+            "wmk8eyx1a1.execute-api.us-east-1.amazonaws.com"
+          ],
+          "Accept": [
+            "*/*"
+          ],
+          "Origin": [
+            "https://nateerskinesmith.ca"
+          ],
+          "User-Agent": [
+            "WordPress/6.9; https://nateerskinesmith.ca"
+          ],
+          "Content-Type": [
+            "application/json"
+          ],
+          "Accept-Encoding": [
+            "deflate, gzip, br, zstd"
+          ],
+          "X-Amzn-Trace-Id": [
+            "Root=1-697579b2-4da74d4d6a5f31a213794d38"
+          ],
+          "X-Forwarded-For": [
+            "134.231.49.117, 172.70.50.154, 162.220.234.59"
+          ],
+          "X-Forwarded-Port": [
+            "443"
+          ],
+          "X-Forwarded-Proto": [
+            "https"
+          ]
+        },
+        "queryStringParameters": null,
+        "multiValueQueryStringParameters": null
+      },
+      "output": {
+        "body": "{\"comms_consent\":\"true\",\"organizer\":\"\",\"firstname\":\"Michael\",\"surname\":\"O\\\\'Morrow\",\"email\":\"mike.omorrow@gmail.com\",\"postcode\":\"M4C0A7\",\"message\":\"I am interested in volunteering for a potential leadership campaign. I am an Ontario public servant with experience in policy and communications. I think Ontario is experiencing a crisis of leadership. The government is unopposed and unaccountable, and we have a gimmick Premier. Ontario desperately needs a pragmatic and honest leader willing to put forward real solutions to tough problems. \",\"_meta\":{\"ip\":\"134.231.49.117\",\"user_agent\":\"Mozilla\\/5.0 (iPhone; CPU iPhone OS 18_7 like Mac OS X) AppleWebKit\\/605.1.15 (KHTML, like Gecko) Version\\/26.2 Mobile\\/15E148 Safari\\/604.1\",\"referer\":\"https:\\/\\/nateerskinesmith.ca\\/\",\"steps\":3,\"is_final\":false,\"step\":{\"index\":0,\"is_final\":false},\"submission_source\":\"organic\"},\"_status\":\"draft\"}",
+        "path": "/contact",
+        "headers": {
+          "Host": "wmk8eyx1a1.execute-api.us-east-1.amazonaws.com",
+          "Accept": "*/*",
+          "Origin": "https://nateerskinesmith.ca",
+          "User-Agent": "WordPress/6.9; https://nateerskinesmith.ca",
+          "Content-Type": "application/json",
+          "Accept-Encoding": "deflate, gzip, br, zstd",
+          "X-Amzn-Trace-Id": "Root=1-697579b2-4da74d4d6a5f31a213794d38",
+          "X-Forwarded-For": "134.231.49.117, 172.70.50.154, 162.220.234.59",
+          "X-Forwarded-Port": "443",
+          "X-Forwarded-Proto": "https"
+        },
+        "resource": "/contact",
+        "httpMethod": "POST",
+        "pathParameters": null,
+        "requestContext": {
+          "path": "/prod/contact",
+          "apiId": "wmk8eyx1a1",
+          "stage": "prod",
+          "identity": {
+            "user": null,
+            "caller": null,
+            "userArn": null,
+            "sourceIp": "162.220.234.59",
+            "accessKey": null,
+            "accountId": null,
+            "userAgent": "WordPress/6.9; https://nateerskinesmith.ca",
+            "principalOrgId": null,
+            "cognitoIdentityId": null,
+            "cognitoIdentityPoolId": null,
+            "cognitoAuthenticationType": null,
+            "cognitoAuthenticationProvider": null
+          },
+          "protocol": "HTTP/1.1",
+          "accountId": "060795934875",
+          "requestId": "5910c8b6-86f7-4143-9ef1-e49c9996c9f0",
+          "domainName": "wmk8eyx1a1.execute-api.us-east-1.amazonaws.com",
+          "httpMethod": "POST",
+          "resourceId": "9smu8h",
+          "requestTime": "25/Jan/2026:02:02:26 +0000",
+          "deploymentId": "84rbfg",
+          "domainPrefix": "wmk8eyx1a1",
+          "resourcePath": "/contact",
+          "requestTimeEpoch": 1769306546734,
+          "extendedRequestId": "Xt_z_EBJIAMEXZg="
+        },
+        "stageVariables": {
+          "arn": "arn:aws:states:us-east-1:060795934875:stateMachine:nesrm_ingestion_pipeline"
+        },
+        "isBase64Encoded": false,
+        "multiValueHeaders": {
+          "Host": [
+            "wmk8eyx1a1.execute-api.us-east-1.amazonaws.com"
+          ],
+          "Accept": [
+            "*/*"
+          ],
+          "Origin": [
+            "https://nateerskinesmith.ca"
+          ],
+          "User-Agent": [
+            "WordPress/6.9; https://nateerskinesmith.ca"
+          ],
+          "Content-Type": [
+            "application/json"
+          ],
+          "Accept-Encoding": [
+            "deflate, gzip, br, zstd"
+          ],
+          "X-Amzn-Trace-Id": [
+            "Root=1-697579b2-4da74d4d6a5f31a213794d38"
+          ],
+          "X-Forwarded-For": [
+            "134.231.49.117, 172.70.50.154, 162.220.234.59"
+          ],
+          "X-Forwarded-Port": [
+            "443"
+          ],
+          "X-Forwarded-Proto": [
+            "https"
+          ]
+        },
+        "queryStringParameters": null,
+        "multiValueQueryStringParameters": null
+      },
+      "duration": 0.12170799999998394
+    }
+  ]
+}
+storeRequest()
+storeData {
+  id: 60,
+  logs: {
+    response: { statusCode: 500, body: [Object] },
+    trace: [ [Object], [Object], [Object], [Object] ]
+  },
+  success: false
+}
+storeRequest output [
+  {
+    id: 60,
+    created_at: '2026-01-25T22:24:13.612709+00:00',
+    origin: 'https://nateerskinesmith.ca',
+    payload: {
+      body: `{"comms_consent":"true","organizer":"","firstname":"Michael","surname":"O\\\\'Morrow","email":"mike.omorrow@gmail.com","postcode":"M4C0A7","message":"I am interested in volunteering for a potential leadership campaign. I am an Ontario public servant with experience in policy and communications. I think Ontario is experiencing a crisis of leadership. The government is unopposed and unaccountable, and we have a gimmick Premier. Ontario desperately needs a pragmatic and honest leader willing to put forward real solutions to tough problems. ","_meta":{"ip":"134.231.49.117","user_agent":"Mozilla\\/5.0 (iPhone; CPU iPhone OS 18_7 like Mac OS X) AppleWebKit\\/605.1.15 (KHTML, like Gecko) Version\\/26.2 Mobile\\/15E148 Safari\\/604.1","referer":"https:\\/\\/nateerskinesmith.ca\\/","steps":3,"is_final":false,"step":{"index":0,"is_final":false},"submission_source":"organic"},"_status":"draft"}`,
+      path: '/contact',
+      headers: [Object],
+      resource: '/contact',
+      httpMethod: 'POST',
+      pathParameters: null,
+      requestContext: [Object],
+      stageVariables: [Object],
+      isBase64Encoded: false,
+      multiValueHeaders: [Object],
+      queryStringParameters: null,
+      multiValueQueryStringParameters: null
+    },
+    ip: '134.231.49.117, 172.70.50.154, 162.220.234.59',
+    email: 'mike.omorrow@gmail.com',
+    success: false,
+    logs: { trace: [Array], response: [Object] },
+    status: 'new',
+    category: null,
+    notes: null,
+    contact_id: null,
+    step: 0,
+    utm_source: null,
+    utm_medium: null,
+    utm_campaign: null,
+    utm_term: null,
+    utm_content: null,
+    search_params: {},
+    referer: 'https://nateerskinesmith.ca/'
+  }
+]
+{
+  response: {
+    statusCode: 500,
+    body: {
+      message: 'Failed to download google-service-account-key.json from bucket sai-ingestion-sheets-service-key: StorageUnknownError: {}',
+      trace: [Array],
+      request_backup_id: undefined
+    }
+  },
+  trace: [
+    {
+      step: 'appendToSheet.js',
+      task: 'appendToSheet',
+      input: [Object],
+      output: Error: Failed to download google-service-account-key.json from bucket sai-ingestion-sheets-service-key: StorageUnknownError: {}
+          at downloadFromSupabaseBucket (file:///Users/saihaansyed/chsolutions/projects/nes/pipeline/nesrm_etl_pipeline/scripts/downloadSupabaseBucket/index.js:50:11)
+          at process.processTicksAndRejections (node:internal/process/task_queues:103:5)
+          at async appendToSheet (file:///Users/saihaansyed/chsolutions/projects/nes/pipeline/nesrm_etl_pipeline/src/appendToSheet.js:94:17)
+          at async Object.bindMonad (file:///Users/saihaansyed/chsolutions/projects/nes/pipeline/nesrm_etl_pipeline/scripts/monads/monad.js:86:42)
+          at async handler (file:///Users/saihaansyed/chsolutions/projects/nes/pipeline/nesrm_etl_pipeline/index.js:98:15)
+          at async runner (file:///Users/saihaansyed/chsolutions/projects/nes/pipeline/nesrm_etl_pipeline/runner.js:37:12)
+          at async runOverArray (file:///Users/saihaansyed/chsolutions/projects/nes/pipeline/nesrm_etl_pipeline/runner.js:92:26)
+          at async main (file:///Users/saihaansyed/chsolutions/projects/nes/pipeline/nesrm_etl_pipeline/runner.js:189:7),
+      duration: 28.12979199999998
+    },
+    {
+      step: 'shape.js',
+      task: 'shapeData',
+      input: [Object],
+      output: [Object],
+      duration: 0.4375419999999792
+    },
+    {
+      step: 'ingest.js',
+      task: 'storeEvent',
+      input: [Object],
+      output: [Object],
+      duration: 41.179542
+    },
+    {
+      step: 'ingest.js',
+      task: 'headerCheck',
+      input: [Object],
+      output: [Object],
+      duration: 0.12170799999998394
+    }
+  ]
+}
+bind to upsertData
+shapedDataLastName o'morrow
+Found Matching Profile ID: 1155
+get_opennorth M4C0A7
+got_opennorth M4C0A7
+About to upsert
+Successfully upserted 200
+upsertData bindMonad output 200
+bind to storeRequest
+storeRequest()
+storeData { id: 60, contact_id: 1155 }
+storeRequest output [
+  {
+    id: 60,
+    created_at: '2026-01-25T22:24:13.612709+00:00',
+    origin: 'https://nateerskinesmith.ca',
+    payload: {
+      body: `{"comms_consent":"true","organizer":"","firstname":"Michael","surname":"O\\\\'Morrow","email":"mike.omorrow@gmail.com","postcode":"M4C0A7","message":"I am interested in volunteering for a potential leadership campaign. I am an Ontario public servant with experience in policy and communications. I think Ontario is experiencing a crisis of leadership. The government is unopposed and unaccountable, and we have a gimmick Premier. Ontario desperately needs a pragmatic and honest leader willing to put forward real solutions to tough problems. ","_meta":{"ip":"134.231.49.117","user_agent":"Mozilla\\/5.0 (iPhone; CPU iPhone OS 18_7 like Mac OS X) AppleWebKit\\/605.1.15 (KHTML, like Gecko) Version\\/26.2 Mobile\\/15E148 Safari\\/604.1","referer":"https:\\/\\/nateerskinesmith.ca\\/","steps":3,"is_final":false,"step":{"index":0,"is_final":false},"submission_source":"organic"},"_status":"draft"}`,
+      path: '/contact',
+      headers: [Object],
+      resource: '/contact',
+      httpMethod: 'POST',
+      pathParameters: null,
+      requestContext: [Object],
+      stageVariables: [Object],
+      isBase64Encoded: false,
+      multiValueHeaders: [Object],
+      queryStringParameters: null,
+      multiValueQueryStringParameters: null
+    },
+    ip: '134.231.49.117, 172.70.50.154, 162.220.234.59',
+    email: 'mike.omorrow@gmail.com',
+    success: false,
+    logs: { trace: [Array], response: [Object] },
+    status: 'new',
+    category: null,
+    notes: null,
+    contact_id: 1155,
+    step: 0,
+    utm_source: null,
+    utm_medium: null,
+    utm_campaign: null,
+    utm_term: null,
+    utm_content: null,
+    search_params: {},
+    referer: 'https://nateerskinesmith.ca/'
+  }
+]
+storeRequest bindMonad output 200
+not sending welcomeResponse draft organic
+bind to mail
+no sb client passed
+Mailerlite get response 401
+post status 401
+post payload {
+  "email": "mike.omorrow@gmail.com",
+  "fields": {
+    "email": "mike.omorrow@gmail.com",
+    "phone": "6472335877",
+    "birthdate": 2,
+    "birthmonth": 8,
+    "birthyear": 1983,
+    "street_address": "2301 Danforth Avenue, 406",
+    "federal_electoral_district": "Beaches—East York",
+    "division_electoral_district": "Beaches—East York",
+    "comms_consent": true,
+    "last_request": 60,
+    "last_name": "O'Morrow",
+    "state": "Ontario",
+    "name": "Michael",
+    "z_i_p": "M4C0A7",
+    "city": "TORONTO"
+  }
+}
+bind error [HttpError: Unauthenticated.] {
+  statusCode: 401,
+  details: null,
+  originalMessage: 'Unauthenticated.',
+  originalStack: null
+}
+bind input {
+  id: 1155,
+  created_at: '2026-01-25T22:23:12.015742+00:00',
+  updated_at: '2026-01-25T22:24:13.946583+00:00',
+  firstname: 'Michael',
+  surname: "O'Morrow",
+  email: 'mike.omorrow@gmail.com',
+  phone: '6472335877',
+  birthdate: 2,
+  birthmonth: 8,
+  birthyear: 1983,
+  street_address: '2301 Danforth Avenue, 406',
+  municipality: 'TORONTO',
+  division: 'Ontario',
+  region: null,
+  country: null,
+  postcode: 'M4C0A7',
+  federal_electoral_district: 'Beaches—East York',
+  division_electoral_district: 'Beaches—East York',
+  municipal_electoral_district: null,
+  ballot1: null,
+  ballot2: null,
+  ballot3: null,
+  ballot4: null,
+  comms_consent: true,
+  signup_consent: null,
+  signup_submitted: null,
+  member: null,
+  organizer: null,
+  language: null,
+  olp23_ballot1: null,
+  olp23_ballot2: null,
+  olp23_ballot3: null,
+  olp23_ballot4: null,
+  olp23_comms_consent: null,
+  olp23_signup_consent: null,
+  olp23_volunteer_status: null,
+  olp23_donor_status: null,
+  olp23_donation_amount: null,
+  olp23_signup_submitted: null,
+  olp23_organizer: null,
+  olp23_source: null,
+  olp23_member: null,
+  olp23_voted: null,
+  olp23_voting_group: null,
+  olp23_voting_location: null,
+  olp23_voting_period: null,
+  olp23_voting_association: null,
+  olp23_nate_signup: null,
+  olp23_campus_club: null,
+  olp23_callhub_notes: null,
+  olp23_nes_support_level: null,
+  olp23_gender: null,
+  olp23_riding: null,
+  olp23_organizer_ref_id: null,
+  olp23_membership_status: null,
+  olp_van_id: null,
+  lpc_van_id: null,
+  last_request: 60,
+  tags: null,
+  gender: null,
+  mailerlite_id: null,
+  campus_club: null,
+  ride_request_status: null,
+  contact_status: null,
+  latitude: null,
+  longitude: null,
+  location: null,
+  research_data: null,
+  research_updated_at: null,
+  research_status: null
+}
+bind monadic {
+  response: { statusCode: 200, body: { trace: [Array] } },
+  trace: [
+    {
+      step: 'ingest.js',
+      task: 'storeRequest',
+      input: [Object],
+      output: [Array],
+      duration: 5.002708999999982
+    },
+    {
+      step: 'upsert.js',
+      task: 'upsertData',
+      input: [Object],
+      output: [Object],
+      duration: 321.60833299999996
+    },
+    {
+      step: 'appendToSheet.js',
+      task: 'appendToSheet',
+      input: [Object],
+      output: Error: Failed to download google-service-account-key.json from bucket sai-ingestion-sheets-service-key: StorageUnknownError: {}
+          at downloadFromSupabaseBucket (file:///Users/saihaansyed/chsolutions/projects/nes/pipeline/nesrm_etl_pipeline/scripts/downloadSupabaseBucket/index.js:50:11)
+          at process.processTicksAndRejections (node:internal/process/task_queues:103:5)
+          at async appendToSheet (file:///Users/saihaansyed/chsolutions/projects/nes/pipeline/nesrm_etl_pipeline/src/appendToSheet.js:94:17)
+          at async Object.bindMonad (file:///Users/saihaansyed/chsolutions/projects/nes/pipeline/nesrm_etl_pipeline/scripts/monads/monad.js:86:42)
+          at async handler (file:///Users/saihaansyed/chsolutions/projects/nes/pipeline/nesrm_etl_pipeline/index.js:98:15)
+          at async runner (file:///Users/saihaansyed/chsolutions/projects/nes/pipeline/nesrm_etl_pipeline/runner.js:37:12)
+          at async runOverArray (file:///Users/saihaansyed/chsolutions/projects/nes/pipeline/nesrm_etl_pipeline/runner.js:92:26)
+          at async main (file:///Users/saihaansyed/chsolutions/projects/nes/pipeline/nesrm_etl_pipeline/runner.js:189:7),
+      duration: 28.12979199999998
+    },
+    {
+      step: 'shape.js',
+      task: 'shapeData',
+      input: [Object],
+      output: [Object],
+      duration: 0.4375419999999792
+    },
+    {
+      step: 'ingest.js',
+      task: 'storeEvent',
+      input: [Object],
+      output: [Object],
+      duration: 41.179542
+    },
+    {
+      step: 'ingest.js',
+      task: 'headerCheck',
+      input: [Object],
+      output: [Object],
+      duration: 0.12170799999998394
+    }
+  ],
+  input: {
+    id: 1155,
+    created_at: '2026-01-25T22:23:12.015742+00:00',
+    updated_at: '2026-01-25T22:24:13.946583+00:00',
+    firstname: 'Michael',
+    surname: "O'Morrow",
+    email: 'mike.omorrow@gmail.com',
+    phone: '6472335877',
+    birthdate: 2,
+    birthmonth: 8,
+    birthyear: 1983,
+    street_address: '2301 Danforth Avenue, 406',
+    municipality: 'TORONTO',
+    division: 'Ontario',
+    region: null,
+    country: null,
+    postcode: 'M4C0A7',
+    federal_electoral_district: 'Beaches—East York',
+    division_electoral_district: 'Beaches—East York',
+    municipal_electoral_district: null,
+    ballot1: null,
+    ballot2: null,
+    ballot3: null,
+    ballot4: null,
+    comms_consent: true,
+    signup_consent: null,
+    signup_submitted: null,
+    member: null,
+    organizer: null,
+    language: null,
+    olp23_ballot1: null,
+    olp23_ballot2: null,
+    olp23_ballot3: null,
+    olp23_ballot4: null,
+    olp23_comms_consent: null,
+    olp23_signup_consent: null,
+    olp23_volunteer_status: null,
+    olp23_donor_status: null,
+    olp23_donation_amount: null,
+    olp23_signup_submitted: null,
+    olp23_organizer: null,
+    olp23_source: null,
+    olp23_member: null,
+    olp23_voted: null,
+    olp23_voting_group: null,
+    olp23_voting_location: null,
+    olp23_voting_period: null,
+    olp23_voting_association: null,
+    olp23_nate_signup: null,
+    olp23_campus_club: null,
+    olp23_callhub_notes: null,
+    olp23_nes_support_level: null,
+    olp23_gender: null,
+    olp23_riding: null,
+    olp23_organizer_ref_id: null,
+    olp23_membership_status: null,
+    olp_van_id: null,
+    lpc_van_id: null,
+    last_request: 60,
+    tags: null,
+    gender: null,
+    mailerlite_id: null,
+    campus_club: null,
+    ride_request_status: null,
+    contact_status: null,
+    latitude: null,
+    longitude: null,
+    location: null,
+    research_data: null,
+    research_updated_at: null,
+    research_status: null
+  }
+}
+caught [HttpError: Unauthenticated.] {
+  statusCode: 401,
+  details: null,
+  originalMessage: 'Unauthenticated.',
+  originalStack: null
+}
+mail bindMonad output {
+  "response": {
+    "statusCode": 401,
+    "body": {
+      "message": "Unauthenticated.",
+      "trace": [
+        {
+          "step": "mail.js",
+          "task": "mail",
+          "duration": 393.82516699999996
+        },
+        {
+          "step": "ingest.js",
+          "task": "storeRequest",
+          "duration": 5.002708999999982
+        },
+        {
+          "step": "upsert.js",
+          "task": "upsertData",
+          "duration": 321.60833299999996
+        },
+        {
+          "step": "appendToSheet.js",
+          "task": "appendToSheet",
+          "duration": 28.12979199999998
+        },
+        {
+          "step": "shape.js",
+          "task": "shapeData",
+          "duration": 0.4375419999999792
+        },
+        {
+          "step": "ingest.js",
+          "task": "storeEvent",
+          "duration": 41.179542
+        },
+        {
+          "step": "ingest.js",
+          "task": "headerCheck",
+          "duration": 0.12170799999998394
+        },
+        {
+          "step": "ingest.js",
+          "task": "storeRequest",
+          "duration": 5.002708999999982
+        },
+        {
+          "step": "upsert.js",
+          "task": "upsertData",
+          "duration": 321.60833299999996
+        },
+        {
+          "step": "appendToSheet.js",
+          "task": "appendToSheet",
+          "duration": 28.12979199999998
+        },
+        {
+          "step": "shape.js",
+          "task": "shapeData",
+          "duration": 0.4375419999999792
+        },
+        {
+          "step": "ingest.js",
+          "task": "storeEvent",
+          "duration": 41.179542
+        },
+        {
+          "step": "ingest.js",
+          "task": "headerCheck",
+          "duration": 0.12170799999998394
+        },
+        {
+          "step": "upsert.js",
+          "task": "upsertData",
+          "duration": 321.60833299999996
+        },
+        {
+          "step": "appendToSheet.js",
+          "task": "appendToSheet",
+          "duration": 28.12979199999998
+        },
+        {
+          "step": "shape.js",
+          "task": "shapeData",
+          "duration": 0.4375419999999792
+        },
+        {
+          "step": "ingest.js",
+          "task": "storeEvent",
+          "duration": 41.179542
+        },
+        {
+          "step": "ingest.js",
+          "task": "headerCheck",
+          "duration": 0.12170799999998394
+        },
+        {
+          "step": "appendToSheet.js",
+          "task": "appendToSheet",
+          "duration": 28.12979199999998
+        },
+        {
+          "step": "shape.js",
+          "task": "shapeData",
+          "duration": 0.4375419999999792
+        },
+        {
+          "step": "ingest.js",
+          "task": "storeEvent",
+          "duration": 41.179542
+        },
+        {
+          "step": "ingest.js",
+          "task": "headerCheck",
+          "duration": 0.12170799999998394
+        },
+        {
+          "step": "shape.js",
+          "task": "shapeData",
+          "duration": 0.4375419999999792
+        },
+        {
+          "step": "ingest.js",
+          "task": "storeEvent",
+          "duration": 41.179542
+        },
+        {
+          "step": "ingest.js",
+          "task": "headerCheck",
+          "duration": 0.12170799999998394
+        },
+        {
+          "step": "ingest.js",
+          "task": "storeEvent",
+          "duration": 41.179542
+        },
+        {
+          "step": "ingest.js",
+          "task": "headerCheck",
+          "duration": 0.12170799999998394
+        },
+        {
+          "step": "ingest.js",
+          "task": "headerCheck",
+          "duration": 0.12170799999998394
+        }
+      ]
+    }
+  },
+  "trace": [
+    {
+      "step": "mail.js",
+      "task": "mail",
+      "input": {
+        "id": 1155,
+        "created_at": "2026-01-25T22:23:12.015742+00:00",
+        "updated_at": "2026-01-25T22:24:13.946583+00:00",
+        "firstname": "Michael",
+        "surname": "O'Morrow",
+        "email": "mike.omorrow@gmail.com",
+        "phone": "6472335877",
+        "birthdate": 2,
+        "birthmonth": 8,
+        "birthyear": 1983,
+        "street_address": "2301 Danforth Avenue, 406",
+        "municipality": "TORONTO",
+        "division": "Ontario",
+        "region": null,
+        "country": null,
+        "postcode": "M4C0A7",
+        "federal_electoral_district": "Beaches—East York",
+        "division_electoral_district": "Beaches—East York",
+        "municipal_electoral_district": null,
+        "ballot1": null,
+        "ballot2": null,
+        "ballot3": null,
+        "ballot4": null,
+        "comms_consent": true,
+        "signup_consent": null,
+        "signup_submitted": null,
+        "member": null,
+        "organizer": null,
+        "language": null,
+        "olp23_ballot1": null,
+        "olp23_ballot2": null,
+        "olp23_ballot3": null,
+        "olp23_ballot4": null,
+        "olp23_comms_consent": null,
+        "olp23_signup_consent": null,
+        "olp23_volunteer_status": null,
+        "olp23_donor_status": null,
+        "olp23_donation_amount": null,
+        "olp23_signup_submitted": null,
+        "olp23_organizer": null,
+        "olp23_source": null,
+        "olp23_member": null,
+        "olp23_voted": null,
+        "olp23_voting_group": null,
+        "olp23_voting_location": null,
+        "olp23_voting_period": null,
+        "olp23_voting_association": null,
+        "olp23_nate_signup": null,
+        "olp23_campus_club": null,
+        "olp23_callhub_notes": null,
+        "olp23_nes_support_level": null,
+        "olp23_gender": null,
+        "olp23_riding": null,
+        "olp23_organizer_ref_id": null,
+        "olp23_membership_status": null,
+        "olp_van_id": null,
+        "lpc_van_id": null,
+        "last_request": 60,
+        "tags": null,
+        "gender": null,
+        "mailerlite_id": null,
+        "campus_club": null,
+        "ride_request_status": null,
+        "contact_status": null,
+        "latitude": null,
+        "longitude": null,
+        "location": null,
+        "research_data": null,
+        "research_updated_at": null,
+        "research_status": null
+      },
+      "output": {
+        "name": "HttpError",
+        "statusCode": 401,
+        "details": null,
+        "originalMessage": "Unauthenticated.",
+        "originalStack": null
+      },
+      "duration": 393.82516699999996
+    },
+    {
+      "step": "ingest.js",
+      "task": "storeRequest",
+      "input": {
+        "id": 60,
+        "contact_id": 1155
+      },
+      "output": [
+        {
+          "id": 60,
+          "created_at": "2026-01-25T22:24:13.612709+00:00",
+          "origin": "https://nateerskinesmith.ca",
+          "payload": {
+            "body": "{\"comms_consent\":\"true\",\"organizer\":\"\",\"firstname\":\"Michael\",\"surname\":\"O\\\\'Morrow\",\"email\":\"mike.omorrow@gmail.com\",\"postcode\":\"M4C0A7\",\"message\":\"I am interested in volunteering for a potential leadership campaign. I am an Ontario public servant with experience in policy and communications. I think Ontario is experiencing a crisis of leadership. The government is unopposed and unaccountable, and we have a gimmick Premier. Ontario desperately needs a pragmatic and honest leader willing to put forward real solutions to tough problems. \",\"_meta\":{\"ip\":\"134.231.49.117\",\"user_agent\":\"Mozilla\\/5.0 (iPhone; CPU iPhone OS 18_7 like Mac OS X) AppleWebKit\\/605.1.15 (KHTML, like Gecko) Version\\/26.2 Mobile\\/15E148 Safari\\/604.1\",\"referer\":\"https:\\/\\/nateerskinesmith.ca\\/\",\"steps\":3,\"is_final\":false,\"step\":{\"index\":0,\"is_final\":false},\"submission_source\":\"organic\"},\"_status\":\"draft\"}",
+            "path": "/contact",
+            "headers": {
+              "Host": "wmk8eyx1a1.execute-api.us-east-1.amazonaws.com",
+              "Accept": "*/*",
+              "Origin": "https://nateerskinesmith.ca",
+              "User-Agent": "WordPress/6.9; https://nateerskinesmith.ca",
+              "Content-Type": "application/json",
+              "Accept-Encoding": "deflate, gzip, br, zstd",
+              "X-Amzn-Trace-Id": "Root=1-697579b2-4da74d4d6a5f31a213794d38",
+              "X-Forwarded-For": "134.231.49.117, 172.70.50.154, 162.220.234.59",
+              "X-Forwarded-Port": "443",
+              "X-Forwarded-Proto": "https"
+            },
+            "resource": "/contact",
+            "httpMethod": "POST",
+            "pathParameters": null,
+            "requestContext": {
+              "path": "/prod/contact",
+              "apiId": "wmk8eyx1a1",
+              "stage": "prod",
+              "identity": {
+                "user": null,
+                "caller": null,
+                "userArn": null,
+                "sourceIp": "162.220.234.59",
+                "accessKey": null,
+                "accountId": null,
+                "userAgent": "WordPress/6.9; https://nateerskinesmith.ca",
+                "principalOrgId": null,
+                "cognitoIdentityId": null,
+                "cognitoIdentityPoolId": null,
+                "cognitoAuthenticationType": null,
+                "cognitoAuthenticationProvider": null
+              },
+              "protocol": "HTTP/1.1",
+              "accountId": "060795934875",
+              "requestId": "5910c8b6-86f7-4143-9ef1-e49c9996c9f0",
+              "domainName": "wmk8eyx1a1.execute-api.us-east-1.amazonaws.com",
+              "httpMethod": "POST",
+              "resourceId": "9smu8h",
+              "requestTime": "25/Jan/2026:02:02:26 +0000",
+              "deploymentId": "84rbfg",
+              "domainPrefix": "wmk8eyx1a1",
+              "resourcePath": "/contact",
+              "requestTimeEpoch": 1769306546734,
+              "extendedRequestId": "Xt_z_EBJIAMEXZg="
+            },
+            "stageVariables": {
+              "arn": "arn:aws:states:us-east-1:060795934875:stateMachine:nesrm_ingestion_pipeline"
+            },
+            "isBase64Encoded": false,
+            "multiValueHeaders": {
+              "Host": [
+                "wmk8eyx1a1.execute-api.us-east-1.amazonaws.com"
+              ],
+              "Accept": [
+                "*/*"
+              ],
+              "Origin": [
+                "https://nateerskinesmith.ca"
+              ],
+              "User-Agent": [
+                "WordPress/6.9; https://nateerskinesmith.ca"
+              ],
+              "Content-Type": [
+                "application/json"
+              ],
+              "Accept-Encoding": [
+                "deflate, gzip, br, zstd"
+              ],
+              "X-Amzn-Trace-Id": [
+                "Root=1-697579b2-4da74d4d6a5f31a213794d38"
+              ],
+              "X-Forwarded-For": [
+                "134.231.49.117, 172.70.50.154, 162.220.234.59"
+              ],
+              "X-Forwarded-Port": [
+                "443"
+              ],
+              "X-Forwarded-Proto": [
+                "https"
+              ]
+            },
+            "queryStringParameters": null,
+            "multiValueQueryStringParameters": null
+          },
+          "ip": "134.231.49.117, 172.70.50.154, 162.220.234.59",
+          "email": "mike.omorrow@gmail.com",
+          "success": false,
+          "logs": {
+            "trace": [
+              {
+                "step": "appendToSheet.js",
+                "task": "appendToSheet",
+                "input": {
+                  "body": "{\"comms_consent\":\"true\",\"organizer\":\"\",\"firstname\":\"Michael\",\"surname\":\"O\\\\'Morrow\",\"email\":\"mike.omorrow@gmail.com\",\"postcode\":\"M4C0A7\",\"message\":\"I am interested in volunteering for a potential leadership campaign. I am an Ontario public servant with experience in policy and communications. I think Ontario is experiencing a crisis of leadership. The government is unopposed and unaccountable, and we have a gimmick Premier. Ontario desperately needs a pragmatic and honest leader willing to put forward real solutions to tough problems. \",\"_meta\":{\"ip\":\"134.231.49.117\",\"user_agent\":\"Mozilla\\/5.0 (iPhone; CPU iPhone OS 18_7 like Mac OS X) AppleWebKit\\/605.1.15 (KHTML, like Gecko) Version\\/26.2 Mobile\\/15E148 Safari\\/604.1\",\"referer\":\"https:\\/\\/nateerskinesmith.ca\\/\",\"steps\":3,\"is_final\":false,\"step\":{\"index\":0,\"is_final\":false},\"submission_source\":\"organic\"},\"_status\":\"draft\"}",
+                  "payload": {
+                    "body": "{\"comms_consent\":\"true\",\"organizer\":\"\",\"firstname\":\"Michael\",\"surname\":\"O\\\\'Morrow\",\"email\":\"mike.omorrow@gmail.com\",\"postcode\":\"M4C0A7\",\"message\":\"I am interested in volunteering for a potential leadership campaign. I am an Ontario public servant with experience in policy and communications. I think Ontario is experiencing a crisis of leadership. The government is unopposed and unaccountable, and we have a gimmick Premier. Ontario desperately needs a pragmatic and honest leader willing to put forward real solutions to tough problems. \",\"_meta\":{\"ip\":\"134.231.49.117\",\"user_agent\":\"Mozilla\\/5.0 (iPhone; CPU iPhone OS 18_7 like Mac OS X) AppleWebKit\\/605.1.15 (KHTML, like Gecko) Version\\/26.2 Mobile\\/15E148 Safari\\/604.1\",\"referer\":\"https:\\/\\/nateerskinesmith.ca\\/\",\"steps\":3,\"is_final\":false,\"step\":{\"index\":0,\"is_final\":false},\"submission_source\":\"organic\"},\"_status\":\"draft\"}",
+                    "path": "/contact",
+                    "headers": {
+                      "Host": "wmk8eyx1a1.execute-api.us-east-1.amazonaws.com",
+                      "Accept": "*/*",
+                      "Origin": "https://nateerskinesmith.ca",
+                      "User-Agent": "WordPress/6.9; https://nateerskinesmith.ca",
+                      "Content-Type": "application/json",
+                      "Accept-Encoding": "deflate, gzip, br, zstd",
+                      "X-Amzn-Trace-Id": "Root=1-697579b2-4da74d4d6a5f31a213794d38",
+                      "X-Forwarded-For": "134.231.49.117, 172.70.50.154, 162.220.234.59",
+                      "X-Forwarded-Port": "443",
+                      "X-Forwarded-Proto": "https"
+                    },
+                    "resource": "/contact",
+                    "httpMethod": "POST",
+                    "pathParameters": null,
+                    "requestContext": {
+                      "path": "/prod/contact",
+                      "apiId": "wmk8eyx1a1",
+                      "stage": "prod",
+                      "identity": {
+                        "user": null,
+                        "caller": null,
+                        "userArn": null,
+                        "sourceIp": "162.220.234.59",
+                        "accessKey": null,
+                        "accountId": null,
+                        "userAgent": "WordPress/6.9; https://nateerskinesmith.ca",
+                        "principalOrgId": null,
+                        "cognitoIdentityId": null,
+                        "cognitoIdentityPoolId": null,
+                        "cognitoAuthenticationType": null,
+                        "cognitoAuthenticationProvider": null
+                      },
+                      "protocol": "HTTP/1.1",
+                      "accountId": "060795934875",
+                      "requestId": "5910c8b6-86f7-4143-9ef1-e49c9996c9f0",
+                      "domainName": "wmk8eyx1a1.execute-api.us-east-1.amazonaws.com",
+                      "httpMethod": "POST",
+                      "resourceId": "9smu8h",
+                      "requestTime": "25/Jan/2026:02:02:26 +0000",
+                      "deploymentId": "84rbfg",
+                      "domainPrefix": "wmk8eyx1a1",
+                      "resourcePath": "/contact",
+                      "requestTimeEpoch": 1769306546734,
+                      "extendedRequestId": "Xt_z_EBJIAMEXZg="
+                    },
+                    "stageVariables": {
+                      "arn": "arn:aws:states:us-east-1:060795934875:stateMachine:nesrm_ingestion_pipeline"
+                    },
+                    "isBase64Encoded": false,
+                    "multiValueHeaders": {
+                      "Host": [
+                        "wmk8eyx1a1.execute-api.us-east-1.amazonaws.com"
+                      ],
+                      "Accept": [
+                        "*/*"
+                      ],
+                      "Origin": [
+                        "https://nateerskinesmith.ca"
+                      ],
+                      "User-Agent": [
+                        "WordPress/6.9; https://nateerskinesmith.ca"
+                      ],
+                      "Content-Type": [
+                        "application/json"
+                      ],
+                      "Accept-Encoding": [
+                        "deflate, gzip, br, zstd"
+                      ],
+                      "X-Amzn-Trace-Id": [
+                        "Root=1-697579b2-4da74d4d6a5f31a213794d38"
+                      ],
+                      "X-Forwarded-For": [
+                        "134.231.49.117, 172.70.50.154, 162.220.234.59"
+                      ],
+                      "X-Forwarded-Port": [
+                        "443"
+                      ],
+                      "X-Forwarded-Proto": [
+                        "https"
+                      ]
+                    },
+                    "queryStringParameters": null,
+                    "multiValueQueryStringParameters": null
+                  },
+                  "created_at": "2026-01-25T22:24:13.612709+00:00",
+                  "request_id": 60,
+                  "shaped_data": {
+                    "body": {
+                      "email": "mike.omorrow@gmail.com",
+                      "surname": "O'Morrow",
+                      "postcode": "M4C0A7",
+                      "firstname": "Michael",
+                      "comms_consent": "true"
+                    },
+                    "headers": {
+                      "Host": "wmk8eyx1a1.execute-api.us-east-1.amazonaws.com",
+                      "Accept": "*/*",
+                      "Origin": "https://nateerskinesmith.ca",
+                      "User-Agent": "WordPress/6.9; https://nateerskinesmith.ca",
+                      "Content-Type": "application/json",
+                      "Accept-Encoding": "deflate, gzip, br, zstd",
+                      "X-Amzn-Trace-Id": "Root=1-697579b2-4da74d4d6a5f31a213794d38",
+                      "X-Forwarded-For": "134.231.49.117, 172.70.50.154, 162.220.234.59",
+                      "X-Forwarded-Port": "443",
+                      "X-Forwarded-Proto": "https",
+                      "request_backup_id": 60,
+                      "request_created_at": "2026-01-25T22:24:13.612709+00:00"
+                    }
+                  }
+                },
+                "output": {},
+                "duration": 28.12979199999998
+              },
+              {
+                "step": "shape.js",
+                "task": "shapeData",
+                "input": {
+                  "body": "{\"comms_consent\":\"true\",\"organizer\":\"\",\"firstname\":\"Michael\",\"surname\":\"O\\\\'Morrow\",\"email\":\"mike.omorrow@gmail.com\",\"postcode\":\"M4C0A7\",\"message\":\"I am interested in volunteering for a potential leadership campaign. I am an Ontario public servant with experience in policy and communications. I think Ontario is experiencing a crisis of leadership. The government is unopposed and unaccountable, and we have a gimmick Premier. Ontario desperately needs a pragmatic and honest leader willing to put forward real solutions to tough problems. \",\"_meta\":{\"ip\":\"134.231.49.117\",\"user_agent\":\"Mozilla\\/5.0 (iPhone; CPU iPhone OS 18_7 like Mac OS X) AppleWebKit\\/605.1.15 (KHTML, like Gecko) Version\\/26.2 Mobile\\/15E148 Safari\\/604.1\",\"referer\":\"https:\\/\\/nateerskinesmith.ca\\/\",\"steps\":3,\"is_final\":false,\"step\":{\"index\":0,\"is_final\":false},\"submission_source\":\"organic\"},\"_status\":\"draft\"}",
+                  "path": "/contact",
+                  "headers": {
+                    "Host": "wmk8eyx1a1.execute-api.us-east-1.amazonaws.com",
+                    "Accept": "*/*",
+                    "Origin": "https://nateerskinesmith.ca",
+                    "User-Agent": "WordPress/6.9; https://nateerskinesmith.ca",
+                    "Content-Type": "application/json",
+                    "Accept-Encoding": "deflate, gzip, br, zstd",
+                    "X-Amzn-Trace-Id": "Root=1-697579b2-4da74d4d6a5f31a213794d38",
+                    "X-Forwarded-For": "134.231.49.117, 172.70.50.154, 162.220.234.59",
+                    "X-Forwarded-Port": "443",
+                    "X-Forwarded-Proto": "https",
+                    "request_backup_id": 60,
+                    "request_created_at": "2026-01-25T22:24:13.612709+00:00"
+                  },
+                  "resource": "/contact",
+                  "httpMethod": "POST",
+                  "pathParameters": null,
+                  "requestContext": {
+                    "path": "/prod/contact",
+                    "apiId": "wmk8eyx1a1",
+                    "stage": "prod",
+                    "identity": {
+                      "user": null,
+                      "caller": null,
+                      "userArn": null,
+                      "sourceIp": "162.220.234.59",
+                      "accessKey": null,
+                      "accountId": null,
+                      "userAgent": "WordPress/6.9; https://nateerskinesmith.ca",
+                      "principalOrgId": null,
+                      "cognitoIdentityId": null,
+                      "cognitoIdentityPoolId": null,
+                      "cognitoAuthenticationType": null,
+                      "cognitoAuthenticationProvider": null
+                    },
+                    "protocol": "HTTP/1.1",
+                    "accountId": "060795934875",
+                    "requestId": "5910c8b6-86f7-4143-9ef1-e49c9996c9f0",
+                    "domainName": "wmk8eyx1a1.execute-api.us-east-1.amazonaws.com",
+                    "httpMethod": "POST",
+                    "resourceId": "9smu8h",
+                    "requestTime": "25/Jan/2026:02:02:26 +0000",
+                    "deploymentId": "84rbfg",
+                    "domainPrefix": "wmk8eyx1a1",
+                    "resourcePath": "/contact",
+                    "requestTimeEpoch": 1769306546734,
+                    "extendedRequestId": "Xt_z_EBJIAMEXZg="
+                  },
+                  "stageVariables": {
+                    "arn": "arn:aws:states:us-east-1:060795934875:stateMachine:nesrm_ingestion_pipeline"
+                  },
+                  "isBase64Encoded": false,
+                  "multiValueHeaders": {
+                    "Host": [
+                      "wmk8eyx1a1.execute-api.us-east-1.amazonaws.com"
+                    ],
+                    "Accept": [
+                      "*/*"
+                    ],
+                    "Origin": [
+                      "https://nateerskinesmith.ca"
+                    ],
+                    "User-Agent": [
+                      "WordPress/6.9; https://nateerskinesmith.ca"
+                    ],
+                    "Content-Type": [
+                      "application/json"
+                    ],
+                    "Accept-Encoding": [
+                      "deflate, gzip, br, zstd"
+                    ],
+                    "X-Amzn-Trace-Id": [
+                      "Root=1-697579b2-4da74d4d6a5f31a213794d38"
+                    ],
+                    "X-Forwarded-For": [
+                      "134.231.49.117, 172.70.50.154, 162.220.234.59"
+                    ],
+                    "X-Forwarded-Port": [
+                      "443"
+                    ],
+                    "X-Forwarded-Proto": [
+                      "https"
+                    ]
+                  },
+                  "queryStringParameters": null,
+                  "multiValueQueryStringParameters": null
+                },
+                "output": {
+                  "body": {
+                    "email": "mike.omorrow@gmail.com",
+                    "surname": "O'Morrow",
+                    "postcode": "M4C0A7",
+                    "firstname": "Michael",
+                    "comms_consent": "true"
+                  },
+                  "headers": {
+                    "Host": "wmk8eyx1a1.execute-api.us-east-1.amazonaws.com",
+                    "Accept": "*/*",
+                    "Origin": "https://nateerskinesmith.ca",
+                    "User-Agent": "WordPress/6.9; https://nateerskinesmith.ca",
+                    "Content-Type": "application/json",
+                    "Accept-Encoding": "deflate, gzip, br, zstd",
+                    "X-Amzn-Trace-Id": "Root=1-697579b2-4da74d4d6a5f31a213794d38",
+                    "X-Forwarded-For": "134.231.49.117, 172.70.50.154, 162.220.234.59",
+                    "X-Forwarded-Port": "443",
+                    "X-Forwarded-Proto": "https",
+                    "request_backup_id": 60,
+                    "request_created_at": "2026-01-25T22:24:13.612709+00:00"
+                  }
+                },
+                "duration": 0.4375419999999792
+              },
+              {
+                "step": "ingest.js",
+                "task": "storeEvent",
+                "input": {
+                  "body": "{\"comms_consent\":\"true\",\"organizer\":\"\",\"firstname\":\"Michael\",\"surname\":\"O\\\\'Morrow\",\"email\":\"mike.omorrow@gmail.com\",\"postcode\":\"M4C0A7\",\"message\":\"I am interested in volunteering for a potential leadership campaign. I am an Ontario public servant with experience in policy and communications. I think Ontario is experiencing a crisis of leadership. The government is unopposed and unaccountable, and we have a gimmick Premier. Ontario desperately needs a pragmatic and honest leader willing to put forward real solutions to tough problems. \",\"_meta\":{\"ip\":\"134.231.49.117\",\"user_agent\":\"Mozilla\\/5.0 (iPhone; CPU iPhone OS 18_7 like Mac OS X) AppleWebKit\\/605.1.15 (KHTML, like Gecko) Version\\/26.2 Mobile\\/15E148 Safari\\/604.1\",\"referer\":\"https:\\/\\/nateerskinesmith.ca\\/\",\"steps\":3,\"is_final\":false,\"step\":{\"index\":0,\"is_final\":false},\"submission_source\":\"organic\"},\"_status\":\"draft\"}",
+                  "path": "/contact",
+                  "headers": {
+                    "Host": "wmk8eyx1a1.execute-api.us-east-1.amazonaws.com",
+                    "Accept": "*/*",
+                    "Origin": "https://nateerskinesmith.ca",
+                    "User-Agent": "WordPress/6.9; https://nateerskinesmith.ca",
+                    "Content-Type": "application/json",
+                    "Accept-Encoding": "deflate, gzip, br, zstd",
+                    "X-Amzn-Trace-Id": "Root=1-697579b2-4da74d4d6a5f31a213794d38",
+                    "X-Forwarded-For": "134.231.49.117, 172.70.50.154, 162.220.234.59",
+                    "X-Forwarded-Port": "443",
+                    "X-Forwarded-Proto": "https"
+                  },
+                  "resource": "/contact",
+                  "httpMethod": "POST",
+                  "pathParameters": null,
+                  "requestContext": {
+                    "path": "/prod/contact",
+                    "apiId": "wmk8eyx1a1",
+                    "stage": "prod",
+                    "identity": {
+                      "user": null,
+                      "caller": null,
+                      "userArn": null,
+                      "sourceIp": "162.220.234.59",
+                      "accessKey": null,
+                      "accountId": null,
+                      "userAgent": "WordPress/6.9; https://nateerskinesmith.ca",
+                      "principalOrgId": null,
+                      "cognitoIdentityId": null,
+                      "cognitoIdentityPoolId": null,
+                      "cognitoAuthenticationType": null,
+                      "cognitoAuthenticationProvider": null
+                    },
+                    "protocol": "HTTP/1.1",
+                    "accountId": "060795934875",
+                    "requestId": "5910c8b6-86f7-4143-9ef1-e49c9996c9f0",
+                    "domainName": "wmk8eyx1a1.execute-api.us-east-1.amazonaws.com",
+                    "httpMethod": "POST",
+                    "resourceId": "9smu8h",
+                    "requestTime": "25/Jan/2026:02:02:26 +0000",
+                    "deploymentId": "84rbfg",
+                    "domainPrefix": "wmk8eyx1a1",
+                    "resourcePath": "/contact",
+                    "requestTimeEpoch": 1769306546734,
+                    "extendedRequestId": "Xt_z_EBJIAMEXZg="
+                  },
+                  "stageVariables": {
+                    "arn": "arn:aws:states:us-east-1:060795934875:stateMachine:nesrm_ingestion_pipeline"
+                  },
+                  "isBase64Encoded": false,
+                  "multiValueHeaders": {
+                    "Host": [
+                      "wmk8eyx1a1.execute-api.us-east-1.amazonaws.com"
+                    ],
+                    "Accept": [
+                      "*/*"
+                    ],
+                    "Origin": [
+                      "https://nateerskinesmith.ca"
+                    ],
+                    "User-Agent": [
+                      "WordPress/6.9; https://nateerskinesmith.ca"
+                    ],
+                    "Content-Type": [
+                      "application/json"
+                    ],
+                    "Accept-Encoding": [
+                      "deflate, gzip, br, zstd"
+                    ],
+                    "X-Amzn-Trace-Id": [
+                      "Root=1-697579b2-4da74d4d6a5f31a213794d38"
+                    ],
+                    "X-Forwarded-For": [
+                      "134.231.49.117, 172.70.50.154, 162.220.234.59"
+                    ],
+                    "X-Forwarded-Port": [
+                      "443"
+                    ],
+                    "X-Forwarded-Proto": [
+                      "https"
+                    ]
+                  },
+                  "queryStringParameters": null,
+                  "multiValueQueryStringParameters": null
+                },
+                "output": {
+                  "body": "{\"comms_consent\":\"true\",\"organizer\":\"\",\"firstname\":\"Michael\",\"surname\":\"O\\\\'Morrow\",\"email\":\"mike.omorrow@gmail.com\",\"postcode\":\"M4C0A7\",\"message\":\"I am interested in volunteering for a potential leadership campaign. I am an Ontario public servant with experience in policy and communications. I think Ontario is experiencing a crisis of leadership. The government is unopposed and unaccountable, and we have a gimmick Premier. Ontario desperately needs a pragmatic and honest leader willing to put forward real solutions to tough problems. \",\"_meta\":{\"ip\":\"134.231.49.117\",\"user_agent\":\"Mozilla\\/5.0 (iPhone; CPU iPhone OS 18_7 like Mac OS X) AppleWebKit\\/605.1.15 (KHTML, like Gecko) Version\\/26.2 Mobile\\/15E148 Safari\\/604.1\",\"referer\":\"https:\\/\\/nateerskinesmith.ca\\/\",\"steps\":3,\"is_final\":false,\"step\":{\"index\":0,\"is_final\":false},\"submission_source\":\"organic\"},\"_status\":\"draft\"}",
+                  "path": "/contact",
+                  "headers": {
+                    "Host": "wmk8eyx1a1.execute-api.us-east-1.amazonaws.com",
+                    "Accept": "*/*",
+                    "Origin": "https://nateerskinesmith.ca",
+                    "User-Agent": "WordPress/6.9; https://nateerskinesmith.ca",
+                    "Content-Type": "application/json",
+                    "Accept-Encoding": "deflate, gzip, br, zstd",
+                    "X-Amzn-Trace-Id": "Root=1-697579b2-4da74d4d6a5f31a213794d38",
+                    "X-Forwarded-For": "134.231.49.117, 172.70.50.154, 162.220.234.59",
+                    "X-Forwarded-Port": "443",
+                    "X-Forwarded-Proto": "https",
+                    "request_backup_id": 60,
+                    "request_created_at": "2026-01-25T22:24:13.612709+00:00"
+                  },
+                  "resource": "/contact",
+                  "httpMethod": "POST",
+                  "pathParameters": null,
+                  "requestContext": {
+                    "path": "/prod/contact",
+                    "apiId": "wmk8eyx1a1",
+                    "stage": "prod",
+                    "identity": {
+                      "user": null,
+                      "caller": null,
+                      "userArn": null,
+                      "sourceIp": "162.220.234.59",
+                      "accessKey": null,
+                      "accountId": null,
+                      "userAgent": "WordPress/6.9; https://nateerskinesmith.ca",
+                      "principalOrgId": null,
+                      "cognitoIdentityId": null,
+                      "cognitoIdentityPoolId": null,
+                      "cognitoAuthenticationType": null,
+                      "cognitoAuthenticationProvider": null
+                    },
+                    "protocol": "HTTP/1.1",
+                    "accountId": "060795934875",
+                    "requestId": "5910c8b6-86f7-4143-9ef1-e49c9996c9f0",
+                    "domainName": "wmk8eyx1a1.execute-api.us-east-1.amazonaws.com",
+                    "httpMethod": "POST",
+                    "resourceId": "9smu8h",
+                    "requestTime": "25/Jan/2026:02:02:26 +0000",
+                    "deploymentId": "84rbfg",
+                    "domainPrefix": "wmk8eyx1a1",
+                    "resourcePath": "/contact",
+                    "requestTimeEpoch": 1769306546734,
+                    "extendedRequestId": "Xt_z_EBJIAMEXZg="
+                  },
+                  "stageVariables": {
+                    "arn": "arn:aws:states:us-east-1:060795934875:stateMachine:nesrm_ingestion_pipeline"
+                  },
+                  "isBase64Encoded": false,
+                  "multiValueHeaders": {
+                    "Host": [
+                      "wmk8eyx1a1.execute-api.us-east-1.amazonaws.com"
+                    ],
+                    "Accept": [
+                      "*/*"
+                    ],
+                    "Origin": [
+                      "https://nateerskinesmith.ca"
+                    ],
+                    "User-Agent": [
+                      "WordPress/6.9; https://nateerskinesmith.ca"
+                    ],
+                    "Content-Type": [
+                      "application/json"
+                    ],
+                    "Accept-Encoding": [
+                      "deflate, gzip, br, zstd"
+                    ],
+                    "X-Amzn-Trace-Id": [
+                      "Root=1-697579b2-4da74d4d6a5f31a213794d38"
+                    ],
+                    "X-Forwarded-For": [
+                      "134.231.49.117, 172.70.50.154, 162.220.234.59"
+                    ],
+                    "X-Forwarded-Port": [
+                      "443"
+                    ],
+                    "X-Forwarded-Proto": [
+                      "https"
+                    ]
+                  },
+                  "queryStringParameters": null,
+                  "multiValueQueryStringParameters": null
+                },
+                "duration": 41.179542
+              },
+              {
+                "step": "ingest.js",
+                "task": "headerCheck",
+                "input": {
+                  "body": "{\"comms_consent\":\"true\",\"organizer\":\"\",\"firstname\":\"Michael\",\"surname\":\"O\\\\'Morrow\",\"email\":\"mike.omorrow@gmail.com\",\"postcode\":\"M4C0A7\",\"message\":\"I am interested in volunteering for a potential leadership campaign. I am an Ontario public servant with experience in policy and communications. I think Ontario is experiencing a crisis of leadership. The government is unopposed and unaccountable, and we have a gimmick Premier. Ontario desperately needs a pragmatic and honest leader willing to put forward real solutions to tough problems. \",\"_meta\":{\"ip\":\"134.231.49.117\",\"user_agent\":\"Mozilla\\/5.0 (iPhone; CPU iPhone OS 18_7 like Mac OS X) AppleWebKit\\/605.1.15 (KHTML, like Gecko) Version\\/26.2 Mobile\\/15E148 Safari\\/604.1\",\"referer\":\"https:\\/\\/nateerskinesmith.ca\\/\",\"steps\":3,\"is_final\":false,\"step\":{\"index\":0,\"is_final\":false},\"submission_source\":\"organic\"},\"_status\":\"draft\"}",
+                  "path": "/contact",
+                  "headers": {
+                    "Host": "wmk8eyx1a1.execute-api.us-east-1.amazonaws.com",
+                    "Accept": "*/*",
+                    "Origin": "https://nateerskinesmith.ca",
+                    "User-Agent": "WordPress/6.9; https://nateerskinesmith.ca",
+                    "Content-Type": "application/json",
+                    "Accept-Encoding": "deflate, gzip, br, zstd",
+                    "X-Amzn-Trace-Id": "Root=1-697579b2-4da74d4d6a5f31a213794d38",
+                    "X-Forwarded-For": "134.231.49.117, 172.70.50.154, 162.220.234.59",
+                    "X-Forwarded-Port": "443",
+                    "X-Forwarded-Proto": "https"
+                  },
+                  "resource": "/contact",
+                  "httpMethod": "POST",
+                  "pathParameters": null,
+                  "requestContext": {
+                    "path": "/prod/contact",
+                    "apiId": "wmk8eyx1a1",
+                    "stage": "prod",
+                    "identity": {
+                      "user": null,
+                      "caller": null,
+                      "userArn": null,
+                      "sourceIp": "162.220.234.59",
+                      "accessKey": null,
+                      "accountId": null,
+                      "userAgent": "WordPress/6.9; https://nateerskinesmith.ca",
+                      "principalOrgId": null,
+                      "cognitoIdentityId": null,
+                      "cognitoIdentityPoolId": null,
+                      "cognitoAuthenticationType": null,
+                      "cognitoAuthenticationProvider": null
+                    },
+                    "protocol": "HTTP/1.1",
+                    "accountId": "060795934875",
+                    "requestId": "5910c8b6-86f7-4143-9ef1-e49c9996c9f0",
+                    "domainName": "wmk8eyx1a1.execute-api.us-east-1.amazonaws.com",
+                    "httpMethod": "POST",
+                    "resourceId": "9smu8h",
+                    "requestTime": "25/Jan/2026:02:02:26 +0000",
+                    "deploymentId": "84rbfg",
+                    "domainPrefix": "wmk8eyx1a1",
+                    "resourcePath": "/contact",
+                    "requestTimeEpoch": 1769306546734,
+                    "extendedRequestId": "Xt_z_EBJIAMEXZg="
+                  },
+                  "stageVariables": {
+                    "arn": "arn:aws:states:us-east-1:060795934875:stateMachine:nesrm_ingestion_pipeline"
+                  },
+                  "isBase64Encoded": false,
+                  "multiValueHeaders": {
+                    "Host": [
+                      "wmk8eyx1a1.execute-api.us-east-1.amazonaws.com"
+                    ],
+                    "Accept": [
+                      "*/*"
+                    ],
+                    "Origin": [
+                      "https://nateerskinesmith.ca"
+                    ],
+                    "User-Agent": [
+                      "WordPress/6.9; https://nateerskinesmith.ca"
+                    ],
+                    "Content-Type": [
+                      "application/json"
+                    ],
+                    "Accept-Encoding": [
+                      "deflate, gzip, br, zstd"
+                    ],
+                    "X-Amzn-Trace-Id": [
+                      "Root=1-697579b2-4da74d4d6a5f31a213794d38"
+                    ],
+                    "X-Forwarded-For": [
+                      "134.231.49.117, 172.70.50.154, 162.220.234.59"
+                    ],
+                    "X-Forwarded-Port": [
+                      "443"
+                    ],
+                    "X-Forwarded-Proto": [
+                      "https"
+                    ]
+                  },
+                  "queryStringParameters": null,
+                  "multiValueQueryStringParameters": null
+                },
+                "output": {
+                  "body": "{\"comms_consent\":\"true\",\"organizer\":\"\",\"firstname\":\"Michael\",\"surname\":\"O\\\\'Morrow\",\"email\":\"mike.omorrow@gmail.com\",\"postcode\":\"M4C0A7\",\"message\":\"I am interested in volunteering for a potential leadership campaign. I am an Ontario public servant with experience in policy and communications. I think Ontario is experiencing a crisis of leadership. The government is unopposed and unaccountable, and we have a gimmick Premier. Ontario desperately needs a pragmatic and honest leader willing to put forward real solutions to tough problems. \",\"_meta\":{\"ip\":\"134.231.49.117\",\"user_agent\":\"Mozilla\\/5.0 (iPhone; CPU iPhone OS 18_7 like Mac OS X) AppleWebKit\\/605.1.15 (KHTML, like Gecko) Version\\/26.2 Mobile\\/15E148 Safari\\/604.1\",\"referer\":\"https:\\/\\/nateerskinesmith.ca\\/\",\"steps\":3,\"is_final\":false,\"step\":{\"index\":0,\"is_final\":false},\"submission_source\":\"organic\"},\"_status\":\"draft\"}",
+                  "path": "/contact",
+                  "headers": {
+                    "Host": "wmk8eyx1a1.execute-api.us-east-1.amazonaws.com",
+                    "Accept": "*/*",
+                    "Origin": "https://nateerskinesmith.ca",
+                    "User-Agent": "WordPress/6.9; https://nateerskinesmith.ca",
+                    "Content-Type": "application/json",
+                    "Accept-Encoding": "deflate, gzip, br, zstd",
+                    "X-Amzn-Trace-Id": "Root=1-697579b2-4da74d4d6a5f31a213794d38",
+                    "X-Forwarded-For": "134.231.49.117, 172.70.50.154, 162.220.234.59",
+                    "X-Forwarded-Port": "443",
+                    "X-Forwarded-Proto": "https"
+                  },
+                  "resource": "/contact",
+                  "httpMethod": "POST",
+                  "pathParameters": null,
+                  "requestContext": {
+                    "path": "/prod/contact",
+                    "apiId": "wmk8eyx1a1",
+                    "stage": "prod",
+                    "identity": {
+                      "user": null,
+                      "caller": null,
+                      "userArn": null,
+                      "sourceIp": "162.220.234.59",
+                      "accessKey": null,
+                      "accountId": null,
+                      "userAgent": "WordPress/6.9; https://nateerskinesmith.ca",
+                      "principalOrgId": null,
+                      "cognitoIdentityId": null,
+                      "cognitoIdentityPoolId": null,
+                      "cognitoAuthenticationType": null,
+                      "cognitoAuthenticationProvider": null
+                    },
+                    "protocol": "HTTP/1.1",
+                    "accountId": "060795934875",
+                    "requestId": "5910c8b6-86f7-4143-9ef1-e49c9996c9f0",
+                    "domainName": "wmk8eyx1a1.execute-api.us-east-1.amazonaws.com",
+                    "httpMethod": "POST",
+                    "resourceId": "9smu8h",
+                    "requestTime": "25/Jan/2026:02:02:26 +0000",
+                    "deploymentId": "84rbfg",
+                    "domainPrefix": "wmk8eyx1a1",
+                    "resourcePath": "/contact",
+                    "requestTimeEpoch": 1769306546734,
+                    "extendedRequestId": "Xt_z_EBJIAMEXZg="
+                  },
+                  "stageVariables": {
+                    "arn": "arn:aws:states:us-east-1:060795934875:stateMachine:nesrm_ingestion_pipeline"
+                  },
+                  "isBase64Encoded": false,
+                  "multiValueHeaders": {
+                    "Host": [
+                      "wmk8eyx1a1.execute-api.us-east-1.amazonaws.com"
+                    ],
+                    "Accept": [
+                      "*/*"
+                    ],
+                    "Origin": [
+                      "https://nateerskinesmith.ca"
+                    ],
+                    "User-Agent": [
+                      "WordPress/6.9; https://nateerskinesmith.ca"
+                    ],
+                    "Content-Type": [
+                      "application/json"
+                    ],
+                    "Accept-Encoding": [
+                      "deflate, gzip, br, zstd"
+                    ],
+                    "X-Amzn-Trace-Id": [
+                      "Root=1-697579b2-4da74d4d6a5f31a213794d38"
+                    ],
+                    "X-Forwarded-For": [
+                      "134.231.49.117, 172.70.50.154, 162.220.234.59"
+                    ],
+                    "X-Forwarded-Port": [
+                      "443"
+                    ],
+                    "X-Forwarded-Proto": [
+                      "https"
+                    ]
+                  },
+                  "queryStringParameters": null,
+                  "multiValueQueryStringParameters": null
+                },
+                "duration": 0.12170799999998394
+              }
+            ],
+            "response": {
+              "body": {
+                "trace": [
+                  {
+                    "step": "appendToSheet.js",
+                    "task": "appendToSheet",
+                    "duration": 28.12979199999998
+                  },
+                  {
+                    "step": "shape.js",
+                    "task": "shapeData",
+                    "duration": 0.4375419999999792
+                  },
+                  {
+                    "step": "ingest.js",
+                    "task": "storeEvent",
+                    "duration": 41.179542
+                  },
+                  {
+                    "step": "ingest.js",
+                    "task": "headerCheck",
+                    "duration": 0.12170799999998394
+                  },
+                  {
+                    "step": "shape.js",
+                    "task": "shapeData",
+                    "duration": 0.4375419999999792
+                  },
+                  {
+                    "step": "ingest.js",
+                    "task": "storeEvent",
+                    "duration": 41.179542
+                  },
+                  {
+                    "step": "ingest.js",
+                    "task": "headerCheck",
+                    "duration": 0.12170799999998394
+                  },
+                  {
+                    "step": "ingest.js",
+                    "task": "storeEvent",
+                    "duration": 41.179542
+                  },
+                  {
+                    "step": "ingest.js",
+                    "task": "headerCheck",
+                    "duration": 0.12170799999998394
+                  },
+                  {
+                    "step": "ingest.js",
+                    "task": "headerCheck",
+                    "duration": 0.12170799999998394
+                  }
+                ],
+                "message": "Failed to download google-service-account-key.json from bucket sai-ingestion-sheets-service-key: StorageUnknownError: {}"
+              },
+              "statusCode": 500
+            }
+          },
+          "status": "new",
+          "category": null,
+          "notes": null,
+          "contact_id": 1155,
+          "step": 0,
+          "utm_source": null,
+          "utm_medium": null,
+          "utm_campaign": null,
+          "utm_term": null,
+          "utm_content": null,
+          "search_params": {},
+          "referer": "https://nateerskinesmith.ca/"
+        }
+      ],
+      "duration": 5.002708999999982
+    },
+    {
+      "step": "upsert.js",
+      "task": "upsertData",
+      "input": {
+        "headers": {
+          "Host": "wmk8eyx1a1.execute-api.us-east-1.amazonaws.com",
+          "Accept": "*/*",
+          "Origin": "https://nateerskinesmith.ca",
+          "User-Agent": "WordPress/6.9; https://nateerskinesmith.ca",
+          "Content-Type": "application/json",
+          "Accept-Encoding": "deflate, gzip, br, zstd",
+          "X-Amzn-Trace-Id": "Root=1-697579b2-4da74d4d6a5f31a213794d38",
+          "X-Forwarded-For": "134.231.49.117, 172.70.50.154, 162.220.234.59",
+          "X-Forwarded-Port": "443",
+          "X-Forwarded-Proto": "https",
+          "request_backup_id": 60,
+          "request_created_at": "2026-01-25T22:24:13.612709+00:00"
+        },
+        "body": {
+          "firstname": "Michael",
+          "surname": "O'Morrow",
+          "email": "mike.omorrow@gmail.com",
+          "postcode": "M4C0A7",
+          "comms_consent": "true"
+        }
+      },
+      "output": {
+        "id": 1155,
+        "created_at": "2026-01-25T22:23:12.015742+00:00",
+        "updated_at": "2026-01-25T22:24:13.946583+00:00",
+        "firstname": "Michael",
+        "surname": "O'Morrow",
+        "email": "mike.omorrow@gmail.com",
+        "phone": "6472335877",
+        "birthdate": 2,
+        "birthmonth": 8,
+        "birthyear": 1983,
+        "street_address": "2301 Danforth Avenue, 406",
+        "municipality": "TORONTO",
+        "division": "Ontario",
+        "region": null,
+        "country": null,
+        "postcode": "M4C0A7",
+        "federal_electoral_district": "Beaches—East York",
+        "division_electoral_district": "Beaches—East York",
+        "municipal_electoral_district": null,
+        "ballot1": null,
+        "ballot2": null,
+        "ballot3": null,
+        "ballot4": null,
+        "comms_consent": true,
+        "signup_consent": null,
+        "signup_submitted": null,
+        "member": null,
+        "organizer": null,
+        "language": null,
+        "olp23_ballot1": null,
+        "olp23_ballot2": null,
+        "olp23_ballot3": null,
+        "olp23_ballot4": null,
+        "olp23_comms_consent": null,
+        "olp23_signup_consent": null,
+        "olp23_volunteer_status": null,
+        "olp23_donor_status": null,
+        "olp23_donation_amount": null,
+        "olp23_signup_submitted": null,
+        "olp23_organizer": null,
+        "olp23_source": null,
+        "olp23_member": null,
+        "olp23_voted": null,
+        "olp23_voting_group": null,
+        "olp23_voting_location": null,
+        "olp23_voting_period": null,
+        "olp23_voting_association": null,
+        "olp23_nate_signup": null,
+        "olp23_campus_club": null,
+        "olp23_callhub_notes": null,
+        "olp23_nes_support_level": null,
+        "olp23_gender": null,
+        "olp23_riding": null,
+        "olp23_organizer_ref_id": null,
+        "olp23_membership_status": null,
+        "olp_van_id": null,
+        "lpc_van_id": null,
+        "last_request": 60,
+        "tags": null,
+        "gender": null,
+        "mailerlite_id": null,
+        "campus_club": null,
+        "ride_request_status": null,
+        "contact_status": null,
+        "latitude": null,
+        "longitude": null,
+        "location": null,
+        "research_data": null,
+        "research_updated_at": null,
+        "research_status": null
+      },
+      "duration": 321.60833299999996
+    },
+    {
+      "step": "appendToSheet.js",
+      "task": "appendToSheet",
+      "input": {
+        "payload": {
+          "body": "{\"comms_consent\":\"true\",\"organizer\":\"\",\"firstname\":\"Michael\",\"surname\":\"O\\\\'Morrow\",\"email\":\"mike.omorrow@gmail.com\",\"postcode\":\"M4C0A7\",\"message\":\"I am interested in volunteering for a potential leadership campaign. I am an Ontario public servant with experience in policy and communications. I think Ontario is experiencing a crisis of leadership. The government is unopposed and unaccountable, and we have a gimmick Premier. Ontario desperately needs a pragmatic and honest leader willing to put forward real solutions to tough problems. \",\"_meta\":{\"ip\":\"134.231.49.117\",\"user_agent\":\"Mozilla\\/5.0 (iPhone; CPU iPhone OS 18_7 like Mac OS X) AppleWebKit\\/605.1.15 (KHTML, like Gecko) Version\\/26.2 Mobile\\/15E148 Safari\\/604.1\",\"referer\":\"https:\\/\\/nateerskinesmith.ca\\/\",\"steps\":3,\"is_final\":false,\"step\":{\"index\":0,\"is_final\":false},\"submission_source\":\"organic\"},\"_status\":\"draft\"}",
+          "path": "/contact",
+          "headers": {
+            "Host": "wmk8eyx1a1.execute-api.us-east-1.amazonaws.com",
+            "Accept": "*/*",
+            "Origin": "https://nateerskinesmith.ca",
+            "User-Agent": "WordPress/6.9; https://nateerskinesmith.ca",
+            "Content-Type": "application/json",
+            "Accept-Encoding": "deflate, gzip, br, zstd",
+            "X-Amzn-Trace-Id": "Root=1-697579b2-4da74d4d6a5f31a213794d38",
+            "X-Forwarded-For": "134.231.49.117, 172.70.50.154, 162.220.234.59",
+            "X-Forwarded-Port": "443",
+            "X-Forwarded-Proto": "https"
+          },
+          "resource": "/contact",
+          "httpMethod": "POST",
+          "pathParameters": null,
+          "requestContext": {
+            "path": "/prod/contact",
+            "apiId": "wmk8eyx1a1",
+            "stage": "prod",
+            "identity": {
+              "user": null,
+              "caller": null,
+              "userArn": null,
+              "sourceIp": "162.220.234.59",
+              "accessKey": null,
+              "accountId": null,
+              "userAgent": "WordPress/6.9; https://nateerskinesmith.ca",
+              "principalOrgId": null,
+              "cognitoIdentityId": null,
+              "cognitoIdentityPoolId": null,
+              "cognitoAuthenticationType": null,
+              "cognitoAuthenticationProvider": null
+            },
+            "protocol": "HTTP/1.1",
+            "accountId": "060795934875",
+            "requestId": "5910c8b6-86f7-4143-9ef1-e49c9996c9f0",
+            "domainName": "wmk8eyx1a1.execute-api.us-east-1.amazonaws.com",
+            "httpMethod": "POST",
+            "resourceId": "9smu8h",
+            "requestTime": "25/Jan/2026:02:02:26 +0000",
+            "deploymentId": "84rbfg",
+            "domainPrefix": "wmk8eyx1a1",
+            "resourcePath": "/contact",
+            "requestTimeEpoch": 1769306546734,
+            "extendedRequestId": "Xt_z_EBJIAMEXZg="
+          },
+          "stageVariables": {
+            "arn": "arn:aws:states:us-east-1:060795934875:stateMachine:nesrm_ingestion_pipeline"
+          },
+          "isBase64Encoded": false,
+          "multiValueHeaders": {
+            "Host": [
+              "wmk8eyx1a1.execute-api.us-east-1.amazonaws.com"
+            ],
+            "Accept": [
+              "*/*"
+            ],
+            "Origin": [
+              "https://nateerskinesmith.ca"
+            ],
+            "User-Agent": [
+              "WordPress/6.9; https://nateerskinesmith.ca"
+            ],
+            "Content-Type": [
+              "application/json"
+            ],
+            "Accept-Encoding": [
+              "deflate, gzip, br, zstd"
+            ],
+            "X-Amzn-Trace-Id": [
+              "Root=1-697579b2-4da74d4d6a5f31a213794d38"
+            ],
+            "X-Forwarded-For": [
+              "134.231.49.117, 172.70.50.154, 162.220.234.59"
+            ],
+            "X-Forwarded-Port": [
+              "443"
+            ],
+            "X-Forwarded-Proto": [
+              "https"
+            ]
+          },
+          "queryStringParameters": null,
+          "multiValueQueryStringParameters": null
+        },
+        "created_at": "2026-01-25T22:24:13.612709+00:00",
+        "request_id": 60,
+        "body": "{\"comms_consent\":\"true\",\"organizer\":\"\",\"firstname\":\"Michael\",\"surname\":\"O\\\\'Morrow\",\"email\":\"mike.omorrow@gmail.com\",\"postcode\":\"M4C0A7\",\"message\":\"I am interested in volunteering for a potential leadership campaign. I am an Ontario public servant with experience in policy and communications. I think Ontario is experiencing a crisis of leadership. The government is unopposed and unaccountable, and we have a gimmick Premier. Ontario desperately needs a pragmatic and honest leader willing to put forward real solutions to tough problems. \",\"_meta\":{\"ip\":\"134.231.49.117\",\"user_agent\":\"Mozilla\\/5.0 (iPhone; CPU iPhone OS 18_7 like Mac OS X) AppleWebKit\\/605.1.15 (KHTML, like Gecko) Version\\/26.2 Mobile\\/15E148 Safari\\/604.1\",\"referer\":\"https:\\/\\/nateerskinesmith.ca\\/\",\"steps\":3,\"is_final\":false,\"step\":{\"index\":0,\"is_final\":false},\"submission_source\":\"organic\"},\"_status\":\"draft\"}",
+        "shaped_data": {
+          "headers": {
+            "Host": "wmk8eyx1a1.execute-api.us-east-1.amazonaws.com",
+            "Accept": "*/*",
+            "Origin": "https://nateerskinesmith.ca",
+            "User-Agent": "WordPress/6.9; https://nateerskinesmith.ca",
+            "Content-Type": "application/json",
+            "Accept-Encoding": "deflate, gzip, br, zstd",
+            "X-Amzn-Trace-Id": "Root=1-697579b2-4da74d4d6a5f31a213794d38",
+            "X-Forwarded-For": "134.231.49.117, 172.70.50.154, 162.220.234.59",
+            "X-Forwarded-Port": "443",
+            "X-Forwarded-Proto": "https",
+            "request_backup_id": 60,
+            "request_created_at": "2026-01-25T22:24:13.612709+00:00"
+          },
+          "body": {
+            "firstname": "Michael",
+            "surname": "O'Morrow",
+            "email": "mike.omorrow@gmail.com",
+            "postcode": "M4C0A7",
+            "comms_consent": "true"
+          }
+        }
+      },
+      "output": {},
+      "duration": 28.12979199999998
+    },
+    {
+      "step": "shape.js",
+      "task": "shapeData",
+      "input": {
+        "body": "{\"comms_consent\":\"true\",\"organizer\":\"\",\"firstname\":\"Michael\",\"surname\":\"O\\\\'Morrow\",\"email\":\"mike.omorrow@gmail.com\",\"postcode\":\"M4C0A7\",\"message\":\"I am interested in volunteering for a potential leadership campaign. I am an Ontario public servant with experience in policy and communications. I think Ontario is experiencing a crisis of leadership. The government is unopposed and unaccountable, and we have a gimmick Premier. Ontario desperately needs a pragmatic and honest leader willing to put forward real solutions to tough problems. \",\"_meta\":{\"ip\":\"134.231.49.117\",\"user_agent\":\"Mozilla\\/5.0 (iPhone; CPU iPhone OS 18_7 like Mac OS X) AppleWebKit\\/605.1.15 (KHTML, like Gecko) Version\\/26.2 Mobile\\/15E148 Safari\\/604.1\",\"referer\":\"https:\\/\\/nateerskinesmith.ca\\/\",\"steps\":3,\"is_final\":false,\"step\":{\"index\":0,\"is_final\":false},\"submission_source\":\"organic\"},\"_status\":\"draft\"}",
+        "path": "/contact",
+        "headers": {
+          "Host": "wmk8eyx1a1.execute-api.us-east-1.amazonaws.com",
+          "Accept": "*/*",
+          "Origin": "https://nateerskinesmith.ca",
+          "User-Agent": "WordPress/6.9; https://nateerskinesmith.ca",
+          "Content-Type": "application/json",
+          "Accept-Encoding": "deflate, gzip, br, zstd",
+          "X-Amzn-Trace-Id": "Root=1-697579b2-4da74d4d6a5f31a213794d38",
+          "X-Forwarded-For": "134.231.49.117, 172.70.50.154, 162.220.234.59",
+          "X-Forwarded-Port": "443",
+          "X-Forwarded-Proto": "https",
+          "request_backup_id": 60,
+          "request_created_at": "2026-01-25T22:24:13.612709+00:00"
+        },
+        "resource": "/contact",
+        "httpMethod": "POST",
+        "pathParameters": null,
+        "requestContext": {
+          "path": "/prod/contact",
+          "apiId": "wmk8eyx1a1",
+          "stage": "prod",
+          "identity": {
+            "user": null,
+            "caller": null,
+            "userArn": null,
+            "sourceIp": "162.220.234.59",
+            "accessKey": null,
+            "accountId": null,
+            "userAgent": "WordPress/6.9; https://nateerskinesmith.ca",
+            "principalOrgId": null,
+            "cognitoIdentityId": null,
+            "cognitoIdentityPoolId": null,
+            "cognitoAuthenticationType": null,
+            "cognitoAuthenticationProvider": null
+          },
+          "protocol": "HTTP/1.1",
+          "accountId": "060795934875",
+          "requestId": "5910c8b6-86f7-4143-9ef1-e49c9996c9f0",
+          "domainName": "wmk8eyx1a1.execute-api.us-east-1.amazonaws.com",
+          "httpMethod": "POST",
+          "resourceId": "9smu8h",
+          "requestTime": "25/Jan/2026:02:02:26 +0000",
+          "deploymentId": "84rbfg",
+          "domainPrefix": "wmk8eyx1a1",
+          "resourcePath": "/contact",
+          "requestTimeEpoch": 1769306546734,
+          "extendedRequestId": "Xt_z_EBJIAMEXZg="
+        },
+        "stageVariables": {
+          "arn": "arn:aws:states:us-east-1:060795934875:stateMachine:nesrm_ingestion_pipeline"
+        },
+        "isBase64Encoded": false,
+        "multiValueHeaders": {
+          "Host": [
+            "wmk8eyx1a1.execute-api.us-east-1.amazonaws.com"
+          ],
+          "Accept": [
+            "*/*"
+          ],
+          "Origin": [
+            "https://nateerskinesmith.ca"
+          ],
+          "User-Agent": [
+            "WordPress/6.9; https://nateerskinesmith.ca"
+          ],
+          "Content-Type": [
+            "application/json"
+          ],
+          "Accept-Encoding": [
+            "deflate, gzip, br, zstd"
+          ],
+          "X-Amzn-Trace-Id": [
+            "Root=1-697579b2-4da74d4d6a5f31a213794d38"
+          ],
+          "X-Forwarded-For": [
+            "134.231.49.117, 172.70.50.154, 162.220.234.59"
+          ],
+          "X-Forwarded-Port": [
+            "443"
+          ],
+          "X-Forwarded-Proto": [
+            "https"
+          ]
+        },
+        "queryStringParameters": null,
+        "multiValueQueryStringParameters": null
+      },
+      "output": {
+        "headers": {
+          "Host": "wmk8eyx1a1.execute-api.us-east-1.amazonaws.com",
+          "Accept": "*/*",
+          "Origin": "https://nateerskinesmith.ca",
+          "User-Agent": "WordPress/6.9; https://nateerskinesmith.ca",
+          "Content-Type": "application/json",
+          "Accept-Encoding": "deflate, gzip, br, zstd",
+          "X-Amzn-Trace-Id": "Root=1-697579b2-4da74d4d6a5f31a213794d38",
+          "X-Forwarded-For": "134.231.49.117, 172.70.50.154, 162.220.234.59",
+          "X-Forwarded-Port": "443",
+          "X-Forwarded-Proto": "https",
+          "request_backup_id": 60,
+          "request_created_at": "2026-01-25T22:24:13.612709+00:00"
+        },
+        "body": {
+          "firstname": "Michael",
+          "surname": "O'Morrow",
+          "email": "mike.omorrow@gmail.com",
+          "postcode": "M4C0A7",
+          "comms_consent": "true"
+        }
+      },
+      "duration": 0.4375419999999792
+    },
+    {
+      "step": "ingest.js",
+      "task": "storeEvent",
+      "input": {
+        "body": "{\"comms_consent\":\"true\",\"organizer\":\"\",\"firstname\":\"Michael\",\"surname\":\"O\\\\'Morrow\",\"email\":\"mike.omorrow@gmail.com\",\"postcode\":\"M4C0A7\",\"message\":\"I am interested in volunteering for a potential leadership campaign. I am an Ontario public servant with experience in policy and communications. I think Ontario is experiencing a crisis of leadership. The government is unopposed and unaccountable, and we have a gimmick Premier. Ontario desperately needs a pragmatic and honest leader willing to put forward real solutions to tough problems. \",\"_meta\":{\"ip\":\"134.231.49.117\",\"user_agent\":\"Mozilla\\/5.0 (iPhone; CPU iPhone OS 18_7 like Mac OS X) AppleWebKit\\/605.1.15 (KHTML, like Gecko) Version\\/26.2 Mobile\\/15E148 Safari\\/604.1\",\"referer\":\"https:\\/\\/nateerskinesmith.ca\\/\",\"steps\":3,\"is_final\":false,\"step\":{\"index\":0,\"is_final\":false},\"submission_source\":\"organic\"},\"_status\":\"draft\"}",
+        "path": "/contact",
+        "headers": {
+          "Host": "wmk8eyx1a1.execute-api.us-east-1.amazonaws.com",
+          "Accept": "*/*",
+          "Origin": "https://nateerskinesmith.ca",
+          "User-Agent": "WordPress/6.9; https://nateerskinesmith.ca",
+          "Content-Type": "application/json",
+          "Accept-Encoding": "deflate, gzip, br, zstd",
+          "X-Amzn-Trace-Id": "Root=1-697579b2-4da74d4d6a5f31a213794d38",
+          "X-Forwarded-For": "134.231.49.117, 172.70.50.154, 162.220.234.59",
+          "X-Forwarded-Port": "443",
+          "X-Forwarded-Proto": "https"
+        },
+        "resource": "/contact",
+        "httpMethod": "POST",
+        "pathParameters": null,
+        "requestContext": {
+          "path": "/prod/contact",
+          "apiId": "wmk8eyx1a1",
+          "stage": "prod",
+          "identity": {
+            "user": null,
+            "caller": null,
+            "userArn": null,
+            "sourceIp": "162.220.234.59",
+            "accessKey": null,
+            "accountId": null,
+            "userAgent": "WordPress/6.9; https://nateerskinesmith.ca",
+            "principalOrgId": null,
+            "cognitoIdentityId": null,
+            "cognitoIdentityPoolId": null,
+            "cognitoAuthenticationType": null,
+            "cognitoAuthenticationProvider": null
+          },
+          "protocol": "HTTP/1.1",
+          "accountId": "060795934875",
+          "requestId": "5910c8b6-86f7-4143-9ef1-e49c9996c9f0",
+          "domainName": "wmk8eyx1a1.execute-api.us-east-1.amazonaws.com",
+          "httpMethod": "POST",
+          "resourceId": "9smu8h",
+          "requestTime": "25/Jan/2026:02:02:26 +0000",
+          "deploymentId": "84rbfg",
+          "domainPrefix": "wmk8eyx1a1",
+          "resourcePath": "/contact",
+          "requestTimeEpoch": 1769306546734,
+          "extendedRequestId": "Xt_z_EBJIAMEXZg="
+        },
+        "stageVariables": {
+          "arn": "arn:aws:states:us-east-1:060795934875:stateMachine:nesrm_ingestion_pipeline"
+        },
+        "isBase64Encoded": false,
+        "multiValueHeaders": {
+          "Host": [
+            "wmk8eyx1a1.execute-api.us-east-1.amazonaws.com"
+          ],
+          "Accept": [
+            "*/*"
+          ],
+          "Origin": [
+            "https://nateerskinesmith.ca"
+          ],
+          "User-Agent": [
+            "WordPress/6.9; https://nateerskinesmith.ca"
+          ],
+          "Content-Type": [
+            "application/json"
+          ],
+          "Accept-Encoding": [
+            "deflate, gzip, br, zstd"
+          ],
+          "X-Amzn-Trace-Id": [
+            "Root=1-697579b2-4da74d4d6a5f31a213794d38"
+          ],
+          "X-Forwarded-For": [
+            "134.231.49.117, 172.70.50.154, 162.220.234.59"
+          ],
+          "X-Forwarded-Port": [
+            "443"
+          ],
+          "X-Forwarded-Proto": [
+            "https"
+          ]
+        },
+        "queryStringParameters": null,
+        "multiValueQueryStringParameters": null
+      },
+      "output": {
+        "body": "{\"comms_consent\":\"true\",\"organizer\":\"\",\"firstname\":\"Michael\",\"surname\":\"O\\\\'Morrow\",\"email\":\"mike.omorrow@gmail.com\",\"postcode\":\"M4C0A7\",\"message\":\"I am interested in volunteering for a potential leadership campaign. I am an Ontario public servant with experience in policy and communications. I think Ontario is experiencing a crisis of leadership. The government is unopposed and unaccountable, and we have a gimmick Premier. Ontario desperately needs a pragmatic and honest leader willing to put forward real solutions to tough problems. \",\"_meta\":{\"ip\":\"134.231.49.117\",\"user_agent\":\"Mozilla\\/5.0 (iPhone; CPU iPhone OS 18_7 like Mac OS X) AppleWebKit\\/605.1.15 (KHTML, like Gecko) Version\\/26.2 Mobile\\/15E148 Safari\\/604.1\",\"referer\":\"https:\\/\\/nateerskinesmith.ca\\/\",\"steps\":3,\"is_final\":false,\"step\":{\"index\":0,\"is_final\":false},\"submission_source\":\"organic\"},\"_status\":\"draft\"}",
+        "path": "/contact",
+        "headers": {
+          "Host": "wmk8eyx1a1.execute-api.us-east-1.amazonaws.com",
+          "Accept": "*/*",
+          "Origin": "https://nateerskinesmith.ca",
+          "User-Agent": "WordPress/6.9; https://nateerskinesmith.ca",
+          "Content-Type": "application/json",
+          "Accept-Encoding": "deflate, gzip, br, zstd",
+          "X-Amzn-Trace-Id": "Root=1-697579b2-4da74d4d6a5f31a213794d38",
+          "X-Forwarded-For": "134.231.49.117, 172.70.50.154, 162.220.234.59",
+          "X-Forwarded-Port": "443",
+          "X-Forwarded-Proto": "https",
+          "request_backup_id": 60,
+          "request_created_at": "2026-01-25T22:24:13.612709+00:00"
+        },
+        "resource": "/contact",
+        "httpMethod": "POST",
+        "pathParameters": null,
+        "requestContext": {
+          "path": "/prod/contact",
+          "apiId": "wmk8eyx1a1",
+          "stage": "prod",
+          "identity": {
+            "user": null,
+            "caller": null,
+            "userArn": null,
+            "sourceIp": "162.220.234.59",
+            "accessKey": null,
+            "accountId": null,
+            "userAgent": "WordPress/6.9; https://nateerskinesmith.ca",
+            "principalOrgId": null,
+            "cognitoIdentityId": null,
+            "cognitoIdentityPoolId": null,
+            "cognitoAuthenticationType": null,
+            "cognitoAuthenticationProvider": null
+          },
+          "protocol": "HTTP/1.1",
+          "accountId": "060795934875",
+          "requestId": "5910c8b6-86f7-4143-9ef1-e49c9996c9f0",
+          "domainName": "wmk8eyx1a1.execute-api.us-east-1.amazonaws.com",
+          "httpMethod": "POST",
+          "resourceId": "9smu8h",
+          "requestTime": "25/Jan/2026:02:02:26 +0000",
+          "deploymentId": "84rbfg",
+          "domainPrefix": "wmk8eyx1a1",
+          "resourcePath": "/contact",
+          "requestTimeEpoch": 1769306546734,
+          "extendedRequestId": "Xt_z_EBJIAMEXZg="
+        },
+        "stageVariables": {
+          "arn": "arn:aws:states:us-east-1:060795934875:stateMachine:nesrm_ingestion_pipeline"
+        },
+        "isBase64Encoded": false,
+        "multiValueHeaders": {
+          "Host": [
+            "wmk8eyx1a1.execute-api.us-east-1.amazonaws.com"
+          ],
+          "Accept": [
+            "*/*"
+          ],
+          "Origin": [
+            "https://nateerskinesmith.ca"
+          ],
+          "User-Agent": [
+            "WordPress/6.9; https://nateerskinesmith.ca"
+          ],
+          "Content-Type": [
+            "application/json"
+          ],
+          "Accept-Encoding": [
+            "deflate, gzip, br, zstd"
+          ],
+          "X-Amzn-Trace-Id": [
+            "Root=1-697579b2-4da74d4d6a5f31a213794d38"
+          ],
+          "X-Forwarded-For": [
+            "134.231.49.117, 172.70.50.154, 162.220.234.59"
+          ],
+          "X-Forwarded-Port": [
+            "443"
+          ],
+          "X-Forwarded-Proto": [
+            "https"
+          ]
+        },
+        "queryStringParameters": null,
+        "multiValueQueryStringParameters": null
+      },
+      "duration": 41.179542
+    },
+    {
+      "step": "ingest.js",
+      "task": "headerCheck",
+      "input": {
+        "body": "{\"comms_consent\":\"true\",\"organizer\":\"\",\"firstname\":\"Michael\",\"surname\":\"O\\\\'Morrow\",\"email\":\"mike.omorrow@gmail.com\",\"postcode\":\"M4C0A7\",\"message\":\"I am interested in volunteering for a potential leadership campaign. I am an Ontario public servant with experience in policy and communications. I think Ontario is experiencing a crisis of leadership. The government is unopposed and unaccountable, and we have a gimmick Premier. Ontario desperately needs a pragmatic and honest leader willing to put forward real solutions to tough problems. \",\"_meta\":{\"ip\":\"134.231.49.117\",\"user_agent\":\"Mozilla\\/5.0 (iPhone; CPU iPhone OS 18_7 like Mac OS X) AppleWebKit\\/605.1.15 (KHTML, like Gecko) Version\\/26.2 Mobile\\/15E148 Safari\\/604.1\",\"referer\":\"https:\\/\\/nateerskinesmith.ca\\/\",\"steps\":3,\"is_final\":false,\"step\":{\"index\":0,\"is_final\":false},\"submission_source\":\"organic\"},\"_status\":\"draft\"}",
+        "path": "/contact",
+        "headers": {
+          "Host": "wmk8eyx1a1.execute-api.us-east-1.amazonaws.com",
+          "Accept": "*/*",
+          "Origin": "https://nateerskinesmith.ca",
+          "User-Agent": "WordPress/6.9; https://nateerskinesmith.ca",
+          "Content-Type": "application/json",
+          "Accept-Encoding": "deflate, gzip, br, zstd",
+          "X-Amzn-Trace-Id": "Root=1-697579b2-4da74d4d6a5f31a213794d38",
+          "X-Forwarded-For": "134.231.49.117, 172.70.50.154, 162.220.234.59",
+          "X-Forwarded-Port": "443",
+          "X-Forwarded-Proto": "https"
+        },
+        "resource": "/contact",
+        "httpMethod": "POST",
+        "pathParameters": null,
+        "requestContext": {
+          "path": "/prod/contact",
+          "apiId": "wmk8eyx1a1",
+          "stage": "prod",
+          "identity": {
+            "user": null,
+            "caller": null,
+            "userArn": null,
+            "sourceIp": "162.220.234.59",
+            "accessKey": null,
+            "accountId": null,
+            "userAgent": "WordPress/6.9; https://nateerskinesmith.ca",
+            "principalOrgId": null,
+            "cognitoIdentityId": null,
+            "cognitoIdentityPoolId": null,
+            "cognitoAuthenticationType": null,
+            "cognitoAuthenticationProvider": null
+          },
+          "protocol": "HTTP/1.1",
+          "accountId": "060795934875",
+          "requestId": "5910c8b6-86f7-4143-9ef1-e49c9996c9f0",
+          "domainName": "wmk8eyx1a1.execute-api.us-east-1.amazonaws.com",
+          "httpMethod": "POST",
+          "resourceId": "9smu8h",
+          "requestTime": "25/Jan/2026:02:02:26 +0000",
+          "deploymentId": "84rbfg",
+          "domainPrefix": "wmk8eyx1a1",
+          "resourcePath": "/contact",
+          "requestTimeEpoch": 1769306546734,
+          "extendedRequestId": "Xt_z_EBJIAMEXZg="
+        },
+        "stageVariables": {
+          "arn": "arn:aws:states:us-east-1:060795934875:stateMachine:nesrm_ingestion_pipeline"
+        },
+        "isBase64Encoded": false,
+        "multiValueHeaders": {
+          "Host": [
+            "wmk8eyx1a1.execute-api.us-east-1.amazonaws.com"
+          ],
+          "Accept": [
+            "*/*"
+          ],
+          "Origin": [
+            "https://nateerskinesmith.ca"
+          ],
+          "User-Agent": [
+            "WordPress/6.9; https://nateerskinesmith.ca"
+          ],
+          "Content-Type": [
+            "application/json"
+          ],
+          "Accept-Encoding": [
+            "deflate, gzip, br, zstd"
+          ],
+          "X-Amzn-Trace-Id": [
+            "Root=1-697579b2-4da74d4d6a5f31a213794d38"
+          ],
+          "X-Forwarded-For": [
+            "134.231.49.117, 172.70.50.154, 162.220.234.59"
+          ],
+          "X-Forwarded-Port": [
+            "443"
+          ],
+          "X-Forwarded-Proto": [
+            "https"
+          ]
+        },
+        "queryStringParameters": null,
+        "multiValueQueryStringParameters": null
+      },
+      "output": {
+        "body": "{\"comms_consent\":\"true\",\"organizer\":\"\",\"firstname\":\"Michael\",\"surname\":\"O\\\\'Morrow\",\"email\":\"mike.omorrow@gmail.com\",\"postcode\":\"M4C0A7\",\"message\":\"I am interested in volunteering for a potential leadership campaign. I am an Ontario public servant with experience in policy and communications. I think Ontario is experiencing a crisis of leadership. The government is unopposed and unaccountable, and we have a gimmick Premier. Ontario desperately needs a pragmatic and honest leader willing to put forward real solutions to tough problems. \",\"_meta\":{\"ip\":\"134.231.49.117\",\"user_agent\":\"Mozilla\\/5.0 (iPhone; CPU iPhone OS 18_7 like Mac OS X) AppleWebKit\\/605.1.15 (KHTML, like Gecko) Version\\/26.2 Mobile\\/15E148 Safari\\/604.1\",\"referer\":\"https:\\/\\/nateerskinesmith.ca\\/\",\"steps\":3,\"is_final\":false,\"step\":{\"index\":0,\"is_final\":false},\"submission_source\":\"organic\"},\"_status\":\"draft\"}",
+        "path": "/contact",
+        "headers": {
+          "Host": "wmk8eyx1a1.execute-api.us-east-1.amazonaws.com",
+          "Accept": "*/*",
+          "Origin": "https://nateerskinesmith.ca",
+          "User-Agent": "WordPress/6.9; https://nateerskinesmith.ca",
+          "Content-Type": "application/json",
+          "Accept-Encoding": "deflate, gzip, br, zstd",
+          "X-Amzn-Trace-Id": "Root=1-697579b2-4da74d4d6a5f31a213794d38",
+          "X-Forwarded-For": "134.231.49.117, 172.70.50.154, 162.220.234.59",
+          "X-Forwarded-Port": "443",
+          "X-Forwarded-Proto": "https"
+        },
+        "resource": "/contact",
+        "httpMethod": "POST",
+        "pathParameters": null,
+        "requestContext": {
+          "path": "/prod/contact",
+          "apiId": "wmk8eyx1a1",
+          "stage": "prod",
+          "identity": {
+            "user": null,
+            "caller": null,
+            "userArn": null,
+            "sourceIp": "162.220.234.59",
+            "accessKey": null,
+            "accountId": null,
+            "userAgent": "WordPress/6.9; https://nateerskinesmith.ca",
+            "principalOrgId": null,
+            "cognitoIdentityId": null,
+            "cognitoIdentityPoolId": null,
+            "cognitoAuthenticationType": null,
+            "cognitoAuthenticationProvider": null
+          },
+          "protocol": "HTTP/1.1",
+          "accountId": "060795934875",
+          "requestId": "5910c8b6-86f7-4143-9ef1-e49c9996c9f0",
+          "domainName": "wmk8eyx1a1.execute-api.us-east-1.amazonaws.com",
+          "httpMethod": "POST",
+          "resourceId": "9smu8h",
+          "requestTime": "25/Jan/2026:02:02:26 +0000",
+          "deploymentId": "84rbfg",
+          "domainPrefix": "wmk8eyx1a1",
+          "resourcePath": "/contact",
+          "requestTimeEpoch": 1769306546734,
+          "extendedRequestId": "Xt_z_EBJIAMEXZg="
+        },
+        "stageVariables": {
+          "arn": "arn:aws:states:us-east-1:060795934875:stateMachine:nesrm_ingestion_pipeline"
+        },
+        "isBase64Encoded": false,
+        "multiValueHeaders": {
+          "Host": [
+            "wmk8eyx1a1.execute-api.us-east-1.amazonaws.com"
+          ],
+          "Accept": [
+            "*/*"
+          ],
+          "Origin": [
+            "https://nateerskinesmith.ca"
+          ],
+          "User-Agent": [
+            "WordPress/6.9; https://nateerskinesmith.ca"
+          ],
+          "Content-Type": [
+            "application/json"
+          ],
+          "Accept-Encoding": [
+            "deflate, gzip, br, zstd"
+          ],
+          "X-Amzn-Trace-Id": [
+            "Root=1-697579b2-4da74d4d6a5f31a213794d38"
+          ],
+          "X-Forwarded-For": [
+            "134.231.49.117, 172.70.50.154, 162.220.234.59"
+          ],
+          "X-Forwarded-Port": [
+            "443"
+          ],
+          "X-Forwarded-Proto": [
+            "https"
+          ]
+        },
+        "queryStringParameters": null,
+        "multiValueQueryStringParameters": null
+      },
+      "duration": 0.12170799999998394
+    }
+  ]
+}
+storeRequest()
+storeData {
+  id: 60,
+  logs: {
+    response: { statusCode: 401, body: [Object] },
+    trace: [
+      [Object], [Object],
+      [Object], [Object],
+      [Object], [Object],
+      [Object]
+    ]
+  },
+  success: false
+}
+storeRequest output [
+  {
+    id: 60,
+    created_at: '2026-01-25T22:24:13.612709+00:00',
+    origin: 'https://nateerskinesmith.ca',
+    payload: {
+      body: `{"comms_consent":"true","organizer":"","firstname":"Michael","surname":"O\\\\'Morrow","email":"mike.omorrow@gmail.com","postcode":"M4C0A7","message":"I am interested in volunteering for a potential leadership campaign. I am an Ontario public servant with experience in policy and communications. I think Ontario is experiencing a crisis of leadership. The government is unopposed and unaccountable, and we have a gimmick Premier. Ontario desperately needs a pragmatic and honest leader willing to put forward real solutions to tough problems. ","_meta":{"ip":"134.231.49.117","user_agent":"Mozilla\\/5.0 (iPhone; CPU iPhone OS 18_7 like Mac OS X) AppleWebKit\\/605.1.15 (KHTML, like Gecko) Version\\/26.2 Mobile\\/15E148 Safari\\/604.1","referer":"https:\\/\\/nateerskinesmith.ca\\/","steps":3,"is_final":false,"step":{"index":0,"is_final":false},"submission_source":"organic"},"_status":"draft"}`,
+      path: '/contact',
+      headers: [Object],
+      resource: '/contact',
+      httpMethod: 'POST',
+      pathParameters: null,
+      requestContext: [Object],
+      stageVariables: [Object],
+      isBase64Encoded: false,
+      multiValueHeaders: [Object],
+      queryStringParameters: null,
+      multiValueQueryStringParameters: null
+    },
+    ip: '134.231.49.117, 172.70.50.154, 162.220.234.59',
+    email: 'mike.omorrow@gmail.com',
+    success: false,
+    logs: { trace: [Array], response: [Object] },
+    status: 'new',
+    category: null,
+    notes: null,
+    contact_id: 1155,
+    step: 0,
+    utm_source: null,
+    utm_medium: null,
+    utm_campaign: null,
+    utm_term: null,
+    utm_content: null,
+    search_params: {},
+    referer: 'https://nateerskinesmith.ca/'
+  }
+]
+{
+  response: {
+    statusCode: 401,
+    body: {
+      message: 'Unauthenticated.',
+      trace: [Array],
+      request_backup_id: undefined
+    }
+  },
+  trace: [
+    {
+      step: 'mail.js',
+      task: 'mail',
+      input: [Object],
+      output: [HttpError],
+      duration: 393.82516699999996
+    },
+    {
+      step: 'ingest.js',
+      task: 'storeRequest',
+      input: [Object],
+      output: [Array],
+      duration: 5.002708999999982
+    },
+    {
+      step: 'upsert.js',
+      task: 'upsertData',
+      input: [Object],
+      output: [Object],
+      duration: 321.60833299999996
+    },
+    {
+      step: 'appendToSheet.js',
+      task: 'appendToSheet',
+      input: [Object],
+      output: Error: Failed to download google-service-account-key.json from bucket sai-ingestion-sheets-service-key: StorageUnknownError: {}
+          at downloadFromSupabaseBucket (file:///Users/saihaansyed/chsolutions/projects/nes/pipeline/nesrm_etl_pipeline/scripts/downloadSupabaseBucket/index.js:50:11)
+          at process.processTicksAndRejections (node:internal/process/task_queues:103:5)
+          at async appendToSheet (file:///Users/saihaansyed/chsolutions/projects/nes/pipeline/nesrm_etl_pipeline/src/appendToSheet.js:94:17)
+          at async Object.bindMonad (file:///Users/saihaansyed/chsolutions/projects/nes/pipeline/nesrm_etl_pipeline/scripts/monads/monad.js:86:42)
+          at async handler (file:///Users/saihaansyed/chsolutions/projects/nes/pipeline/nesrm_etl_pipeline/index.js:98:15)
+          at async runner (file:///Users/saihaansyed/chsolutions/projects/nes/pipeline/nesrm_etl_pipeline/runner.js:37:12)
+          at async runOverArray (file:///Users/saihaansyed/chsolutions/projects/nes/pipeline/nesrm_etl_pipeline/runner.js:92:26)
+          at async main (file:///Users/saihaansyed/chsolutions/projects/nes/pipeline/nesrm_etl_pipeline/runner.js:189:7),
+      duration: 28.12979199999998
+    },
+    {
+      step: 'shape.js',
+      task: 'shapeData',
+      input: [Object],
+      output: [Object],
+      duration: 0.4375419999999792
+    },
+    {
+      step: 'ingest.js',
+      task: 'storeEvent',
+      input: [Object],
+      output: [Object],
+      duration: 41.179542
+    },
+    {
+      step: 'ingest.js',
+      task: 'headerCheck',
+      input: [Object],
+      output: [Object],
+      duration: 0.12170799999998394
+    }
+  ]
+}
+response 401 {
+  "body": "{\"comms_consent\":\"true\",\"organizer\":\"\",\"firstname\":\"Michael\",\"surname\":\"O\\\\'Morrow\",\"email\":\"mike.omorrow@gmail.com\",\"postcode\":\"M4C0A7\",\"message\":\"I am interested in volunteering for a potential leadership campaign. I am an Ontario public servant with experience in policy and communications. I think Ontario is experiencing a crisis of leadership. The government is unopposed and unaccountable, and we have a gimmick Premier. Ontario desperately needs a pragmatic and honest leader willing to put forward real solutions to tough problems. \",\"_meta\":{\"ip\":\"134.231.49.117\",\"user_agent\":\"Mozilla\\/5.0 (iPhone; CPU iPhone OS 18_7 like Mac OS X) AppleWebKit\\/605.1.15 (KHTML, like Gecko) Version\\/26.2 Mobile\\/15E148 Safari\\/604.1\",\"referer\":\"https:\\/\\/nateerskinesmith.ca\\/\",\"steps\":3,\"is_final\":false,\"step\":{\"index\":0,\"is_final\":false},\"submission_source\":\"organic\"},\"_status\":\"draft\"}",
+  "path": "/contact",
+  "headers": {
+    "Host": "wmk8eyx1a1.execute-api.us-east-1.amazonaws.com",
+    "Accept": "*/*",
+    "Origin": "https://nateerskinesmith.ca",
+    "User-Agent": "WordPress/6.9; https://nateerskinesmith.ca",
+    "Content-Type": "application/json",
+    "Accept-Encoding": "deflate, gzip, br, zstd",
+    "X-Amzn-Trace-Id": "Root=1-697579b2-4da74d4d6a5f31a213794d38",
+    "X-Forwarded-For": "134.231.49.117, 172.70.50.154, 162.220.234.59",
+    "X-Forwarded-Port": "443",
+    "X-Forwarded-Proto": "https"
+  },
+  "resource": "/contact",
+  "httpMethod": "POST",
+  "pathParameters": null,
+  "requestContext": {
+    "path": "/prod/contact",
+    "apiId": "wmk8eyx1a1",
+    "stage": "prod",
+    "identity": {
+      "user": null,
+      "caller": null,
+      "userArn": null,
+      "sourceIp": "162.220.234.59",
+      "accessKey": null,
+      "accountId": null,
+      "userAgent": "WordPress/6.9; https://nateerskinesmith.ca",
+      "principalOrgId": null,
+      "cognitoIdentityId": null,
+      "cognitoIdentityPoolId": null,
+      "cognitoAuthenticationType": null,
+      "cognitoAuthenticationProvider": null
+    },
+    "protocol": "HTTP/1.1",
+    "accountId": "060795934875",
+    "requestId": "5910c8b6-86f7-4143-9ef1-e49c9996c9f0",
+    "domainName": "wmk8eyx1a1.execute-api.us-east-1.amazonaws.com",
+    "httpMethod": "POST",
+    "resourceId": "9smu8h",
+    "requestTime": "25/Jan/2026:02:02:26 +0000",
+    "deploymentId": "84rbfg",
+    "domainPrefix": "wmk8eyx1a1",
+    "resourcePath": "/contact",
+    "requestTimeEpoch": 1769306546734,
+    "extendedRequestId": "Xt_z_EBJIAMEXZg="
+  },
+  "stageVariables": {
+    "arn": "arn:aws:states:us-east-1:060795934875:stateMachine:nesrm_ingestion_pipeline"
+  },
+  "isBase64Encoded": false,
+  "multiValueHeaders": {
+    "Host": [
+      "wmk8eyx1a1.execute-api.us-east-1.amazonaws.com"
+    ],
+    "Accept": [
+      "*/*"
+    ],
+    "Origin": [
+      "https://nateerskinesmith.ca"
+    ],
+    "User-Agent": [
+      "WordPress/6.9; https://nateerskinesmith.ca"
+    ],
+    "Content-Type": [
+      "application/json"
+    ],
+    "Accept-Encoding": [
+      "deflate, gzip, br, zstd"
+    ],
+    "X-Amzn-Trace-Id": [
+      "Root=1-697579b2-4da74d4d6a5f31a213794d38"
+    ],
+    "X-Forwarded-For": [
+      "134.231.49.117, 172.70.50.154, 162.220.234.59"
+    ],
+    "X-Forwarded-Port": [
+      "443"
+    ],
+    "X-Forwarded-Proto": [
+      "https"
+    ]
+  },
+  "queryStringParameters": null,
+  "multiValueQueryStringParameters": null
+}
+401
+logEvent {
+  body: `{"comms_consent":"true","organizer":"","firstname":"Michael","surname":"O\\\\'Morrow","email":"mike.omorrow@gmail.com","postcode":"M4C0A7","message":"I am interested in volunteering for a potential leadership campaign. I am an Ontario public servant with experience in policy and communications. I think Ontario is experiencing a crisis of leadership. The government is unopposed and unaccountable, and we have a gimmick Premier. Ontario desperately needs a pragmatic and honest leader willing to put forward real solutions to tough problems. ","_meta":{"ip":"134.231.49.117","user_agent":"Mozilla\\/5.0 (iPhone; CPU iPhone OS 18_7 like Mac OS X) AppleWebKit\\/605.1.15 (KHTML, like Gecko) Version\\/26.2 Mobile\\/15E148 Safari\\/604.1","referer":"https:\\/\\/nateerskinesmith.ca\\/","steps":3,"is_final":false,"step":{"index":0,"is_final":false},"submission_source":"organic"},"_status":"draft"}`,
+  path: '/contact',
+  headers: {
+    Host: 'wmk8eyx1a1.execute-api.us-east-1.amazonaws.com',
+    Accept: '*/*',
+    Origin: 'https://nateerskinesmith.ca',
+    'User-Agent': 'WordPress/6.9; https://nateerskinesmith.ca',
+    'Content-Type': 'application/json',
+    'Accept-Encoding': 'deflate, gzip, br, zstd',
+    'X-Amzn-Trace-Id': 'Root=1-697579b2-4da74d4d6a5f31a213794d38',
+    'X-Forwarded-For': '134.231.49.117, 172.70.50.154, 162.220.234.59',
+    'X-Forwarded-Port': '443',
+    'X-Forwarded-Proto': 'https'
+  },
+  resource: '/contact',
+  httpMethod: 'POST',
+  pathParameters: null,
+  requestContext: {
+    path: '/prod/contact',
+    apiId: 'wmk8eyx1a1',
+    stage: 'prod',
+    identity: {
+      user: null,
+      caller: null,
+      userArn: null,
+      sourceIp: '162.220.234.59',
+      accessKey: null,
+      accountId: null,
+      userAgent: 'WordPress/6.9; https://nateerskinesmith.ca',
+      principalOrgId: null,
+      cognitoIdentityId: null,
+      cognitoIdentityPoolId: null,
+      cognitoAuthenticationType: null,
+      cognitoAuthenticationProvider: null
+    },
+    protocol: 'HTTP/1.1',
+    accountId: '060795934875',
+    requestId: '5910c8b6-86f7-4143-9ef1-e49c9996c9f0',
+    domainName: 'wmk8eyx1a1.execute-api.us-east-1.amazonaws.com',
+    httpMethod: 'POST',
+    resourceId: '9smu8h',
+    requestTime: '25/Jan/2026:02:02:26 +0000',
+    deploymentId: '84rbfg',
+    domainPrefix: 'wmk8eyx1a1',
+    resourcePath: '/contact',
+    requestTimeEpoch: 1769306546734,
+    extendedRequestId: 'Xt_z_EBJIAMEXZg='
+  },
+  stageVariables: {
+    arn: 'arn:aws:states:us-east-1:060795934875:stateMachine:nesrm_ingestion_pipeline'
+  },
+  isBase64Encoded: false,
+  multiValueHeaders: {
+    Host: [ 'wmk8eyx1a1.execute-api.us-east-1.amazonaws.com' ],
+    Accept: [ '*/*' ],
+    Origin: [ 'https://nateerskinesmith.ca' ],
+    'User-Agent': [ 'WordPress/6.9; https://nateerskinesmith.ca' ],
+    'Content-Type': [ 'application/json' ],
+    'Accept-Encoding': [ 'deflate, gzip, br, zstd' ],
+    'X-Amzn-Trace-Id': [ 'Root=1-697579b2-4da74d4d6a5f31a213794d38' ],
+    'X-Forwarded-For': [ '134.231.49.117, 172.70.50.154, 162.220.234.59' ],
+    'X-Forwarded-Port': [ '443' ],
+    'X-Forwarded-Proto': [ 'https' ]
+  },
+  queryStringParameters: null,
+  multiValueQueryStringParameters: null
+} {
+  statusCode: 401,
+  body: {
+    message: 'Unauthenticated.',
+    trace: [
+      [Object], [Object], [Object],
+      [Object], [Object], [Object],
+      [Object], [Object], [Object],
+      [Object], [Object], [Object],
+      [Object], [Object], [Object],
+      [Object], [Object], [Object],
+      [Object], [Object], [Object],
+      [Object], [Object], [Object],
+      [Object], [Object], [Object],
+      [Object]
+    ],
+    request_backup_id: undefined
+  }
+}
+{
+  body: `{"comms_consent":"true","organizer":"","firstname":"Michael","surname":"O\\\\'Morrow","email":"mike.omorrow@gmail.com","postcode":"M4C0A7","message":"I am interested in volunteering for a potential leadership campaign. I am an Ontario public servant with experience in policy and communications. I think Ontario is experiencing a crisis of leadership. The government is unopposed and unaccountable, and we have a gimmick Premier. Ontario desperately needs a pragmatic and honest leader willing to put forward real solutions to tough problems. ","_meta":{"ip":"134.231.49.117","user_agent":"Mozilla\\/5.0 (iPhone; CPU iPhone OS 18_7 like Mac OS X) AppleWebKit\\/605.1.15 (KHTML, like Gecko) Version\\/26.2 Mobile\\/15E148 Safari\\/604.1","referer":"https:\\/\\/nateerskinesmith.ca\\/","steps":3,"is_final":false,"step":{"index":0,"is_final":false},"submission_source":"organic"},"_status":"draft"}`,
+  path: '/contact',
+  headers: {
+    Host: 'wmk8eyx1a1.execute-api.us-east-1.amazonaws.com',
+    Accept: '*/*',
+    Origin: 'https://nateerskinesmith.ca',
+    'User-Agent': 'WordPress/6.9; https://nateerskinesmith.ca',
+    'Content-Type': 'application/json',
+    'Accept-Encoding': 'deflate, gzip, br, zstd',
+    'X-Amzn-Trace-Id': 'Root=1-697579b2-4da74d4d6a5f31a213794d38',
+    'X-Forwarded-For': '134.231.49.117, 172.70.50.154, 162.220.234.59',
+    'X-Forwarded-Port': '443',
+    'X-Forwarded-Proto': 'https'
+  },
+  resource: '/contact',
+  httpMethod: 'POST',
+  pathParameters: null,
+  requestContext: {
+    path: '/prod/contact',
+    apiId: 'wmk8eyx1a1',
+    stage: 'prod',
+    identity: {
+      user: null,
+      caller: null,
+      userArn: null,
+      sourceIp: '162.220.234.59',
+      accessKey: null,
+      accountId: null,
+      userAgent: 'WordPress/6.9; https://nateerskinesmith.ca',
+      principalOrgId: null,
+      cognitoIdentityId: null,
+      cognitoIdentityPoolId: null,
+      cognitoAuthenticationType: null,
+      cognitoAuthenticationProvider: null
+    },
+    protocol: 'HTTP/1.1',
+    accountId: '060795934875',
+    requestId: '5910c8b6-86f7-4143-9ef1-e49c9996c9f0',
+    domainName: 'wmk8eyx1a1.execute-api.us-east-1.amazonaws.com',
+    httpMethod: 'POST',
+    resourceId: '9smu8h',
+    requestTime: '25/Jan/2026:02:02:26 +0000',
+    deploymentId: '84rbfg',
+    domainPrefix: 'wmk8eyx1a1',
+    resourcePath: '/contact',
+    requestTimeEpoch: 1769306546734,
+    extendedRequestId: 'Xt_z_EBJIAMEXZg='
+  },
+  stageVariables: {
+    arn: 'arn:aws:states:us-east-1:060795934875:stateMachine:nesrm_ingestion_pipeline'
+  },
+  isBase64Encoded: false,
+  multiValueHeaders: {
+    Host: [ 'wmk8eyx1a1.execute-api.us-east-1.amazonaws.com' ],
+    Accept: [ '*/*' ],
+    Origin: [ 'https://nateerskinesmith.ca' ],
+    'User-Agent': [ 'WordPress/6.9; https://nateerskinesmith.ca' ],
+    'Content-Type': [ 'application/json' ],
+    'Accept-Encoding': [ 'deflate, gzip, br, zstd' ],
+    'X-Amzn-Trace-Id': [ 'Root=1-697579b2-4da74d4d6a5f31a213794d38' ],
+    'X-Forwarded-For': [ '134.231.49.117, 172.70.50.154, 162.220.234.59' ],
+    'X-Forwarded-Port': [ '443' ],
+    'X-Forwarded-Proto': [ 'https' ]
+  },
+  queryStringParameters: null,
+  multiValueQueryStringParameters: null,
+  statusCode: 401,
+  response_object: '{"statusCode":401,"body":{"message":"Unauthenticated.","trace":[{"step":"mail.js","task":"mail","duration":393.82516699999996},{"step":"ingest.js","task":"storeRequest","duration":5.002708999999982},{"step":"upsert.js","task":"upsertData","duration":321.60833299999996},{"step":"appendToSheet.js","task":"appendToSheet","duration":28.12979199999998},{"step":"shape.js","task":"shapeData","duration":0.4375419999999792},{"step":"ingest.js","task":"storeEvent","duration":41.179542},{"step":"ingest.js","task":"headerCheck","duration":0.12170799999998394},{"step":"ingest.js","task":"storeRequest","duration":5.002708999999982},{"step":"upsert.js","task":"upsertData","duration":321.60833299999996},{"step":"appendToSheet.js","task":"appendToSheet","duration":28.12979199999998},{"step":"shape.js","task":"shapeData","duration":0.4375419999999792},{"step":"ingest.js","task":"storeEvent","duration":41.179542},{"step":"ingest.js","task":"headerCheck","duration":0.12170799999998394},{"step":"upsert.js","task":"upsertData","duration":321.60833299999996},{"step":"appendToSheet.js","task":"appendToSheet","duration":28.12979199999998},{"step":"shape.js","task":"shapeData","duration":0.4375419999999792},{"step":"ingest.js","task":"storeEvent","duration":41.179542},{"step":"ingest.js","task":"headerCheck","duration":0.12170799999998394},{"step":"appendToSheet.js","task":"appendToSheet","duration":28.12979199999998},{"step":"shape.js","task":"shapeData","duration":0.4375419999999792},{"step":"ingest.js","task":"storeEvent","duration":41.179542},{"step":"ingest.js","task":"headerCheck","duration":0.12170799999998394},{"step":"shape.js","task":"shapeData","duration":0.4375419999999792},{"step":"ingest.js","task":"storeEvent","duration":41.179542},{"step":"ingest.js","task":"headerCheck","duration":0.12170799999998394},{"step":"ingest.js","task":"storeEvent","duration":41.179542},{"step":"ingest.js","task":"headerCheck","duration":0.12170799999998394},{"step":"ingest.js","task":"headerCheck","duration":0.12170799999998394}]}}'
+}
+duration 829.624625
