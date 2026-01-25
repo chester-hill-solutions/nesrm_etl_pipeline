@@ -91,8 +91,6 @@ export const handler = async (event) => {
       };
     }
     logger.log("shaped_data",shaped_data)
-    console.log("RAW:", shaped_data.body.surname);
-    console.log("JSON:", JSON.stringify(shaped_data.body.surname));
 
     //Append to Sheet    
     payload = await scMonad.bindMonad(scMonad.unit(payload),appendToSheet,supabase);

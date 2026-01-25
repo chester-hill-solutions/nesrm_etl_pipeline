@@ -38,7 +38,6 @@ async function findProfile(supabaseClient, shapedData) {
   try {
     const shapedDataFirstName = normalizeName(shapedData.firstname);
     const shapedDataLastName = normalizeName(shapedData.surname);
-    console.log("shapedDataLastName",shapedDataLastName)
     const shapedDataAddress = normalizeName(shapedData.address);
     const shapedDataEmail = normalizeName(shapedData.email);
     logger.dev.log("shapedDataEmail", shapedDataEmail);
