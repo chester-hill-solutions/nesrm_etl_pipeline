@@ -70,10 +70,6 @@ const shapeData = async (event) => {
     body = event.body;
   }
   logger.log("body to shape", body);
-  console.log("RAW:", body.surname);
-console.log("JSON:", JSON.stringify(body.surname));
-console.log("CHARS:", [...body.surname].map(c => `${c}(${c.charCodeAt(0)})`).join(" "));
-console.log("HAS BACKSLASH:", body.surname.includes("\\"));
 
   try {
     let shaped_data = {
