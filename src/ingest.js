@@ -71,6 +71,7 @@ const ingest = {
       ip: headers?.["x-forwarded-for"],
       email: body?.email,
       step: body?._meta?.step?.index,
+      referer: headers?.referer ?? body?._meta?.referer
     };
     let data = await storeRequest({input:storeData, supabase});
 
