@@ -4,6 +4,7 @@ import path from "path";
 import HttpError from "simple-http-error";
 import logger from "simple-logs-sai-node";
 import { bestMatch } from "../scripts/mailReconcile/index.js";
+import { ridingLookup } from "../scripts/ridingLookup/index.js";
 
 const PROVINCES = {
   AB: "Alberta",
@@ -449,10 +450,31 @@ const upsertData = async ({input, supabase=null}) => {
     const postcode = updateData.postcode
       ? updateData.postcode
       : shapedData.postcode;
+    /*
+     $ curl "https://riding-lookup.chester-hill-solutions.workers.dev/api?postal=M1K4B2"
 
-    let { municipality, division, fed, ded } = await get_opennorth(postcode);
+    {"query":{"postal":"M1K 4B2"},"point":{"lon":-79.26396729999999,"lat":43.7421733},"properties":{"FED_NUM":35097,"ED_NAMEE":"Scarborough—Woburn","ED_NAMEF":"Scarborough—Woburn","POP_CNT":110589,"PROV_CODE":"ON","Shape_Leng":22176.5913835,"Shape_Area":25394507.5379},"correlationId":"req_1769386158996_ia8iwh0td"}%                                                                                                              
+    $ curl "https://riding-lookup.chester-hill-solutions.workers.dev/api/on?postal=M1K4B2"
 
-    logger.dev.log("getRidings", fed, ded, municipality, division);
+    {"query":{"postal":"M1K 4B2"},"point":{"lon":-79.26396729999999,"lat":43.7421733},"properties":{"ED_ID":94,"ENGLISH_NA":"Scarborough Centre","FRENCH_NAM":"Scarborough-Centre","Shape_Leng":22457.4755483,"Shape_Area":28251977.3056},"correlationId":"req_1769388951735_p65la3c7f"}% 
+     * */
+    console.time("ridingLookup fed");
+    let ridingLookupVal = await ridingLookup(process.env.RIDING_LOOKUP_ENDPOINT, {postcode})
+      console.timeEnd("ridingLookup fed");
+    let ridingLookupValOn;
+    if (ridingLookupVal.properties.PROV_CODE == "ON") {
+      console.time("ridingLookup ded");
+      ridingLookupValOn = await ridingLookup(process.env.RIDING_LOOKUP_ENDPOINT+"/on", {postcode})
+      console.timeEnd("ridingLookup ded");
+    }
+    console.time("get_opennorth")
+    let { municipality, division, fed, ded } = get_opennorth(postcode);
+    console.timeEnd("get_opennorth");
+    fed = ridingLookupVal.properties.ED_NAMEE
+    ded = ridingLookupValOn.properties.ENGLISH_NA
+    division = ridingLookupVal.properties.PROV_CODE
+
+    logger.log("getRidings", fed, ded, municipality, division);
     updateData.federal_electoral_district = fed ?? undefined;
     updateData.division_electoral_district = ded ?? undefined;
     //const geo = await get_geo(postcode);
