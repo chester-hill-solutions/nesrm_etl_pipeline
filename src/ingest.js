@@ -17,9 +17,10 @@ async function storeRequest({ input, supabase = null }) {
     .select();
   if (sbError) {
     logger.log("sbError:", sbError);
+    logger.log("storeRequest output", data);
     throw new HttpError(sbError, 500, { originalError: sbError });
   }
-  logger.log("storeRequest output", data);
+  logger.dev.log("storeRequest output", data);
   return data;
 }
 
@@ -74,7 +75,7 @@ const ingest = {
       step: body?._meta?.step?.index,
       referer: headers?.referer ?? body?._meta?.referer ?? undefined,
     };
-    let searchParams = await parseQueryParams(storeData.referer, { coerce: true });
+    let searchParams = parseQueryParams(storeData.referer, { coerce: true });
     logger.log(
       "typeof search params",
       typeof searchParams,

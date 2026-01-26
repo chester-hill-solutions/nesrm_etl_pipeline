@@ -1,4 +1,4 @@
-import { commaSeperate, commaSeperateUpdateLogic } from "../../src/upsert.js";
+import { commaSeperate, commaSeperateUpdateLogic } from "../../../src/upsert.js";
 import { describe, it } from "node:test";
 import assert from "node:assert";
 

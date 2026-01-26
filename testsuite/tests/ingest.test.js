@@ -1,0 +1,134 @@
+import { describe, it } from "node:test";
+import assert from "node:assert";
+
+import { handler } from "../../index.js";
+import ingest from "../../src/ingest.js";
+import oneStepArray from "../test_payloads/oneStepArray.json" with { type: "json" };
+
+import { createWriteStream } from "fs";
+import { createClient } from "@supabase/supabase-js";
+
+describe("headerCheck tests", () => {
+  it("should return statusCode 400 if missing headers", async () => {
+    const result = await handler({ body: { random: "1" } });
+    assert.strictEqual(result.statusCode, 400, JSON.stringify(result));
+  });
+  it("should return statusCode 400 if missing Origin headers", async () => {
+    const result = await handler({
+      headers: { "X-Forwarded-For": "124.0.0.1" },
+      body: { random: "1" },
+    });
+    assert.strictEqual(result.statusCode, 400, JSON.stringify(result));
+  });
+  it("should return statusCode 400 if missing X-Forwarded-For headers", async () => {
+    const result = await handler({
+      headers: { Origin: "meetsai.ca" },
+      body: { random: "1" },
+    });
+    assert.strictEqual(result.statusCode, 400, JSON.stringify(result));
+  });
+  it("should return statusCode 400 if missing both headers", async () => {
+    const result = await handler({
+      headers: {},
+      body: { random: "1" },
+    });
+    assert.strictEqual(result.statusCode, 400, JSON.stringify(result));
+  });
+  it("should return statusCode 401 if wrong Origin", async () => {
+    const result = await handler({
+      headers: { Origin: "blahblah.ca", "X-Forwarded-For": "124.0.0.1" },
+      body: { random: "1" },
+    });
+    assert.strictEqual(result.statusCode, 401, JSON.stringify(result));
+  });
+});
+
+describe("storeRequest()", () => {
+  console.log = async (message) => {
+    const tty = createWriteStream("/dev/tty");
+    const msg =
+      typeof message === "string" ? message : JSON.stringify(message, null, 2);
+    return tty.write(msg + "\n");
+  };
+
+  let supabase = createClient(process.env.DATABASE_URL, process.env.KEY);
+  it("should return the correct posted row", async () => {
+    const expected = oneStepArray[0];
+    const headerCheckResponse = await ingest.headerCheck(expected);
+    const storeData = {
+      payload:
+        typeof headerCheckResponse === "string"
+          ? JSON.parse(headerCheckResponse)
+          : headerCheckResponse,
+      origin: headerCheckResponse.headers?.Origin,
+      ip: headerCheckResponse.headers?.["X-Forwarded-For"],
+      email: headerCheckResponse.body?.email,
+      step: headerCheckResponse.body?._meta?.step?.index,
+    };
+
+    const storeRequestResponse = await ingest.storeRequest({input:storeData});
+    const result = storeRequestResponse[0];
+    assert.strictEqual(
+      result.origin,
+      expected.headers.Origin,
+      "Origin mismatch",
+    );
+    assert.strictEqual(
+      result.ip,
+      expected.headers["X-Forwarded-For"],
+      "X-Forwarded-For mismatch",
+    );
+    assert.strictEqual(result.email, expected.body.email, "email mismatch");
+
+    if (oneStepArray[0]?._meta?.step?.index !== undefined) {
+      assert.strictEqual(
+        result.step,
+        oneStepArray[0]._meta.step.index,
+        "step mismatch",
+      );
+    }
+  });
+});
+describe("storeEvent()", () => {
+  let supabase = createClient(process.env.DATABASE_URL, process.env.KEY);
+  it("should return the correct posted row", async () => {
+    const expected = oneStepArray[0];
+    const headerCheckResponse = await ingest.headerCheck(expected);
+    const storeData = {
+      payload:
+        typeof headerCheckResponse === "string"
+          ? JSON.parse(headerCheckResponse)
+          : headerCheckResponse,
+      origin: headerCheckResponse.headers?.Origin,
+      ip: headerCheckResponse.headers?.["X-Forwarded-For"],
+      email: headerCheckResponse.body?.email,
+      step: headerCheckResponse.body?._meta?.step?.index,
+    };
+    const storeEventResponse = await ingest.storeEvent({
+      input: headerCheckResponse,
+      supabase: supabase
+    });
+    const result = storeEventResponse;
+
+    assert.strictEqual(
+      result.headers?.Origin,
+      expected.headers.Origin,
+      "Origin mismatch",
+    );
+    assert.strictEqual(
+      result.headers["X-Forwarded-For"],
+      expected.headers["X-Forwarded-For"],
+      "X-Forwarded-For mismatch",
+    );
+    assert.strictEqual(result.body.email, expected.body.email, "email mismatch");
+    assert.ok(result.headers?.request_backup_id, "request body id exists")
+
+    if (oneStepArray[0]?._meta?.step?.index !== undefined) {
+      assert.strictEqual(
+        result.step,
+        oneStepArray[0]._meta.step.index,
+        "step mismatch",
+      );
+    }
+  });
+});
