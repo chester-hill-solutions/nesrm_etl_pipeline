@@ -1,24 +1,9 @@
 import path from "path";
 import HttpError from "simple-http-error";
 import logger from "simple-logs-sai-node";
-function collapseSpaces(str) {
-  let result = "";
-  let lastWasSpace = false;
+import cleanString from "../scripts/cleanString.js"
 
-  for (const char of str) {
-    if (char === " ") {
-      if (!lastWasSpace) {
-        result += char;
-        lastWasSpace = true;
-      }
-    } else {
-      result += char;
-      lastWasSpace = false;
-    }
-  }
-
-  return result;
-}
+/*
 const cleanString = (str) => {
   //If string is empty return undefined
   if (str === null || str === undefined) return undefined;
@@ -27,6 +12,7 @@ const cleanString = (str) => {
   let cleaned = s.replace(/^,+|,+$/g, "").replace(/\\(?=['"])/g, "");
   return cleaned === "" ? undefined : cleaned;
 };
+*/
 const cleanEmail = (str) => {
   if (typeof str !== "string") return str;
 
