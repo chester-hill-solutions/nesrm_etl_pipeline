@@ -1,11 +1,8 @@
 import { describe, it } from "node:test";
 import assert from "node:assert";
-
 import { handler } from "../../index.js";
 import ingest from "../../src/ingest.js";
 import oneStepArray from "../test_payloads/oneStepArray.json" with { type: "json" };
-
-import { createWriteStream } from "fs";
 import { createClient } from "@supabase/supabase-js";
 
 describe("headerCheck tests", () => {
@@ -60,7 +57,7 @@ describe("storeRequest()", () => {
       step: headerCheckResponse.body?._meta?.step?.index,
     };
 
-    const storeRequestResponse = await ingest.storeRequest({input:storeData});
+    const storeRequestResponse = await ingest.storeRequest({input:storeData, supabase:supabase});
     const result = storeRequestResponse[0];
     assert.strictEqual(
       result.origin,
