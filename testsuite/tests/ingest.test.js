@@ -45,8 +45,9 @@ describe("headerCheck tests", () => {
 
 describe("storeRequest()", () => {
   let supabase = createClient(process.env.DATABASE_URL, process.env.KEY);
-  it("should return the correct posted row", async () => {
-    const expected = oneStepArray[0];
+  it("should return the correct posted row from storeReq", async () => {
+    const expected = structuredClone(oneStepArray[0]);
+    expected.body.email = "storereq@gmail.com"
     const headerCheckResponse = await ingest.headerCheck(expected);
     const storeData = {
       payload:
@@ -73,10 +74,10 @@ describe("storeRequest()", () => {
     );
     assert.strictEqual(result.email, expected.body.email, "email mismatch");
 
-    if (oneStepArray[0]?._meta?.step?.index !== undefined) {
+    if (expected?._meta?.step?.index !== undefined) {
       assert.strictEqual(
         result.step,
-        oneStepArray[0]._meta.step.index,
+        expected._meta.step.index,
         "step mismatch",
       );
     }
@@ -85,22 +86,16 @@ describe("storeRequest()", () => {
 describe("storeEvent()", () => {
   let supabase = createClient(process.env.DATABASE_URL, process.env.KEY);
   it("should return the correct posted row", async () => {
-    const expected = oneStepArray[0];
+    console.log("storeEventTest console 1");
+    const expected = structuredClone(oneStepArray[0]);
+    expected.body.email = "storeevent@gmail.com"
     const headerCheckResponse = await ingest.headerCheck(expected);
-    const storeData = {
-      payload:
-        typeof headerCheckResponse === "string"
-          ? JSON.parse(headerCheckResponse)
-          : headerCheckResponse,
-      origin: headerCheckResponse.headers?.Origin,
-      ip: headerCheckResponse.headers?.["X-Forwarded-For"],
-      email: headerCheckResponse.body?.email,
-      step: headerCheckResponse.body?._meta?.step?.index,
-    };
+    console.log("storeEventTest console 2");
     const storeEventResponse = await ingest.storeEvent({
       input: headerCheckResponse,
       supabase: supabase
     });
+    console.log("storeEventTest console 3");
     const result = storeEventResponse;
 
     assert.strictEqual(
@@ -116,10 +111,10 @@ describe("storeEvent()", () => {
     assert.strictEqual(result.body.email, expected.body.email, "email mismatch");
     assert.ok(result.headers?.request_backup_id, "request body id exists")
 
-    if (oneStepArray[0]?._meta?.step?.index !== undefined) {
+    if (expected?._meta?.step?.index !== undefined) {
       assert.strictEqual(
         result.step,
-        oneStepArray[0]._meta.step.index,
+        expected._meta.step.index,
         "step mismatch",
       );
     }

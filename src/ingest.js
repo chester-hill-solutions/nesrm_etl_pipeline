@@ -49,11 +49,9 @@ const ingest = {
     }
     return event;
   },
-  storeEvent: async ({ input, supabase = null }) => {
+  storeEvent: async ({input, supabase}) => {
     //connect to supabase client
-    supabase = supabase
-      ? supabase
-      : createClient(process.env.DATABASE_URL, process.env.KEY);
+    supabase = supabase ?? createClient(process.env.DATABASE_URL, process.env.KEY);
     let event = input;
 
     //store request in supabase
