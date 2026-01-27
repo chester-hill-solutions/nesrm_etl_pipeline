@@ -75,7 +75,7 @@ const ingest = {
     storeData.referer = headers?.referer ?? body?._meta?.referer ?? undefined;
     let searchParams
     try {
-    searchParams = parseQueryParams(storeData.referer, { coerce: true });
+      searchParams = parseQueryParams(storeData.referer, { coerce: true });
     } catch (error) {
       logger.log(error);
     }
@@ -95,8 +95,13 @@ const ingest = {
     };
     storeData = { ...storeData, ...urlParams };
     logger.log("storeData w urlParams", storeData);
-    let data = await storeRequest({ input: storeData, supabase });
-
+    let data;
+    try{
+      data = await storeRequest({ input: storeData, supabase });
+    } catch (e){
+      logger.log(e)
+      throw new HttpError("error on storeRequest within storeEvent", 500, {orginalError:e})
+    }
     let ret = structuredClone(event);
     if (data) {
       ret.headers.request_backup_id = data[0].id;
