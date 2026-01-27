@@ -25,7 +25,8 @@ async function storeRequestReturnPayload(payload, storeData, supabase) {
   const data = await ingest.storeRequest({input:storeData, supabase});
   payload.response.body.request_backup_id = data.id;
   payload.response.body = JSON.stringify(payload.response.body)
-  logger.log(payload);
+  logger.log("payload", payload);
+  logger.log("payload.response", payload.response);
   return payload.response;
 }
 
@@ -221,9 +222,9 @@ export const handler = async (event) => {
   } catch (error) {
     logger.log(error);
     console.error(error);
-    return JSON.stringify({
+    return {
       statusCode: 500,
-      body: { error: error, payload: payload },
-    });
+      body: JSON.stringify({ error: error, payload: payload }),
+    };
   }
 };
