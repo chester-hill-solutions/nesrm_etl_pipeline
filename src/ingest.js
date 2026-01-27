@@ -20,7 +20,7 @@ async function storeRequest({ input, supabase = null }) {
     logger.log("storeRequest output", data);
     throw new HttpError(sbError, 500, { originalError: sbError });
   }
-  logger.dev.log("storeRequest output", data);
+  logger.log("storeRequest output", data);
   return data;
 }
 
