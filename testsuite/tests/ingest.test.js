@@ -44,13 +44,6 @@ describe("headerCheck tests", () => {
 });
 
 describe("storeRequest()", () => {
-  console.log = async (message) => {
-    const tty = createWriteStream("/dev/tty");
-    const msg =
-      typeof message === "string" ? message : JSON.stringify(message, null, 2);
-    return tty.write(msg + "\n");
-  };
-
   let supabase = createClient(process.env.DATABASE_URL, process.env.KEY);
   it("should return the correct posted row", async () => {
     const expected = oneStepArray[0];
