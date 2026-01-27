@@ -20,5 +20,5 @@ async function sbPatch({input={}, supabase=null }) {
   }
 }
 
-sbPatch = path(import.meta.url);
+sbPatch__module = path.basename(import.meta.url);
 export { sbPatch };
