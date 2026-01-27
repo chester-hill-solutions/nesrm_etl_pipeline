@@ -1,4 +1,5 @@
 import { createClient } from "@supabase/supabase-js";
+import path from "path";
 import HttpError from "simple-http-error";
 import logger from "simple-logs-sai-node";
 
@@ -19,4 +20,5 @@ async function sbPatch({input={}, supabase=null }) {
   }
 }
 
+sbPatch = path(import.meta.url);
 export { sbPatch };
