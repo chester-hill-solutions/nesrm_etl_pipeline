@@ -73,9 +73,14 @@ const ingest = {
       ip: headers?.["x-forwarded-for"],
       email: body?.email,
       step: body?._meta?.step?.index,
-      referer: headers?.referer ?? body?._meta?.referer ?? undefined,
     };
-    let searchParams = parseQueryParams(storeData.referer, { coerce: true });
+    storeData.referer = headers?.referer ?? body?._meta?.referer ?? undefined;
+    let searchParams
+    try {
+    searchParams = parseQueryParams(storeData.referer, { coerce: true });
+    } catch (error) {
+      logger.log(error);
+    }
     logger.log(
       "typeof search params",
       typeof searchParams,

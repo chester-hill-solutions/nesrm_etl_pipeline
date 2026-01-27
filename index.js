@@ -19,12 +19,14 @@ let REQUEST_BACKUP_ID;
 let REQUEST_CREATED_AT;
 
 async function storeRequestReturnPayload(payload, storeData, supabase) {
-  logger.dev.log("storeRequestReturnPayload()");
+  logger.dev.log("await storeRequestReturnPayload()");
   logger.dev.log("payload", payload);
   logger.dev.log("dataStore", storeData);
   const data = await ingest.storeRequest({input:storeData, supabase});
   payload.response.body.request_backup_id = data.id;
-  logger.log(payload);
+  payload.response.body = JSON.stringify(payload.response.body)
+  logger.log("payload", payload);
+  logger.log("payload.response", payload.response);
   return payload.response;
 }
 
@@ -41,7 +43,7 @@ export const handler = async (event) => {
     payload = await scMonad.bindMonad(scMonad.unit(event), ingest.headerCheck);
     logger.dev.log("payload respone trace", payload.response.body.trace)
     if (payload.response.statusCode != 200) {
-      return storeRequestReturnPayload(
+      return await storeRequestReturnPayload(
         payload,
         { logs: payload, success: false },
         supabase,
@@ -53,7 +55,7 @@ export const handler = async (event) => {
     payload = await scMonad.bindMonad(scMonad.unit(payload), ingest.storeEvent, supabase);
     logger.dev.log("payload respone trace", payload.response.body.trace)
     if (payload.response.statusCode != 200) {
-      return storeRequestReturnPayload(
+      return await storeRequestReturnPayload(
         payload,
         { logs: payload, success: false },
         supabase,
@@ -64,7 +66,7 @@ export const handler = async (event) => {
       REQUEST_CREATED_AT = payload.trace[0].output.headers.request_created_at;
     }
     if (event.headers.throw) {
-      return storeRequestReturnPayload(
+      return await storeRequestReturnPayload(
         payload,
         { id: REQUEST_BACKUP_ID, logs: payload, success: false },
         supabase,
@@ -75,7 +77,7 @@ export const handler = async (event) => {
     payload = await scMonad.bindMonad(scMonad.unit(payload), shapeData);
     logger.dev.log("payload respone trace", payload.response.body.trace)
     if (payload.response.statusCode != 200) {
-      return storeRequestReturnPayload(
+      return await storeRequestReturnPayload(
         payload,
         { id: REQUEST_BACKUP_ID, logs: payload, success: false },
         supabase,
@@ -109,7 +111,7 @@ export const handler = async (event) => {
     payload = await scMonad.bindMonad(scMonad.unit(payload), upsertData, supabase);
     logger.dev.log("payload respone trace", payload.response.body.trace)
     if (payload.response.statusCode != 200) {
-      return storeRequestReturnPayload(
+      return await storeRequestReturnPayload(
         payload,
         { id:REQUEST_BACKUP_ID, logs: payload, success: false },
         supabase,
@@ -126,7 +128,7 @@ export const handler = async (event) => {
       supabase
     );
     if (payload.response.statusCode != 200) {
-      return storeRequestReturnPayload(
+      return await storeRequestReturnPayload(
         payload,
         { id: REQUEST_BACKUP_ID, logs: payload, success: false },
         supabase,
@@ -149,7 +151,7 @@ export const handler = async (event) => {
         );
         logger.log("welcomeResponse", welcomeResponse);
         if (welcomeResponse.response.statusCode != 200) {
-          return storeRequestReturnPayload(
+          return await storeRequestReturnPayload(
             welcomeResponse,
             { id: REQUEST_BACKUP_ID, logs: welcomeResponse, success: false },
             supabase,
@@ -171,7 +173,7 @@ export const handler = async (event) => {
     if (payload.input.comms_consent) {
       payload = await scMonad.bindMonad(scMonad.unit(payload), mail);
       if (payload.response.statusCode != 200) {
-        return storeRequestReturnPayload(
+        return await storeRequestReturnPayload(
           payload,
           { id: REQUEST_BACKUP_ID, logs: payload, success: false },
           supabase,
@@ -210,7 +212,7 @@ export const handler = async (event) => {
       "index.js response",
       JSON.stringify(payload.response, null, 2),
     );
-    return storeRequestReturnPayload(
+    return await storeRequestReturnPayload(
       payload,
       { id: REQUEST_BACKUP_ID, logs: payload, 
         success: true,
@@ -222,7 +224,7 @@ export const handler = async (event) => {
     console.error(error);
     return {
       statusCode: 500,
-      body: { error: error, payload: payload },
+      body: JSON.stringify({ error: error, payload: payload }),
     };
   }
 };
