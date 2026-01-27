@@ -17,6 +17,7 @@ async function storeRequest({ input, supabase = null }) {
     .select();
   if (sbError) {
     logger.log("sbError:", sbError);
+    logger.log("storeRequest output", data);
     throw new HttpError(sbError, 500, { originalError: sbError });
   }
   logger.log("storeRequest output", data);
@@ -48,11 +49,9 @@ const ingest = {
     }
     return event;
   },
-  storeEvent: async ({ input, supabase = null }) => {
+  storeEvent: async ({input, supabase}) => {
     //connect to supabase client
-    supabase = supabase
-      ? supabase
-      : createClient(process.env.DATABASE_URL, process.env.KEY);
+    supabase = supabase ?? createClient(process.env.DATABASE_URL, process.env.KEY);
     let event = input;
 
     //store request in supabase
@@ -76,7 +75,7 @@ const ingest = {
     storeData.referer = headers?.referer ?? body?._meta?.referer ?? undefined;
     let searchParams
     try {
-    searchParams = parseQueryParams(storeData.referer, { coerce: true });
+      searchParams = parseQueryParams(storeData.referer, { coerce: true });
     } catch (error) {
       logger.log(error);
     }
@@ -96,8 +95,13 @@ const ingest = {
     };
     storeData = { ...storeData, ...urlParams };
     logger.log("storeData w urlParams", storeData);
-    let data = await storeRequest({ input: storeData, supabase });
-
+    let data;
+    try{
+      data = await storeRequest({ input: storeData, supabase });
+    } catch (e){
+      logger.log(e)
+      throw new HttpError("error on storeRequest within storeEvent", 500, {orginalError:e})
+    }
     let ret = structuredClone(event);
     if (data) {
       ret.headers.request_backup_id = data[0].id;

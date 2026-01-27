@@ -10,3 +10,4 @@ oidc.yml
 
 
 !.env.template
+!.env.local

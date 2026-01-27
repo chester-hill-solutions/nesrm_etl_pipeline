@@ -4,6 +4,7 @@ import path from "path";
 import HttpError from "simple-http-error";
 import logger from "simple-logs-sai-node";
 import { bestMatch } from "../scripts/mailReconcile/index.js";
+import { commaSeperateUpdateLogic, commaSeperate } from "../scripts/commaSeperateHelpers.js";
 
 const PROVINCES = {
   AB: "Alberta",
@@ -291,32 +292,6 @@ const get_opennorth = async (postcode) => {
   }
 };
 
-function commaSeperate(profileValue, shapedDataValue) {
-  if (shapedDataValue && profileValue) {
-    const shapedLower = shapedDataValue.toLowerCase();
-    const values = profileValue.split(",").map((v) => v.trim().toLowerCase());
-
-    if (values.includes(shapedLower)) {
-      return profileValue;
-    } else {
-      return profileValue + "," + shapedDataValue;
-    }
-  }
-  return shapedDataValue;
-}
-function commaSeperateUpdateLogic(updateData, profile, shapedData, key) {
-  if (shapedData[key] && profile[key]) {
-    updateData[key] = commaSeperate(profile[key], shapedData[key]); /*
-    if (profile[key].split(",").includes(shapedData[key])) {
-      updateData[key] = profile[key];
-    } else {
-      updateData[key] = profile[key] + "," + shapedData[key];
-    }
-  } else if (shapedData[key]) {
-    updateData[key] = shapedData[key];*/
-  }
-  return updateData;
-}
 async function consolidateData(profile, shapedData) {
   const updateData = {};
   if (!profile) {
@@ -470,7 +445,7 @@ const upsertData = async ({input, supabase=null}) => {
   const cleaned_data = Object.fromEntries(
     Object.entries(updateData).filter(([_, value]) => value !== undefined)
   );
-  logger.dev.log(JSON.stringify(cleaned_data));
+  logger.log(JSON.stringify(cleaned_data));
   let query = supabase.from("contact");
   const {
     data: person,
@@ -488,9 +463,9 @@ const upsertData = async ({input, supabase=null}) => {
   }
 
   logger.log("Successfully upserted", status);
-  logger.dev.log("Successfully upserted:", JSON.stringify(person[0]));
+  logger.log("Successfully upserted:", JSON.stringify(person[0]));
   return person[0];
 };
 
 upsertData.__module = path.basename(import.meta.url);
-export { upsertData };
+export { upsertData, commaSeperate, commaSeperateUpdateLogic };

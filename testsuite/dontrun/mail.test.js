@@ -1,8 +1,8 @@
 import test, { describe, it } from "node:test";
 import assert from "node:assert";
 import "dotenv/config";
-import { pick, keyCompare } from "../scripts/pickKeys/index.js";
-import { mail, get, reconcileNames, post } from "../src/mail.js";
+import { pick, keyCompare } from "../../scripts/pickKeys/index.js";
+import { mail, get, reconcileNames, post } from "../../src/mail.js";
 import logger from "simple-logs-sai-node";
 
 describe("mail get tests", () => {

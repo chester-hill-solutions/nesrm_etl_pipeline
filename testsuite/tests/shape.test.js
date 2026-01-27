@@ -1,7 +1,7 @@
 import { describe, it } from "node:test";
 import assert from "node:assert";
-import { pick } from "../scripts/pickKeys/index.js";
-import { shapeData } from "../src/shape.js";
+import { pick } from "../../scripts/pickKeys/index.js";
+import { shapeData } from "../../src/shape.js";
 const HEADERS = {
   origin: "www.meetsai.ca",
   "x-forwarded-for": "124.0.0.1",

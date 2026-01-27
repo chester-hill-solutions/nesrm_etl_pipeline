@@ -5,7 +5,7 @@ import logger from "simple-logs-sai-node";
 import test, { describe, it } from "node:test";
 import assert from "node:assert";
 
-import { handler } from "../index.js";
+import { handler } from "../../index.js";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);

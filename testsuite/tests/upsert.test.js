@@ -1,8 +1,8 @@
 import test, { describe, it } from "node:test";
 import assert from "node:assert";
 import "dotenv/config";
-import { pick, keyCompare } from "../scripts/pickKeys/index.js";
-import { upsertData } from "../src/upsert.js";
+import { pick, keyCompare } from "../../scripts/pickKeys/index.js";
+import { upsertData } from "../../src/upsert.js";
 import logger from "simple-logs-sai-node";
 
 const HEADERS = {
@@ -31,9 +31,9 @@ describe("Condition Match Test", () => {
       },
     };
     logger.dev.log("first");
-    const first = await upsertData(p1);
+    const first = await upsertData({input:p1});
     logger.dev.log("second");
-    const second = await upsertData(p2);
+    const second = await upsertData({input:p2});
     logger.dev.log("second data", JSON.stringify(second, null, 2));
     assert.strictEqual(second.municipality, p1.body.municipality);
   });
@@ -47,7 +47,7 @@ describe("Condition Match Test", () => {
         email: "onlyphone@gmail.com",
       },
     };
-    const p1r = await upsertData(p1);
+    const p1r = await upsertData({input:p1});
     const p2 = {
       headers: HEADERS,
       body: {
@@ -62,7 +62,7 @@ describe("Condition Match Test", () => {
       email: "onlyphone@gmail.com",
       gender: "f",
     };
-    const p2r = await upsertData(p2);
+    const p2r = await upsertData({input:p2});
     assert.deepStrictEqual(keyCompare(p2r, p2e), p2e);
   });
 });
@@ -90,9 +90,9 @@ describe("birthday field tests", () => {
         birthyear: 1913,
       },
     };
-    const first = await upsertData(p1);
-    const second = await upsertData(p2);
-    const third = await upsertData(p3);
+    const first = await upsertData({input:p1});
+    const second = await upsertData({input:p2});
+    const third = await upsertData({input:p3});
     assert.strictEqual;
     third.birthyear, p1.body.birthyear;
   });
@@ -125,42 +125,41 @@ describe("Ballot sequence tests", () => {
   };
   it("should allow the ballot to pass", async () => {
     const expected = { ballot1: process.env.CANDIDATE };
-    await upsertData({ body: { olp_van_id: "test123", ballot1: null } });
+    await upsertData({input:{ body: { olp_van_id: "test123", ballot1: null }} });
 
-    const result = await upsertData(jt);
+    const result = await upsertData({input:jt});
     const diff = pick(result, Object.keys(expected));
     assert.deepStrictEqual(diff, expected);
   });
   it("should allow the ballot to pass from not candidate to candidate", async () => {
     const expected = { ballot1: process.env.CANDIDATE };
-    await upsertData(jt);
-    await upsertData(njt);
+    await upsertData({input:njt});
 
-    const result = await upsertData(jt);
+    const result = await upsertData({input:jt});
     const diff = pick(result, Object.keys(expected));
     assert.deepStrictEqual(diff, expected);
   });
   it("should allow the ballot to pass from not candidate to opposing candidate", async () => {
     const expected = { ballot1: process.env.CANDIDATES.split(",")[1] };
-    await upsertData(jt);
-    await upsertData(njt);
-    const result = await upsertData(pp);
+    await upsertData({input:jt});
+    await upsertData({input:njt});
+    const result = await upsertData({input:pp});
     const diff = pick(result, Object.keys(expected));
     assert.deepStrictEqual(diff, expected);
   });
   it("should change old data to possible if we try to replace candidate with opposing candidate", async () => {
     const expected = { ballot1: process.env.POSSIBLY_CANDIDATE };
-    await upsertData(jt);
+    await upsertData({input:jt});
 
-    const result = await upsertData(pp);
+    const result = await upsertData({input:pp});
     const diff = pick(result, Object.keys(expected));
     assert.deepStrictEqual(diff, expected);
   });
   it("should not change old data", async () => {
     const expected = { ballot1: process.env.CANDIDATE };
-    await upsertData(jt);
+    await upsertData({input:jt});
 
-    const result = await upsertData(random);
+    const result = await upsertData({input:random});
     const diff = pick(result, Object.keys(expected));
     assert.deepStrictEqual(diff, expected);
   });
@@ -201,7 +200,7 @@ describe("upsertData tests", () => {
       birthmonth: 9,
       birthdate: 30,
     };
-    const result = await upsertData(payload);
+    const result = await upsertData({input:payload});
     const filteredResult = pick(result, Object.keys(expected));
     assert.deepStrictEqual(filteredResult, expected);
   });
@@ -222,7 +221,7 @@ describe("comma seperated values test", () => {
       surname: "sname",
       phone: "123456",
     };
-    const p1r = await upsertData(p1);
+    const p1r = await upsertData({input:p1});
     assert.deepStrictEqual(pick(p1r, Object.keys(p1e)), p1e);
     const p2 = {
       headers: HEADERS,
@@ -239,7 +238,7 @@ describe("comma seperated values test", () => {
       phone: "123456",
       organizer: "sai",
     };
-    const p2r = await upsertData(p2);
+    const p2r = await upsertData({input:p2});
     assert.deepStrictEqual(pick(p2r, Object.keys(p2e)), p2e);
     const p3 = {
       headers: HEADERS,
@@ -256,7 +255,7 @@ describe("comma seperated values test", () => {
       phone: "123456",
       organizer: "sai",
     };
-    const p3r = await upsertData(p3);
+    const p3r = await upsertData({input:p3});
     assert.deepStrictEqual(pick(p3r, Object.keys(p3e)), p3e);
   });
   it("should return an untouched array since this comma seperated fields should not be destroyed from null inserts", async () => {
@@ -274,7 +273,7 @@ describe("comma seperated values test", () => {
       phone: "123456",
       organizer: "sai",
     };
-    const p1r = await upsertData(p1);
+    const p1r = await upsertData({input:p1});
     assert.deepStrictEqual(pick(p1r, Object.keys(p1e)), p1e);
   });
   it("should return an array with multiple values", async () => {
@@ -293,7 +292,7 @@ describe("comma seperated values test", () => {
       phone: "123456",
       tags: "best guy",
     };
-    const p1r = await upsertData(p1);
+    const p1r = await upsertData({input:p1});
     //assert.deepStrictEqual(pick(p1r, Object.keys(p1e)), p1e);
     const p2 = {
       headers: HEADERS,
@@ -310,7 +309,7 @@ describe("comma seperated values test", () => {
       phone: "123456",
       tags: "best guy,nice dude",
     };
-    const p2r = await upsertData(p2);
+    const p2r = await upsertData({input:p2});
     assert.deepStrictEqual(pick(p2r, Object.keys(p2e)), p2e);
   });
   it("should return an unchanged array of multiple values since now adding in duplicates should not affect it", async () => {
@@ -329,7 +328,7 @@ describe("comma seperated values test", () => {
       phone: "123456",
       tags: "best guy,nice dude",
     };
-    const p2r = await upsertData(p2);
+    const p2r = await upsertData({input:p2});
     assert.deepStrictEqual(pick(p2r, Object.keys(p2e)), p2e);
   });
 });
