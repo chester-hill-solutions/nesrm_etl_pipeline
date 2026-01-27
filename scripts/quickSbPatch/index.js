@@ -2,7 +2,7 @@ import { createClient } from "@supabase/supabase-js";
 import HttpError from "simple-http-error";
 import logger from "simple-logs-sai-node";
 
-async function sbPatch({input={table, id, field, value}, supabase=null }) {
+async function sbPatch({input={table, id, field, value} = {}, supabase=null }) {
   logger.dev.log("sbPatch", table, id, field, value);
   supabase = supabase ?? createClient(
     process.env.DATABASE_URL,
