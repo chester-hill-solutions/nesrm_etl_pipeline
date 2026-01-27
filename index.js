@@ -41,11 +41,11 @@ export const handler = async (event) => {
     payload = await scMonad.bindMonad(scMonad.unit(event), ingest.headerCheck);
     logger.dev.log("payload respone trace", payload.response.body.trace)
     if (payload.response.statusCode != 200) {
-      return storeRequestReturnPayload(
+      return JSON.stringify(storeRequestReturnPayload(
         payload,
         { logs: payload, success: false },
         supabase,
-      );
+      ));
     } else {
       payload.input = payload.trace[0].output;
     }
@@ -53,33 +53,33 @@ export const handler = async (event) => {
     payload = await scMonad.bindMonad(scMonad.unit(payload), ingest.storeEvent, supabase);
     logger.dev.log("payload respone trace", payload.response.body.trace)
     if (payload.response.statusCode != 200) {
-      return storeRequestReturnPayload(
+      return JSON.stringify(storeRequestReturnPayload(
         payload,
         { logs: payload, success: false },
         supabase,
-      );
+      ));
     } else {
       payload.input = payload.trace[0].output;
       REQUEST_BACKUP_ID = payload.trace[0].output.headers.request_backup_id;
       REQUEST_CREATED_AT = payload.trace[0].output.headers.request_created_at;
     }
     if (event.headers.throw) {
-      return storeRequestReturnPayload(
+      return JSON.stringify(storeRequestReturnPayload(
         payload,
         { id: REQUEST_BACKUP_ID, logs: payload, success: false },
         supabase,
-      );
+      ));
     }
     //Shape
     let shaped_data;
     payload = await scMonad.bindMonad(scMonad.unit(payload), shapeData);
     logger.dev.log("payload respone trace", payload.response.body.trace)
     if (payload.response.statusCode != 200) {
-      return storeRequestReturnPayload(
+      return JSON.stringify(storeRequestReturnPayload(
         payload,
         { id: REQUEST_BACKUP_ID, logs: payload, success: false },
         supabase,
-      );
+      ));
     } else {
     shaped_data = structuredClone(payload.trace[0].output);
       payload.input = {
@@ -109,11 +109,11 @@ export const handler = async (event) => {
     payload = await scMonad.bindMonad(scMonad.unit(payload), upsertData, supabase);
     logger.dev.log("payload respone trace", payload.response.body.trace)
     if (payload.response.statusCode != 200) {
-      return storeRequestReturnPayload(
+      return JSON.stringify(storeRequestReturnPayload(
         payload,
         { id:REQUEST_BACKUP_ID, logs: payload, success: false },
         supabase,
-      );
+      ));
     } else {
       upserted_data = structuredClone(payload.trace[0].output);
       payload.input = {id: REQUEST_BACKUP_ID,
@@ -126,11 +126,11 @@ export const handler = async (event) => {
       supabase
     );
     if (payload.response.statusCode != 200) {
-      return storeRequestReturnPayload(
+      return JSON.stringify(storeRequestReturnPayload(
         payload,
         { id: REQUEST_BACKUP_ID, logs: payload, success: false },
         supabase,
-      );
+      ));
     } else {
       payload.input = upserted_data;
     }
@@ -149,11 +149,11 @@ export const handler = async (event) => {
         );
         logger.log("welcomeResponse", welcomeResponse);
         if (welcomeResponse.response.statusCode != 200) {
-          return storeRequestReturnPayload(
+          return JSON.stringify(storeRequestReturnPayload(
             welcomeResponse,
             { id: REQUEST_BACKUP_ID, logs: welcomeResponse, success: false },
             supabase,
-          );
+          ));
         } else {
           payload.input = upserted_data;
         }
@@ -171,11 +171,11 @@ export const handler = async (event) => {
     if (payload.input.comms_consent) {
       payload = await scMonad.bindMonad(scMonad.unit(payload), mail);
       if (payload.response.statusCode != 200) {
-        return storeRequestReturnPayload(
+        return JSON.stringify(storeRequestReturnPayload(
           payload,
           { id: REQUEST_BACKUP_ID, logs: payload, success: false },
           supabase,
-        );
+        ));
       } else {
         payload.input = payload.trace[0].output;
         if (payload.input?.data?.id) {
@@ -210,19 +210,19 @@ export const handler = async (event) => {
       "index.js response",
       JSON.stringify(payload.response, null, 2),
     );
-    return storeRequestReturnPayload(
+    return JSON.stringify(storeRequestReturnPayload(
       payload,
       { id: REQUEST_BACKUP_ID, logs: payload, 
         success: true,
     },
       supabase,
-    );
+    ));
   } catch (error) {
     logger.log(error);
     console.error(error);
-    return {
+    return JSON.stringify({
       statusCode: 500,
       body: { error: error, payload: payload },
-    };
+    });
   }
 };
