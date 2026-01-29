@@ -116,4 +116,39 @@ describe("storeEvent()", () => {
       );
     }
   });
+  it("should handle events without referer", async () => {
+    const expected = structuredClone(oneStepArray[0]);
+    expected.body.email = "storeevent-noreferer@gmail.com";
+    delete expected.headers.Referer;
+    delete expected.headers.referer;
+    if (expected.body?._meta) delete expected.body._meta.referer;
+
+    const headerCheckResponse = await ingest.headerCheck(expected);
+    const storeEventResponse = await ingest.storeEvent({
+      input: headerCheckResponse,
+      supabase,
+    });
+    const result = storeEventResponse;
+
+    assert.strictEqual(
+      result.headers?.Origin,
+      expected.headers.Origin,
+      "Origin mismatch",
+    );
+    assert.strictEqual(
+      result.headers["X-Forwarded-For"],
+      expected.headers["X-Forwarded-For"],
+      "X-Forwarded-For mismatch",
+    );
+    assert.strictEqual(result.body.email, expected.body.email, "email mismatch");
+    assert.ok(result.headers?.request_backup_id, "request body id exists");
+
+    if (expected?._meta?.step?.index !== undefined) {
+      assert.strictEqual(
+        result.step,
+        expected._meta.step.index,
+        "step mismatch",
+      );
+    }
+  });
 });
