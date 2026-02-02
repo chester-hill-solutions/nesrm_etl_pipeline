@@ -73,28 +73,30 @@ const ingest = {
       step: body?._meta?.step?.index,
     };
     storeData.referer = headers?.referer ?? body?._meta?.referer ?? undefined;
-    let searchParams
-    try {
-      searchParams = parseQueryParams(storeData.referer, { coerce: true });
-    } catch (error) {
-      logger.log(error);
+    if (storeData.referer) {
+      let searchParams
+      try {
+        searchParams = parseQueryParams(storeData.referer, { coerce: true });
+        let urlParams = {
+          search_params: searchParams,
+          utm_source: searchParams.utm_source,
+          utm_medium: searchParams.utm_medium,
+          utm_campaign: searchParams.utm_campaign,
+          utm_term: searchParams.utm_term,
+          utm_content: searchParams.utm_content,
+        };
+        storeData = { ...storeData, ...urlParams };
+        logger.log("storeData w urlParams", storeData);
+      } catch (error) {
+        logger.log(error);
+      }
+      logger.log(
+        "typeof search params",
+        typeof searchParams,
+        "searchParams",
+        searchParams,
+      );
     }
-    logger.log(
-      "typeof search params",
-      typeof searchParams,
-      "searchParams",
-      searchParams,
-    );
-    let urlParams = {
-      search_params: searchParams,
-      utm_source: searchParams.utm_source,
-      utm_medium: searchParams.utm_medium,
-      utm_campaign: searchParams.utm_campaign,
-      utm_term: searchParams.utm_term,
-      utm_content: searchParams.utm_content,
-    };
-    storeData = { ...storeData, ...urlParams };
-    logger.log("storeData w urlParams", storeData);
     let data;
     try{
       data = await storeRequest({ input: storeData, supabase });

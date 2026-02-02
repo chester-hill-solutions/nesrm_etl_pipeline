@@ -45,7 +45,7 @@ export const handler = async (event) => {
     if (payload.response.statusCode != 200) {
       return await storeRequestReturnPayload(
         payload,
-        { logs: payload, success: false },
+        { payload: event, logs: payload, success: false },
         supabase,
       );
     } else {
@@ -57,7 +57,7 @@ export const handler = async (event) => {
     if (payload.response.statusCode != 200) {
       return await storeRequestReturnPayload(
         payload,
-        { logs: payload, success: false },
+        { payload: event, logs: payload, success: false },
         supabase,
       );
     } else {
