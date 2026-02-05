@@ -53,8 +53,9 @@ export function combineCommaSeperate(f, s, output = "string") {
       seen.add(k);
     }
   }
-
-  return output === "array" ? fArr : fArr.join(",");
+  const o = output === "array" ? fArr : fArr.join(",");
+  logger.dev.log(`outputs ${o} typof ${typeof o}`)
+  return o
 }
 export function commaSeperate(profileValue, shapedDataValue, return_as="string") {
   const toArray = (v) => {

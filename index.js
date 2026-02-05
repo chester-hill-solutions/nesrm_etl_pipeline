@@ -44,7 +44,7 @@ export const handler = async (event) => {
     logger.log("event triggered", JSON.stringify(event, null, 2));
     const event_body =
       typeof event.body === "string" ? JSON.parse(event.body) : event.body;
-    logger.log("event.body", event_body);
+    logger.log("event.body", JSON.stringify(event_body, null, 2));
     //Ingest param check
     payload = await scMonad.bindMonad(scMonad.unit(event), ingest.headerCheck);
     logger.dev.log("payload respone trace", payload.response.body.trace);

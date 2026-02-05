@@ -168,12 +168,6 @@ const shapeData = async (event) => {
         let organizer_codes = getValue(body, "organizer_codes");
 
         console.log('combining', organizer, organizer_codes, typeof(organizer_codes))
-        if (typeof organizer_codes === "string") {
-          organizer_codes = organizer_codes
-            .split(",")
-            .map((k) => k.trim())
-            .filter(Boolean);
-        }
         const combined = combineCommaSeperate(
           organizer,
           organizer_codes,
