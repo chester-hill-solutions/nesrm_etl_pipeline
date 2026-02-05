@@ -2,7 +2,7 @@
 import fs from "fs";
 import dotenv from "dotenv";
 
-const envFile = process.env.ENVIRONMENT ? ".env"+process.env.ENVIRONMENT : ".env.local" ?? ".env";
+const envFile = process.env.ENVIRONMENT ? ".env"+"."+process.env.ENVIRONMENT : ".env" ?? ".env.local" ;
 
 if (fs.existsSync(envFile)) {
   dotenv.config({ path: envFile });

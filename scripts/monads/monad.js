@@ -89,8 +89,6 @@ export const statusCodeMonad = {
         //logger.dev.log("rawFuncResponse", rawFuncResponse);
         t[0].output = rawFuncResponse;
         //ret.input = rawFuncResponse ? rawFuncResponse : ret.input;
-        logger.dev.log("bind no error t", t)
-        logger.dev.log("bind no error ret", ret)
         logger.dev.log("bind no error monadic", monadic);
       }
     } catch (error) {
@@ -102,7 +100,6 @@ export const statusCodeMonad = {
         ret.response.statusCode = 200;
         t[0].statusCode === 429;
       } else {
-        logger.dev.log("monadic short", monadic);
         logger.dev.log("monadic long", util.inspect(monadic, {depth: null, maxArrayLength: null, colors: true}));
         logger.dev.log("monadic", monadic);
         logger.log("caught", error);

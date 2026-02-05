@@ -15,7 +15,32 @@ const replaceKey = async (obj, old, n) => {
   return obj;
 };
 
-const shapeForMail = async (data) => {
+const shapeForMail = async (cleaned, groups=undefined) => {
+
+  const body = {
+    email: cleaned.email,
+    fields: Object.fromEntries(
+      Object.entries(cleaned).filter(([_, v]) => v !== null),
+    ),
+    groups: groups
+  }
+  const hasDoNotContact = Array.isArray(cleaned.tags)
+      ? cleaned.tags.some(t => t.toUpperCase().includes("DO NOT CONTACT"))
+      : typeof cleaned.tags === "string"
+        ? cleaned.tags.toUpperCase().includes("DO NOT CONTACT")
+        : false;
+
+  hasDoNotContact ?? (body.status = 'unsubscribed');
+  logger.log("dnc status", hasDoNotContact);
+  if (groups){
+    body.groups = groups
+  }
+
+  logger.dev.log("shaped mail payload", body);
+  return body
+}
+
+const cleanForMail = async (data, groups=undefined) => {
   let cleaned = structuredClone(data);
   logger.dev.log("dirty mail payload", data);
   replaceKey(cleaned, "surname", "last_name");
@@ -26,25 +51,22 @@ const shapeForMail = async (data) => {
   delete cleaned.created_at;
   delete cleaned.updated_at;
   delete cleaned.id;
-  logger.dev.log("clean mail payload", cleaned);
+  delete cleaned.groups;
+  logger.dev.log("cleaned mail payload", cleaned);
   return cleaned;
 };
 const post = async (payload, id = undefined) => {
   try {
     let path = "/api/subscribers";
     id ? (path = path + "/" + id) : (path = path);
+    console.log(HEADERS)
     const response = await fetch(
       "https://" + process.env.MAIL_HOSTNAME + path,
       {
         method: id ? "PUT" : "POST",
         headers: HEADERS,
-        body: JSON.stringify({
-          email: payload.email,
-          fields: Object.fromEntries(
-            Object.entries(payload).filter(([_, v]) => v !== null)
-          ),
-        }),
-      }
+        body: JSON.stringify(payload),
+      },
     );
     const out = await response.json();
     logger.log("post status", response.status);
@@ -59,15 +81,10 @@ const post = async (payload, id = undefined) => {
     logger.log(
       "post payload",
       JSON.stringify(
-        {
-          email: payload.email,
-          fields: Object.fromEntries(
-            Object.entries(payload).filter(([_, v]) => v !== null)
-          ),
-        },
+        payload,
         null,
-        2
-      )
+        2,
+      ),
     );
     logger.error(error);
     throw new HttpError(error.message, error.statusCode ?? 500, {
@@ -79,17 +96,22 @@ const post = async (payload, id = undefined) => {
 const get = async (email) => {
   try {
     logger.dev.log("get", email);
+    console.log(HEADERS)
     const response = await fetch(
       "https://" + process.env.MAIL_HOSTNAME + "/api/subscribers/" + email,
       {
         method: "GET",
         headers: HEADERS,
-      }
+      },
     );
     const out = await response.json();
     logger.log("Mailerlite get response", response.status);
-    if (response.status === 404) {
-      return undefined;
+    if (!response.ok) {
+      throw new HttpError(
+        out?.message ?? "Mailerlite request failed",
+        response.status,
+        { response: out, status: response.status },
+      );
     }
     logger.dev.log("response", out);
     return out;
@@ -115,7 +137,7 @@ const reconcileNames = async (mailData, dbData) => {
       mailData.name,
       mailData.last_name,
       dbData.name,
-      dbData.last_name
+      dbData.last_name,
     );
     logger.dev.error("mailData", mailData);
     logger.dev.error("dbData", dbData);
@@ -126,7 +148,7 @@ const reconcileNames = async (mailData, dbData) => {
     const truthData = await bestMatch(
       mailData.email,
       { firstname: mailData.name, surname: mailData.last_name },
-      { firstname: dbData.name, surname: dbData.last_name }
+      { firstname: dbData.name, surname: dbData.last_name },
     );
     output.name = truthData.firstname;
     output.last_name = truthData.surname;
@@ -134,36 +156,41 @@ const reconcileNames = async (mailData, dbData) => {
   return output;
 };
 const mail = async (obj, reconcile = true) => {
+  HEADERS.Authorization = "Bearer " + process.env.MAIL_BEARER
   let data = obj.mailerlite_id
     ? structuredClone(obj)
     : obj.body?.mailerlite_id
-    ? structuredClone(obj.body)
-    : obj.email
-    ? structuredClone(obj)
-    : obj.body?.email
-    ? structuredClone(obj.body)
-    : (() => {
-        throw new HttpError("Missing email or id to upload", 422);
-      })();
-  let payload = await shapeForMail(data);
+      ? structuredClone(obj.body)
+      : obj.email
+        ? structuredClone(obj)
+        : obj.body?.email
+          ? structuredClone(obj.body)
+          : (() => {
+            throw new HttpError("Missing email or id to upload", 422);
+          })();
   let mailData;
   try {
     mailData = await get(data.email || data.mailerlite_id);
   } catch (error) {
     console.error("getMailData error", error);
-    throw new HttpError(error.message, error.statusCode ?? 500, {
-      originalError: error,
-    });
+    mailData = undefined
+    if (error.StatusCode != 404) {
+      throw new HttpError(error.message, error.statusCode ?? 500, {
+        originalError: error,
+      });
+    }
   }
+  let cleaned = await cleanForMail(data, data.groups ?? undefined);
   if (mailData?.data?.fields && mailData?.data?.email) {
     mailData.data.fields.email = mailData.data.email;
     try {
-      payload =
+      cleaned =
         reconcile && process.env.RECONCILE != false
-          ? await reconcileNames(mailData.data.fields, payload)
-          : payload;
-    } catch (e) {}
+          ? await reconcileNames(mailData.data.fields, cleaned)
+          : cleaned;
+    } catch (e) { }
   }
+  let payload = await shapeForMail(cleaned, data.groups ?? undefined)
   if (mailData?.data?.id) {
     console.log("post with id");
     return await post(payload, mailData?.data?.id);

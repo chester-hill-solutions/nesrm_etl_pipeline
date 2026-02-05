@@ -2,7 +2,7 @@
 
 This is the lambda function to handle NES Relationship Manager Ingestion.
 
-node runner.js tests/test_payloads/uncommons/saiSteps.json
+node runner.js testsuite/test_payloads/_julianasrin/step1.json > _julianasrinstep1.json
 
 ## Development
 
