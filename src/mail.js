@@ -59,7 +59,6 @@ const post = async (payload, id = undefined) => {
   try {
     let path = "/api/subscribers";
     id ? (path = path + "/" + id) : (path = path);
-    console.log(HEADERS)
     const response = await fetch(
       "https://" + process.env.MAIL_HOSTNAME + path,
       {
@@ -96,16 +95,16 @@ const post = async (payload, id = undefined) => {
 const get = async (email) => {
   try {
     logger.dev.log("get", email);
-    console.log(HEADERS)
+
     const response = await fetch(
-      "https://" + process.env.MAIL_HOSTNAME + "/api/subscribers/" + email,
-      {
-        method: "GET",
-        headers: HEADERS,
-      },
+      `https://${process.env.MAIL_HOSTNAME}/api/subscribers/${encodeURIComponent(email)}`,
+      { method: "GET", headers: HEADERS },
     );
-    const out = await response.json();
+
+    const out = await response.json().catch(() => undefined);
+
     logger.log("Mailerlite get response", response.status);
+
     if (!response.ok) {
       throw new HttpError(
         out?.message ?? "Mailerlite request failed",
@@ -113,11 +112,16 @@ const get = async (email) => {
         { response: out, status: response.status },
       );
     }
+
     logger.dev.log("response", out);
     return out;
   } catch (error) {
+    // ✅ If we already created a proper HttpError with statusCode, keep it
+    if (error instanceof HttpError) throw error;
+
     logger.log("email", email);
     logger.error(error);
+
     throw new HttpError(`Error GET ${email}`, 500, { originalError: error });
   }
 };
@@ -174,7 +178,7 @@ const mail = async (obj, reconcile = true) => {
   } catch (error) {
     console.error("getMailData error", error);
     mailData = undefined
-    if (error.StatusCode != 404) {
+    if (error.statusCode != 404) {
       throw new HttpError(error.message, error.statusCode ?? 500, {
         originalError: error,
       });
