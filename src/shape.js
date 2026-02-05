@@ -1,7 +1,8 @@
 import path from "path";
 import HttpError from "simple-http-error";
 import logger from "simple-logs-sai-node";
-import cleanString from "../scripts/cleanString.js"
+import cleanString from "../scripts/cleanString.js";
+import { combineCommaSeperate } from "../scripts/commaSeperateHelpers.js";
 
 /*
 const cleanString = (str) => {
@@ -161,7 +162,29 @@ const shapeData = async (event) => {
       signup_submitted: cleanString(getValue(body, "signup_submitted")),
       member: cleanString(getValue(body, "member")),
       tags: cleanString(getValue(body, "tags")),
-      organizer: cleanString(getValue(body, "organizer")),
+      ...(() => {
+        let organizer = cleanString(getValue(body, "organizer"));
+
+        let organizer_codes = getValue(body, "organizer_codes");
+
+        console.log('combining', organizer, organizer_codes, typeof(organizer_codes))
+        if (typeof organizer_codes === "string") {
+          organizer_codes = organizer_codes
+            .split(",")
+            .map((k) => k.trim())
+            .filter(Boolean);
+        }
+        const combined = combineCommaSeperate(
+          organizer,
+          organizer_codes,
+          "array",
+        );
+
+        organizer_codes = combined;
+        organizer = combined.join(",");
+
+        return { organizer, organizer_codes };
+      })(),
       language: cleanString(getValue(body, "language")),
       olp_van_id: cleanString(getValue(body, "olp_van_id")),
       lpc_van_id: cleanString(getValue(body, "lpc_van_id")),

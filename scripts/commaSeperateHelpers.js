@@ -1,4 +1,61 @@
+import logger from "simple-logs-sai-node";
 import cleanString from "./cleanString.js";
+export function combineCommaSeperate(f, s, output = "string") {
+  const toArray = (v) => {
+    logger.dev.log(`mapping ${v} toArray`)
+    if (v == null || !v) return [];
+
+    if (Array.isArray(v)) {
+      logger.dev.log(`${v} already array`)
+      return v.map(cleanString).filter(Boolean);
+    }
+
+    if (typeof v === "string") {
+      let str = v.trim();
+
+      // strip surrounding brackets: [ ... ]
+      if (str.startsWith("[") && str.endsWith("]")) {
+        str = str.slice(1, -1);
+      }
+      const o = str
+        .split(",")
+        .map(s =>
+          cleanString(
+            s
+              .replace(/^['"]|['"]$/g, "") // strip quotes
+          )
+        )
+        .filter(Boolean);
+      logger.dev.log(`mapping ${v} to ${o}`)
+      return o
+    }
+
+    return [];
+  };
+
+  const fArr = toArray(f);
+  const sArr = toArray(s);
+  console.log(fArr, sArr)
+
+  // early returns
+  if (sArr.length === 0)
+    return fArr.length ? (output === "array" ? fArr : fArr.join(",")) : undefined;
+
+  if (fArr.length === 0)
+    return output === "array" ? sArr : sArr.join(",");
+
+  // case-insensitive merge
+  const seen = new Set(fArr.map(v => v.toLowerCase()));
+  for (const v of sArr) {
+    const k = v.toLowerCase();
+    if (!seen.has(k)) {
+      fArr.push(v);
+      seen.add(k);
+    }
+  }
+
+  return output === "array" ? fArr : fArr.join(",");
+}
 export function commaSeperate(profileValue, shapedDataValue, return_as="string") {
   const toArray = (v) => {
     if (v == null) return [];
