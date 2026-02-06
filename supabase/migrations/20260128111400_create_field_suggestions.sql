@@ -2,7 +2,7 @@
 -- Allows non-admin users to suggest field changes instead of directly editing
 -- Admins can review and approve/reject suggestions in bulk
 
-CREATE TABLE IF NOT EXISTS field_suggestions (
+CREATE TABLE IF NOT EXISTS public.field_suggestions (
   id BIGSERIAL PRIMARY KEY,
   entity_type TEXT NOT NULL, -- 'contact', 'profile', etc. (extensible)
   entity_id BIGINT NOT NULL,
