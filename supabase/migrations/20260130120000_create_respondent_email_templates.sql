@@ -13,6 +13,6 @@ CREATE TABLE IF NOT EXISTS public.respondent_email_templates (
 
 -- At most one template can be the default (partial unique index on constant)
 CREATE UNIQUE INDEX IF NOT EXISTS idx_respondent_email_templates_single_default
-  ON respondent_email_templates ((true))
+  ON public.respondent_email_templates ((true))
   WHERE is_default = true;
 
