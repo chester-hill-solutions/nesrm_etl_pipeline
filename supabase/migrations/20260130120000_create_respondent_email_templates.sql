@@ -2,7 +2,7 @@
 -- Purpose: Add respondent_email_templates table for admin-managed email templates (post-survey / volunteer onboarding).
 -- Enables future HTML body support via body_format column.
 
-CREATE TABLE IF NOT EXISTS respondent_email_templates (
+CREATE TABLE IF NOT EXISTS public.respondent_email_templates (
   id BIGSERIAL PRIMARY KEY,
   name TEXT NOT NULL,
   subject TEXT NOT NULL,
