@@ -206,7 +206,7 @@ describe("upsertData tests", () => {
   });
 });
 
-describe("comma seperated values test", () => {
+describe("comma seperated values upsert test", () => {
   it("should return a single organizer since comma seperated fields should not allow duplicates", async () => {
     const p1 = {
       headers: HEADERS,
@@ -259,17 +259,26 @@ describe("comma seperated values test", () => {
     assert.deepStrictEqual(pick(p3r, Object.keys(p3e)), p3e);
   });
   it("should return an untouched array since this comma seperated fields should not be destroyed from null inserts", async () => {
+    const b1 = {
+      headers: HEADERS,
+      body: {
+        firstname: "fnameblaaaaaaaaah",
+        surname: "snameraaaaaaaah",
+        phone: "123456",
+        organizer: 'sai'
+      },
+    };
     const p1 = {
       headers: HEADERS,
       body: {
-        firstname: "fname",
-        surname: "sname",
+        firstname: "fnameblaaaaaaaaah",
+        surname: "snameraaaaaaaah",
         phone: "123456",
       },
     };
     const p1e = {
-      firstname: "fname",
-      surname: "sname",
+        firstname: "fnameblaaaaaaaaah",
+        surname: "snameraaaaaaaah",
       phone: "123456",
       organizer: "sai",
     };

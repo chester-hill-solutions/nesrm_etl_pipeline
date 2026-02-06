@@ -154,6 +154,8 @@ export const handler = async (event) => {
       payload.input = upserted_data;
     }
 
+    if (shaped_data.profile_id) {payload = await scMonad.bindMonad(scMonad.unit({table: "profiles", id: shaped_data.profile_id, field: "contact_id", value: upserted_data.id}), sbPatch, supabase)}
+
     //send team welcome
     try {
       if (
