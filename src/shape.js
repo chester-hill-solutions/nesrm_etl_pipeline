@@ -173,10 +173,10 @@ const shapeData = async (event) => {
           organizer_codes,
           "array",
         );
-
+        if (combined) {
         organizer_codes = combined;
         organizer = combined.join(",");
-
+        }
         return { organizer, organizer_codes };
       })(),
       language: cleanString(getValue(body, "language")),
