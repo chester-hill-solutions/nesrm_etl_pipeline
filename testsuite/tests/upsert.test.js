@@ -211,30 +211,30 @@ describe("comma seperated values upsert test", () => {
     const p1 = {
       headers: HEADERS,
       body: {
-        firstname: "fname",
-        surname: "sname",
+        firstname: "first",
+        surname: "it",
         phone: "123456",
       },
     };
     const p1e = {
-      firstname: "fname",
-      surname: "sname",
+        firstname: "first",
+        surname: "it",
       phone: "123456",
     };
     const p1r = await upsertData({input:p1});
-    assert.deepStrictEqual(pick(p1r, Object.keys(p1e)), p1e);
+    assert.deepStrictEqual(pick(p1r, Object.keys(p1e)), p1e, 'p1r and p1e mismatch');
     const p2 = {
       headers: HEADERS,
       body: {
-        firstname: "fname",
-        surname: "sname",
+        firstname: "first",
+        surname: "it",
         phone: "123456",
         organizer: "sai",
       },
     };
     const p2e = {
-      firstname: "fname",
-      surname: "sname",
+        firstname: "first",
+        surname: "it",
       phone: "123456",
       organizer: "sai",
     };
@@ -243,15 +243,15 @@ describe("comma seperated values upsert test", () => {
     const p3 = {
       headers: HEADERS,
       body: {
-        firstname: "fname",
-        surname: "sname",
+        firstname: "first",
+        surname: "it",
         phone: "123456",
         organizer: "sai",
       },
     };
     const p3e = {
-      firstname: "fname",
-      surname: "sname",
+        firstname: "first",
+        surname: "it",
       phone: "123456",
       organizer: "sai",
     };
@@ -282,6 +282,7 @@ describe("comma seperated values upsert test", () => {
       phone: "123456",
       organizer: "sai",
     };
+    const b1r = await upsertData({input:b1});
     const p1r = await upsertData({input:p1});
     assert.deepStrictEqual(pick(p1r, Object.keys(p1e)), p1e);
   });
@@ -289,15 +290,15 @@ describe("comma seperated values upsert test", () => {
     const p1 = {
       headers: HEADERS,
       body: {
-        firstname: "fname",
-        surname: "sname",
+        firstname: "should",
+        surname: "return",
         phone: "123456",
         tags: "best guy",
       },
     };
     const p1e = {
-      firstname: "fname",
-      surname: "sname",
+        firstname: "should",
+        surname: "return",
       phone: "123456",
       tags: "best guy",
     };
@@ -306,15 +307,15 @@ describe("comma seperated values upsert test", () => {
     const p2 = {
       headers: HEADERS,
       body: {
-        firstname: "fname",
-        surname: "sname",
+        firstname: "should",
+        surname: "return",
         phone: "123456",
         tags: "nice dude",
       },
     };
     const p2e = {
-      firstname: "fname",
-      surname: "sname",
+        firstname: "should",
+        surname: "return",
       phone: "123456",
       tags: "best guy,nice dude",
     };
@@ -325,15 +326,15 @@ describe("comma seperated values upsert test", () => {
     const p2 = {
       headers: HEADERS,
       body: {
-        firstname: "fname",
-        surname: "sname",
+        firstname: "should",
+        surname: "return",
         phone: "123456",
         tags: "nice dude",
       },
     };
     const p2e = {
-      firstname: "fname",
-      surname: "sname",
+        firstname: "should",
+        surname: "return",
       phone: "123456",
       tags: "best guy,nice dude",
     };
