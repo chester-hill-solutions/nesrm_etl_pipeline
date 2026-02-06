@@ -1,6 +1,6 @@
 -- Migrate existing column update rules from survey_questions.validation_config to new table
 -- This extracts column_update_rule and column_update_rules from validation_config JSONB
-
+/*
 DO $$
 DECLARE
   question_record RECORD;
