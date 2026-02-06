@@ -22,15 +22,11 @@ jobs:
 
       - run: npm ci
 
-      # 3️⃣ Temporarily move migrations so Supabase doesn't auto-apply them
-      - name: Temporarily move migrations
-        run: mv supabase/migrations supabase/_migrations_hold
-
-      # 4️⃣ Start Supabase (this will block until DB is ready)
+      # Start Supabase (this will block until DB is ready)
       - name: Start Supabase stack
         run: npx supabase start --debug
 
-      # 5️⃣ Apply roles as superuser (postgres)
+      # Apply roles as superuser (postgres)
       - name: Apply roles
         run: |
           echo "Applying roles from ./supabase/roles..."
@@ -39,11 +35,11 @@ jobs:
             psql "postgresql://postgres:postgres@localhost:54322/postgres" -f "$f"
           done
 
-      # 6️⃣ Restore migrations folder
+      # Restore migrations folder
       - name: Restore migrations folder
         run: mv supabase/_migrations_hold supabase/migrations
 
-      # 7️⃣ Apply all remaining migrations
+      # Apply all remaining migrations
       - name: Apply remaining migrations
         run: |
           echo "Applying remaining migrations..."
