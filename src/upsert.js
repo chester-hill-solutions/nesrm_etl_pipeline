@@ -469,7 +469,7 @@ const upsertData = async ({input, supabase=null}) => {
 
   if (personError) {
     console.error("Upsert error:", personError);
-    throw new HttpError("Upsert error", 500, { originalError: personError });
+    throw new HttpError(personError, 500, { originalError: personError });
   }
 
   logger.log("Successfully upserted", status);
