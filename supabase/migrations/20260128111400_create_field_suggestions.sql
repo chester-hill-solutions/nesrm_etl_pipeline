@@ -12,7 +12,7 @@ CREATE TABLE IF NOT EXISTS public.field_suggestions (
   suggested_value JSONB NOT NULL, -- Suggested new value
   status TEXT NOT NULL DEFAULT 'pending' CHECK (status IN ('pending', 'approved', 'rejected')),
   suggested_by UUID NOT NULL REFERENCES profiles(id) ON DELETE CASCADE,
-  reviewed_by UUID REFERENCES profiles(id) ON DELETE SET NULL,
+  reviewed_by UUID REFERENCES public.profiles(id) ON DELETE SET NULL,
   reviewed_at TIMESTAMPTZ,
   rejection_reason TEXT,
   created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
