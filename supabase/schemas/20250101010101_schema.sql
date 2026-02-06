@@ -11625,10 +11625,9 @@ BEGIN
   END IF;
 
   -- Build the SQL command with the auth token from config
-  -- Calls the events-sync edge function
   sql_command := format('
     SELECT net.http_post(
-      url := ''https://%s.supabase.co/functions/v1/events-sync'',
+      url := ''https://%s.supabase.co/api/events/sync'',
       headers := jsonb_build_object(
         ''Authorization'', ''Bearer %s'',
         ''Content-Type'', ''application/json''
