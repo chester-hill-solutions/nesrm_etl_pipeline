@@ -35,7 +35,7 @@ CREATE INDEX IF NOT EXISTS idx_field_suggestions_entity_field_status ON public.f
 
 -- Prevent duplicate pending suggestions for same field using a unique partial index
 CREATE UNIQUE INDEX IF NOT EXISTS idx_field_suggestions_unique_pending 
-  ON field_suggestions(entity_type, entity_id, field_name) 
+  ON public.field_suggestions(entity_type, entity_id, field_name) 
   WHERE status = 'pending';
 
 
