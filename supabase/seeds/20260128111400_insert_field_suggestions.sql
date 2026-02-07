@@ -1,4 +1,3 @@
-
 -- Comments for documentation
 COMMENT ON TABLE field_suggestions IS 'Stores field change suggestions from non-admin users. Admins can review and approve/reject suggestions.';
 COMMENT ON COLUMN field_suggestions.entity_type IS 'Type of entity (e.g., "contact", "profile"). Allows extensibility to other entities.';

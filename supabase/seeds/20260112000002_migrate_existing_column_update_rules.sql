@@ -1,6 +1,6 @@
 -- Migrate existing column update rules from survey_questions.validation_config to new table
 -- This extracts column_update_rule and column_update_rules from validation_config JSONB
-/*
+
 DO $$
 DECLARE
   question_record RECORD;
@@ -105,6 +105,7 @@ END $$;
 -- After migration, we can optionally remove column_update_rule from validation_config
 -- But we'll leave it for now in case there are any issues - can be cleaned up later
 -- Uncomment the following if you want to remove them immediately:
+/*
 UPDATE survey_questions
 SET validation_config = validation_config - 'column_update_rule' - 'column_update_rules'
 WHERE validation_config IS NOT NULL

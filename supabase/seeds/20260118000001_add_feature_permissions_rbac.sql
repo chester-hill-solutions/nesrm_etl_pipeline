@@ -18,6 +18,7 @@ ON CONFLICT ("id") DO NOTHING;
 INSERT INTO "public"."features" ("id", "name", "description", "category")
 VALUES
   ('survey_button', 'Survey Button', 'Access to survey button in contacts table', 'contacts'),
+  ('survey_mark_complete', 'Survey Mark Complete', 'Ability to mark in-progress surveys complete without filling remaining questions (super_admin only)', 'contacts'),
   ('ai_research', 'AI Research', 'Access to AI-powered contact research/lookup', 'contacts'),
   ('filter_sharing', 'Filter Sharing', 'Ability to share filters with team', 'filters'),
   ('contact_editing', 'Contact Editing', 'Ability to edit contact fields inline', 'contacts'),
