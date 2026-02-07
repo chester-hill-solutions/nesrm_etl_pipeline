@@ -25,12 +25,12 @@ CREATE TABLE IF NOT EXISTS public.field_suggestions (
 -- 3. We'll validate entity exists before approving
 
 -- Indexes for common query patterns
-CREATE INDEX IF NOT EXISTS idx_field_suggestions_entity ON field_suggestions(entity_type, entity_id);
-CREATE INDEX IF NOT EXISTS idx_field_suggestions_status ON field_suggestions(status) WHERE status = 'pending';
-CREATE INDEX IF NOT EXISTS idx_field_suggestions_suggested_by ON field_suggestions(suggested_by);
-CREATE INDEX IF NOT EXISTS idx_field_suggestions_created_at ON field_suggestions(created_at DESC);
+CREATE INDEX IF NOT EXISTS idx_field_suggestions_entity ON public.field_suggestions(entity_type, entity_id);
+CREATE INDEX IF NOT EXISTS idx_field_suggestions_status ON public.field_suggestions(status) WHERE status = 'pending';
+CREATE INDEX IF NOT EXISTS idx_field_suggestions_suggested_by ON public.field_suggestions(suggested_by);
+CREATE INDEX IF NOT EXISTS idx_field_suggestions_created_at ON public.field_suggestions(created_at DESC);
 -- Composite index for common query pattern (checking if field has pending suggestion)
-CREATE INDEX IF NOT EXISTS idx_field_suggestions_entity_field_status ON field_suggestions(entity_type, entity_id, field_name, status) 
+CREATE INDEX IF NOT EXISTS idx_field_suggestions_entity_field_status ON public.field_suggestions(entity_type, entity_id, field_name, status) 
   WHERE status = 'pending';
 
 -- Prevent duplicate pending suggestions for same field using a unique partial index
