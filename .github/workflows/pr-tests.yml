@@ -26,24 +26,11 @@ jobs:
       - name: Start Supabase stack
         run: npx supabase start --debug
 
-      # Apply roles as superuser (postgres)
-      - name: Apply roles
-        run: |
-          echo "Applying roles from ./supabase/roles..."
-          for f in supabase/roles/*.sql; do
-            echo "→ Running $f"
-            psql "postgresql://postgres:postgres@localhost:54322/postgres" -f "$f"
-          done
-
-      # Restore migrations folder
-      - name: Restore migrations folder
-        run: mv supabase/_migrations_hold supabase/migrations
-
       # Apply all remaining migrations
       - name: Apply remaining migrations
         run: |
           echo "Applying remaining migrations..."
-          npx supabase migration up --include-all --debug
+          npx supabase migration up --debug
 
       # 8️⃣ Run your test suite
       - name: Run tests
