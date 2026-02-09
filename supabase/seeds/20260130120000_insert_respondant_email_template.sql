@@ -1,9 +1,9 @@
 
-COMMENT ON TABLE respondent_email_templates IS 'Admin-managed email templates for post-survey respondent emails. body_format allows future HTML support.';
-COMMENT ON COLUMN respondent_email_templates.body_format IS 'plain = body is plain text (escaped for HTML when sending). html = body is HTML (future).';
+COMMENT ON TABLE public.respondent_email_templates IS 'Admin-managed email templates for post-survey respondent emails. body_format allows future HTML support.';
+COMMENT ON COLUMN public.respondent_email_templates.body_format IS 'plain = body is plain text (escaped for HTML when sending). html = body is HTML (future).';
 
 -- Seed default volunteer onboarding template (matches current hard-coded default in survey modal)
-INSERT INTO respondent_email_templates (name, subject, body, body_format, is_default)
+INSERT INTO public.respondent_email_templates (name, subject, body, body_format, is_default)
 VALUES (
   'Volunteer onboarding',
   'Thanks for raising your hand – next steps',
