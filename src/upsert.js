@@ -4,7 +4,7 @@ import path from "path";
 import HttpError from "simple-http-error";
 import logger from "simple-logs-sai-node";
 import { bestMatch } from "../scripts/mailReconcile/index.js";
-import { commaSeperateUpdateLogic, commaSeperate } from "../scripts/commaSeperateHelpers.js";
+import { commaSeperateUpdateLogic, commaSeperate, combineCommaSeperate } from "../scripts/commaSeperateHelpers.js";
 
 const PROVINCES = {
   AB: "Alberta",
@@ -370,11 +370,21 @@ async function consolidateData(profile, shapedData) {
     }
   }
 
-  if (profile.organizer && shapedData.organizer) {
-    updateData.organizer = commaSeperate(
-      profile.organizer,
-      shapedData.organizer
-    );
+  const profileCombined = combineCommaSeperate(
+    profile.organizer_codes,
+    profile.organizer,
+    "array"
+  );
+
+  const merged = combineCommaSeperate(
+    profileCombined,
+    shapedData.organizer_codes ?? shapedData.organizer,
+    "array"
+  );
+
+  if (merged?.length) {
+    updateData.organizer_codes = merged;
+    updateData.organizer = merged.join(",");
   }
   if (profile.tags && shapedData.tags) {
     updateData.tags = commaSeperate(profile.tags, shapedData.tags);
@@ -459,7 +469,7 @@ const upsertData = async ({input, supabase=null}) => {
 
   if (personError) {
     console.error("Upsert error:", personError);
-    throw new HttpError("Upsert error", 500, { originalError: personError });
+    throw new HttpError(JSON.stringify(personError), 500, { originalError: personError });
   }
 
   logger.log("Successfully upserted", status);

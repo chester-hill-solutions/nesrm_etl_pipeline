@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Reset your password</title>
+  <!--[if mso]>
+  <style type="text/css">
+    body, table, td, a { font-family: Arial, sans-serif !important; }
+  </style>
+  <![endif]-->
+</head>
+<body style="margin: 0; padding: 0; background-color: #f7efdf; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif, Arial, sans-serif; line-height: 1.5; color: #2f271f;">
+  <!-- Wrapper -->
+  <table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%" style="background-color: #f7efdf;">
+    <tr>
+      <td align="center" style="padding: 32px 16px;">
+        <!-- Main Container -->
+        <table role="presentation" cellspacing="0" cellpadding="0" border="0" width="600" style="max-width: 600px; width: 100%; background-color: #fdf7ed; border-radius: 8px; box-shadow: 0 4px 8px rgba(47, 39, 31, 0.08); overflow: hidden;">
+          <!-- Header -->
+          <tr>
+            <td style="padding: 40px 40px 32px; text-align: center; background-color: #fdf7ed;">
+              <h1 style="margin: 0; font-size: 32px; font-weight: 600; line-height: 1.25; letter-spacing: -0.5px; color: #2f271f;">Reset your password</h1>
+            </td>
+          </tr>
+          
+          <!-- Content -->
+          <tr>
+            <td style="padding: 0 40px 40px;">
+              <!-- Greeting -->
+              <p style="margin: 0 0 24px; font-size: 16px; line-height: 1.5; color: #2f271f;">
+                Hello,
+              </p>
+              
+              <!-- Main Message -->
+              <p style="margin: 0 0 24px; font-size: 16px; line-height: 1.5; color: #2f271f;">
+                We received a request to reset your password. Click the button below to create a new password for your account.
+              </p>
+              
+              <!-- CTA Button -->
+              <table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%" style="margin: 32px 0;">
+                <tr>
+                  <td align="center" style="padding: 0;">
+                    <table role="presentation" cellspacing="0" cellpadding="0" border="0">
+                      <tr>
+                        <td align="center" style="border-radius: 6px; background-color: #3b2f2a;">
+                          <a href="{{ .SiteURL }}/auth/confirm?token_hash={{ .TokenHash }}&type=recovery&next=/auth/reset-password" style="display: inline-block; padding: 16px 32px; font-size: 16px; font-weight: 500; line-height: 1.5; color: #ffffff; text-decoration: none; border-radius: 6px; background-color: #3b2f2a;">Reset Password</a>
+                        </td>
+                      </tr>
+                    </table>
+                  </td>
+                </tr>
+              </table>
+              
+              <!-- Alternative Link -->
+              <p style="margin: 24px 0 0; font-size: 14px; line-height: 1.43; color: #6b5f52;">
+                Or copy and paste this link into your browser:
+              </p>
+              <p style="margin: 8px 0 0; font-size: 14px; line-height: 1.43; word-break: break-all; color: #6b5f52;">
+                <a href="{{ .SiteURL }}/auth/confirm?token_hash={{ .TokenHash }}&type=recovery&next=/auth/reset-password" style="color: #3b2f2a; text-decoration: underline;">{{ .SiteURL }}/auth/confirm?token_hash={{ .TokenHash }}&type=recovery&next=/auth/reset-password</a>
+              </p>
+              
+              <!-- Divider -->
+              <table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%" style="margin: 32px 0;">
+                <tr>
+                  <td style="border-top: 1px solid #e1d5c3;"></td>
+                </tr>
+              </table>
+              
+              <!-- Security Notice -->
+              <div style="margin: 0 0 24px; padding: 16px; background-color: #f7efd8; border-radius: 6px; border: 1px solid #d9bc6e;">
+                <p style="margin: 0; font-size: 14px; line-height: 1.43; color: #2f271f;">
+                  <strong style="color: #b2873d;">Security notice:</strong> This link will expire after a period of time. If you didn't request a password reset, you can safely ignore this email and your password will remain unchanged.
+                </p>
+              </div>
+              
+              <!-- Help Text -->
+              <p style="margin: 0; font-size: 12px; line-height: 1.33; color: #a09083;">
+                If you're having trouble clicking the button, copy and paste the URL above into your web browser.
+              </p>
+            </td>
+          </tr>
+          
+          <!-- Footer -->
+          <tr>
+            <td style="padding: 24px 40px; background-color: #efe4d3; border-top: 1px solid #e1d5c3; text-align: center;">
+              <p style="margin: 0; font-size: 12px; line-height: 1.33; color: #6b5f52;">
+                Sent by <strong>Team Nate</strong><br>
+                <a href="{{ .SiteURL }}" style="color: #3b2f2a; text-decoration: underline;">{{ .SiteURL }}</a>
+              </p>
+            </td>
+          </tr>
+        </table>
+        
+        <!-- Bottom Spacing -->
+        <table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%">
+          <tr>
+            <td style="padding: 24px 0; text-align: center;">
+              <p style="margin: 0; font-size: 12px; line-height: 1.33; color: #a09083;">
+                © Team Nate. All rights reserved.
+              </p>
+            </td>
+          </tr>
+        </table>
+      </td>
+    </tr>
+  </table>
+</body>
+</html>
+
+
+
+
+
+
+
+

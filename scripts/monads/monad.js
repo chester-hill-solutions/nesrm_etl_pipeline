@@ -15,7 +15,7 @@ const newExampleUnit = {
 
 export const statusCodeMonad = {
   unit: (nonUnit) => {
-    logger.dev.log("nonUnit:", nonUnit);
+    logger.dev.log("nonUnit:", JSON.stringify(nonUnit,null,2));
     let ret = {};
     if (!nonUnit) {
       ret = {
@@ -89,7 +89,7 @@ export const statusCodeMonad = {
         //logger.dev.log("rawFuncResponse", rawFuncResponse);
         t[0].output = rawFuncResponse;
         //ret.input = rawFuncResponse ? rawFuncResponse : ret.input;
-        logger.dev.log("bind no error monadic", monadic);
+        logger.dev.log("bind no error monadic", JSON.stringify(monadic, null,2));
       }
     } catch (error) {
       logger.log("bind error", error);
