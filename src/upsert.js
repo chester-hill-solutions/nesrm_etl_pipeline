@@ -275,20 +275,9 @@ const get_opennorth = async (postcode) => {
     )?.name;
     return { municipality, division, fed, ded };
   } catch (error) {
-    if (error.statusCode == 429) {
-      //add exponential backoff eventually
-      //{ municipality, division, fed, ded } = ;
+    logger.log('get_opennorth error', error)
+    logger.log('get_opennorth return', { municipality, division, fed, ded })
       return { municipality, division, fed, ded };
-    } else if (error.statusCode == 404)
-      return { municipality, division, fed, ded };
-    console.error(error);
-    throw new HttpError(
-      `upsert.js/electoral district lookup error ${postcode}`,
-      error.statusCode ?? 500,
-      {
-        originalError: error,
-      }
-    );
   }
 };
 
