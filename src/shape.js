@@ -163,6 +163,7 @@ const shapeData = async (event) => {
         return undefined;
       })(),
       signup_submitted: cleanString(getValue(body, "signup_submitted")),
+      submission_confirmed: cleanString(getValue(body, "submission_confirmed")),
       member: cleanString(getValue(body, "member")),
       tags: cleanString(getValue(body, "tags")),
       ...(() => {
