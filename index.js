@@ -41,7 +41,9 @@ export const handler = async (event) => {
     );
 
     logger.log("event triggered");
-    logger.log("event triggered", JSON.stringify(event, null, 2));
+    logger.log("event typeof", typeof event);
+    logger.log("event body typeof", typeof event?.body)
+    logger.log("event payload", JSON.stringify(event, null, 2));
     const event_body =
       typeof event.body === "string" ? JSON.parse(event.body) : event.body;
     logger.log("event.body", JSON.stringify(event_body, null, 2));
