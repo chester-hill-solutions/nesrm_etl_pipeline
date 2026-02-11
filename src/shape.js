@@ -190,13 +190,13 @@ const shapeData = async (event) => {
         let g = cleanString(getValue(body, "gender"));
         if (
           o.gender &&
-          (o.gender?.toUpperCase() == "M" || o.gender?.toUpperCase() == "MALE")
+          (o.gender?.toUpperCase() == "M" || o.gender?.toUpperCase() == "MALE" || o.gender?.toUpperCase() == "MAN")
         ) {
           o.gender = "MALE";
         } else if (
           o.gender &&
           (o.gender?.toUpperCase() == "F" ||
-            o.gender?.toUpperCase() == "FEMALE")
+            o.gender?.toUpperCase() == "FEMALE" || o.gender?.toUpperCase() == "WOMAN")
         ) {
           o.gender = "FEMALE";
         } else if (
