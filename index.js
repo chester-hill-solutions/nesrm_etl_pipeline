@@ -154,7 +154,18 @@ export const handler = async (event) => {
       payload.input = upserted_data;
     }
 
-    if (shaped_data.profile_id) {payload = await scMonad.bindMonad(scMonad.unit({table: "profiles", id: shaped_data.profile_id, field: "contact_id", value: upserted_data.id}), sbPatch, supabase)}
+    if (shaped_data.profile_id) {
+      payload = await scMonad.bindMonad(
+        scMonad.unit({
+          table: "profiles",
+          id: shaped_data.profile_id,
+          field: "contact_id",
+          value: upserted_data.id,
+        }),
+        sbPatch,
+        supabase,
+      );
+    }
 
     //send team welcome
     try {
@@ -183,49 +194,51 @@ export const handler = async (event) => {
           event_body._meta.submission_source,
         );
       }
-    } catch (error) {
-      logger.log(error);
-    }
-    //console.log("compare", payload.trace[0].output == payload.input);
-    if (event_body._meta.submission_source == "organic"){payload.input.groups=['178500154540689118'];}
-    if (payload.input.comms_consent) {
-      payload = await scMonad.bindMonad(scMonad.unit(payload), mail);
-      if (payload.response.statusCode != 200) {
-        return await storeRequestReturnPayload(
-          payload,
-          { id: REQUEST_BACKUP_ID, logs: payload, success: false },
-          supabase,
-        );
-      } else {
-        payload.input = payload.trace[0].output;
-        if (payload.input?.data?.id) {
-          console.log(
-            "index/handler/sbPatch contact",
-            upserted_data.id,
-            "mailerlite_id",
-            payload.input.data.id,
-          );
-          payload.input = {
-            table: "contact",
-            id: upserted_data.id,
-            field: "mailerlite_id",
-            value: payload.input.data.id,
-          };
-          payload = await scMonad.bindMonad(
-            scMonad.unit(payload),
-            sbPatch,
+      //console.log("compare", payload.trace[0].output == payload.input);
+      if (event_body._meta.submission_source == "organic") {
+        payload.input.groups = ["178500154540689118"];
+      }
+      if (payload.input.comms_consent) {
+        payload = await scMonad.bindMonad(scMonad.unit(payload), mail);
+        if (payload.response.statusCode != 200) {
+          return await storeRequestReturnPayload(
+            payload,
+            { id: REQUEST_BACKUP_ID, logs: payload, success: false },
             supabase,
           );
-          /*
+        } else {
+          payload.input = payload.trace[0].output;
+          if (payload.input?.data?.id) {
+            console.log(
+              "index/handler/sbPatch contact",
+              upserted_data.id,
+              "mailerlite_id",
+              payload.input.data.id,
+            );
+            payload.input = {
+              table: "contact",
+              id: upserted_data.id,
+              field: "mailerlite_id",
+              value: payload.input.data.id,
+            };
+            payload = await scMonad.bindMonad(
+              scMonad.unit(payload),
+              sbPatch,
+              supabase,
+            );
+            /*
           sbPatch(
             "contact",
           upserted_data.id,
             "mailerlite_id",
             payload.input.data.id
           );*/
+          }
+          //updated_data = payload.trace[0].output;
         }
-        //updated_data = payload.trace[0].output;
       }
+    } catch (error) {
+      logger.log(error);
     }
 
     //Response

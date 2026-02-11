@@ -1,0 +1,33 @@
+{
+  "body": {
+    "comms_consent": "true",
+    "organizer": "TeikaNewton",
+    "firstname": "Erika",
+    "surname": "Olson",
+    "email": "ekofema@gmail.com",
+    "phone": "8074070138",
+    "address": "Site 155, Comp 13 RR 1",
+    "city": "Kenora",
+    "postcode": "P9N3W7",
+    "birthdate": "9",
+    "birthmonth": "10",
+    "birthyear": "1978",
+    "campusClub": "",
+    "message": "",
+    "signup_consent": [
+      "I consent to be a member of the Ontario Liberal Party and agree to abide by its constitution."
+    ],
+    "_query": { "organizer": "TeikaNewton" },
+    "_meta": {
+      "ip": "2a09:bac2:1cb5:1cd2::2df:100",
+      "user_agent": "Mozilla/5.0 (iPhone; CPU iPhone OS 18_7 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/26.2 Mobile/15E148 Safari/604.1",
+      "device": { "os": "iOS", "browser": "Safari", "device_type": "mobile" },
+      "referer": "https://nateerskinesmith.ca/?organizer=TeikaNewton",
+      "steps": 1,
+      "is_final": true,
+      "step": { "index": 0, "is_final": true },
+      "submission_source": "organic"
+    },
+    "_status": "complete"
+  }
+}
