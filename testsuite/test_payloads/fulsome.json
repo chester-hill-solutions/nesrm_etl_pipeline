@@ -1,0 +1,112 @@
+{
+    "resource": "/contact",
+    "path": "/contact",
+    "httpMethod": "POST",
+    "headers": {
+        "accept-encoding": "gzip, br",
+        "cdn-loop": "cloudflare; loops=1; subreqs=1",
+        "cf-connecting-ip": "2a06:98c0:3600::103",
+        "cf-ew-via": "15",
+        "cf-ray": "9cee331c8582abd9-YYZ",
+        "cf-visitor": "{\"scheme\":\"https\"}",
+        "cf-worker": "nateerskinesmith.ca",
+        "content-type": "application/json",
+        "Host": "wmk8eyx1a1.execute-api.us-east-1.amazonaws.com",
+        "origin": "https://teamnate.ca",
+        "referer": "https://nateerskinesmith.ca/?utm_medium=social&utm_campaign=bio&utm_source=twitter&organizer=saihaansyed",
+        "X-Amzn-Trace-Id": "Root=1-69933cb7-7d9fa8e310eb13181a2f7716",
+        "x-form-submission-id": "34c3fe6f-b050-4405-baea-6ac956004440",
+        "X-Forwarded-For": "142.181.149.19,2a06:98c0:3600::103, 172.69.130.186",
+        "X-Forwarded-Port": "443",
+        "X-Forwarded-Proto": "https"
+    },
+    "multiValueHeaders": {
+        "accept-encoding": [
+            "gzip, br"
+        ],
+        "cdn-loop": [
+            "cloudflare; loops=1; subreqs=1"
+        ],
+        "cf-connecting-ip": [
+            "2a06:98c0:3600::103"
+        ],
+        "cf-ew-via": [
+            "15"
+        ],
+        "cf-ray": [
+            "9cee331c8582abd9-YYZ"
+        ],
+        "cf-visitor": [
+            "{\"scheme\":\"https\"}"
+        ],
+        "cf-worker": [
+            "nateerskinesmith.ca"
+        ],
+        "content-type": [
+            "application/json"
+        ],
+        "Host": [
+            "wmk8eyx1a1.execute-api.us-east-1.amazonaws.com"
+        ],
+        "origin": [
+            "https://teamnate.ca"
+        ],
+        "referer": [
+            "https://nateerskinesmith.ca/?utm_medium=social&utm_campaign=bio&utm_source=twitter&organizer=saihaansyed"
+        ],
+        "X-Amzn-Trace-Id": [
+            "Root=1-69933cb7-7d9fa8e310eb13181a2f7716"
+        ],
+        "x-form-submission-id": [
+            "34c3fe6f-b050-4405-baea-6ac956004440"
+        ],
+        "X-Forwarded-For": [
+            "142.181.149.19,2a06:98c0:3600::103, 172.69.130.186"
+        ],
+        "X-Forwarded-Port": [
+            "443"
+        ],
+        "X-Forwarded-Proto": [
+            "https"
+        ]
+    },
+    "queryStringParameters": null,
+    "multiValueQueryStringParameters": null,
+    "pathParameters": null,
+    "stageVariables": {
+        "arn": "arn:aws:states:us-east-1:060795934875:stateMachine:nesrm_ingestion_pipeline"
+    },
+    "requestContext": {
+        "resourceId": "9smu8h",
+        "resourcePath": "/contact",
+        "httpMethod": "POST",
+        "extendedRequestId": "Y4ZsyGpWIAMEK4A=",
+        "requestTime": "16/Feb/2026:15:50:15 +0000",
+        "path": "/prod/contact",
+        "accountId": "060795934875",
+        "protocol": "HTTP/1.1",
+        "stage": "prod",
+        "domainPrefix": "wmk8eyx1a1",
+        "requestTimeEpoch": 1771257015855,
+        "requestId": "5ec3dd0c-fa23-4b3e-bd96-bab28e85e082",
+        "identity": {
+            "cognitoIdentityPoolId": null,
+            "accountId": null,
+            "cognitoIdentityId": null,
+            "caller": null,
+            "sourceIp": "172.69.130.186",
+            "principalOrgId": null,
+            "accessKey": null,
+            "cognitoAuthenticationType": null,
+            "cognitoAuthenticationProvider": null,
+            "userArn": null,
+            "userAgent": null,
+            "user": null
+        },
+        "domainName": "wmk8eyx1a1.execute-api.us-east-1.amazonaws.com",
+        "deploymentId": "84rbfg",
+        "apiId": "wmk8eyx1a1"
+    },
+    "body": "{\"comms_consent\":\"true\",\"organizer\":\"saihaansyed\",\"tags\":\"delete\",\"firstname\":\"Jimtester\",\"surname\":\"Green\",\"email\":\"jimtesterson@gmail.com\",\"phone\":\"6478657811\",\"address\":\"83-85 Silver Birch\",\"city\":\"Toronto\",\"postcode\":\"M4E 3L2\",\"birthdate\":\"18\",\"birthmonth\":\"Sep\",\"birthyear\":\"2006\",\"campusClub\":\"McMaster University\",\"message\":\"\",\"signup_consent\":[\"I consent to be a member of the Ontario Liberal Party and agree to abide by its constitution.\"],\"_query\":{\"organizer\":\"saihaansyed\"},\"_meta\":{\"ip\":\"142.181.149.19\",\"user_agent\":\"Mozilla/5.0 (iPhone; CPU iPhone OS 18_6_2 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/18.6 Mobile/15E148 Safari/604.1\",\"device\":{\"os\":\"iOS\",\"browser\":\"Safari\",\"device_type\":\"mobile\"},\"referer\":\"https://nateerskinesmith.ca/?utm_medium=social&utm_campaign=bio&utm_source=twitter&organizer=saihaansyed\",\"steps\":1,\"is_final\":true,\"step\":{\"index\":0,\"is_final\":true},\"submission_source\":\"organic\"},\"_status\":\"complete\"}",
+    "isBase64Encoded": false
+}

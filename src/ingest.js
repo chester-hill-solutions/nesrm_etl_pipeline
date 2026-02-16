@@ -24,7 +24,7 @@ async function storeRequest({ input, supabase = null }) {
   logger.log("storeRequest output", data);
   return data;
 }
-async function parseEvent({ input }) {
+async function parseEvent(input) {
   const event = input
   const headers = Object.fromEntries(
     Object.entries(event.headers).map(([k, v]) => [k.toLowerCase(), v]),

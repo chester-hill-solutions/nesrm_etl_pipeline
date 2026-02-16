@@ -118,7 +118,7 @@ const get = async (email) => {
   } catch (error) {
     logger.log("email", email);
     logger.error(error);
-    throw new HttpError(`Error GET ${email}`, 500, { originalError: error });
+    throw new HttpError(`Error GET ${email}`, error.statusCode ?? 500, { originalError: error });
   }
 };
 const reconcileNames = async (mailData, dbData) => {
@@ -174,7 +174,7 @@ const mail = async (obj, reconcile = true) => {
   } catch (error) {
     console.error("getMailData error", error);
     mailData = undefined
-    if (error.StatusCode != 404) {
+    if (error.statusCode != 404) {
       throw new HttpError(error.message, error.statusCode ?? 500, {
         originalError: error,
       });

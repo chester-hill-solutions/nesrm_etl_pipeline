@@ -171,7 +171,7 @@ const shapeData = async (event) => {
       ...(() => {
         let tags = cleanString(getValue(body, "tags"));
         let searchParamsObject = event?.headers?.search_params;
-        const filteredParamsObject = Object.fromEntries(
+        const filteredParams = Object.fromEntries(
           Object.entries(searchParamsObject).filter(
             ([key]) => key.toLowerCase() !== "organizer",
           ),

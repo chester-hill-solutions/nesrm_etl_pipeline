@@ -97,7 +97,7 @@ export function commaSeperateUpdateLogic(updateData, profile, shapedData, key, r
   return updateData;
 }
 
-export async function objectToKeyValueArray(obj = {}) {
+export function objectToKeyValueArray(obj = {}) {
   return Object.entries(obj)
     .filter(([, value]) => value !== null && value !== undefined && value !== "")
     .map(([key, value]) => `${key}:${value}`);

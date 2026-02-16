@@ -119,7 +119,7 @@ describe("storeEvent()", () => {
     console.log("storeEventTest console 2");
     console.log('headerChecj', headerCheckResponse)
     const storeEventResponse = await ingest.storeEvent({
-      input: await ingest.parseEvent({input: headerCheckResponse}),
+      input: await ingest.parseEvent(headerCheckResponse),
       supabase: supabase
     });
     console.log("storeEventTest console 3");
@@ -155,7 +155,7 @@ describe("storeEvent()", () => {
 
     const headerCheckResponse = await ingest.headerCheck(expected);
     const storeEventResponse = await ingest.storeEvent({
-      input: await ingest.parseEvent({input:headerCheckResponse}),
+      input: await ingest.parseEvent(headerCheckResponse),
       supabase,
     });
     const result = storeEventResponse;
