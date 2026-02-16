@@ -2,7 +2,10 @@ import path from "path";
 import HttpError from "simple-http-error";
 import logger from "simple-logs-sai-node";
 import cleanString from "../scripts/cleanString.js";
-import { combineCommaSeperate, objectToKeyValueArray } from "../scripts/commaSeperateHelpers.js";
+import {
+  combineCommaSeperate,
+  objectToKeyValueArray,
+} from "../scripts/commaSeperateHelpers.js";
 
 /*
 const cleanString = (str) => {
@@ -167,15 +170,18 @@ const shapeData = async (event) => {
       member: cleanString(getValue(body, "member")),
       ...(() => {
         let tags = cleanString(getValue(body, "tags"));
-        let search_params = objectToKeyValueArray(event?.headers?.search_params)
-        console.log('combining', tags, search_params, typeof(search_params))
-        const combined = combineCommaSeperate(
-          tags,
-          search_params,
-          "array",
+        let searchParamsObject = event?.headers?.search_params;
+        const filteredParamsObject = Object.fromEntries(
+          Object.entries(searchParamsObject).filter(
+            ([key]) => key.toLowerCase() !== "organizer",
+          ),
         );
+
+        let searchParams = objectToKeyValueArray(filteredParams);
+        console.log("combining", tags, searchParams, typeof searchParams);
+        const combined = combineCommaSeperate(tags, searchParams, "array");
         if (combined) {
-        tags = combined.join(",");
+          tags = combined.join(",");
         }
         return { tags };
       })(),
@@ -184,15 +190,20 @@ const shapeData = async (event) => {
 
         let organizer_codes = getValue(body, "organizer_codes");
 
-        console.log('combining', organizer, organizer_codes, typeof(organizer_codes))
+        console.log(
+          "combining",
+          organizer,
+          organizer_codes,
+          typeof organizer_codes,
+        );
         const combined = combineCommaSeperate(
           organizer,
           organizer_codes,
           "array",
         );
         if (combined) {
-        organizer_codes = combined;
-        organizer = combined.join(",");
+          organizer_codes = combined;
+          organizer = combined.join(",");
         }
         return { organizer, organizer_codes };
       })(),
@@ -204,13 +215,16 @@ const shapeData = async (event) => {
         let g = cleanString(getValue(body, "gender"));
         if (
           o.gender &&
-          (o.gender?.toUpperCase() == "M" || o.gender?.toUpperCase() == "MALE" || o.gender?.toUpperCase() == "MAN")
+          (o.gender?.toUpperCase() == "M" ||
+            o.gender?.toUpperCase() == "MALE" ||
+            o.gender?.toUpperCase() == "MAN")
         ) {
           o.gender = "MALE";
         } else if (
           o.gender &&
           (o.gender?.toUpperCase() == "F" ||
-            o.gender?.toUpperCase() == "FEMALE" || o.gender?.toUpperCase() == "WOMAN")
+            o.gender?.toUpperCase() == "FEMALE" ||
+            o.gender?.toUpperCase() == "WOMAN")
         ) {
           o.gender = "FEMALE";
         } else if (
@@ -267,8 +281,8 @@ const shapeData = async (event) => {
         getValue(body, "olp23_membership_status"),
       ),
     };
-    
-    shaped_data.tags
+
+    shaped_data.tags;
 
     //console.log(shaped_data);
     const cleaned_data = Object.fromEntries(
