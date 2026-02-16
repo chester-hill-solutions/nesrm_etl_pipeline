@@ -87,9 +87,13 @@ export const handler = async (event) => {
         supabase,
       );
     } else {
-      payload.input = payload.trace[0].output;
-      REQUEST_BACKUP_ID = payload.trace[0].output.headers.request_backup_id;
-      REQUEST_CREATED_AT = payload.trace[0].output.headers.request_created_at;
+      REQUEST_BACKUP_ID = payload.trace[0].output[0].id;
+      REQUEST_CREATED_AT = payload.trace[0].output[0].created_at;
+      const search_params = payload.trace[0].output[0].search_params;
+      payload.input = headerCheckOutput;
+      headerCheckOutput.headers.request_backup_id = REQUEST_BACKUP_ID;
+      headerCheckOutput.headers.request_created_at = REQUEST_CREATED_AT;
+      headerCheckOutput.headers.search_params = search_params;
     }
     if (event.headers.throw) {
       return await storeRequestReturnPayload(

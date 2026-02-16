@@ -126,21 +126,21 @@ describe("storeEvent()", () => {
     const result = storeEventResponse;
 
     assert.strictEqual(
-      result.headers?.Origin,
+      result[0].origin,
       expected.headers.Origin,
       "Origin mismatch",
     );
     assert.strictEqual(
-      result.headers["X-Forwarded-For"],
+      result[0]["ip"],
       expected.headers["X-Forwarded-For"],
       "X-Forwarded-For mismatch",
     );
-    assert.strictEqual(result.body.email, expected.body.email, "email mismatch");
-    assert.ok(result.headers?.request_backup_id, "request body id exists")
+    assert.strictEqual(result[0].email, expected.body.email, "email mismatch");
+    assert.ok(result[0].id, "request body id exists");
 
     if (expected?._meta?.step?.index !== undefined) {
       assert.strictEqual(
-        result.step,
+        result[0].step,
         expected._meta.step.index,
         "step mismatch",
       );
@@ -159,23 +159,24 @@ describe("storeEvent()", () => {
       supabase,
     });
     const result = storeEventResponse;
+    console.log('storeEventResponse', storeEventResponse)
 
     assert.strictEqual(
-      result.headers?.Origin,
+      result[0].origin,
       expected.headers.Origin,
       "Origin mismatch",
     );
     assert.strictEqual(
-      result.headers["X-Forwarded-For"],
+      result[0]["ip"],
       expected.headers["X-Forwarded-For"],
       "X-Forwarded-For mismatch",
     );
-    assert.strictEqual(result.body.email, expected.body.email, "email mismatch");
-    assert.ok(result.headers?.request_backup_id, "request body id exists");
+    assert.strictEqual(result[0].email, expected.body.email, "email mismatch");
+    assert.ok(result[0].id, "request body id exists");
 
     if (expected?._meta?.step?.index !== undefined) {
       assert.strictEqual(
-        result.step,
+        result[0].step,
         expected._meta.step.index,
         "step mismatch",
       );
