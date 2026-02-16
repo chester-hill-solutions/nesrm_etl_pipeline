@@ -4,6 +4,33 @@ This is the lambda function to handle NES Relationship Manager Ingestion.
 
 node runner.js testsuite/test_payloads/_julianasrin/step1.json > _julianasrinstep1.json
 
+## runner.js quickstart
+
+`runner.js` can run payloads locally (`--local`, default) or via API Gateway (`--gateway`). Add `--slow` to pause between requests.
+
+- CSV file: `node runner.js path/to/file.csv --gateway`
+  - CSV is converted to JSON objects per row; headers become keys.
+- JSON file (single object): `node runner.js path/to/payload.json`
+  - File is treated as one payload.
+- JSON file (array of objects): `node runner.js path/to/payloads.json`
+  - Each array item is sent in order.
+
+### Headers
+
+- If your JSON includes `headers` and `body`, `runner.js` uses them as-is.
+- If your JSON lacks `headers`, `runner.js` wraps the object with default headers from `runner.js` (includes `Authorization` using `AWS_API_GATEWAY_BEARER`).
+- CSV rows are treated as bodies without headers; default headers are applied.
+
+### Examples
+
+```bash
+# Local lambda handler, CSV input
+node runner.js data/upload.csv --local
+
+# Gateway with provided headers in JSON objects
+node runner.js data/payloads_with_headers.json --gateway
+```
+
 ## Development
 
 ```bash
@@ -17,6 +44,18 @@ npx supabase init
 npx supabase start --debug
 ```
 
+
+
+
+
+
+
+
+
+
+
+
+# OLD
 #### Setup roles
 
 Make sure there's a geo_role_passwords.sql file with every riding and region and corresponding passwords
@@ -78,4 +117,3 @@ Upload from > .zip file > Upload > Navigate to `deploy.zip` > Save
 - [ ] develop tests
   - [ ] ingest.storeEvent tests
 - [ ] configure test CI process
-
