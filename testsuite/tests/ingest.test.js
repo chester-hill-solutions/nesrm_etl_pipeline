@@ -117,8 +117,9 @@ describe("storeEvent()", () => {
     expected.body.email = "storeevent@gmail.com"
     const headerCheckResponse = await ingest.headerCheck(expected);
     console.log("storeEventTest console 2");
+    console.log('headerChecj', headerCheckResponse)
     const storeEventResponse = await ingest.storeEvent({
-      input: ingest.parseEvent(headerCheckResponse),
+      input: await ingest.parseEvent({input: headerCheckResponse}),
       supabase: supabase
     });
     console.log("storeEventTest console 3");
@@ -154,7 +155,7 @@ describe("storeEvent()", () => {
 
     const headerCheckResponse = await ingest.headerCheck(expected);
     const storeEventResponse = await ingest.storeEvent({
-      input: ingest.parseEvent(headerCheckResponse),
+      input: await ingest.parseEvent({input:headerCheckResponse}),
       supabase,
     });
     const result = storeEventResponse;

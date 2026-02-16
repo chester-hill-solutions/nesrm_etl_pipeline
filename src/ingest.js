@@ -11,6 +11,7 @@ async function storeRequest({ input, supabase = null }) {
   logger.log("storeData", storeData);
   supabase =
     supabase ?? createClient(process.env.DATABASE_URL, process.env.KEY);
+  console.log('storeData:', storeData)
   const { data, error: sbError } = await supabase
     .from("request")
     .upsert(storeData)
