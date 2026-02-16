@@ -8,13 +8,13 @@ describe("new unit tests", () => {
     ? statusCodeMonad.newunit
     : statusCodeMonad.unit;
   it("should return full monadic value if given empty object ", async () => {
-    const expected = { statusCode: 200, body: { trace: [] } };
+    const expected = { response: {statusCode: 200, body: { trace: [] }}, input: undefined, trace: [] };
     const actual = await unit({});
     assert.deepEqual(actual, expected);
   });
   it("should return a full monadic value with the statusCode intact if given an object with only statusCode", async () => {
-    const expected = { statusCode: 500, body: { trace: [] } };
-    const actual = unit({ statusCode: 500 });
+    const expected = { response: {statusCode: 500, body: { trace: [] }}, input: undefined, trace: []  };
+    const actual = unit({response: { statusCode: 500 }});
     assert.deepEqual(actual, expected);
   });
   it("should return a full monadic value with the if given non array trace", async () => {

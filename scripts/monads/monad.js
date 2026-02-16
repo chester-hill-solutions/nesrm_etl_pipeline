@@ -15,15 +15,9 @@ const newExampleUnit = {
 
 export const statusCodeMonad = {
   unit: (nonUnit) => {
-    logger.dev.log("nonUnit:", JSON.stringify(nonUnit,null,2));
+    logger.dev.log("nonUnit:", JSON.stringify(nonUnit, null, 2));
     let ret = {};
     if (!nonUnit) {
-      ret = {
-        response: { statusCode: 200, body: { trace: [] } },
-        input: nonUnit,
-        trace: [],
-      };
-    } else if (!(nonUnit.input || nonUnit.response || nonUnit.trace)) {
       ret = {
         response: { statusCode: 200, body: { trace: [] } },
         input: nonUnit,
@@ -52,13 +46,13 @@ export const statusCodeMonad = {
               : [nonUnit.response.body.trace];
           }
         }
-
-        if (!nonUnit.trace) {
-          ret.trace = [...ret.response.body.trace];
-        } else {
-          ret.trace = nonUnit.trace;
-        }
       }
+      if (!nonUnit.trace) {
+        ret.trace = [...ret.response.body.trace];
+      } else {
+        ret.trace = nonUnit.trace;
+      }
+
       if (!nonUnit.input) {
         ret.input = undefined;
       } else {
@@ -68,7 +62,7 @@ export const statusCodeMonad = {
     logger.dev.log("monadic unit", JSON.stringify(ret, null, 2));
     return ret;
   },
-  bindMonad: async (monadic, func, supabase=null) => {
+  bindMonad: async (monadic, func, supabase = null) => {
     logger.log("bind", "to", func.name);
     logger.dev.log("monadic input", JSON.stringify(monadic.input, null, 2));
     let t = [{ step: func.__module, task: func.name, input: monadic.input }];
@@ -83,13 +77,21 @@ export const statusCodeMonad = {
     };
     const start = performance.now();
     try {
-      const rawFuncResponse = supabase ? await func({input: monadic.input, supabase:supabase}) : await (async () => {logger.log("no sb client passed"); return await func(monadic.input)})();
+      const rawFuncResponse = supabase
+        ? await func({ input: monadic.input, supabase: supabase })
+        : await (async () => {
+          logger.log("no sb client passed");
+          return await func(monadic.input);
+        })();
 
       if (rawFuncResponse) {
         //logger.dev.log("rawFuncResponse", rawFuncResponse);
         t[0].output = rawFuncResponse;
         //ret.input = rawFuncResponse ? rawFuncResponse : ret.input;
-        logger.dev.log("bind no error monadic", JSON.stringify(monadic, null,2));
+        logger.dev.log(
+          "bind no error monadic",
+          JSON.stringify(monadic, null, 2),
+        );
       }
     } catch (error) {
       logger.log("bind error", error);
@@ -100,7 +102,14 @@ export const statusCodeMonad = {
         ret.response.statusCode = 200;
         t[0].statusCode === 429;
       } else {
-        logger.dev.log("monadic long", util.inspect(monadic, {depth: null, maxArrayLength: null, colors: true}));
+        logger.dev.log(
+          "monadic long",
+          util.inspect(monadic, {
+            depth: null,
+            maxArrayLength: null,
+            colors: true,
+          }),
+        );
         logger.dev.log("monadic", monadic);
         logger.log("caught", error);
         ret.response.statusCode = error.statusCode ? error.statusCode : 500;
@@ -117,16 +126,16 @@ export const statusCodeMonad = {
       ...rest,
     }));
     ret.trace = t.map((obj) => ({ ...obj }));
-    
+
     ret.response.body.trace = ret.response.body.trace.concat(
-      monadic.response.body.trace
+      monadic.response.body.trace,
     );
     logger.log(
       func.name,
       "bindMonad output",
       ret.response.statusCode === 200
         ? JSON.stringify(ret.response.statusCode, null, 2)
-        : JSON.stringify(ret, null, 2)
+        : JSON.stringify(ret, null, 2),
     );
     //logger.dev.log("Full output", JSON.stringify(ret, null, 2));
     return ret;
