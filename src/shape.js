@@ -2,7 +2,7 @@ import path from "path";
 import HttpError from "simple-http-error";
 import logger from "simple-logs-sai-node";
 import cleanString from "../scripts/cleanString.js";
-import { combineCommaSeperate } from "../scripts/commaSeperateHelpers.js";
+import { combineCommaSeperate, objectToKeyValueArray } from "../scripts/commaSeperateHelpers.js";
 
 /*
 const cleanString = (str) => {
@@ -165,7 +165,20 @@ const shapeData = async (event) => {
       signup_submitted: cleanString(getValue(body, "signup_submitted")),
       submission_confirmed: cleanString(getValue(body, "submission_confirmed")),
       member: cleanString(getValue(body, "member")),
-      tags: cleanString(getValue(body, "tags")),
+      ...(() => {
+        let tags = cleanString(getValue(body, "tags"));
+        let search_params = objectToKeyValueArray(event?.headers?.search_params)
+        console.log('combining', tags, search_params, typeof(search_params))
+        const combined = combineCommaSeperate(
+          tags,
+          search_params,
+          "array",
+        );
+        if (combined) {
+        tags = combined.join(",");
+        }
+        return { tags };
+      })(),
       ...(() => {
         let organizer = cleanString(getValue(body, "organizer"));
 
@@ -254,6 +267,9 @@ const shapeData = async (event) => {
         getValue(body, "olp23_membership_status"),
       ),
     };
+    
+    shaped_data.tags
+
     //console.log(shaped_data);
     const cleaned_data = Object.fromEntries(
       Object.entries(shaped_data).filter(([_, value]) => value !== undefined),
