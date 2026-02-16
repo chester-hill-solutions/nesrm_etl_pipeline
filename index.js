@@ -24,7 +24,7 @@ async function storeRequestReturnPayload(payload, storeData, supabase) {
   logger.dev.log("dataStore", storeData);
   const data = await ingest.storeRequest({ input: storeData, supabase });
   payload.response.body.request_backup_id = data.id;
-  payload.response.body.message = payload.trace[0].output
+  payload.response.body.message = payload.trace[0].output;
   payload.response.body = JSON.stringify(payload.response.body);
   logger.log("payload", payload);
   logger.log("payload.response", payload.response);
@@ -43,7 +43,7 @@ export const handler = async (event) => {
 
     logger.log("event triggered");
     logger.log("event typeof", typeof event);
-    logger.log("event body typeof", typeof event?.body)
+    logger.log("event body typeof", typeof event?.body);
     logger.log("event payload", JSON.stringify(event, null, 2));
     const event_body =
       typeof event.body === "string" ? JSON.parse(event.body) : event.body;
@@ -61,10 +61,10 @@ export const handler = async (event) => {
       );
     } else {
       headerCheckOutput = payload.trace[0].output;
-      payload.input = headerCheckOutput ;
+      payload.input = headerCheckOutput;
     }
     //parse event
-    payload = await scMonad.bindMonad(scMonad.unit(payload), ingest.parseEvent)
+    payload = await scMonad.bindMonad(scMonad.unit(payload), ingest.parseEvent);
     let parseEventOutput;
     if (payload.response.statusCode != 200) {
       return await storeRequestReturnPayload(
@@ -74,7 +74,7 @@ export const handler = async (event) => {
       );
     } else {
       parseEventOutput = payload.trace[0].output;
-      payload.input = parseEventOutput ;
+      payload.input = parseEventOutput;
     }
     //store event
     payload = await scMonad.bindMonad(
@@ -109,7 +109,15 @@ export const handler = async (event) => {
     let shaped_data;
     payload = await scMonad.bindMonad(scMonad.unit(payload), shapeData);
     logger.dev.log("payload respone trace", payload.response.body.trace);
-    if (payload.response.statusCode != 200) {
+    const shape_out = payload?.trace?.[0]?.output ?? {};
+
+    const missingAllIdentity =
+      !shape_out.email &&
+      !shape_out.phone &&
+      !shape_out.firstname &&
+      !shape_out.surname;
+
+    if (payload.response.statusCode != 200 || missingAllIdentity) {
       return await storeRequestReturnPayload(
         payload,
         { id: REQUEST_BACKUP_ID, logs: payload, success: false },
