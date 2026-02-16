@@ -5,7 +5,7 @@ This is the lambda function to handle NES Relationship Manager Ingestion.
 ## runner.js quickstart
 
 ```bash
-node runner.js <input-path> > <output-path>
+node runner.js <input-path> > <output-path> --unwap-body
 
 ```
 
