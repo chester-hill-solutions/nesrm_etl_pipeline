@@ -7,36 +7,65 @@ import { createClient } from "@supabase/supabase-js";
 
 describe("headerCheck tests", () => {
   it("should return statusCode 400 if missing headers", async () => {
-    const result = await ingest.headerCheck({ body: { random: "1" } });
-    assert.strictEqual(result.statusCode, 400, JSON.stringify(result));
+    assert.throws(
+      () => ingest.headerCheck({ body: { random: "1" } }),
+      (error) => {
+        assert.strictEqual(error.statusCode, 400);
+        return true;
+      },
+    );
   });
   it("should return statusCode 400 if missing Origin headers", async () => {
-    const result = await ingest.headerCheck({
-      headers: { "X-Forwarded-For": "124.0.0.1" },
-      body: { random: "1" },
-    });
-    assert.strictEqual(result.statusCode, 400, JSON.stringify(result));
+    assert.throws(
+      () =>
+        ingest.headerCheck({
+          headers: { "X-Forwarded-For": "124.0.0.1" },
+          body: { random: "1" },
+        }),
+      (error) => {
+        assert.strictEqual(error.statusCode, 400);
+        return true;
+      },
+    );
   });
   it("should return statusCode 400 if missing X-Forwarded-For headers", async () => {
-    const result = await ingest.headerCheck({
-      headers: { Origin: "meetsai.ca" },
-      body: { random: "1" },
-    });
-    assert.strictEqual(result.statusCode, 400, JSON.stringify(result));
+    assert.throws(
+      () =>
+        ingest.headerCheck({
+          headers: { Origin: "meetsai.ca" },
+          body: { random: "1" },
+        }),
+      (error) => {
+        assert.strictEqual(error.statusCode, 400);
+        return true;
+      },
+    );
   });
   it("should return statusCode 400 if missing both headers", async () => {
-    const result = await ingest.headerCheck({
-      headers: {},
-      body: { random: "1" },
-    });
-    assert.strictEqual(result.statusCode, 400, JSON.stringify(result));
+    assert.throws(
+      () =>
+        ingest.headerCheck({
+          headers: {},
+          body: { random: "1" },
+        }),
+      (error) => {
+        assert.strictEqual(error.statusCode, 400);
+        return true;
+      },
+    );
   });
   it("should return statusCode 401 if wrong Origin", async () => {
-    const result = await ingest.headerCheck({
-      headers: { Origin: "blahblah.ca", "X-Forwarded-For": "124.0.0.1" },
-      body: { random: "1" },
-    });
-    assert.strictEqual(result.statusCode, 401, JSON.stringify(result));
+    assert.throws(
+      () =>
+        ingest.headerCheck({
+          headers: { Origin: "blahblah.ca", "X-Forwarded-For": "124.0.0.1" },
+          body: { random: "1" },
+        }),
+      (error) => {
+        assert.strictEqual(error.statusCode, 401);
+        return true;
+      },
+    );
   });
 });
 
