@@ -171,11 +171,12 @@ const shapeData = async (event) => {
       ...(() => {
         let tags = cleanString(getValue(body, "tags"));
         let searchParamsObject = event?.headers?.search_params;
-        const filteredParams = Object.fromEntries(
+        let filteredParams;
+        if (searchParamsObject) {filteredParams = Object.fromEntries(
           Object.entries(searchParamsObject).filter(
             ([key]) => key.toLowerCase() !== "organizer",
           ),
-        );
+        );}
 
         let searchParams = objectToKeyValueArray(filteredParams);
         console.log("combining", tags, searchParams, typeof searchParams);
