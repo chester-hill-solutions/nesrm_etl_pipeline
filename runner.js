@@ -10,6 +10,7 @@ const HEADERS = {
   "X-Forwarded-For": "124.0.0.1",
   Authorization: "Bearer " + process.env.AWS_API_GATEWAY_BEARER,
 };
+const LOG_DIR = process.env.LOG_DIR || "runner_logs";
 const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
 function parseMaybeJson(value) {
@@ -116,6 +117,58 @@ function unwrapBody(body) {
 
   return { body, changed, detail };
 }
+
+let logDirReady = false;
+async function ensureLogDir() {
+  if (logDirReady) return true;
+  try {
+    await fs.mkdir(LOG_DIR, { recursive: true });
+    logDirReady = true;
+    return true;
+  } catch (err) {
+    console.warn(`Could not create log directory ${LOG_DIR}:`, err?.message || err);
+    logDirReady = false;
+    return false;
+  }
+}
+
+let logCounter = 0;
+function serializeResponse(res) {
+  if (!res) return res;
+  if (typeof res === "object") {
+    // Handle fetch Response
+    if (typeof res.status === "number" && typeof res.statusText === "string") {
+      return {
+        status: res.status,
+        statusText: res.statusText,
+        statusCode: res.statusCode ?? res.status,
+      };
+    }
+    if (res.statusCode) return res;
+  }
+  return res;
+}
+async function writeRunnerLog(rowLabel, event, info) {
+  if (!(await ensureLogDir())) return;
+  const ts = new Date().toISOString();
+  const fileSafeLabel = String(rowLabel).replace(/[^a-zA-Z0-9_-]/g, "_");
+  const filename = `${ts.replace(/[:.]/g, "-")}_${logCounter++}_${fileSafeLabel || "row"}.json`;
+  const payload = {
+    timestamp: ts,
+    row: rowLabel,
+    pipeline: process.env.PIPELINE,
+    dryRun: info?.dryRun || false,
+    statusCode: info?.statusCode,
+    error: info?.error,
+    event,
+    response: serializeResponse(info?.response),
+  };
+  try {
+    await fs.writeFile(path.join(LOG_DIR, filename), JSON.stringify(payload, null, 2), "utf8");
+  } catch (err) {
+    console.warn(`Could not write runner log for ${rowLabel}:`, err?.message || err);
+  }
+}
 async function runner(payload) {
   if (process.env.PIPELINE == "gateway") {
     console.log("gateway");
@@ -125,13 +178,30 @@ async function runner(payload) {
         headers: payload.headers,
         body: JSON.stringify(payload.body),
       });
-      const data = await response.json();
+      let data;
+      try {
+        data = await response.clone().json();
+      } catch {
+        try {
+          data = await response.clone().text();
+        } catch {
+          data = null;
+        }
+      }
       console.log(
         "response",
         response.status,
         response.status < 300 ? "" : JSON.stringify(data, null, 2)
       );
-      return response;
+      const headers = {};
+      try {
+        response.headers.forEach((v, k) => {
+          headers[k] = v;
+        });
+      } catch {
+        // ignore
+      }
+      return { statusCode: response.status, body: data, headers };
     } catch (error) {
       console.log(error);
       console.log(JSON.stringify(payload));
@@ -199,26 +269,21 @@ async function runOverArray(dataArray, callback, options) {
         console.log("submission_source set to cli-runner for payload", dataIndex);
       }
       const event = normalized.headers ? normalized : attachHeader(normalized, HEADERS);
-      console.log(
-        "\nPayload",
-        dataIndex,
-        event.body?.email || event.body?.phone || event.body?.firstname
-      );
+      const summary = event.body?.email || event.body?.phone || event.body?.firstname || event.body?.id || "";
+      console.log(`row ${dataIndex}: ${dryRun ? "dry-run" : "sending"} ${summary}`);
       if (dryRun) {
-        console.log("[dry-run] would send:", JSON.stringify(event, null, 2));
+        console.log("[dry-run] event:", JSON.stringify(event, null, 2));
+        await writeRunnerLog(dataIndex, event, { dryRun: true });
       } else {
         try {
           const response = await callback(event);
-          console.log(
-            "response",
-            response.statusCode,
-            response.statusCode < 300
-              ? ""
-              : JSON.stringify(dataArray[dataIndex], null, 2)
-          );
+          const statusCode = response?.statusCode ?? response?.status;
+          console.log(`row ${dataIndex}: status ${statusCode}`);
+          await writeRunnerLog(dataIndex, event, { statusCode, response });
           await logEvent(event, response);
         } catch (error) {
           console.error(error);
+          await writeRunnerLog(dataIndex, event, { statusCode: 500, error: error?.message || String(error) });
           await logEvent(event, {
             statusCode: 500,
             body: "{message: failure on runner.js side}",
@@ -329,6 +394,8 @@ async function main() {
       inputPaths.push(arg);
     }
   }
+
+  await ensureLogDir();
 
   if (forceSubmissionSource) {
     console.log(

@@ -11,6 +11,8 @@ node runner.js <input-path> > <output-path> --unwap-body
 
 `runner.js` can run payloads locally (`--local`, default) or via API Gateway (`--gateway`). Add `--slow` to pause between requests. By default it forces `body._meta.submission_source = "cli-runner"` (logged at start and per payload); keep existing values with `--keep-source_submission` (or `-k`). Enable nested body fixups with `--unwrap-body` (or `-u`). Log-only dry runs with `--dry-run` (or `-d`).
 
+Per-payload logs are written to `runner_logs/` (auto-created; ignored by git) for both real sends and dry runs.
+
 - CSV file (raw columns): `node runner.js path/to/file.csv --gateway`
   - Each row becomes the request body; default headers applied.
 - CSV file with `payload` JSONB column (e.g., `public.request` export): `node runner.js path/to/export.csv`
