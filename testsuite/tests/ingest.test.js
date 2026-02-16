@@ -7,32 +7,32 @@ import { createClient } from "@supabase/supabase-js";
 
 describe("headerCheck tests", () => {
   it("should return statusCode 400 if missing headers", async () => {
-    const result = await handler({ body: { random: "1" } });
+    const result = await ingest.headerCheck({ body: { random: "1" } });
     assert.strictEqual(result.statusCode, 400, JSON.stringify(result));
   });
   it("should return statusCode 400 if missing Origin headers", async () => {
-    const result = await handler({
+    const result = await ingest.headerCheck({
       headers: { "X-Forwarded-For": "124.0.0.1" },
       body: { random: "1" },
     });
     assert.strictEqual(result.statusCode, 400, JSON.stringify(result));
   });
   it("should return statusCode 400 if missing X-Forwarded-For headers", async () => {
-    const result = await handler({
+    const result = await ingest.headerCheck({
       headers: { Origin: "meetsai.ca" },
       body: { random: "1" },
     });
     assert.strictEqual(result.statusCode, 400, JSON.stringify(result));
   });
   it("should return statusCode 400 if missing both headers", async () => {
-    const result = await handler({
+    const result = await ingest.headerCheck({
       headers: {},
       body: { random: "1" },
     });
     assert.strictEqual(result.statusCode, 400, JSON.stringify(result));
   });
   it("should return statusCode 401 if wrong Origin", async () => {
-    const result = await handler({
+    const result = await ingest.headerCheck({
       headers: { Origin: "blahblah.ca", "X-Forwarded-For": "124.0.0.1" },
       body: { random: "1" },
     });
@@ -89,7 +89,7 @@ describe("storeEvent()", () => {
     const headerCheckResponse = await ingest.headerCheck(expected);
     console.log("storeEventTest console 2");
     const storeEventResponse = await ingest.storeEvent({
-      input: headerCheckResponse,
+      input: ingest.parseEvent(headerCheckResponse),
       supabase: supabase
     });
     console.log("storeEventTest console 3");
@@ -125,7 +125,7 @@ describe("storeEvent()", () => {
 
     const headerCheckResponse = await ingest.headerCheck(expected);
     const storeEventResponse = await ingest.storeEvent({
-      input: headerCheckResponse,
+      input: ingest.parseEvent(headerCheckResponse),
       supabase,
     });
     const result = storeEventResponse;

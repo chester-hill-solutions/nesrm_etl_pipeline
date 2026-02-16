@@ -47,7 +47,8 @@ export const handler = async (event) => {
     const event_body =
       typeof event.body === "string" ? JSON.parse(event.body) : event.body;
     logger.log("event.body", JSON.stringify(event_body, null, 2));
-    //Ingest param check
+
+    //header check
     payload = await scMonad.bindMonad(scMonad.unit(event), ingest.headerCheck);
     logger.dev.log("payload respone trace", payload.response.body.trace);
     if (payload.response.statusCode != 200) {
@@ -57,9 +58,22 @@ export const handler = async (event) => {
         supabase,
       );
     } else {
-      payload.input = payload.trace[0].output;
+      const headerCheckOutput = payload.trace[0].output;
+      payload.input = headerCheckOutput ;
     }
-    //Ingest store event
+    //parse event
+    payload = await scMonad.bindMonad(scMonad.unit(payload), ingest.parseEvent)
+    if (payload.response.statusCode != 200) {
+      return await storeRequestReturnPayload(
+        payload,
+        { payload: event, logs: payload, success: false },
+        supabase,
+      );
+    } else {
+      const parseEventOutput = payload.trace[0].output;
+      payload.input = parseEventOutput ;
+    }
+    //store event
     payload = await scMonad.bindMonad(
       scMonad.unit(payload),
       ingest.storeEvent,
