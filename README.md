@@ -2,16 +2,21 @@
 
 This is the lambda function to handle NES Relationship Manager Ingestion.
 
-node runner.js testsuite/test_payloads/_julianasrin/step1.json > _julianasrinstep1.json
-
 ## runner.js quickstart
 
-`runner.js` can run payloads locally (`--local`, default) or via API Gateway (`--gateway`). Add `--slow` to pause between requests.
+```bash
+node runner.js <input-path> > <output-path>
 
-- CSV file: `node runner.js path/to/file.csv --gateway`
-  - CSV is converted to JSON objects per row; headers become keys.
+```
+
+`runner.js` can run payloads locally (`--local`, default) or via API Gateway (`--gateway`). Add `--slow` to pause between requests. By default it forces `body._meta.submission_source = "cli-runner"` (logged at start and per payload); keep existing values with `--keep-source_submission` (or `-k`). Enable nested body fixups with `--unwrap-body` (or `-u`). Log-only dry runs with `--dry-run` (or `-d`).
+
+- CSV file (raw columns): `node runner.js path/to/file.csv --gateway`
+  - Each row becomes the request body; default headers applied.
+- CSV file with `payload` JSONB column (e.g., `public.request` export): `node runner.js path/to/export.csv`
+  - `payload` is parsed (even if stringified); inner `headers`/`body` strings are parsed; default headers applied if missing. Top-level CSV columns are ignored when `payload` exists (payload is authoritative).
 - JSON file (single object): `node runner.js path/to/payload.json`
-  - File is treated as one payload.
+  - Treated as one payload; wraps with default headers if none.
 - JSON file (array of objects): `node runner.js path/to/payloads.json`
   - Each array item is sent in order.
 
@@ -20,6 +25,9 @@ node runner.js testsuite/test_payloads/_julianasrin/step1.json > _julianasrinste
 - If your JSON includes `headers` and `body`, `runner.js` uses them as-is.
 - If your JSON lacks `headers`, `runner.js` wraps the object with default headers from `runner.js` (includes `Authorization` using `AWS_API_GATEWAY_BEARER`).
 - CSV rows are treated as bodies without headers; default headers are applied.
+- `payload` columns in CSV exports are parsed; if they contain `headers` as strings, those are parsed too.
+- Optional: `--unwrap-body`/`-u` will try to unwrap nested `body`, `body.value`, or `body.values` keys inside a payload body and merge them (useful for malformed exports). Off by default.
+- Optional: `--dry-run`/`-d` logs the final event (headers + body) that would be sent, without sending.
 
 ### Examples
 
@@ -29,6 +37,15 @@ node runner.js data/upload.csv --local
 
 # Gateway with provided headers in JSON objects
 node runner.js data/payloads_with_headers.json --gateway
+
+# Disable submission_source override
+node runner.js data/upload.csv --keep-source_submission
+
+# Unwrap nested body/body.value(s) in malformed payloads
+node runner.js data/export.csv --unwrap-body
+
+# Dry run to inspect final payloads without sending
+node runner.js data/export.csv --dry-run
 ```
 
 ## Development
