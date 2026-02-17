@@ -11,6 +11,7 @@ async function storeRequest({ input, supabase = null }) {
   logger.log("storeData", storeData);
   supabase =
     supabase ?? createClient(process.env.DATABASE_URL, process.env.KEY);
+  console.log('storeData:', storeData)
   const { data, error: sbError } = await supabase
     .from("request")
     .upsert(storeData)
@@ -22,6 +23,52 @@ async function storeRequest({ input, supabase = null }) {
   }
   logger.log("storeRequest output", data);
   return data;
+}
+async function parseEvent(input) {
+  const event = input
+  const headers = Object.fromEntries(
+    Object.entries(event.headers).map(([k, v]) => [k.toLowerCase(), v]),
+  );
+  const body = (() => {
+    try {
+      return JSON.parse(event?.body);
+    } catch {
+      return event?.body;
+    }
+  })();
+  let storeData = {
+    payload: typeof event === "string" ? JSON.parse(event) : event,
+    origin: headers?.origin,
+    ip: headers?.["x-forwarded-for"],
+    email: body?.email,
+    step: body?._meta?.step?.index,
+  };
+  storeData.referer = headers?.referer ?? body?._meta?.referer ?? undefined;
+  if (storeData.referer) {
+    let searchParams;
+    try {
+      searchParams = parseQueryParams(storeData.referer, { coerce: true });
+      let urlParams = {
+        search_params: searchParams,
+        utm_source: searchParams.utm_source,
+        utm_medium: searchParams.utm_medium,
+        utm_campaign: searchParams.utm_campaign,
+        utm_term: searchParams.utm_term,
+        utm_content: searchParams.utm_content,
+      };
+      storeData = { ...storeData, ...urlParams };
+      logger.log("storeData w urlParams", storeData);
+    } catch (error) {
+      logger.log(error);
+    }
+    logger.log(
+      "typeof search params",
+      typeof searchParams,
+      "searchParams",
+      searchParams,
+    );
+  }
+  return storeData
 }
 
 const ingest = {
@@ -49,87 +96,24 @@ const ingest = {
     }
     return event;
   },
-  storeEvent: async ({input, supabase}) => {
+  storeEvent: async ({ input, supabase }) => {
     //connect to supabase client
-    supabase = supabase ?? createClient(process.env.DATABASE_URL, process.env.KEY);
-    let event = input;
-
-    //store request in supabase
-    const headers = Object.fromEntries(
-      Object.entries(event.headers).map(([k, v]) => [k.toLowerCase(), v]),
-    );
-    const body = (() => {
-      try {
-        return JSON.parse(event?.body);
-      } catch {
-        return event?.body;
-      }
-    })();
-    let storeData = {
-      payload: typeof event === "string" ? JSON.parse(event) : event,
-      origin: headers?.origin,
-      ip: headers?.["x-forwarded-for"],
-      email: body?.email,
-      step: body?._meta?.step?.index,
-    };
-    storeData.referer = headers?.referer ?? body?._meta?.referer ?? undefined;
-    if (storeData.referer) {
-      let searchParams
-      try {
-        searchParams = parseQueryParams(storeData.referer, { coerce: true });
-        let urlParams = {
-          search_params: searchParams,
-          utm_source: searchParams.utm_source,
-          utm_medium: searchParams.utm_medium,
-          utm_campaign: searchParams.utm_campaign,
-          utm_term: searchParams.utm_term,
-          utm_content: searchParams.utm_content,
-        };
-        storeData = { ...storeData, ...urlParams };
-        logger.log("storeData w urlParams", storeData);
-      } catch (error) {
-        logger.log(error);
-      }
-      logger.log(
-        "typeof search params",
-        typeof searchParams,
-        "searchParams",
-        searchParams,
-      );
-    }
+    supabase =
+      supabase ?? createClient(process.env.DATABASE_URL, process.env.KEY);
     let data;
-    try{
-      data = await storeRequest({ input: storeData, supabase });
-    } catch (e){
-      logger.log(e)
-      throw new HttpError("error on storeRequest within storeEvent", 500, {orginalError:e})
-    }
-    let ret = structuredClone(event);
-    if (data) {
-      ret.headers.request_backup_id = data[0].id;
-      ret.headers.request_created_at = data[0].created_at;
-    } else {
-      logger.log("data", data);
-      throw new HttpError("Failed to store request");
-    }
-    return ret;
-
-    const { data: sbData, requestStorageError } = await supabase
-      .from("request")
-      .insert(storeData)
-      .select();
-
-    if (requestStorageError) {
-      console.log("storage error", requestStorageError);
-      //response.body.trace[0].data = data;
-      throw new HttpError("Supabase Error", 400, {
-        originalError: requestStorageError,
+    try {
+      data = await storeRequest({ input: input, supabase });
+    } catch (e) {
+      logger.log(e);
+      throw new HttpError("error on storeRequest within storeEvent", 500, {
+        orginalError: e,
       });
     }
-    //logger.log("sb data", data);
-    //let ret = structuredClone(event);
+    let ret = structuredClone(input);
     if (data) {
-      ret.headers.request_backup_id = data[0].id;
+      return data
+      ret.request_backup_id = data[0].id;
+      ret.request_created_at = data[0].created_at;
     } else {
       logger.log("data", data);
       throw new HttpError("Failed to store request");
@@ -137,6 +121,7 @@ const ingest = {
     return ret;
   },
   storeRequest,
+  parseEvent,
 };
 
 const moduleName = path.basename(import.meta.url);

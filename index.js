@@ -24,6 +24,7 @@ async function storeRequestReturnPayload(payload, storeData, supabase) {
   logger.dev.log("dataStore", storeData);
   const data = await ingest.storeRequest({ input: storeData, supabase });
   payload.response.body.request_backup_id = data.id;
+  payload.response.body.message = payload.trace[0].output;
   payload.response.body = JSON.stringify(payload.response.body);
   logger.log("payload", payload);
   logger.log("payload.response", payload.response);
@@ -42,14 +43,16 @@ export const handler = async (event) => {
 
     logger.log("event triggered");
     logger.log("event typeof", typeof event);
-    logger.log("event body typeof", typeof event?.body)
+    logger.log("event body typeof", typeof event?.body);
     logger.log("event payload", JSON.stringify(event, null, 2));
     const event_body =
       typeof event.body === "string" ? JSON.parse(event.body) : event.body;
     logger.log("event.body", JSON.stringify(event_body, null, 2));
-    //Ingest param check
+
+    //header check
     payload = await scMonad.bindMonad(scMonad.unit(event), ingest.headerCheck);
     logger.dev.log("payload respone trace", payload.response.body.trace);
+    let headerCheckOutput;
     if (payload.response.statusCode != 200) {
       return await storeRequestReturnPayload(
         payload,
@@ -57,9 +60,23 @@ export const handler = async (event) => {
         supabase,
       );
     } else {
-      payload.input = payload.trace[0].output;
+      headerCheckOutput = payload.trace[0].output;
+      payload.input = headerCheckOutput;
     }
-    //Ingest store event
+    //parse event
+    payload = await scMonad.bindMonad(scMonad.unit(payload), ingest.parseEvent);
+    let parseEventOutput;
+    if (payload.response.statusCode != 200) {
+      return await storeRequestReturnPayload(
+        payload,
+        { payload: event, logs: payload, success: false },
+        supabase,
+      );
+    } else {
+      parseEventOutput = payload.trace[0].output;
+      payload.input = parseEventOutput;
+    }
+    //store event
     payload = await scMonad.bindMonad(
       scMonad.unit(payload),
       ingest.storeEvent,
@@ -73,9 +90,13 @@ export const handler = async (event) => {
         supabase,
       );
     } else {
-      payload.input = payload.trace[0].output;
-      REQUEST_BACKUP_ID = payload.trace[0].output.headers.request_backup_id;
-      REQUEST_CREATED_AT = payload.trace[0].output.headers.request_created_at;
+      REQUEST_BACKUP_ID = payload.trace[0].output[0].id;
+      REQUEST_CREATED_AT = payload.trace[0].output[0].created_at;
+      const search_params = payload.trace[0].output[0].search_params;
+      payload.input = headerCheckOutput;
+      headerCheckOutput.headers.request_backup_id = REQUEST_BACKUP_ID;
+      headerCheckOutput.headers.request_created_at = REQUEST_CREATED_AT;
+      headerCheckOutput.headers.search_params = search_params;
     }
     if (event.headers.throw) {
       return await storeRequestReturnPayload(
@@ -88,7 +109,15 @@ export const handler = async (event) => {
     let shaped_data;
     payload = await scMonad.bindMonad(scMonad.unit(payload), shapeData);
     logger.dev.log("payload respone trace", payload.response.body.trace);
-    if (payload.response.statusCode != 200) {
+    const shape_out = payload?.trace?.[0]?.output ?? {};
+
+    const missingAllIdentity =
+      !shape_out.email &&
+      !shape_out.phone &&
+      !shape_out.firstname &&
+      !shape_out.surname;
+
+    if (payload.response.statusCode != 200 || missingAllIdentity) {
       return await storeRequestReturnPayload(
         payload,
         { id: REQUEST_BACKUP_ID, logs: payload, success: false },

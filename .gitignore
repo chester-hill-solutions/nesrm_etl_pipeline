@@ -6,6 +6,7 @@ secrets/
 20251023_create_riding_region_roles_with_passwords.sql
 failedUploads.csv
 failedUploads.json
+runner_logs/
 oidc.yml
 
 

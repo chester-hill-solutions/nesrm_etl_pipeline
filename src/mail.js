@@ -121,8 +121,7 @@ const get = async (email) => {
 
     logger.log("email", email);
     logger.error(error);
-
-    throw new HttpError(`Error GET ${email}`, 500, { originalError: error });
+    throw new HttpError(`Error GET ${email}`, error.statusCode ?? 500, { originalError: error });
   }
 };
 const reconcileNames = async (mailData, dbData) => {
