@@ -7,7 +7,11 @@ import { createClient } from "@supabase/supabase-js";
 describe("full submission test", () => {
   it("full submission should 200", async () => {
     const response = await handler(fulsome);
-    console.log('full sub output', response)
-    assert.equal(response.statusCode, 200)
+
+    assert.equal(
+      response.statusCode,
+      200,
+      `Expected 200 but got ${response.statusCode}\nResponse:\n${JSON.stringify(response, null, 2)}`,
+    );
   });
 });
