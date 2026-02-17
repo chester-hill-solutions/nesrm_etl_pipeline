@@ -112,12 +112,16 @@ export const handler = async (event) => {
     const shape_out = payload?.trace?.[0]?.output ?? {};
 
     const missingAllIdentity =
-      !shape_out.email &&
-      !shape_out.phone &&
-      !shape_out.firstname &&
-      !shape_out.surname;
+      !shape_out?.body?.email &&
+      !shape_out?.body?.phone &&
+      !shape_out?.body?.firstname &&
+      !shape_out?.body?.surname;
 
-    if (payload.response.statusCode != 200 || missingAllIdentity) {
+    if (payload.response.statusCode != 200 || missingAllIdentity || !shape_out) {
+      if (payload.response.statusCode == 200 && missingAllIdentity) {
+        payload.response.statusCode = 422;
+        payload.response.message = "Missing all identity values after shape"
+      }
       return await storeRequestReturnPayload(
         payload,
         { id: REQUEST_BACKUP_ID, logs: payload, success: false },
