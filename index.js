@@ -271,6 +271,9 @@ export const handler = async (event) => {
     } catch (error) {
       logger.log(error);
     }
+    try {
+    payload.upserted_data = upserted_data;
+    } catch (error){ logger.log('upserted_data', upserted_data) }
 
     //Response
     logger.log("total time duration", performance.now() - start);
