@@ -59,7 +59,7 @@ const post = async (payload, id = undefined) => {
   try {
     let path = "/api/subscribers";
     id ? (path = path + "/" + id) : (path = path);
-    const response = await fetch(
+    let response = await fetch(
       "https://" + process.env.MAIL_HOSTNAME + path,
       {
         method: id ? "PUT" : "POST",
@@ -67,6 +67,20 @@ const post = async (payload, id = undefined) => {
         body: JSON.stringify(payload),
       },
     );
+    if (response.status == 422){
+      let groups = structuredClone(payload.groups)
+      delete payload.groups
+      response = await fetch(
+        "https://" + process.env.MAIL_HOSTNAME + path,
+        {
+          method: id ? "PUT" : "POST",
+          headers: HEADERS,
+          body: JSON.stringify(payload),
+        },
+      );
+      payload.groups = groups
+
+    }
     const out = await response.json();
     logger.log("post status", response.status);
     if (response.status >= 300) {
