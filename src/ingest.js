@@ -57,7 +57,7 @@ async function parseEvent(input) {
         utm_content: searchParams.utm_content,
       };
       storeData = { ...storeData, ...urlParams };
-      logger.log("storeData w urlParams", storeData);
+      logger.log("storeData w urlParams", JSON.stringify(storeData, null, 2));
     } catch (error) {
       logger.log(error);
     }
