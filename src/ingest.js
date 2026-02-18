@@ -8,10 +8,9 @@ import { parseQueryParams } from "../scripts/parseQueryParams/index.js";
 async function storeRequest({ input, supabase = null }) {
   logger.log("storeRequest()");
   let storeData = input;
-  logger.log("storeData", storeData);
   supabase =
     supabase ?? createClient(process.env.DATABASE_URL, process.env.KEY);
-  console.log('storeData:', storeData)
+  console.log('storeData:', JSON.stringify(storeData, null, 2))
   const { data, error: sbError } = await supabase
     .from("request")
     .upsert(storeData)
@@ -57,7 +56,7 @@ async function parseEvent(input) {
         utm_content: searchParams.utm_content,
       };
       storeData = { ...storeData, ...urlParams };
-      logger.log("storeData w urlParams", storeData);
+      logger.log("storeData w urlParams", JSON.stringify(storeData, null, 2));
     } catch (error) {
       logger.log(error);
     }

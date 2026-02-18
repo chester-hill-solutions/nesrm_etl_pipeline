@@ -59,7 +59,7 @@ const shapeData = async (event) => {
   } catch (error) {
     body = event.body;
   }
-  logger.log("body to shape", body);
+  logger.log("body to shape", JSON.stringify(body,null,2));
 
   try {
     let shaped_data = {

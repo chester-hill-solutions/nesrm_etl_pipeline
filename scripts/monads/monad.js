@@ -70,7 +70,7 @@ export const statusCodeMonad = {
   },
   bindMonad: async (monadic, func, supabase=null) => {
     logger.log("bind", "to", func.name);
-    logger.dev.log("monadic input", JSON.stringify(monadic.input, null, 2));
+    logger.dev.log("monadic", JSON.stringify(monadic, null, 2));
     let t = [{ step: func.__module, task: func.name, input: monadic.input }];
     let ret = {
       response: {
@@ -89,7 +89,6 @@ export const statusCodeMonad = {
         //logger.dev.log("rawFuncResponse", rawFuncResponse);
         t[0].output = rawFuncResponse;
         //ret.input = rawFuncResponse ? rawFuncResponse : ret.input;
-        logger.dev.log("bind no error monadic", JSON.stringify(monadic, null,2));
       }
     } catch (error) {
       logger.log("bind error", error);
