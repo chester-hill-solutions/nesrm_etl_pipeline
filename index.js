@@ -247,6 +247,7 @@ export const handler = async (event) => {
           }
       }
     } catch (error) {
+      payload.response.statusCode = 200
       logger.log(error);
     }
     try {
