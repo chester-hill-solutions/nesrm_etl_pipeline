@@ -19,9 +19,7 @@ let REQUEST_BACKUP_ID;
 let REQUEST_CREATED_AT;
 
 async function storeRequestReturnPayload(payload, storeData, supabase) {
-  logger.dev.log("await storeRequestReturnPayload()");
-  logger.dev.log("payload", payload);
-  logger.dev.log("dataStore", storeData);
+  logger.dev.log("await storeRequestReturnPayload()", JSON.stringify({payload, storeData}, null, 2));
   const data = await ingest.storeRequest({ input: storeData, supabase });
   payload.response.body.request_backup_id = data.id;
   payload.response.body.message = payload.trace[0].output;
@@ -208,20 +206,11 @@ export const handler = async (event) => {
         event_body._status == "complete" &&
         event_body._meta.submission_source == "organic"
       ) {
-        const welcomeResponse = await scMonad.bindMonad(
+        payload = await scMonad.bindMonad(
           scMonad.unit(upserted_data),
           sendTeamWelcome,
         );
-        logger.log("welcomeResponse", welcomeResponse);
-        if (welcomeResponse.response.statusCode != 200) {
-          return await storeRequestReturnPayload(
-            welcomeResponse,
-            { id: REQUEST_BACKUP_ID, logs: welcomeResponse, success: false },
-            supabase,
-          );
-        } else {
-          payload.input = upserted_data;
-        }
+        logger.log("welcomeResponse", payload.trace[0].output);
       } else {
         logger.log(
           "not sending welcomeResponse",
@@ -229,19 +218,13 @@ export const handler = async (event) => {
           event_body._meta.submission_source,
         );
       }
+          payload.input = upserted_data;
       //console.log("compare", payload.trace[0].output == payload.input);
       if (event_body._meta.submission_source == "organic") {
         payload.input.groups = ["178500154540689118"];
       }
       if (payload.input.comms_consent) {
         payload = await scMonad.bindMonad(scMonad.unit(payload), mail);
-        if (payload.response.statusCode != 200) {
-          return await storeRequestReturnPayload(
-            payload,
-            { id: REQUEST_BACKUP_ID, logs: payload, success: false },
-            supabase,
-          );
-        } else {
           payload.input = payload.trace[0].output;
           if (payload.input?.data?.id) {
             console.log(
@@ -261,16 +244,7 @@ export const handler = async (event) => {
               sbPatch,
               supabase,
             );
-            /*
-          sbPatch(
-            "contact",
-          upserted_data.id,
-            "mailerlite_id",
-            payload.input.data.id
-          );*/
           }
-          //updated_data = payload.trace[0].output;
-        }
       }
     } catch (error) {
       logger.log(error);
