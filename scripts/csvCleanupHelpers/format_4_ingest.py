@@ -30,6 +30,7 @@ TARGET_ORDER = [
     "tags:culture",
     "gender",
     "date_of_birth",
+    "comms_consent",
     "member",
     "van_id",
     "voted",
@@ -203,6 +204,9 @@ def transform_rows(
                     value = row.get(source, "")
                     if header.startswith("tag"):
                         value = value.lower()
+                    if header == "comms_consent":
+                        if value == "" and row.get("olp23_ballot1", "").strip() in {"Nate Erskine-Smith", "Possible Nate"}:
+                            value = "true"
                     new_row[header] = value
                 else:
                     new_row[header] = row.get(header, "")

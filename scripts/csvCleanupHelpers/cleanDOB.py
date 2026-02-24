@@ -1,11 +1,12 @@
 #!/usr/bin/env python3
 
-"""Normalize date-of-birth values to ISO (YYYY-MM-DD).
+"""Normalize date-of-birth values to ISO (YYYY-MM-DD) and split components.
 
 Reads a CSV and attempts to rewrite a DOB column (default: ``date_of_birth``)
-into ISO format. Outputs three files in the target directory: rows with a
-normalized DOB, rows with an unparsable DOB, and rows with a blank DOB. By
-default outputs go to ``data/<input-stem>-dob_fixed.csv``,
+into ISO format, also populating ``birthdate`` (YYYY-MM-DD), ``birthmonth``
+(MM), and ``birthyear`` (YYYY). Outputs three files in the target directory:
+rows with a normalized DOB, rows with an unparsable DOB, and rows with a blank
+DOB. By default outputs go to ``data/<input-stem>-dob_fixed.csv``,
 ``data/<input-stem>-dob_unparsed.csv``, and ``data/<input-stem>-dob_blank.csv``.
 Override the output location with ``-o/--output`` (file -> used for fixed rows;
 other files are written alongside; directory -> all files are placed there).
@@ -104,6 +105,11 @@ def process(input_path: Path, column: str, fixed_path: Path, fail_path: Path, bl
         if column not in reader.fieldnames:
             raise ValueError(f"Column '{column}' not found in CSV header")
 
+        fieldnames_out = list(reader.fieldnames)
+        for derived in ("birthdate", "birthmonth", "birthyear"):
+            if derived not in fieldnames_out:
+                fieldnames_out.append(derived)
+
         fixed_rows: List[Dict[str, str]] = []
         fail_rows: List[Dict[str, str]] = []
         blank_rows: List[Dict[str, str]] = []
@@ -112,10 +118,18 @@ def process(input_path: Path, column: str, fixed_path: Path, fail_path: Path, bl
             parsed, was_blank = parse_dob(row.get(column, ""))
             if parsed:
                 row[column] = parsed
+                row["birthdate"] = parsed
+                row["birthyear"], row["birthmonth"] = parsed.split("-")[0], parsed.split("-")[1]
                 fixed_rows.append(row)
             elif was_blank:
+                row["birthdate"] = ""
+                row["birthmonth"] = ""
+                row["birthyear"] = ""
                 blank_rows.append(row)
             else:
+                row["birthdate"] = ""
+                row["birthmonth"] = ""
+                row["birthyear"] = ""
                 fail_rows.append(row)
 
     fixed_path.parent.mkdir(parents=True, exist_ok=True)
@@ -123,17 +137,17 @@ def process(input_path: Path, column: str, fixed_path: Path, fail_path: Path, bl
     blank_path.parent.mkdir(parents=True, exist_ok=True)
 
     with fixed_path.open("w", newline="", encoding="utf-8") as outfile:
-        writer = csv.DictWriter(outfile, fieldnames=reader.fieldnames)
+        writer = csv.DictWriter(outfile, fieldnames=fieldnames_out)
         writer.writeheader()
         writer.writerows(fixed_rows)
 
     with fail_path.open("w", newline="", encoding="utf-8") as outfile:
-        writer = csv.DictWriter(outfile, fieldnames=reader.fieldnames)
+        writer = csv.DictWriter(outfile, fieldnames=fieldnames_out)
         writer.writeheader()
         writer.writerows(fail_rows)
 
     with blank_path.open("w", newline="", encoding="utf-8") as outfile:
-        writer = csv.DictWriter(outfile, fieldnames=reader.fieldnames)
+        writer = csv.DictWriter(outfile, fieldnames=fieldnames_out)
         writer.writeheader()
         writer.writerows(blank_rows)
 
