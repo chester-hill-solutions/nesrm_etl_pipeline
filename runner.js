@@ -7,10 +7,12 @@ import { performance } from "perf_hooks";
 
 const HEADERS = {
   Origin: "www.meetsai.ca",
+  Referer: "www.meetsai.ca",
   "X-Forwarded-For": "124.0.0.1",
   Authorization: "Bearer " + process.env.AWS_API_GATEWAY_BEARER,
 };
 const LOG_DIR = process.env.LOG_DIR || "runner_logs";
+const FAIL_DIR = process.env.FAIL_DIR || "failedUploads";
 const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
 function parseMaybeJson(value) {
@@ -25,6 +27,15 @@ function parseMaybeJson(value) {
 function normalizePayload(input, headersDefault) {
   let headers;
   let body;
+
+  const addReferer = (h) => {
+    if (!h) return h;
+    const origin = h.Origin || h.origin;
+    if (origin && h.Referer === undefined && h.referer === undefined) {
+      h.Referer = origin;
+    }
+    return h;
+  };
 
   const parseHeaders = (h) => {
     const parsed = parseMaybeJson(h);
@@ -65,7 +76,7 @@ function normalizePayload(input, headersDefault) {
   }
 
   return {
-    headers: headers ?? headersDefault,
+    headers: addReferer(headers ?? headersDefault),
     body,
   };
 }
@@ -119,6 +130,7 @@ function unwrapBody(body) {
 }
 
 let logDirReady = false;
+let failDirReady = false;
 async function ensureLogDir() {
   if (logDirReady) return true;
   try {
@@ -128,6 +140,19 @@ async function ensureLogDir() {
   } catch (err) {
     console.warn(`Could not create log directory ${LOG_DIR}:`, err?.message || err);
     logDirReady = false;
+    return false;
+  }
+}
+
+async function ensureFailDir() {
+  if (failDirReady) return true;
+  try {
+    await fs.mkdir(FAIL_DIR, { recursive: true });
+    failDirReady = true;
+    return true;
+  } catch (err) {
+    console.warn(`Could not create failed-upload directory ${FAIL_DIR}:`, err?.message || err);
+    failDirReady = false;
     return false;
   }
 }
@@ -211,44 +236,22 @@ async function runner(payload) {
     return await handler(payload);
   }
 }
-const JSON_FILE = "failedUploads.json";
-
 async function logEvent(data, response) {
-  // Only log successful responses
-  if (!response.statusCode || response.statusCode <= 300) return;
+  if (!response?.statusCode || response.statusCode <= 300) return null;
   logger.log(response.statusCode);
   logger.log("logEvent", data, response);
-  const dataToWrite = {
+  const failure = {
     ...data,
-    statusCode: response.statusCode,
-    response_object: JSON.stringify(response),
+    _runner_failure: {
+      statusCode: response.statusCode,
+      response: serializeResponse(response),
+      request_backup_id: response.body?.request_backup_id,
+    },
   };
-  logger.log(dataToWrite);
-  // Include request_backup_id if it exists
-  if (response.body?.request_backup_id) {
-    dataToWrite.request_backup_id = response.body.request_backup_id;
-  }
-
-  let existingData = [];
-
-  // Read existing JSON array if file exists
-  try {
-    const fileContent = await fs.readFile(JSON_FILE, "utf-8");
-    existingData = JSON.parse(fileContent);
-    if (!Array.isArray(existingData)) existingData = [];
-  } catch {
-    // File does not exist or is invalid → start with empty array
-    existingData = [];
-  }
-
-  // Append new entry
-  existingData.push(dataToWrite);
-
-  // Write back to file
-  await fs.writeFile(JSON_FILE, JSON.stringify(existingData, null, 2), "utf-8");
+  return failure;
 }
 async function runOverArray(dataArray, callback, options) {
-  const { forceSubmissionSource, unwrapBodies, dryRun } = options;
+  const { forceSubmissionSource, unwrapBodies, dryRun, failures } = options;
   if (process.env.SLOW === "true") {
     console.log("Estimated execution time: ", 2 * dataArray.length);
   }
@@ -280,14 +283,16 @@ async function runOverArray(dataArray, callback, options) {
           const statusCode = response?.statusCode ?? response?.status;
           console.log(`row ${dataIndex}: status ${statusCode}`);
           await writeRunnerLog(dataIndex, event, { statusCode, response });
-          await logEvent(event, response);
+          const failure = await logEvent(event, response);
+          if (failure && failures) failures.push(failure);
         } catch (error) {
           console.error(error);
           await writeRunnerLog(dataIndex, event, { statusCode: 500, error: error?.message || String(error) });
-          await logEvent(event, {
+          const failure = await logEvent(event, {
             statusCode: 500,
             body: "{message: failure on runner.js side}",
           });
+          if (failure && failures) failures.push(failure);
         }
       }
 
@@ -338,6 +343,7 @@ async function main() {
   let unwrapBodies = false;
   let dryRun = false;
   const inputPaths = [];
+  const failures = [];
 
   for (const arg of argv) {
     if (arg.startsWith("--")) {
@@ -396,6 +402,7 @@ async function main() {
   }
 
   await ensureLogDir();
+  await ensureFailDir();
 
   if (forceSubmissionSource) {
     console.log(
@@ -419,7 +426,20 @@ async function main() {
 
   for (const pathArg of inputPaths) {
     const dataArray = await parseDir(pathArg);
-    await runOverArray(dataArray, runner, { forceSubmissionSource, unwrapBodies, dryRun });
+    await runOverArray(dataArray, runner, { forceSubmissionSource, unwrapBodies, dryRun, failures });
+  }
+
+  if (failures.length) {
+    const ts = new Date().toISOString().replace(/[:.]/g, "-");
+    const filename = `${ts}_failures.json`;
+    const filePath = path.join(FAIL_DIR, filename);
+    try {
+      await fs.writeFile(filePath, JSON.stringify(failures, null, 2), "utf8");
+      console.log(`${failures.length} failed uploads saved to ${filePath}`);
+      console.log(`Re-run failed items with: node runner.js ${filePath}`);
+    } catch (err) {
+      console.warn(`Could not write failed uploads file ${filePath}:`, err?.message || err);
+    }
   }
   console.log("duration", performance.now() - start);
 }
