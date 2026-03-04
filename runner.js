@@ -7,11 +7,21 @@ import { performance } from "perf_hooks";
 
 const HEADERS = {
   Origin: "www.meetsai.ca",
+  Referer: "www.meetsai.ca",
   "X-Forwarded-For": "124.0.0.1",
   Authorization: "Bearer " + process.env.AWS_API_GATEWAY_BEARER,
 };
 const LOG_DIR = process.env.LOG_DIR || "runner_logs";
+const FAIL_DIR = process.env.FAIL_DIR || "failedUploads";
 const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+
+const RUN_FAILURE_LOG_TS = new Date().toISOString().replace(/[:.]/g, "-");
+let failureLogState = {
+  path: null,
+  entryCount: 0,
+  promise: Promise.resolve(),
+  initialized: false,
+};
 
 function parseMaybeJson(value) {
   if (typeof value !== "string") return value;
@@ -25,6 +35,15 @@ function parseMaybeJson(value) {
 function normalizePayload(input, headersDefault) {
   let headers;
   let body;
+
+  const addReferer = (h) => {
+    if (!h) return h;
+    const origin = h.Origin || h.origin;
+    if (origin && h.Referer === undefined && h.referer === undefined) {
+      h.Referer = origin;
+    }
+    return h;
+  };
 
   const parseHeaders = (h) => {
     const parsed = parseMaybeJson(h);
@@ -65,7 +84,7 @@ function normalizePayload(input, headersDefault) {
   }
 
   return {
-    headers: headers ?? headersDefault,
+    headers: addReferer(headers ?? headersDefault),
     body,
   };
 }
@@ -77,6 +96,13 @@ function applySubmissionSource(body, force) {
     body._meta = {};
   }
   body._meta.submission_source = "cli-runner";
+  return true;
+}
+
+function applyCommsConsent(body, force) {
+  if (!force) return false;
+  if (!body || typeof body !== "object") return false;
+  body.comms_consent = true;
   return true;
 }
 
@@ -119,6 +145,7 @@ function unwrapBody(body) {
 }
 
 let logDirReady = false;
+let failDirReady = false;
 async function ensureLogDir() {
   if (logDirReady) return true;
   try {
@@ -132,7 +159,76 @@ async function ensureLogDir() {
   }
 }
 
-let logCounter = 0;
+async function ensureFailDir() {
+  if (failDirReady) return true;
+  try {
+    await fs.mkdir(FAIL_DIR, { recursive: true });
+    failDirReady = true;
+    return true;
+  } catch (err) {
+    console.warn(`Could not create failed-upload directory ${FAIL_DIR}:`, err?.message || err);
+    failDirReady = false;
+    return false;
+  }
+}
+
+async function ensureFailureLogStream() {
+  if (failureLogState.initialized) return true;
+  if (!(await ensureLogDir())) return false;
+  failureLogState.path = path.join(LOG_DIR, `${RUN_FAILURE_LOG_TS}_row_failures.json`);
+  try {
+    await fs.writeFile(failureLogState.path, "[\n", "utf8");
+    failureLogState.initialized = true;
+    return true;
+  } catch (err) {
+    console.warn(
+      `Could not initialize runner failure log ${failureLogState.path}:`,
+      err?.message || err
+    );
+    failureLogState.initialized = false;
+    return false;
+  }
+}
+
+function appendFailureLogEntry(entry) {
+  failureLogState.promise = failureLogState.promise
+    .then(async () => {
+      if (!(await ensureFailureLogStream())) return;
+      const prefix = failureLogState.entryCount > 0 ? ",\n" : "";
+      const entryText = JSON.stringify(entry, null, 2);
+      await fs.appendFile(failureLogState.path, prefix + entryText, "utf8");
+      failureLogState.entryCount += 1;
+      const requestId = entry?._runner_failure?.request_backup_id;
+      const requestIdStr = requestId ? ` request_backup_id=${requestId}` : "";
+      console.log(
+        `runner_logs failure entry ${failureLogState.entryCount} appended to ${failureLogState.path}${requestIdStr}`
+      );
+    })
+    .catch((err) => {
+      console.warn("Could not append runner failure entry:", err?.message || err);
+    });
+  return failureLogState.promise;
+}
+
+async function finalizeFailureLogStream() {
+  await failureLogState.promise;
+  if (!failureLogState.initialized) return;
+  try {
+    await fs.appendFile(failureLogState.path, "\n]\n", "utf8");
+  } catch (err) {
+    console.warn(
+      `Could not finalize runner failure log ${failureLogState.path}:`,
+      err?.message || err
+    );
+  }
+  if (failureLogState.entryCount > 0) {
+    console.log(
+      `${failureLogState.entryCount} runner_logs failures saved to ${failureLogState.path}`
+    );
+  }
+  failureLogState.initialized = false;
+}
+
 function serializeResponse(res) {
   if (!res) return res;
   if (typeof res === "object") {
@@ -147,27 +243,6 @@ function serializeResponse(res) {
     if (res.statusCode) return res;
   }
   return res;
-}
-async function writeRunnerLog(rowLabel, event, info) {
-  if (!(await ensureLogDir())) return;
-  const ts = new Date().toISOString();
-  const fileSafeLabel = String(rowLabel).replace(/[^a-zA-Z0-9_-]/g, "_");
-  const filename = `${ts.replace(/[:.]/g, "-")}_${logCounter++}_${fileSafeLabel || "row"}.json`;
-  const payload = {
-    timestamp: ts,
-    row: rowLabel,
-    pipeline: process.env.PIPELINE,
-    dryRun: info?.dryRun || false,
-    statusCode: info?.statusCode,
-    error: info?.error,
-    event,
-    response: serializeResponse(info?.response),
-  };
-  try {
-    await fs.writeFile(path.join(LOG_DIR, filename), JSON.stringify(payload, null, 2), "utf8");
-  } catch (err) {
-    console.warn(`Could not write runner log for ${rowLabel}:`, err?.message || err);
-  }
 }
 async function runner(payload) {
   if (process.env.PIPELINE == "gateway") {
@@ -211,93 +286,101 @@ async function runner(payload) {
     return await handler(payload);
   }
 }
-const JSON_FILE = "failedUploads.json";
-
 async function logEvent(data, response) {
-  // Only log successful responses
-  if (!response.statusCode || response.statusCode <= 300) return;
+  if (!response?.statusCode || response.statusCode <= 300) return null;
   logger.log(response.statusCode);
   logger.log("logEvent", data, response);
-  const dataToWrite = {
+  const failure = {
     ...data,
-    statusCode: response.statusCode,
-    response_object: JSON.stringify(response),
+    _runner_failure: {
+      statusCode: response.statusCode,
+      response: serializeResponse(response),
+      request_backup_id: response.body?.request_backup_id,
+    },
   };
-  logger.log(dataToWrite);
-  // Include request_backup_id if it exists
-  if (response.body?.request_backup_id) {
-    dataToWrite.request_backup_id = response.body.request_backup_id;
-  }
-
-  let existingData = [];
-
-  // Read existing JSON array if file exists
-  try {
-    const fileContent = await fs.readFile(JSON_FILE, "utf-8");
-    existingData = JSON.parse(fileContent);
-    if (!Array.isArray(existingData)) existingData = [];
-  } catch {
-    // File does not exist or is invalid → start with empty array
-    existingData = [];
-  }
-
-  // Append new entry
-  existingData.push(dataToWrite);
-
-  // Write back to file
-  await fs.writeFile(JSON_FILE, JSON.stringify(existingData, null, 2), "utf-8");
+  return failure;
 }
 async function runOverArray(dataArray, callback, options) {
-  const { forceSubmissionSource, unwrapBodies, dryRun } = options;
+  const {
+    forceSubmissionSource,
+    forceCommsConsent,
+    unwrapBodies,
+    dryRun,
+    failures,
+    concurrency = 1,
+  } = options;
   if (process.env.SLOW === "true") {
     console.log("Estimated execution time: ", 2 * dataArray.length);
   }
-  for (const dataIndex in dataArray) {
-    if (Array.isArray(dataArray[dataIndex])) {
-      console.log("File", dataIndex);
-      await runOverArray(dataArray[dataIndex], callback, options);
-    } else {
-      const normalized = normalizePayload(dataArray[dataIndex], HEADERS);
-      if (unwrapBodies) {
-        const { body, changed, detail } = unwrapBody(normalized.body);
-        normalized.body = body;
-        if (changed) {
-          console.log(`unwrapped nested ${detail} for payload`, dataIndex);
-        }
-      }
-      if (applySubmissionSource(normalized.body, forceSubmissionSource)) {
-        console.log("submission_source set to cli-runner for payload", dataIndex);
-      }
-      const event = normalized.headers ? normalized : attachHeader(normalized, HEADERS);
-      const summary = event.body?.email || event.body?.phone || event.body?.firstname || event.body?.id || "";
-      console.log(`row ${dataIndex}: ${dryRun ? "dry-run" : "sending"} ${summary}`);
-      if (dryRun) {
-        console.log("[dry-run] event:", JSON.stringify(event, null, 2));
-        await writeRunnerLog(dataIndex, event, { dryRun: true });
-      } else {
-        try {
-          const response = await callback(event);
-          const statusCode = response?.statusCode ?? response?.status;
-          console.log(`row ${dataIndex}: status ${statusCode}`);
-          await writeRunnerLog(dataIndex, event, { statusCode, response });
-          await logEvent(event, response);
-        } catch (error) {
-          console.error(error);
-          await writeRunnerLog(dataIndex, event, { statusCode: 500, error: error?.message || String(error) });
-          await logEvent(event, {
-            statusCode: 500,
-            body: "{message: failure on runner.js side}",
-          });
-        }
-      }
+  let nextIndex = 0;
 
-      if (process.env.SLOW === "true") {
-        console.log("waiting...");
-        await sleep(1500);
-        console.log("...starting");
+  const processRow = async (dataIndex) => {
+    const item = dataArray[dataIndex];
+    if (Array.isArray(item)) {
+      console.log("File", dataIndex);
+      await runOverArray(item, callback, options);
+      return;
+    }
+
+    const normalized = normalizePayload(item, HEADERS);
+    if (unwrapBodies) {
+      const { body, changed, detail } = unwrapBody(normalized.body);
+      normalized.body = body;
+      if (changed) {
+        console.log(`unwrapped nested ${detail} for payload`, dataIndex);
       }
     }
-  }
+    if (applySubmissionSource(normalized.body, forceSubmissionSource)) {
+      console.log("submission_source set to cli-runner for payload", dataIndex);
+    }
+    if (applyCommsConsent(normalized.body, forceCommsConsent)) {
+      console.log("comms_consent set to true for payload", dataIndex);
+    }
+    const event = normalized.headers ? normalized : attachHeader(normalized, HEADERS);
+    const summary = event.body?.email || event.body?.phone || event.body?.firstname || event.body?.id || "";
+    console.log(`row ${dataIndex}: ${dryRun ? "dry-run" : "sending"} ${summary}`);
+    if (dryRun) {
+      console.log("[dry-run] event:", JSON.stringify(event, null, 2));
+    } else {
+      try {
+        const response = await callback(event);
+        const statusCode = response?.statusCode ?? response?.status;
+        console.log(`row ${dataIndex}: status ${statusCode}`);
+        const failure = await logEvent(event, response);
+        if (failure && failures) {
+          failures.push(failure);
+          appendFailureLogEntry(failure);
+        }
+      } catch (error) {
+        console.error(error);
+        const failure = await logEvent(event, {
+          statusCode: 500,
+          body: "{message: failure on runner.js side}",
+        });
+        if (failure && failures) {
+          failures.push(failure);
+          appendFailureLogEntry(failure);
+        }
+      }
+    }
+
+    if (process.env.SLOW === "true") {
+      console.log("waiting...");
+      await sleep(1500);
+      console.log("...starting");
+    }
+  };
+
+  const worker = async () => {
+    while (nextIndex < dataArray.length) {
+      const currentIndex = nextIndex++;
+      await processRow(currentIndex);
+    }
+  };
+
+  const poolSize = Math.max(1, Math.floor(concurrency));
+  const workers = Array.from({ length: Math.min(poolSize, dataArray.length || 1) }, () => worker());
+  await Promise.all(workers);
 }
 async function parseDir(pathLike) {
   try {
@@ -335,13 +418,27 @@ async function main() {
   }
   const argv = process.argv.slice(2);
   let forceSubmissionSource = true;
+  let forceCommsConsent = false;
   let unwrapBodies = false;
   let dryRun = false;
+  let concurrency = 1;
   const inputPaths = [];
+  const failures = [];
 
-  for (const arg of argv) {
+  for (let i = 0; i < argv.length; i++) {
+    const arg = argv[i];
     if (arg.startsWith("--")) {
-      const flag = arg.slice(2);
+      const [flag, inlineVal] = arg.slice(2).split("=");
+      const nextVal = argv[i + 1] && !argv[i + 1].startsWith("-") ? argv[i + 1] : undefined;
+      const getVal = () => {
+        if (inlineVal !== undefined && inlineVal !== "") return inlineVal;
+        if (nextVal !== undefined) {
+          i += 1;
+          return nextVal;
+        }
+        return undefined;
+      };
+
       switch (flag) {
         case "local":
           process.env.PIPELINE = "local";
@@ -355,39 +452,73 @@ async function main() {
         case "keep-source_submission":
           forceSubmissionSource = false;
           break;
+        case "force-comms-consent":
+          forceCommsConsent = true;
+          break;
         case "unwrap-body":
           unwrapBodies = true;
           break;
         case "dry-run":
           dryRun = true;
           break;
+        case "concurrency": {
+          const val = getVal();
+          const parsed = Number.parseInt(val, 10);
+          if (Number.isFinite(parsed) && parsed >= 1) {
+            concurrency = parsed;
+          } else {
+            console.warn(`Ignoring invalid concurrency value: ${val}`);
+          }
+          break;
+        }
         default:
           break;
       }
     } else if (arg.startsWith("-")) {
-      const flags = arg.slice(1);
-      for (const flag of flags) {
-        switch (flag) {
-          case "l":
-            process.env.PIPELINE = "local";
-            break;
-          case "g":
-            process.env.PIPELINE = "gateway";
-            break;
-          case "s":
-            process.env.SLOW = "true";
-            break;
-          case "k":
-            forceSubmissionSource = false;
-            break;
-          case "u":
-            unwrapBodies = true;
-            break;
-          case "d":
-            dryRun = true;
-            break;
-          default:
-            break;
+      if (arg.startsWith("-p")) {
+        const valPart = arg.slice(2);
+        let val = valPart;
+        if (!val) {
+          const nextVal = argv[i + 1] && !argv[i + 1].startsWith("-") ? argv[i + 1] : undefined;
+          if (nextVal !== undefined) {
+            val = nextVal;
+            i += 1;
+          }
+        }
+        const parsed = Number.parseInt(val, 10);
+        if (Number.isFinite(parsed) && parsed >= 1) {
+          concurrency = parsed;
+        } else {
+          console.warn(`Ignoring invalid concurrency value: ${val}`);
+        }
+      } else {
+        const flags = arg.slice(1);
+        for (const flag of flags) {
+          switch (flag) {
+            case "l":
+              process.env.PIPELINE = "local";
+              break;
+            case "g":
+              process.env.PIPELINE = "gateway";
+              break;
+            case "s":
+              process.env.SLOW = "true";
+              break;
+            case "k":
+              forceSubmissionSource = false;
+              break;
+            case "c":
+              forceCommsConsent = true;
+              break;
+            case "u":
+              unwrapBodies = true;
+              break;
+            case "d":
+              dryRun = true;
+              break;
+            default:
+              break;
+          }
         }
       }
     } else {
@@ -396,6 +527,7 @@ async function main() {
   }
 
   await ensureLogDir();
+  await ensureFailDir();
 
   if (forceSubmissionSource) {
     console.log(
@@ -405,6 +537,18 @@ async function main() {
     console.log(
       'submission_source override is OFF (flag --keep-source_submission / -k). Existing values will be preserved.'
     );
+  }
+
+  if (forceCommsConsent) {
+    console.log(
+      'comms_consent forcing is ON (--force-comms-consent / -c). Payload body will set comms_consent=true.'
+    );
+  } else {
+    console.log('comms_consent forcing is OFF by default. Use --force-comms-consent / -c to enable.');
+  }
+
+  if (concurrency > 1) {
+    console.log(`concurrency is ${concurrency} (--concurrency / -p). Up to ${concurrency} rows in flight.`);
   }
 
   if (unwrapBodies) {
@@ -419,8 +563,29 @@ async function main() {
 
   for (const pathArg of inputPaths) {
     const dataArray = await parseDir(pathArg);
-    await runOverArray(dataArray, runner, { forceSubmissionSource, unwrapBodies, dryRun });
+    await runOverArray(dataArray, runner, {
+      forceSubmissionSource,
+      forceCommsConsent,
+      unwrapBodies,
+      dryRun,
+      failures,
+      concurrency,
+    });
   }
+
+  if (failures.length) {
+    const ts = new Date().toISOString().replace(/[:.]/g, "-");
+    const filename = `${ts}_failures.json`;
+    const filePath = path.join(FAIL_DIR, filename);
+    try {
+      await fs.writeFile(filePath, JSON.stringify(failures, null, 2), "utf8");
+      console.log(`${failures.length} failed uploads saved to ${filePath}`);
+      console.log(`Re-run failed items with: node runner.js ${filePath}`);
+    } catch (err) {
+      console.warn(`Could not write failed uploads file ${filePath}:`, err?.message || err);
+    }
+  }
+  await finalizeFailureLogStream();
   console.log("duration", performance.now() - start);
 }
 
