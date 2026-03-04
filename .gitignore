@@ -8,6 +8,7 @@ failedUploads.csv
 failedUploads.json
 failedUploads/
 runner_logs/
+data/
 **/per-riding/**
 oidc.yml
 
