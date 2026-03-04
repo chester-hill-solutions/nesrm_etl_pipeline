@@ -71,7 +71,7 @@ const shapeData = async (event) => {
       // Birth date information
       ...(() => {
         const birthData = {};
-        const dob = cleanString(getValue(body, "dob"));
+        const dob = cleanString(getValue(body, "dob")) ?? cleanString(getValue(body, "date_of_birth"));
         let birthdate = parseInt(cleanString(getValue(body, "birthdate")));
         let birthmonth = parseInt(cleanString(getValue(body, "birthmonth")));
         let birthyear = parseInt(cleanString(getValue(body, "birthyear")));

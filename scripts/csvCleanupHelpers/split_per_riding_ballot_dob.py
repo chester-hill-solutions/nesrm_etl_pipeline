@@ -6,7 +6,7 @@ Reads an input CSV (default: ``data/_100k-noEmptyCols-formatted-olp23.csv``) and
 creates a directory tree under ``data/per-riding/``:
 
 - ``data/per-riding/<division_electoral_district_or_blank>/per-olp23_ballot1-is-<ballot_value>/``
-  - ``dob_fixed.csv`` (DOB parsed to YYYY-MM-DD, with birthdate/birthmonth/birthyear filled)
+  - ``dob_fixed.csv`` (DOB parsed to YYYY-MM-DD, with birthdate (DD)/birthmonth/birthyear filled)
   - ``dob_unparsed.csv`` (DOB present but unparsed; birth fields blank)
   - ``dob_blank.csv`` (DOB missing/blank; birth fields blank)
 
@@ -20,43 +20,13 @@ from __future__ import annotations
 
 import argparse
 import csv
-import os
 import re
-from datetime import datetime
 from pathlib import Path
 from typing import Dict, List, Tuple
 
 
 DEFAULT_INPUT = Path("data/_100k-noEmptyCols-formatted-olp23.csv")
-
-DATE_FORMATS: Tuple[str, ...] = (
-    "%Y-%m-%d",
-    "%Y/%m/%d",
-    "%Y-%B-%d",
-    "%Y-%b-%d",
-    "%d-%m-%Y",
-    "%m-%d-%Y",
-    "%m/%d/%Y",
-    "%d/%m/%Y",
-    "%y-%m-%d",
-    "%y/%m/%d",
-    "%y-%d-%m",
-    "%y/%d/%m",
-    "%m-%d-%y",
-    "%m/%d/%y",
-    "%d-%m-%y",
-    "%d/%m/%y",
-    "%B %d %Y",
-    "%b %d %Y",
-    "%d %B %Y",
-    "%d %b %Y",
-    "%B %d, %Y",
-    "%b %d, %Y",
-    "%d %B, %Y",
-    "%d %b, %Y",
-    "%B-%d-%Y",
-    "%b-%d-%Y",
-)
+from cleanDOB import parse_dob
 
 
 def slugify(value: str) -> str:
@@ -69,35 +39,11 @@ def slugify(value: str) -> str:
     return cleaned or "blank"
 
 
-def clean_value(raw: str) -> str:
-    normalized = raw.strip()
-    if not normalized:
-        return ""
-    normalized = normalized.replace(".", "-").replace(",", " ")
-    normalized = normalized.replace("/", "-")
-    while "  " in normalized:
-        normalized = normalized.replace("  ", " ")
-    return normalized.strip()
-
-
-def parse_dob(value: str) -> Tuple[str | None, bool]:
-    cleaned = clean_value(value)
-    if not cleaned:
-        return None, True
-    for fmt in DATE_FORMATS:
-        try:
-            return datetime.strptime(cleaned, fmt).date().isoformat(), False
-        except ValueError:
-            continue
-    return None, False
-
-
 def normalize_row(row: Dict[str, str], dob_col: str) -> Tuple[str, str, str, str, str]:
     dob_raw = row.get(dob_col, "") or ""
     parsed, was_blank = parse_dob(dob_raw)
     if parsed:
-        birthdate = parsed
-        birthyear, birthmonth, _ = parsed.split("-")
+        birthyear, birthmonth, birthdate = parsed.split("-")
         return parsed, birthdate, birthmonth, birthyear, "fixed"
     if was_blank:
         return "", "", "", "", "blank"

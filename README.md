@@ -11,6 +11,8 @@ node runner.js <input-path> > <output-path> --unwap-body
 
 `runner.js` can run payloads locally (`--local`, default) or via API Gateway (`--gateway`). Add `--slow` to pause between requests. By default it forces `body._meta.submission_source = "cli-runner"` (logged at start and per payload); keep existing values with `--keep-source_submission` (or `-k`). Enable nested body fixups with `--unwrap-body` (or `-u`). Log-only dry runs with `--dry-run` (or `-d`).
 
+Concurrency: use `--concurrency <n>` (or `-p <n>` / `-p<n>`) to run up to `n` payloads at once; default is `1` (sequential). Applies to both `--gateway` and `--local`, and still honors `--slow` between items.
+
 Per-payload logs are written to `runner_logs/` (auto-created; ignored by git) for both real sends and dry runs.
 
 - CSV file (raw columns): `node runner.js path/to/file.csv --gateway`
@@ -57,6 +59,7 @@ node runner.js data/export.csv --dry-run
 - `scripts/csvCleanupHelpers/fix_utf_column.py`: repairs mojibake in a specified column (e.g., `Orl√©ans` -> `Orléans`, `Beaches‚ÄîEast York` -> `Beaches—East York`) without silently dropping characters, writing to `data/<input>-utf_fixed.csv` by default; override with `-o/--output`.
 - `scripts/csvCleanupHelpers/prependOLP23.py`: prefixes all non-core columns with `olp23_` (core: firstname, surname, phone, email, address, municipality, dob, birthdate, birthyear, birthmonth, postcode; also leaves any `tag*` column untouched). Default output: `data/<input>-olp23.csv`; override with `-o/--output`.
 - `scripts/csvCleanupHelpers/filter_rows_by_value.py`: keeps only rows where a given column matches a value (case-sensitive) and also writes the complement. Default outputs: `data/<input-name>-<column>_is_<value>.csv` and `data/<input-name>-no_<column>_is_<value>.csv`; override location/name with `-o/--output` (file or directory). If no value is provided, it writes one file per unique value (up to 10) or aborts.
+- `scripts/csvCleanupHelpers/map_column_values.py`: map values from one column to another based on a provided 1:1 list; skip non-empty targets by default (use `--overwrite` to force); writes `<input>-transform_<input_col>_to_<output_col>.csv`.
 - `scripts/csvCleanupHelpers/cleanDOB.py`: normalizes a DOB column (default `date_of_birth`) to `YYYY-MM-DD`, populates `birthdate`/`birthmonth`/`birthyear`, and writes successes to `data/<input>-dob_fixed.csv`, failures to `data/<input>-dob_unparsed.csv`, and blanks to `data/<input>-dob_blank.csv`; use `-c/--column` to target another column and `-o/--output` to change the output location/name.
 - `scripts/csvCleanupHelpers/split_per_riding_ballot_dob.py`: splits an input CSV (default `data/_100k-noEmptyCols-formatted-olp23.csv`) into `data/per-riding/<riding>/per-olp23_ballot1-is-<ballot>/` folders, normalizing DOBs and emitting `dob_fixed.csv`, `dob_unparsed.csv`, and `dob_blank.csv` for each riding/ballot combo. Configurable DOB/ballot columns and output base.
 

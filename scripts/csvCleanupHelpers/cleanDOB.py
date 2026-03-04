@@ -3,8 +3,8 @@
 """Normalize date-of-birth values to ISO (YYYY-MM-DD) and split components.
 
 Reads a CSV and attempts to rewrite a DOB column (default: ``date_of_birth``)
-into ISO format, also populating ``birthdate`` (YYYY-MM-DD), ``birthmonth``
-(MM), and ``birthyear`` (YYYY). Outputs three files in the target directory:
+into ISO format, also populating ``birthdate`` (DD only), ``birthmonth`` (MM),
+and ``birthyear`` (YYYY). Outputs three files in the target directory:
 rows with a normalized DOB, rows with an unparsable DOB, and rows with a blank
 DOB. By default outputs go to ``data/<input-stem>-dob_fixed.csv``,
 ``data/<input-stem>-dob_unparsed.csv``, and ``data/<input-stem>-dob_blank.csv``.
@@ -118,8 +118,10 @@ def process(input_path: Path, column: str, fixed_path: Path, fail_path: Path, bl
             parsed, was_blank = parse_dob(row.get(column, ""))
             if parsed:
                 row[column] = parsed
-                row["birthdate"] = parsed
-                row["birthyear"], row["birthmonth"] = parsed.split("-")[0], parsed.split("-")[1]
+                _, month, day = parsed.split("-")
+                row["birthdate"] = day
+                row["birthmonth"] = month
+                row["birthyear"] = parsed.split("-")[0]
                 fixed_rows.append(row)
             elif was_blank:
                 row["birthdate"] = ""
