@@ -300,7 +300,7 @@ async function logEvent(data, response) {
   };
   return failure;
 }
-async function runOverArray(dataArray, callback, options) {
+async function runOverArray(dataArray, callback, options = {}) {
   const {
     forceSubmissionSource,
     forceCommsConsent,
@@ -308,6 +308,7 @@ async function runOverArray(dataArray, callback, options) {
     dryRun,
     failures,
     concurrency = 1,
+    stats,
   } = options;
   if (process.env.SLOW === "true") {
     console.log("Estimated execution time: ", 2 * dataArray.length);
@@ -321,6 +322,16 @@ async function runOverArray(dataArray, callback, options) {
       await runOverArray(item, callback, options);
       return;
     }
+
+    const reqStart = performance.now();
+    const recordRowDuration = () => {
+      const reqDuration = performance.now() - reqStart;
+      if (stats) {
+        stats.totalRowDuration += reqDuration;
+        stats.rowsProcessed += 1;
+      }
+      console.log(`row ${dataIndex}: duration ${reqDuration.toFixed(2)}ms`);
+    };
 
     const normalized = normalizePayload(item, HEADERS);
     if (unwrapBodies) {
@@ -341,6 +352,7 @@ async function runOverArray(dataArray, callback, options) {
     console.log(`row ${dataIndex}: ${dryRun ? "dry-run" : "sending"} ${summary}`);
     if (dryRun) {
       console.log("[dry-run] event:", JSON.stringify(event, null, 2));
+      recordRowDuration();
     } else {
       try {
         const response = await callback(event);
@@ -351,6 +363,7 @@ async function runOverArray(dataArray, callback, options) {
           failures.push(failure);
           appendFailureLogEntry(failure);
         }
+        recordRowDuration();
       } catch (error) {
         console.error(error);
         const failure = await logEvent(event, {
@@ -361,6 +374,7 @@ async function runOverArray(dataArray, callback, options) {
           failures.push(failure);
           appendFailureLogEntry(failure);
         }
+        recordRowDuration();
       }
     }
 
@@ -424,6 +438,7 @@ async function main() {
   let concurrency = 1;
   const inputPaths = [];
   const failures = [];
+  const stats = { totalRowDuration: 0, rowsProcessed: 0 };
 
   for (let i = 0; i < argv.length; i++) {
     const arg = argv[i];
@@ -570,6 +585,7 @@ async function main() {
       dryRun,
       failures,
       concurrency,
+      stats,
     });
   }
 
@@ -586,7 +602,18 @@ async function main() {
     }
   }
   await finalizeFailureLogStream();
-  console.log("duration", performance.now() - start);
+  const scriptDuration = performance.now() - start;
+  const summedRowDuration = stats.totalRowDuration;
+  const rowsProcessed = stats.rowsProcessed;
+  console.log("duration", `${scriptDuration.toFixed(2)}ms`);
+  console.log("summed row duration", `${summedRowDuration.toFixed(2)}ms`);
+  if (rowsProcessed > 0) {
+    console.log("avg row duration (sum/rows)", `${(summedRowDuration / rowsProcessed).toFixed(2)}ms`);
+    console.log("script duration per row (script/rows)", `${(scriptDuration / rowsProcessed).toFixed(2)}ms`);
+  } else {
+    console.log("avg row duration (sum/rows)", "n/a");
+    console.log("script duration per row (script/rows)", "n/a");
+  }
 }
 
 main();
