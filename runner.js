@@ -306,6 +306,7 @@ async function runOverArray(dataArray, callback, options = {}) {
     forceCommsConsent,
     unwrapBodies,
     dryRun,
+    logPayload,
     failures,
     concurrency = 1,
     stats,
@@ -354,6 +355,9 @@ async function runOverArray(dataArray, callback, options = {}) {
       console.log("[dry-run] event:", JSON.stringify(event, null, 2));
       recordRowDuration();
     } else {
+      if (logPayload) {
+        console.log("[payload] event:", JSON.stringify(event, null, 2));
+      }
       try {
         const response = await callback(event);
         const statusCode = response?.statusCode ?? response?.status;
@@ -435,6 +439,7 @@ async function main() {
   let forceCommsConsent = false;
   let unwrapBodies = false;
   let dryRun = false;
+  let logPayload = false;
   let concurrency = 1;
   const inputPaths = [];
   const failures = [];
@@ -475,6 +480,9 @@ async function main() {
           break;
         case "dry-run":
           dryRun = true;
+          break;
+        case "log-payload":
+          logPayload = true;
           break;
         case "concurrency": {
           const val = getVal();
@@ -531,6 +539,9 @@ async function main() {
             case "d":
               dryRun = true;
               break;
+            case "v":
+              logPayload = true;
+              break;
             default:
               break;
           }
@@ -576,6 +587,10 @@ async function main() {
     console.log('dry-run is ON (--dry-run / -d). Payloads will be logged but not sent.');
   }
 
+  if (logPayload) {
+    console.log('log-payload is ON (--log-payload / -v). Payloads will be logged during send.');
+  }
+
   for (const pathArg of inputPaths) {
     const dataArray = await parseDir(pathArg);
     await runOverArray(dataArray, runner, {
@@ -583,6 +598,7 @@ async function main() {
       forceCommsConsent,
       unwrapBodies,
       dryRun,
+      logPayload,
       failures,
       concurrency,
       stats,
