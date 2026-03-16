@@ -26,6 +26,7 @@ async function csvToJson(filePath) {
     skip_empty_lines: true,
     trim: true,
     delimiter,
+    group_columns_by_name: true,
     relax_quotes: true,
     relax_column_count: true,
   });

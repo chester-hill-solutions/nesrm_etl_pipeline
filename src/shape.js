@@ -59,7 +59,7 @@ const shapeData = async (event) => {
   } catch (error) {
     body = event.body;
   }
-  logger.log("body to shape", JSON.stringify(body,null,2));
+  logger.log("body to shape", JSON.stringify(body, null, 2));
 
   try {
     let shaped_data = {
@@ -71,7 +71,9 @@ const shapeData = async (event) => {
       // Birth date information
       ...(() => {
         const birthData = {};
-        const dob = cleanString(getValue(body, "dob")) ?? cleanString(getValue(body, "date_of_birth"));
+        const dob =
+          cleanString(getValue(body, "dob")) ??
+          cleanString(getValue(body, "date_of_birth"));
         let birthdate = parseInt(cleanString(getValue(body, "birthdate")));
         let birthmonth = parseInt(cleanString(getValue(body, "birthmonth")));
         let birthyear = parseInt(cleanString(getValue(body, "birthyear")));
@@ -83,15 +85,10 @@ const shapeData = async (event) => {
           !isNaN(Date.parse(`${birthyear}-${birthmonth}-${birthdate}`))
         ) {
           Object.assign(birthData, { birthyear, birthmonth, birthdate });
-          if (dob) {
-            birthData.broken_dob = dob;
-          }
         } else if (dob) {
           const [birthyear, birthmonth, birthdate] = dob.split("-");
           if (!isNaN(Date.parse(`${birthyear}-${birthmonth}-${birthdate}`))) {
             Object.assign(birthData, { birthyear, birthmonth, birthdate });
-          } else {
-            birthData.broken_dob = dob;
           }
         }
         return birthData;
@@ -172,11 +169,13 @@ const shapeData = async (event) => {
         let tags = cleanString(getValue(body, "tags"));
         let searchParamsObject = event?.headers?.search_params;
         let filteredParams;
-        if (searchParamsObject) {filteredParams = Object.fromEntries(
-          Object.entries(searchParamsObject).filter(
-            ([key]) => key.toLowerCase() !== "organizer",
-          ),
-        );}
+        if (searchParamsObject) {
+          filteredParams = Object.fromEntries(
+            Object.entries(searchParamsObject).filter(
+              ([key]) => key.toLowerCase() !== "organizer",
+            ),
+          );
+        }
 
         let searchParams = objectToKeyValueArray(filteredParams);
         console.log("combining", tags, searchParams, typeof searchParams);
@@ -281,6 +280,7 @@ const shapeData = async (event) => {
       olp23_membership_status: cleanString(
         getValue(body, "olp23_membership_status"),
       ),
+      profile_id: cleanString(getValue(body, "profile_id")),
     };
 
     shaped_data.tags;
