@@ -1,6 +1,16 @@
 import { createClient } from "@supabase/supabase-js";
 import HttpError from "simple-http-error";
 
+// Normalize phone numbers
+const normalizePhone = (phone) => phone?.replace(/\D/g, "").slice(-10);
+
+// Normalize postal codes
+const normalizePostal = (postal) => postal?.replace(/\W/g, "").toUpperCase();
+
+// Normalize names
+const normalizeName = (name) => name?.toLowerCase().trim();
+
+
 async function findProfile({input, supabase=null}) {
   let shapedData = input;
   supabase =

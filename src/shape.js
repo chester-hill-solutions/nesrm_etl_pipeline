@@ -280,6 +280,7 @@ const shapeData = async (event) => {
       olp23_membership_status: cleanString(
         getValue(body, "olp23_membership_status"),
       ),
+      profile_id: cleanString(getValue(body, "profile_id")),
     };
 
     shaped_data.tags;
