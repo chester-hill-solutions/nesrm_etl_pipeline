@@ -56,7 +56,7 @@ async function parseEvent(input) {
     email: body?.email,
     step: body?._meta?.step?.index,
   };
-  storeData.referer = headers?.referer ?? body?._meta?.referer ?? undefined;
+  storeData.referer = body?._meta?.referer ?? headers?.referer ?? undefined;
   if (storeData.referer) {
     let searchParams;
     try {
