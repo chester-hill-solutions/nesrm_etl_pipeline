@@ -117,9 +117,6 @@ export const statusCodeMonad = {
     }));
     ret.trace = t.map((obj) => ({ ...obj }));
     
-    ret.response.body.trace = ret.response.body.trace.concat(
-      monadic.response.body.trace
-    );
     logger.log(
       func.name,
       "bindMonad output",
