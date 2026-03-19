@@ -97,13 +97,13 @@ describe("statusCodeMonad.bindMonad", () => {
     assert.deepEqual(actual.trace[0].output, { ok: true });
     assert.ok(typeof actual.trace[0].duration === "number");
 
-    assert.equal(actual.response.body.trace.length, 3);
+    assert.equal(actual.response.body.trace.length, 2);
     assert.equal(actual.response.body.trace[0].step, "test-module");
     assert.equal(actual.response.body.trace[0].task, "successFunc");
     assert.ok(!("input" in actual.response.body.trace[0]));
     assert.ok(!("output" in actual.response.body.trace[0]));
     assert.equal(actual.response.body.trace[1].step, "prior");
-    assert.equal(actual.response.body.trace[2].step, "prior");
+    assert.equal(actual.response.body.trace[1].step, "prior");
   });
 
   it("appends trace on success with supabase", async () => {
@@ -190,7 +190,7 @@ describe("statusCodeMonad.bindMonad", () => {
     assert.equal(actual.response.body.trace[0].step, "test-module");
   });
 
-  it("appends undefined when response.body.trace is missing", async () => {
+  it("handles missing response.body.trace without appending", async () => {
     const monadic = {
       input: { value: 6 },
       response: { statusCode: 200, body: {} },
@@ -202,9 +202,8 @@ describe("statusCodeMonad.bindMonad", () => {
 
     const actual = await statusCodeMonad.bindMonad(monadic, successFunc);
 
-    assert.equal(actual.response.body.trace.length, 2);
+    assert.equal(actual.response.body.trace.length, 1);
     assert.equal(actual.response.body.trace[0].step, "test-module");
-    assert.equal(actual.response.body.trace[1], undefined);
   });
 
   it("chains 4 binds and logs trace shapes", async () => {
