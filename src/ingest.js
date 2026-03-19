@@ -5,6 +5,20 @@ import HttpError from "simple-http-error";
 import logger from "simple-logs-sai-node";
 import { parseQueryParams } from "../scripts/parseQueryParams/index.js";
 
+const toTextArray = (val) => {
+  if (val == null) return null;
+
+  if (Array.isArray(val)) {
+    return val.map(String);
+  }
+
+  if (typeof val === "string") {
+    return [val];
+  }
+
+  return [String(val)];
+};
+
 async function storeRequest({ input, supabase = null }) {
   logger.log("storeRequest()");
   let storeData = input;
@@ -52,7 +66,7 @@ async function parseEvent(input) {
         utm_source: searchParams.utm_source,
         utm_medium: searchParams.utm_medium,
         utm_campaign: searchParams.utm_campaign,
-        utm_term: searchParams.utm_term,
+        utm_term: toTextArray(searchParams.utm_term),
         utm_content: searchParams.utm_content,
       };
       storeData = { ...storeData, ...urlParams };
