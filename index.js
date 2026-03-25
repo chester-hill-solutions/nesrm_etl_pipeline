@@ -223,7 +223,7 @@ export const handler = async (event) => {
       if (event_body._meta.submission_source == "organic") {
         payload.input.groups = ["178500154540689118"];
       }
-      if (payload.input.comms_consent) {
+      if (payload.input.comms_consent && (payload.input?.email || payload.input?.mailerlite_id)) {
         payload = await scMonad.bindMonad(scMonad.unit(payload), mail);
           payload.input = payload.trace[0].output;
           if (payload.input?.data?.id) {
