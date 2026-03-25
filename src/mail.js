@@ -193,6 +193,7 @@ const mail = async (obj, reconcile = true) => {
     mailData = undefined
     if (error.statusCode != 404) {
       throw new HttpError(error.message, error.statusCode ?? 500, {
+        details: error,
         originalError: error,
       });
     }
