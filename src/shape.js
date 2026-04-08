@@ -66,6 +66,7 @@ const shapeData = async (event) => {
       firstname: cleanString(getValue(body, "firstname")),
       surname: cleanString(getValue(body, "surname")),
       email: cleanEmail(cleanString(getValue(body, "email"))),
+      backup_email: cleanEmail(cleanString(getValue(body, "backup_email"))),
       phone: cleanString(getValue(body, "phone")),
 
       // Birth date information
@@ -145,6 +146,7 @@ const shapeData = async (event) => {
       ),
 
       ballot1: cleanString(getValue(body, "ballot1")),
+      ssw_ballot1: cleanString(getValue(body, "ssw_ballot1")),
       ballot2: cleanString(getValue(body, "ballot2")),
       ballot3: cleanString(getValue(body, "ballot3")),
       campus_club: cleanString(
