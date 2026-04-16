@@ -20,15 +20,27 @@ const cleanString = (str) => {
 const cleanEmail = (str) => {
   if (typeof str !== "string") return str;
 
-  // 1. Remove leading periods
-  let cleaned = str.replace(/^\.+/, "");
+  // always normalize casing first
+  let cleaned = str.trim().toLowerCase();
 
-  // 2. Remove trailing periods
-  cleaned = cleaned.replace(/\.+$/, "");
+  const atIndex = cleaned.indexOf("@");
+  if (atIndex === -1) return cleaned;
 
-  // 3. Remove all periods immediately before @
-  cleaned = cleaned.replace(/\.+(?=@)/g, "");
+  const local = cleaned.slice(0, atIndex);
+  const domain = cleaned.slice(atIndex + 1);
 
+  // only apply period rules to gmail
+  if (domain === "gmail.com" || domain === "googlemail.com") {
+    let newLocal = local
+      .replace(/^\.+/, "")     // leading periods
+      .replace(/\.+$/, "")     // trailing periods
+      .replace(/\.+(?=@)/g, "") // (kept for parity, though redundant here)
+      .replace(/\./g, "");     // remove ALL periods for gmail
+
+    return `${newLocal}@${domain}`;
+  }
+
+  // non-gmail → just lowercased
   return cleaned;
 };
 //get value
@@ -67,6 +79,7 @@ const shapeData = async (event) => {
       surname: cleanString(getValue(body, "surname")),
       email: cleanEmail(cleanString(getValue(body, "email"))),
       backup_email: cleanEmail(cleanString(getValue(body, "backup_email"))),
+      email_2: cleanEmail(cleanString(getValue(body, "email_2"))),
       phone: cleanString(getValue(body, "phone")),
 
       // Birth date information

@@ -22,6 +22,32 @@ const PROVINCES = {
   YT: "Yukon",
 };
 const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+const normalizeEmail = (str) => {
+  if (typeof str !== "string") return str;
+
+  // always normalize casing first
+  let cleaned = str.trim().toLowerCase();
+
+  const atIndex = cleaned.indexOf("@");
+  if (atIndex === -1) return cleaned;
+
+  const local = cleaned.slice(0, atIndex);
+  const domain = cleaned.slice(atIndex + 1);
+
+  // only apply period rules to gmail
+  if (domain === "gmail.com" || domain === "googlemail.com") {
+    let newLocal = local
+      .replace(/^\.+/, "")     // leading periods
+      .replace(/\.+$/, "")     // trailing periods
+      .replace(/\.+(?=@)/g, "") // (kept for parity, though redundant here)
+      .replace(/\./g, "");     // remove ALL periods for gmail
+
+    return `${newLocal}@${domain}`;
+  }
+
+  // non-gmail → just lowercased
+  return cleaned;
+};
 
 // Normalize phone numbers
 const normalizePhone = (phone) => phone?.replace(/\D/g, "").slice(-10);
@@ -40,7 +66,9 @@ async function findProfile(supabaseClient, shapedData) {
     const shapedDataFirstName = normalizeName(shapedData.firstname);
     const shapedDataLastName = normalizeName(shapedData.surname);
     const shapedDataAddress = normalizeName(shapedData.address);
-    const shapedDataEmail = normalizeName(shapedData.email);
+    const shapedDataEmail = normalizeEmail(shapedData.email);
+    const shapedDataBackupEmail = normalizeEmail(shapedData.backup_email);
+    const shapedDataEmail2 = normalizeEmail(shapedData.email_2);
     logger.dev.log("shapedDataEmail", shapedDataEmail);
     const shapedDataEmailPrefix = normalizeName(shapedData.email)?.split(
       "@"
@@ -51,8 +79,42 @@ async function findProfile(supabaseClient, shapedData) {
       shapedData.division_electoral_district
     );
 
+    const payloadEmails = [
+      shapedDataEmail,
+      shapedDataBackupEmail,
+      shapedDataEmail2,
+    ].filter(Boolean);
+
+    const payloadEmailPrefixes = [
+      shapedDataEmail,
+      shapedDataBackupEmail,
+      shapedDataEmail2,
+    ].filter(Boolean).map((e) => e.split("@")[0]).filter(Boolean);
+
+  const buildEmailOr = (emails) =>
+    emails
+      .flatMap((email) => [
+        `email.eq.${email}`,
+        `backup_email.eq.${email}`,
+        `email_2.eq.${email}`,
+      ])
+      .join(",");
+
+  const buildEmailPrefixOr = (prefixes) =>
+    prefixes
+      .flatMap((prefix) => [
+        `email.ilike.%${prefix}%`,
+        `backup_email.ilike.%${prefix}%`,
+        `email_2.ilike.%${prefix}%`,
+    ])
+    .join(",");
+
     // Search conditions in order of reliability
     const searchConditions = [
+      // Exact VAN ID match
+      shapedData.olp_numeric_id && {
+        query: (q) => q.eq("olp_numeric_id", shapedData.olp_numeric_id),
+      },
       // Exact VAN ID match
       shapedData.olp_van_id && {
         query: (q) => q.eq("olp_van_id", shapedData.olp_van_id),
@@ -67,9 +129,9 @@ async function findProfile(supabaseClient, shapedData) {
         shapedDataEmail && {
           query: (q) =>
             q
-              .ilike("firstname", `%${shapedDataFirstName}%,`)
+              .ilike("firstname", `%${shapedDataFirstName}%`)
               .ilike("surname", `%${shapedDataLastName}%`)
-              .ilike("email", `%${shapedDataEmail}%`),
+              .or(buildEmailOr(payloadEmails))
         },
       // Same name + phone
       shapedDataFirstName &&
@@ -89,7 +151,7 @@ async function findProfile(supabaseClient, shapedData) {
             q
               .ilike("firstname", `%${shapedDataFirstName}%`)
               .ilike("surname", `%${shapedDataLastName}%`)
-              .ilike("street_address", `%${shapedDataLastName}%`),
+              .ilike("street_address", `%${shapedDataAddress}%`)
         },
       // Same name + postal
       shapedDataFirstName &&
@@ -104,12 +166,12 @@ async function findProfile(supabaseClient, shapedData) {
       // Same name + same email prefix
       shapedDataFirstName &&
         shapedDataLastName &&
-        shapedData.email && {
+        payloadEmailPrefixes.length > 0 && {
           query: (q) =>
             q
               .ilike("firstname", `%${shapedDataFirstName}%`)
               .ilike("surname", `%${shapedDataLastName}%`)
-              .ilike("email", `%${shapedDataEmailPrefix}%`),
+              .or(buildEmailPrefixOr(payloadEmailPrefixes))
         },
       // Same name and nothing else in db
       shapedDataFirstName &&
@@ -124,10 +186,10 @@ async function findProfile(supabaseClient, shapedData) {
               .is("postcode", null),
         },
       // Same email and nothing else in db
-      shapedDataEmail && {
+      payloadEmails.length > 0 && {
         query: (q) =>
           q
-            .ilike("email", `%${shapedDataEmail}`)
+            .or(buildEmailOr(payloadEmails))
             .is("firstname", null)
             .is("surname", null)
             .is("street_address", null)
@@ -135,10 +197,10 @@ async function findProfile(supabaseClient, shapedData) {
             .is("postcode", null),
       },
       // Same email prefix and nothing else in db
-      shapedDataEmailPrefix && {
+      payloadEmailPrefixes.length > 0 && {
         query: (q) =>
           q
-            .ilike("email", `%${shapedDataEmailPrefix}`)
+            .or(buildEmailPrefixOr(payloadEmailPrefixes))
             .is("firstname", null)
             .is("surname", null)
             .is("street_address", null)
@@ -161,13 +223,13 @@ async function findProfile(supabaseClient, shapedData) {
         !shapedDataEmail &&
         !shapedDataFirstName &&
         !shapedDataLastName && {
-          query: (q) => q.ilike("phone", `%${shapedDataPhone}`),
+          query: (q) => q.ilike("phone", `%${shapedDataPhone}%`),
         },
       !shapedDataPhone &&
         shapedDataEmail &&
         !shapedDataFirstName &&
         !shapedDataLastName && {
-          query: (q) => q.ilike("phone", `%${shapedDataPhone}`),
+          query: (q) => q.or(buildEmailOr(payloadEmails)),
         },
       /*
       // Same email (maybe should check if everything else in new data is null as to not overwrite? or maybe overwrite in this situation fine?)
