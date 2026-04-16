@@ -224,6 +224,7 @@ const shapeData = async (event) => {
       })(),
       language: cleanString(getValue(body, "language")),
       olp_van_id: cleanString(getValue(body, "olp_van_id")),
+      olp_numeric_id: cleanString(getValue(body, "olp_numeric_id")),
       lpc_van_id: cleanString(getValue(body, "lpc_van_id")),
       ...(() => {
         let o = { gender: cleanString(getValue(body, "gender")) };
