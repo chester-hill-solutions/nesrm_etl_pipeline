@@ -1,0 +1,1 @@
+-- Data moved to seeds/20260227190000_add_contact_created_at_and_updated_at_columns.sql

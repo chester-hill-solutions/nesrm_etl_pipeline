@@ -24,7 +24,7 @@ jobs:
 
       # Start Supabase (this will block until DB is ready)
       - name: Start Supabase stack
-        run: npx supabase start --debug
+        run: npx supabase start --debug --exclude postgrest,studio
 
       # Apply all remaining migrations
       - name: Apply remaining migrations

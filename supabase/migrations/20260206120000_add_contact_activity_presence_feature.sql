@@ -1,0 +1,1 @@
+-- Data moved to seeds/20260206120000_add_contact_activity_presence_feature.sql

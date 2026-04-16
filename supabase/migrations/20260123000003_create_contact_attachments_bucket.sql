@@ -1,23 +1,4 @@
--- Create the contact_attachments storage bucket
-INSERT INTO storage.buckets (id, name, public, file_size_limit, allowed_mime_types)
-VALUES (
-  'contact_attachments',
-  'contact_attachments',
-  false, -- Private bucket (authenticated access only)
-  10485760, -- 10MB limit (in bytes)
-  ARRAY[
-    'image/jpeg',
-    'image/png',
-    'image/gif',
-    'image/webp',
-    'application/pdf',
-    'application/msword',
-    'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
-    'application/vnd.ms-excel',
-    'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
-  ]
-)
-ON CONFLICT (id) DO NOTHING;
+-- See seed 20260123000003_create_contact_attachments_bucket.sql for bucket insert
 
 -- Create storage policies for the bucket
 -- Drop policies if they exist (for idempotency)

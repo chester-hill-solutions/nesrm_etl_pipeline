@@ -1,0 +1,1 @@
+-- See seed 20260208120000_add_view_audit_log_feature.sql for feature and permission inserts
