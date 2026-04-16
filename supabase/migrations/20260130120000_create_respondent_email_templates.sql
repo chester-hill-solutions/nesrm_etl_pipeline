@@ -2,7 +2,7 @@
 -- Purpose: Add respondent_email_templates table for admin-managed email templates (post-survey / volunteer onboarding).
 -- Enables future HTML body support via body_format column.
 
-CREATE TABLE IF NOT EXISTS public.respondent_email_templates (
+CREATE TABLE IF NOT EXISTS respondent_email_templates (
   id BIGSERIAL PRIMARY KEY,
   name TEXT NOT NULL,
   subject TEXT NOT NULL,
@@ -13,6 +13,6 @@ CREATE TABLE IF NOT EXISTS public.respondent_email_templates (
 
 -- At most one template can be the default (partial unique index on constant)
 CREATE UNIQUE INDEX IF NOT EXISTS idx_respondent_email_templates_single_default
-  ON public.respondent_email_templates ((true))
+  ON respondent_email_templates ((true))
   WHERE is_default = true;
 
