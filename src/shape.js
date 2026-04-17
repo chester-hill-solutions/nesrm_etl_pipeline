@@ -303,7 +303,13 @@ const shapeData = async (event) => {
 
     //console.log(shaped_data);
     const cleaned_data = Object.fromEntries(
-      Object.entries(shaped_data).filter(([_, value]) => value !== undefined),
+      Object.entries(shaped_data).filter(
+        ([_, value]) =>
+          value !== undefined &&
+          value !== null &&
+          !(typeof value === 'string' &&
+            (value.trim() === '' || value.trim().toLowerCase() === 'null'))
+      )
     );
     //console.log("cleaned_data", cleaned_data);
     //response.statusCode = 200;
