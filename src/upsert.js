@@ -275,6 +275,7 @@ async function findProfile(supabaseClient, shapedData) {
     return null;
   } catch (error) {
     console.error("Profile lookup error:", error);
+    throw error
     throw new HttpError("Profile lookup error", 500, { originalError: error });
   }
 }
