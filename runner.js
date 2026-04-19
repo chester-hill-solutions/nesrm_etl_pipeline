@@ -32,6 +32,33 @@ function parseMaybeJson(value) {
   }
 }
 
+function stripLeadingBom(value) {
+  if (typeof value !== "string") return value;
+  return value.replace(/^\uFEFF+/, "");
+}
+
+function sanitizeBomDeep(value) {
+  if (Array.isArray(value)) {
+    return value.map((item) => sanitizeBomDeep(item));
+  }
+
+  if (!value || typeof value !== "object") {
+    return value;
+  }
+
+  const proto = Object.getPrototypeOf(value);
+  if (proto !== Object.prototype && proto !== null) {
+    return value;
+  }
+
+  const output = {};
+  for (const [rawKey, rawVal] of Object.entries(value)) {
+    const key = stripLeadingBom(rawKey);
+    output[key] = sanitizeBomDeep(rawVal);
+  }
+  return output;
+}
+
 function normalizePayload(input, headersDefault) {
   let headers;
   let body;
@@ -84,8 +111,8 @@ function normalizePayload(input, headersDefault) {
   }
 
   return {
-    headers: addReferer(headers ?? headersDefault),
-    body,
+    headers: sanitizeBomDeep(addReferer(headers ?? headersDefault)),
+    body: sanitizeBomDeep(body),
   };
 }
 
