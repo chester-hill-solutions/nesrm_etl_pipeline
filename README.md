@@ -2,7 +2,15 @@
 
 # bulk upload dataquickstart
 
-Store data in `data/` but start the files with an underscore so it doesn't get committed 
+Store data in `data/` but start the files with an underscore so it doesn't get committed
+
+make sure the data matches the contact column headers, make sure you delete any "id" columns, use nesrm_id if it is actually the database id
+
+if you want tags you can either make the column be tags with values or you can make the column tags:key and the values be the column values, which will make the `tags:key:value,etc:etc`
+
+try to use clear tag, but nothing explicit and always nicknames or shortened names e.g. arf or tanny etc
+
+if you do use a tag like coolGuysEvent0415 then you copy the value down, excel sometimes increments the number at the end, be mindful
 
 I think you'd only need these two in `.env` but `runner.js` does import handler from `index.js` so maybe that'll bug out
 
