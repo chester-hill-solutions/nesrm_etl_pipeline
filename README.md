@@ -1,5 +1,24 @@
 # NESRM Ingest
 
+# bulk upload dataquickstart
+
+Store data in `data/` but start the files with an underscore so it doesn't get committed 
+
+I think you'd only need these two in `.env` but `runner.js` does import handler from `index.js` so maybe that'll bug out
+
+```
+AWS_API_GATEWAY_BEARER=
+AWS_API_GATEWAY_ENDPOINT=
+```
+run
+
+```bash
+node runner.js --gateway --concurrency 50 --force-comms-consent <--dry-run> <--log-payload> data/_filename.csv
+```
+this will spit out a file of errors to `failed_uploads/` so you can run the exact same command but instead pointed at that folder
+
+# AI Slop Instruction Area im pulling from:
+
 This is the lambda function to handle NES Relationship Manager Ingestion.
 
 ## runner.js quickstart
