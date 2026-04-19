@@ -111,6 +111,10 @@ async function findProfile(supabaseClient, shapedData) {
 
     // Search conditions in order of reliability
     const searchConditions = [
+      // NESRM id maps to contact id
+      shapedData.nesrm_id && {
+        query: (q) => q.eq("id", shapedData.nesrm_id),
+      },
       // Exact VAN ID match
       shapedData.olp_numeric_id && {
         query: (q) => q.eq("olp_numeric_id", shapedData.olp_numeric_id),
@@ -142,6 +146,17 @@ async function findProfile(supabaseClient, shapedData) {
               .ilike("firstname", `%${shapedDataFirstName}%`)
               .ilike("surname", `%${shapedDataLastName}%`)
               .ilike("phone", `%${shapedDataPhone}%`),
+        },
+      // Same surname + email + phone where firstname is missing in db
+      shapedDataLastName &&
+        payloadEmails.length > 0 &&
+        shapedDataPhone && {
+          query: (q) =>
+            q
+              .ilike("surname", `%${shapedDataLastName}%`)
+              .or(buildEmailOr(payloadEmails))
+              .ilike("phone", `%${shapedDataPhone}%`)
+              .is("firstname", null),
         },
       // Same name + address
       shapedDataFirstName &&
