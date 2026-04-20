@@ -520,7 +520,9 @@ const upsertData = async ({input, supabase=null}) => {
   logger.dev.log("paylllooaad", JSON.stringify(payload, null, 2));
   logger.log("About to upsert");
   const cleaned_data = Object.fromEntries(
-    Object.entries(updateData).filter(([_, value]) => value !== undefined)
+    Object.entries(updateData).filter(
+      ([key, value]) => key !== "nesrm_id" && value !== undefined
+    )
   );
   logger.log(JSON.stringify(cleaned_data));
   let query = supabase.from("contact");
