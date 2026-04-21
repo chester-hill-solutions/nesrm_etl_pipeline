@@ -233,19 +233,6 @@ async function findProfile(supabaseClient, shapedData) {
             .is("email", null)
             .is("postcode", null),
       },
-      // Same email prefix and new data is null nothing else in db
-      shapedDataPhone &&
-        !shapedDataEmail &&
-        !shapedDataFirstName &&
-        !shapedDataLastName && {
-          query: (q) => q.ilike("phone", `%${shapedDataPhone}%`),
-        },
-      !shapedDataPhone &&
-        shapedDataEmail &&
-        !shapedDataFirstName &&
-        !shapedDataLastName && {
-          query: (q) => q.or(buildEmailOr(payloadEmails)),
-        },
       /*
       // Same email (maybe should check if everything else in new data is null as to not overwrite? or maybe overwrite in this situation fine?)
       shapedDataEmail && {
