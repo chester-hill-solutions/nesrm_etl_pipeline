@@ -264,13 +264,23 @@ async function findProfile(supabaseClient, shapedData) {
         logger.dev.log("found condition", index);
         logger.log("Found Matching Profile ID:", data[0].id);
         // If multiple matches, use most recently updated record
-        const sorted = data.sort((a, b) =>
-          (b.updated_at || b.created_at || "").localeCompare(
-            a.updated_at || a.created_at || ""
-          )
-        );
-        //logger.log("Found Matching Profile", data[0].id);
-        return sorted[0];
+          const sorted = data.sort((a, b) => {
+            // prioritize contact_status NULL
+            const aNull = a.contact_status == null;
+            const bNull = b.contact_status == null;
+
+            if (aNull !== bNull) {
+              return bNull - aNull; // true (1) comes before false (0)
+            }
+
+            // fallback to most recent
+            const aDate = a.updated_at || a.created_at || "";
+            const bDate = b.updated_at || b.created_at || "";
+
+            return bDate.localeCompare(aDate);
+          });
+
+          return sorted[0];
       }
     }
     logger.log("No matching profile found");

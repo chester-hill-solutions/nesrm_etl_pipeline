@@ -59,6 +59,20 @@ export const getValue = (payload, key) => {
   }
   return undefined;
 };
+const cleanPhone = (str) => {
+  if (typeof str !== "string") return str;
+
+  // strip everything that is NOT 0-9
+  let cleaned = str.replace(/\D/g, "");
+
+  // optional: normalize to last 10 digits (common NA pattern)
+  // uncomment if you want strict comparability
+  // if (cleaned.length > 10) {
+  //   cleaned = cleaned.slice(-10);
+  // }
+
+  return cleaned;
+};
 
 const shapeData = async (event) => {
   logger.dev.log("shaping", JSON.stringify(event, null, 2));
@@ -80,7 +94,7 @@ const shapeData = async (event) => {
       email: cleanEmail(cleanString(getValue(body, "email"))),
       backup_email: cleanEmail(cleanString(getValue(body, "backup_email"))),
       email_2: cleanEmail(cleanString(getValue(body, "email_2"))),
-      phone: cleanString(getValue(body, "phone")),
+      phone: cleanPhone(cleanString(getValue(body, "phone"))),
 
       // Birth date information
       ...(() => {
