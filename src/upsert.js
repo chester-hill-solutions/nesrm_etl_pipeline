@@ -158,6 +158,30 @@ async function findProfile(supabaseClient, shapedData) {
               .ilike("phone", `%${shapedDataPhone}%`)
               .is("firstname", null),
         },
+            // Same name + email where phone is missing in db
+      shapedDataFirstName &&
+      shapedDataLastName &&
+        payloadEmails.length > 0 && {
+          query: (q) =>
+            q
+              .ilike("surname", `%${shapedDataLastName}%`)
+              .ilike("firstname", `%${shapedDataFirstName}%`)
+              .or(buildEmailOr(payloadEmails))
+              .is("phone", null),
+        },
+                  // Same name + phone where email is missing in db
+      shapedDataFirstName &&
+      shapedDataLastName &&
+        shapedDataPhone && { 
+          query: (q) =>
+            q
+              .ilike("surname", `%${shapedDataLastName}%`)
+              .ilike("firstname", `%${shapedDataFirstName}%`)
+              .ilike("phone", `%${shapedDataPhone}%`)
+              .is("email", null),
+        },
+
+
       // Same name + address
       shapedDataFirstName &&
         shapedDataLastName &&
