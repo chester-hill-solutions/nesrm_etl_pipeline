@@ -22,6 +22,7 @@ const cleanEmail = (str) => {
 
   // always normalize casing first
   let cleaned = str.trim().toLowerCase();
+  if (cleaned === 'null') return undefined
 
   const atIndex = cleaned.indexOf("@");
   if (atIndex === -1) return cleaned;
