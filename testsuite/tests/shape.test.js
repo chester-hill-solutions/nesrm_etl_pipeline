@@ -59,6 +59,20 @@ describe("shapeData tests", () => {
     const result = await shapeData(payload);
     assert.deepStrictEqual(result.body, expected);
   });
+
+  it("should preserve ssw_voted updates", async () => {
+    const payload = {
+      headers: HEADERS,
+      body: {
+        ssw_voted: "Yes",
+        olp_numeric_id: "4325640",
+      },
+    };
+
+    const result = await shapeData(payload);
+    assert.strictEqual(result.body.ssw_voted, "Yes");
+    assert.strictEqual(result.body.olp_numeric_id, "4325640");
+  });
 });
 
 describe("gender test", () => {
