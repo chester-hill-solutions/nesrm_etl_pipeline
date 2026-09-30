@@ -4,6 +4,7 @@ secrets/
 
 *.env
 *.env*
+node_modules/
 20251023_create_riding_region_roles_with_passwords.sql
 failedUploads.csv
 failedUploads.json
@@ -15,4 +16,3 @@ oidc.yml
 
 
 !.env.template
-!.env.local
